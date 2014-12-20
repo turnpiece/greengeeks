@@ -38,10 +38,77 @@ Tags: custom-header, custom-background, threaded-comments, sticky-post, translat
   *
   */
   
+body {
+	line-height: 1.9em;
+	font: 16px/1.8em 'Lucida Console', Monaco, monospace, sans-serif;
+	color: #214300;
+	word-wrap: break-word;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="email"],
+textarea,
+select {
+	border: 1px solid #BDC3C7;
+	font: 16px/1.8em 'Lucida Console', Monaco, monospace, sans-serif;
+	background: #f6ffed;
+	color: #7F8C8D;
+}
+
+table#wp-calendar th,
+table#wp-calendar td,
+.entry-title a:visited,
+.entry-title a{
+	color: #214300;
+}
+
+#header,
+#footer {
+    background: #214300;
+}
+
+.blog-content-title a {
+    color: #214300;
+}
+
+.blog-author .bp-profile-link a,.blog-author .author-post-link a {
+    border: 1px solid #e9e9e9;
+    background: #baff76;
+    color: #444;
+    font-size: 16px;
+}
+
+.comments-area{
+	border-top: 5px solid #214300;
+}
+
+.desktop-menu ul.sub-menu li a,.desktop-menu ul.children li a {
+    background: #214300;
+}
+
+.desktop-menu ul.sub-menu li:first-child:after
+.desktop-menu ul.children li:first-child:after {
+    border-color: #214300;
+}
+
+.desktop-menu ul.sub-menu li:first-child:before,.desktop-menu ul.children li:first-child:before {
+    border-color: #214300;
+}
+
+.widget,.widget a {
+    color: #214300;
+}
+
 .widget{
 	background: #65cb00;
 	border-bottom: 5px solid #214300;
-	color: #ECF0F1;
+	color: #baff76;
+}
+
+.widget_display_stats dd {
+    background: #214300;
+    color: #baff76;
 }
 
 div.bbp-template-notice.info {
@@ -54,7 +121,7 @@ span.page-numbers, a.page-numbers {
     display: inline-block;
     padding: 4px 10px;
     background: #65cb00;
-    color: #ECF0F1;
+    color: #baff76;
     float: left;
     border-right: 1px solid #214300;
 	border-bottom: 5px solid #214300;
@@ -62,7 +129,7 @@ span.page-numbers, a.page-numbers {
 
 .item-list-tabs li a,.activity-type-tabs li a {
     background-color: #65cb00;
-    color: #ECF0F1;
+    color: #baff76;
 }
 
 #bp-klein-user-nav li a {
@@ -73,8 +140,32 @@ span.page-numbers, a.page-numbers {
     padding: .75em;
     border-bottom: 1px solid #214300;
     background: #65cb00;
-    color: #ECF0F1;
+    color: #baff76;
     font-weight: 700;
+}
+
+#klein-top-updates-badge,.item-list-tabs li a span {
+    background: #214300;
+}
+
+#klein-top-updates-badge:after,.item-list-tabs li a span:after {
+    border-color: #214300 !important;
+}
+
+#klein-top-updates-badge,
+.item-list-tabs li a span {
+    background: #214300;
+}
+
+#bp-klein-user-nav .bp-klein-sub-nav li a {
+    border-bottom: 1px solid #34495E;
+    background: #214300;
+    color: #baff76;
+}
+
+#bp-klein-user-nav .bp-klein-sub-nav li a:hover {
+    border-bottom: 1px solid #214300;
+    background: #34495E;
 }
 
 #whats-new:focus {
@@ -116,7 +207,28 @@ a.fp-controls {
     padding: 10px 20px;
     border-bottom: 5px solid #214300;
     background: #65cb00;
-    color: #ECF0F1;
+    color: #baff76;
+}
+
+#front-page-widgets-section-a .widget.widget_bp_groups_widget .widget-title,
+#front-page-widgets-section-a .widget.widget_bp_core_members_widget .widget-title,
+.widget.widget_bp_groups_widget .widget-title,
+.widget.widget_bp_core_members_widget .widget-title {
+	color: #214300;
+}
+
+.embed-vimeo iframe{
+	background: #f6ffed;
+}
+
+#footer-widgets .widget-title{
+	color: #f6ffed;
+}
+
+.widget.widget_nav_menu li a{
+	background: #444;
+	color: #f6ffed;
+	border-bottom: 1px solid #333;
 }
 
 /* User Bar */
@@ -143,7 +255,7 @@ a.fp-controls {
     width: 100%;
     border-bottom: 1px solid #214300;
     background: #65cb00;
-    color: #ECF0F1;
+    color: #baff76;
     font-size: 16px;
 }
 
@@ -163,7 +275,7 @@ a.fp-controls {
 	font-size: 20px;
 	padding: 8px 10px 10px 10px;
 	z-index: 999;
-	color: #ECF0F1;
+	color: #baff76;
 	background: #65cb00;
 }
 
