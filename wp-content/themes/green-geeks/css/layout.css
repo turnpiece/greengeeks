@@ -267,7 +267,7 @@
     margin-bottom: 20px;
     padding: 3px;
     border-bottom: 1px solid #438700;
-    background: #1ABC9C;
+    background: #214300;
     text-align: center;
 }
 
@@ -297,7 +297,7 @@
     padding: 0 10px;
     border: 1px solid #438700;
     border-top: none;
-    background: #1ABC9C;
+    background: #214300;
     cursor: pointer;
 }
 
@@ -523,7 +523,7 @@
     padding: 7px 12px 6px;
     border-right: 1px solid #438700;
     border-bottom: 5px solid #438700;
-    background: #1ABC9C;
+    background: #214300;
     font-size: 14px;
 }
 
@@ -550,7 +550,7 @@ a.fp-controls {
     float: left;
     padding: 10px 20px;
     border-bottom: 5px solid #438700;
-    background: #1ABC9C;
+    background: #214300;
     color: #baff76;
 }
 
@@ -599,7 +599,7 @@ a.front-page-highlights-nav-left:active,a.front-page-highlights-nav-right:active
     display: block;
     padding: 1em;
     border-bottom: 5px solid #438700;
-    background: #1ABC9C;
+    background: #214300;
 }
 #bp-klein-top-bar { border-bottom: none!important; } /*Overwrite */
 /* Site Name */
@@ -630,7 +630,7 @@ a.front-page-highlights-nav-left:active,a.front-page-highlights-nav-right:active
 }
 
 #site-name h1 a {
-    color: #1ABC9C;
+    color: #214300;
     text-decoration: none;
 }
 
@@ -890,7 +890,7 @@ a.front-page-highlights-nav-left:active,a.front-page-highlights-nav-right:active
 }
 
 .sticky .blog-content-title h2 a:hover,.blog-content.post-formats-video h2 a:hover,.blog-content.post-formats-status h2 a:hover,.blog-content-title a:hover {
-    color: #1ABC9C;
+    color: #214300;
 }
 
 /** Single Page **/
@@ -907,7 +907,7 @@ a.front-page-highlights-nav-left:active,a.front-page-highlights-nav-right:active
 }
 
 .entry-content-thumbnail-zoom {
-    background: #1ABC9C;
+    background: #214300;
     display: inline-block;
     opacity: 0;
     width: 48px;
@@ -1020,7 +1020,7 @@ a.front-page-highlights-nav-left:active,a.front-page-highlights-nav-right:active
     padding: 20px 10px;
     width: 100%;
     border-bottom: 1px solid #438700;
-    background: #1ABC9C;
+    background: #214300;
     color: #baff76;
     font-size: 16px;
 }
@@ -1041,7 +1041,7 @@ a.front-page-highlights-nav-left:active,a.front-page-highlights-nav-right:active
 }
 
 .menu.mobile li a:hover {
-    background: #1ABC9C;
+    background: #214300;
 }
 
 #main-menu-desktop {
@@ -1390,7 +1390,7 @@ a.front-page-highlights-nav-left:active,a.front-page-highlights-nav-right:active
 
 
 	.gears-pricing-table-title{
-		background: #1ABC9C;
+		background: #214300;
 		border-radius: 6px 6px 0px 0px;
 		-moz-border-radius: 6px 6px 0px 0px;
 		-webkit-border-radius: 6px 6px 0px 0px;
