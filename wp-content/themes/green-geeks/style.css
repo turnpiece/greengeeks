@@ -1,0 +1,232 @@
+/*
+Theme Name: Green Geeks
+Theme URI: http://turnpiece.com/
+Author: Dunhakdis & Turnpiece
+Author URI: http://turnpiece.com/
+Description: Child theme of Klein for the Green Geeks website. Klein is an innovative WordPress theme built to support BuddyPress, bbPress, and WooComerce out of the box. Perfect for website that interacts with number of users. Let your members create profile, send message, add connection, or share what's happening in their life.  Collaborate through forums or sell any products you want. 
+Version: 2.1.4
+License: GPL
+Template: klein-2.1.4
+License URI: license.txt
+Tags: custom-header, custom-background, threaded-comments, sticky-post, translation-ready, microformats, rtl-language-support, editor-style, custom-menu
+*/
+
+/**
+ * Style CSS
+ *
+ * @package Klein
+ * @since version 1.0
+ */
+@import url("../klein-2.1.4/style.css");
+ /**
+  * Add you css below, they won't be overwritten when you update.
+  */
+
+ /**
+  * Colours
+  *
+  *
+  * base = 65cb00
+  *
+  * dark = 438700
+  * darker = 214300
+  * black = 081000
+  *
+  * light = 8fff21
+  * lighter = baff76
+  * white = f6ffed
+  *
+  */
+  
+.widget{
+	background: #65cb00;
+	border-bottom: 5px solid #214300;
+	color: #ECF0F1;
+}
+
+div.bbp-template-notice.info {
+	color: #438700;
+	border-color: #65cb00;
+	background: none;
+}
+
+span.page-numbers, a.page-numbers {
+    display: inline-block;
+    padding: 4px 10px;
+    background: #65cb00;
+    color: #ECF0F1;
+    float: left;
+    border-right: 1px solid #214300;
+	border-bottom: 5px solid #214300;
+}
+
+.item-list-tabs li a,.activity-type-tabs li a {
+    background-color: #65cb00;
+    color: #ECF0F1;
+}
+
+#bp-klein-user-nav li a {
+    display: block;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    padding: .75em;
+    border-bottom: 1px solid #214300;
+    background: #65cb00;
+    color: #ECF0F1;
+    font-weight: 700;
+}
+
+#whats-new:focus {
+    border: 2px solid #65cb00;
+}
+
+.bx-wrapper .bx-pager .bx-pager-item,.bx-wrapper .bx-controls-auto .bx-controls-auto-item {
+    display: inline-block;
+    background: #65cb00;
+    padding: 8px 6px;
+    border-bottom: 5px solid #214300;
+    border-right: 1px solid #214300;
+}
+
+.labeled-box {
+    position: absolute;
+    right: 90px;
+    margin-top: 3px;
+    padding: 0 10px;
+    border: 1px solid #214300;
+    border-top: none;
+    background: #65cb00;
+    cursor: pointer;
+}
+
+.front-page-highlights-nav-left,.front-page-highlights-nav-right {
+    display: inline-block;
+    float: left;
+    padding: 7px 12px 6px;
+    border-right: 1px solid #214300;
+    border-bottom: 5px solid #214300;
+    background: #65cb00;
+    font-size: 14px;
+}
+
+a.fp-controls {
+    display: inline-block;
+    float: left;
+    padding: 10px 20px;
+    border-bottom: 5px solid #214300;
+    background: #65cb00;
+    color: #ECF0F1;
+}
+
+/* User Bar */
+#bp-klein-top-bar {
+    display: block;
+    padding: 1em;
+    border-bottom: 5px solid #214300;
+    background: #65cb00;
+}
+
+#site-name h1 a {
+    color: #65cb00;
+    text-decoration: none;
+}
+
+.sticky .blog-content-title h2 a:hover,.blog-content.post-formats-video h2 a:hover,.blog-content.post-formats-status h2 a:hover,.blog-content-title a:hover {
+    color: #65cb00;
+}
+
+.menu.mobile li a {
+    display: inline-block;
+    box-sizing: border-box;
+    padding: 20px 10px;
+    width: 100%;
+    border-bottom: 1px solid #214300;
+    background: #65cb00;
+    color: #ECF0F1;
+    font-size: 16px;
+}
+
+.menu.mobile li a:hover {
+    background: #65cb00;
+}
+
+	.gears-pricing-table-title{
+		background: #65cb00;
+		border-radius: 6px 6px 0px 0px;
+		-moz-border-radius: 6px 6px 0px 0px;
+		-webkit-border-radius: 6px 6px 0px 0px;
+	}
+
+.wpb_teaser_grid.wpb_carousel .prev,
+.wpb_teaser_grid.wpb_carousel .next {
+	font-size: 20px;
+	padding: 8px 10px 10px 10px;
+	z-index: 999;
+	color: #ECF0F1;
+	background: #65cb00;
+}
+
+.woocommerce ul.products li.product .onsale,.woocommerce-page ul.products li.product .onsale {
+	top: 0;
+	right: 0;
+	left: auto;
+	background: #65cb00;
+	margin: 0px 15px 0 0;
+	font-weight: 400;
+	padding: 6px 12px;
+}
+
+/**
+ * TURQUOISE PRESET
+ *
+ * @package Klein
+ * @since 1.0
+ *
+ */
+.bx-wrapper .bx-controls-direction a,
+.bbp-pagination-links span.current, 
+.woocommerce span.onsale,.woocommerce-page span.onsale,.woocommerce .widget_layered_nav ul li,.woocommerce-page .widget_layered_nav ul li,.woocommerce ul.products li.product .onsale,.woocommerce-page ul.products li.product .onsale,.item-list-tabs li a,.activity-type-tabs li a {
+    background: #65cb00;
+}
+
+a.fp-controls,.front-page-highlights-nav-left,.front-page-highlights-nav-right,.bx-wrapper .bx-pager .bx-pager-item,.bx-wrapper .bx-controls-auto .bx-controls-auto-item,span.page-numbers,a.page-numbers,#bp-klein-top-bar {
+    background: #65cb00;
+    border-bottom: 5px solid #214300;
+}
+
+#whats-new:focus {
+    border: 2px solid #65cb00;
+}
+
+.entry-content-thumbnail-zoom {
+    background: #65cb00;
+}
+
+.woocommerce .woocommerce-pagination li a.page-numbers:hover,.woocommerce .woocommerce-pagination li span.page-numbers.current:hover,.woocommerce .widget_price_filter .ui-slider .ui-slider-range,.woocommerce-page .widget_price_filter .ui-slider .ui-slider-range {
+    background: #65cb00;
+}
+
+/*
+ * Mobile Navigation
+ * 
+ * Added @version 2.0.7
+ * @package klein
+ * @version 2.0.7
+ * */
+.menu.mobile li a{
+	background: #65cb00;
+	
+}
+.menu.mobile .sub-menu li a:hover,
+.menu.mobile li a:hover{
+	background: #65cb00;
+}
+.menu.mobile .sub-menu li a,
+.menu.mobile li a .sub-menu-toggle
+{	
+	background: #214300;
+}
+.menu.mobile li a {
+	border-bottom: 1px solid #214300;
+}
