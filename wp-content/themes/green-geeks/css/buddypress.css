@@ -254,7 +254,7 @@ li#groups-order-select,.item-list-tabs#subnav li#activity-filter-select,.item-li
 
 .group-create .item-list-tabs li a {
     padding: 0;
-	color: #444;
+	color: #438700;
     background: none!important;
 }
 .group-create .item-list-tabs li.current a{
@@ -479,7 +479,7 @@ li.friend-tab img.avatar {
 	max-width: 100%;
 	width: 425px; /** you can adjust the width you want your videos or iframe content to have **/
 	height: 275px; /** right here, you can adjust the height of your video. Cheers! **/
-	background: #444;
+	background: #438700;
 	padding: 5px;
 	border: 1px solid #232323;
 	box-sizing: border-box;
@@ -627,7 +627,7 @@ ul#group-admins li,ul#group-mods li {
 }
 
 li.feed > a {
-    color: #444;
+    color: #438700;
 }
 
 li.last {
@@ -676,7 +676,7 @@ li.last:first-child {
 
 .widget.buddypress .item-options a.selected {
     padding-top: 10px;
-    background: #444;
+    background: #438700;
 }
 
 .widget.buddypress .item-options a:first-child {
@@ -685,7 +685,7 @@ li.last:first-child {
 
 .widget.buddypress.widget_bp_core_members_widget .item-list,.widget.buddypress.widget_bp_groups_widget .item-list {
 	display: block;
-	background: #444;
+	background: #438700;
 	margin-top: 7px;
 }
 
@@ -700,7 +700,7 @@ li.last:first-child {
 }
 
 .widget_bp_groups_widget .widget-error {
-    color: #444;
+    color: #438700;
 }
 
 .widget.widget_bp_groups_widget,.widget.widget_bp_core_members_widget,.widget.widget_calendar {
@@ -824,7 +824,7 @@ input#send-to-input {
 
 .profile-fields td,
 #message-threads td {
-	background: #444;
+	background: #438700;
 	color: #baff76;
 	
 }
@@ -1026,12 +1026,12 @@ input#send-to-input {
 	background: #baff76;
 	z-index: 9999;
 	height: auto;
-	box-shadow: 0px 0px 2px #444;
+	box-shadow: 0px 0px 2px #438700;
 	padding: 0px 12px;
 }
 #sitewide-notice .info{
 	background: #baff76;
-	color: #444;
+	color: #438700;
 }
 
 #sitewide-notice #close-notice{

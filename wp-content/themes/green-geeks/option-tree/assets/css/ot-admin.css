@@ -32,7 +32,6 @@
 }
 #option-tree-settings-api .ui-tabs {
   background: #fff url(../images/ot-menu-bg.png) repeat-y 0 0;
-  border: 1px solid #ccc;
   border-top: none;
   margin: 0px 5px 0 2px;
   min-width: 533px;
@@ -70,7 +69,6 @@
 }
 #option-tree-header #option-tree-logo a {
   background: transparent url(../images/ot-logo.png) no-repeat 13px center;
-  border-right: 1px solid #214300;
   display: block;
   float: left;
   height: 24px;
@@ -87,7 +85,6 @@
 
 }
 #option-tree-header #option-tree-version span {
-  border-left: 1px solid #555;
   display: block;
   float: left;
   height: 24px;
@@ -100,8 +97,6 @@
   ---------------------------------------------------*/
 #option-tree-sub-header { 
   background: #fafafa url(../images/ot-sub-header-bg.png) repeat-x 0 0; 
-  border: 1px solid #ccc; 
-  border-top: none; 
   display: block; 
   margin: 0 5px 0 2px; 
   min-width: 523px; 
@@ -122,8 +117,6 @@
   width: 151px; 
 }
 .wrap.settings-wrap .ui-tabs-nav li { 
-  border: 1px solid transparent; 
-  border-right-width: 0px; 
   display: block; margin: 0; 
 }
 .wrap.settings-wrap .ui-tabs-nav li.ui-state-active { 
@@ -159,7 +152,6 @@
   :: Format Setting Label
   ---------------------------------------------------*/
 .format-setting-label {
-  border-bottom: 1px dashed #ddd;
   margin: 0 0 14px 0;
   padding: 5px 0px 1px 0px;
   width: 100%;
@@ -168,7 +160,6 @@
 #option-tree-settings-api .format-setting-label .label,
 .metabox-holder .format-setting-label .label {
   background: none;
-  border: none;
   color: #214300;
   cursor: text;
   display: block;
@@ -178,7 +169,6 @@
   letter-spacing: 0;
   padding: 0 0 9px 0 !important;
   -webkit-user-select: text;
-  text-shadow: none;
 }
     
 /* -------------------------------------------------- 
@@ -221,7 +211,7 @@
   padding: 0;
 }
 #option-tree-settings-api h5 {
-  color: #444;
+  color: #438700;
   font-size: 1em;
   font-weight: bold;
   margin: 1em 0 0.5em 0;
@@ -236,12 +226,10 @@
   margin: 0 0 1.05em 0 !important;
 }
 .aside {
-  border-bottom: 1px solid #eee;
   padding-bottom: 15px;
   margin-bottom: 15px;
 }
 .deprecated {
-  border-bottom: 1px solid #eee;
   color: #b94029;
   padding-bottom: 15px;
   margin-bottom: 15px;
@@ -315,8 +303,7 @@
   overflow: auto;
   overflow-Y: hidden;
   padding-top: 18px;
-  background: #f1f1f1;
-  border-bottom: 1px solid #f1f1f1;
+  background: #f6ffed;
   margin-bottom: 20px;
   color: #000;
   white-space: pre-wrap;
@@ -334,19 +321,12 @@
 input.option-tree-ui-upload-input,
 input.option-tree-ui-input {
   background: #f6ffed;
-  border: 1px solid #ccc !important;
   line-height: 17px;
   font-size: 12px;
   margin-bottom: 5px;
   padding: 7px 6px;
   position: relative;
   width: 100%;
-  border-radius: 2px;
-  -webkit-border-radius: 2px;
-  -moz-border-radius: 2px;
-  -moz-box-shadow: inset 1px 1px 1px rgba(0, 0, 0, 0.05);
-  -webkit-box-shadow: inset 1px 1px 1px rgba(0, 0, 0, 0.05);
-  box-shadow: inset 1px 1px 1px rgba(0, 0, 0, 0.05);
 }
 input:focus.option-tree-ui-upload-input,
 input:focus.option-tree-ui-input {
@@ -371,11 +351,7 @@ div.option-tree-ui-media-wrap {
 }
 .option-tree-ui-media-wrap img {
   background: #fafafa;
-  border: 1px solid #ccc;
   padding: 4px;
-  border-radius: 2px;
-  -webkit-border-radius: 2px;
-  -moz-border-radius: 2px;
   display: block;
   float: left;
   max-width: 100%;
@@ -416,8 +392,7 @@ div.option-tree-ui-media-wrap {
 .textarea,
 .ot-metabox-wrapper textarea {
   width: 99.9%;
-  border: 1px solid #ccc;
-  font-family: Consolas, Monaco, monospace;
+  font-family: 'Anonymous Pro', Monaco, monospace;
   line-height: 150%;
   outline: 0;
   padding: 10px;
@@ -425,12 +400,6 @@ div.option-tree-ui-media-wrap {
 }
 #contextual-help-setting .textarea {
   width: 99.75%;
-}
-.ot-metabox-wrapper .wp-editor-container {
-  border: none;
-}
-.ot-metabox-wrapper textarea:focus {
-  border-color: #bbb !important;
 }
 
 @media only screen and (max-width: 1105px) {
@@ -445,7 +414,6 @@ div.option-tree-ui-media-wrap {
 .option-tree-setting-wrap             { margin-top: 0px; }
 .option-tree-setting-wrap li          { margin: 4px 0px; }
 .option-tree-setting { 
-  border: 1px solid #ccc; 
   overflow: hidden; 
   position: relative; 
 
@@ -472,15 +440,9 @@ div.option-tree-ui-media-wrap {
   right: 0px;
   top: 1px;
 }
-.option-tree-setting.is-section { 
-  border: 1px solid #464646; 
-}
 .option-tree-setting.is-section .open {
   background: #464646;
   color: #ccc;
-}
-.option-tree-setting.is-section .option-tree-ui-button {
-  border-color: #151515 !important;
 }
 .format-setting .ui-sortable-helper .option-tree-setting .open {
   background: #fff url(../images/ot-dots.png) no-repeat 4px 15px;
@@ -490,12 +452,10 @@ div.option-tree-ui-media-wrap {
   background: #464646 url(../images/ot-dots.png) no-repeat 4px 15px;
 }
 .ui-state-highlight {
-  border: 1px dashed #ccc;
   display: block;
 }
 .option-tree-setting-body {
   background: #f6ffed;
-  border-top: 1px solid #ccc;
   display: none;
   padding: 10px;
 }
@@ -503,7 +463,6 @@ li ul .format-settings {
   padding: 0 0 10px 0;
 }
 li ul .format-setting-label {
-  border: none;
   padding: 0px;
   margin: 0px;
 }
@@ -526,7 +485,6 @@ li ul .format-setting-label {
   padding: 10px 0;
 }
 .option-tree-save-layout.active-layout {
-  border-left: 1px solid #f6ffed;
   padding-left: 9px;
 }
 .option-tree-save-layout .widefat {
@@ -538,7 +496,6 @@ li ul .format-setting-label {
   margin: 0 0 0 10px;
 }
 .option-tree-active-layout {
-  border-right: 1px solid #ccc;
   float: left;
   padding: 10px 10px 10px 0;
   min-width: 126px;
@@ -554,7 +511,6 @@ li ul .format-setting-label {
 }
 .select-wrapper {
   background: #fff url(../images/ot-select.png) no-repeat right center;
-  border: 1px solid #ccc;
   display: block;
   float: left;
   font-size: 12px;
@@ -666,7 +622,7 @@ select.option-tree-ui-select option {
 }
 .type-radio-image .option-tree-ui-radio-images img {
   background: #f6ffed;
-  border: 1px solid #ccc;
+  
   cursor: pointer;
   padding: 5px;
 }
@@ -682,7 +638,7 @@ select.option-tree-ui-select option {
   ---------------------------------------------------*/
 .type-numeric-slider .format-setting-inner {
   background: #fcfcfc;
-  border: 1px solid #ccc;
+  
   min-height: 41px;
   padding: 5px;
 }
@@ -698,7 +654,7 @@ select.option-tree-ui-select option {
 }
 .ot-numeric-slider.ui-slider { 
   background: #f6ffed;
-  border: 1px solid #ccc;
+  
   margin: 8px 8px 0 8px; 
   position: relative; 
 }
@@ -707,7 +663,6 @@ select.option-tree-ui-select option {
 }
 .ot-numeric-slider.ui-slider .ui-slider-handle { 
   background-color: #21759b; 
-  border-bottom-color: #1e6a8d;
   cursor: pointer;
   display: block;
   height: 27px; 
@@ -730,7 +685,7 @@ select.option-tree-ui-select option {
 }
 .format-settings .cp_box {
   background: #f1f1f1;
-  border: 1px solid #ccc;
+  
   bottom: 5px;
   height: 27px;
   position: absolute;
@@ -960,7 +915,7 @@ input[type="submit"].option-tree-ui-button::-moz-focus-inner {
 .option-tree-ui-button.active:focus,
 .option-tree-ui-button:active,
 .option-tree-ui-button.red:active {
-  background: #eee;  
+  background: #f6ffed;  
   color: #214300;
 }
 .option-tree-ui-button[disabled],
@@ -1048,7 +1003,7 @@ input[type="submit"].option-tree-ui-button::-moz-focus-inner {
 }
 .option-tree-ui-buttons {
   background: #f6ffed;
-  border: 1px solid #ccc;
+  
   margin: 11px 5px 0 2px;
   min-width: 523px;
   overflow: hidden;

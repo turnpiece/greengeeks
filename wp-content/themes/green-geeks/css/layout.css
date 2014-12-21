@@ -226,7 +226,7 @@
     top: 55%;
     left: 28%;
     overflow: hidden;
-    background: #444;
+    background: #438700;
     text-align: center;
     opacity: 0;
     filter: alpha(opacity=0);
@@ -737,7 +737,7 @@ a.front-page-highlights-nav-left:active,a.front-page-highlights-nav-right:active
     padding: 12px 0;
     width: 100%;
     background: #baff76;
-    color: #444;
+    color: #438700;
     font-size: 16px;
 }
 
@@ -827,7 +827,7 @@ a.front-page-highlights-nav-left:active,a.front-page-highlights-nav-right:active
 }
 
 .entry-audio {
-    background: #444;
+    background: #438700;
 }
 
 /* #Footer
@@ -1247,7 +1247,7 @@ a.front-page-highlights-nav-left:active,a.front-page-highlights-nav-right:active
 		border-radius: 200px;
 		-moz-border-radius: 200px;
 		-webkit-border-radius: 200px;
-		border: 1px solid #eee;
+		border: 1px solid #f6ffed;
 		border-radius: 50%;
 	}
 	/*= Pricing Table
