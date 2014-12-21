@@ -17,47 +17,6 @@ li.load-more a, .nav-previous-link .nav-previous,
 	color: #f6ffed;	
 }
 
-input[type=submit],input[type=button], button, .woocommerce .button, 
-li.load-more a, .nav-previous-link .nav-previous, .nav-next-link .nav-next, 
-.post-navigation .nav-next p,
-.post-navigation .nav-previous p,
-.generic-button a,
-.btn-default,
-.btn-primary,
-.btn-success,
-.btn-info,
-.btn-warning,
-.btn-danger {
-  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.2);
-  -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15), 0 1px 1px rgba(0, 0, 0, 0.075);
-          box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15), 0 1px 1px rgba(0, 0, 0, 0.075);
-}
-
-input[type=submit]:active,input[type=button]:active, button:active, .woocommerce .button:active, 
-li.load-more a:active, .nav-previous-link:active .nav-previous:active,
-.nav-next-link .nav-next:active, .generic-button a:active, .nav-previous-link .nav-previous:active, 
-.post-navigation .nav-previous p:active, .post-navigation .nav-next p:active,
-.btn-default:active,
-.btn-primary:active,
-.btn-success:active,
-.btn-info:active,
-.btn-warning:active,
-.btn-danger:active,
-.btn-default.active,
-.btn-primary.active,
-.btn-success.active,
-.btn-info.active,
-.btn-warning.active,
-.btn-danger.active {
-  -webkit-box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
-          box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
-}
-.btn{
-	-o-border-radius: 2px;
-	-moz-border-radius: 2px;
-	-webkit-border-radius: 2px;
-		border-radius: 2px;
-}
 .btn:active,
 .btn.active {
   background-image: none;
@@ -66,14 +25,14 @@ li.load-more a:active, .nav-previous-link:active .nav-previous:active,
 .btn-default {
   background-image: none;
   background-repeat: no-repeat;
-  border-color: #e0e0e0;
-  border-color: #ccc;
+  
+  
 }
 
 .btn-default:active,
 .btn-default.active {
   background-color: #e6e6e6;
-  border-color: #e0e0e0;
+  
 }
 
 input[type=submit],input[type=button], button, .woocommerce .button, li.load-more a, .nav-previous-link .nav-previous,.nav-next-link .nav-next, .generic-button a,
@@ -82,7 +41,6 @@ input[type=submit],input[type=button], button, .woocommerce .button, li.load-mor
 .btn-primary {
   background-image: none;
   background-repeat: no-repeat;
-  border-color: #65cb00;
 }
 
 input[type=submit],input[type=button]:active, button:active, .woocommerce .button:active, li.load-more a:active, 
@@ -91,55 +49,51 @@ input[type=submit],input[type=button]:active, button:active, .woocommerce .butto
 .btn-primary:active,
 .btn-primary.active {
   background-color: #3071a9;
-  border-color: #65cb00;
 }
 
 .btn-success {
   background-image: none;
   background-repeat: no-repeat;
-  border-color: #419641;
 }
 
 .btn-success:active,
 .btn-success.active {
   background-color: #449d44;
-  border-color: #419641;
 }
 
 .btn-warning {
   background-image: none;
   background-repeat: no-repeat;
-  border-color: #eb9316;
 }
 
 .btn-warning:active,
 .btn-warning.active {
   background-color: #ec971f;
-  border-color: #eb9316;
+  
 }
 
 .btn-danger {
   background-image: none;
   background-repeat: no-repeat;
-  border-color: #c12e2a;
+  
 }
 
 .btn-danger:active,
 .btn-danger.active {
   background-color: #c9302c;
-  border-color: #c12e2a;
+  
 }
 
 .btn-info {
   background-image: none;
   background-repeat: no-repeat;
-  border-color: #2aabd2;
+  
 }
 
 .btn-info:active,
 .btn-info.active {
   background-color: #31b0d5;
-  border-color: #2aabd2;
+  
 }
 
 .thumbnail,
@@ -204,25 +158,25 @@ input[type=submit],input[type=button]:active, button:active, .woocommerce .butto
 .alert-success {
   background-image: none;
   background-repeat: no-repeat;
-  border-color: #b2dba1;
+  
 }
 
 .alert-info {
   background-image: none;
   background-repeat: no-repeat;
-  border-color: #9acfea;
+  
 }
 
 .alert-warning {
   background-image: none;
   background-repeat: no-repeat;
-  border-color: #f5e79e;
+  
 }
 
 .alert-danger {
   background-image: none;
   background-repeat: no-repeat;
-  border-color: #dca7a7;
+  
 }
 
 .progress {
@@ -267,7 +221,7 @@ input[type=submit],input[type=button]:active, button:active, .woocommerce .butto
   text-shadow: 0 -1px 0 #3071a9;
   background-image: none;
   background-repeat: no-repeat;
-  border-color: #3278b3;
+  
 }
 
 .panel {
@@ -308,7 +262,7 @@ input[type=submit],input[type=button]:active, button:active, .woocommerce .butto
 .well {
   background-image: none;
   background-repeat: no-repeat;
-  border-color: #dcdcdc;
+  
   -webkit-box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05), 0 1px 0 rgba(255, 255, 255, 0.1);
           box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05), 0 1px 0 rgba(255, 255, 255, 0.1);
 }

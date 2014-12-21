@@ -25,7 +25,7 @@ h1#bp-klein-page-title a:hover {
 }
 
 .acomment-content,#activity-stream .activity-content {
-    border-color: #BDC3C7;
+    
 }
 .acomment-content iframe{
 	width: 300px;
@@ -286,7 +286,7 @@ li.bp-klein-nav-fix label,li#groups-order-select label,li#members-order-select l
 }
 
 .item-list-tabs,#bp-klein-user-nav {
-    font: 13px/24px 'Lucida Console', Monaco, monospace, sans-serif;
+    font: 13px/24px 'Anonymous Pro', Monaco, monospace, sans-serif;
 }
 
 .bp-klein-sub-nav {
@@ -826,7 +826,7 @@ input#send-to-input {
 #message-threads td {
 	background: #444;
 	color: #baff76;
-	border-color: #214300;
+	
 }
 .profile-fields td a,
 #message-threads td a{

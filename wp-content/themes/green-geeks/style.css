@@ -22,6 +22,12 @@ Tags: custom-header, custom-background, threaded-comments, sticky-post, translat
   * Add you css below, they won't be overwritten when you update.
   */
 
+/**
+ * Fonts
+ */
+@import url(http://fonts.googleapis.com/css?family=Anonymous+Pro:400,400italic,700,700italic);
+@import url(http://fonts.googleapis.com/css?family=Roboto:400,400italic,700,700italic);
+
  /**
   * Colours
   *
@@ -40,7 +46,7 @@ Tags: custom-header, custom-background, threaded-comments, sticky-post, translat
   
 body {
 	line-height: 1.9em;
-	font: 16px/1.8em 'Lucida Console', Monaco, monospace, sans-serif;
+	font: 16px/1.8em 'Roboto', Arial, Helvetica, sans-serif;
 	color: #214300;
 	word-wrap: break-word;
 }
@@ -51,7 +57,7 @@ input[type="email"],
 textarea,
 select {
 	border: 1px solid #BDC3C7;
-	font: 16px/1.8em 'Lucida Console', Monaco, monospace, sans-serif;
+	font: 16px/1.8em 'Anonymous Pro', Monaco, monospace, sans-serif;
 	background: #f6ffed;
 	color: #7F8C8D;
 }
@@ -89,11 +95,11 @@ table#wp-calendar td,
 
 .desktop-menu ul.sub-menu li:first-child:after
 .desktop-menu ul.children li:first-child:after {
-    border-color: #214300;
+    
 }
 
 .desktop-menu ul.sub-menu li:first-child:before,.desktop-menu ul.children li:first-child:before {
-    border-color: #214300;
+    
 }
 
 .widget,.widget a {
@@ -113,7 +119,7 @@ table#wp-calendar td,
 
 div.bbp-template-notice.info {
 	color: #438700;
-	border-color: #65cb00;
+	
 	background: none;
 }
 
@@ -265,9 +271,6 @@ a.fp-controls {
 
 	.gears-pricing-table-title{
 		background: #65cb00;
-		border-radius: 6px 6px 0px 0px;
-		-moz-border-radius: 6px 6px 0px 0px;
-		-webkit-border-radius: 6px 6px 0px 0px;
 	}
 
 .wpb_teaser_grid.wpb_carousel .prev,
