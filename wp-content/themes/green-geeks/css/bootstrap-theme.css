@@ -13,8 +13,8 @@ li.load-more a, .nav-previous-link .nav-previous,
 	white-space: nowrap;
 	vertical-align: middle;
 	cursor: pointer;
-	border: 1px solid #081000;
-	color: #f6ffed;	
+	color: #baff76;
+  background: #214300;
 }
 
 .btn:active,
@@ -31,7 +31,7 @@ li.load-more a, .nav-previous-link .nav-previous,
 
 .btn-default:active,
 .btn-default.active {
-  background-color: #e6e6e6;
+  background-color: #438700;
   
 }
 
@@ -48,7 +48,7 @@ input[type=submit],input[type=button]:active, button:active, .woocommerce .butto
 .btn.loading, button.loading, input[type="submit"].loading, input[type="reset"].loading, li.load-more.loading a, input[type="button"].loading,
 .btn-primary:active,
 .btn-primary.active {
-  background-color: #3071a9;
+  background-color: #438700;
 }
 
 .btn-success {
@@ -218,7 +218,7 @@ input[type=submit],input[type=button]:active, button:active, .woocommerce .butto
 .list-group-item.active,
 .list-group-item.active:hover,
 .list-group-item.active:focus {
-  text-shadow: 0 -1px 0 #3071a9;
+  text-shadow: 0 -1px 0 #438700;
   background-image: none;
   background-repeat: no-repeat;
   

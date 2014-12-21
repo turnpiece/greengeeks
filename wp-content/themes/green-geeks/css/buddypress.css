@@ -151,7 +151,7 @@ ul#members-list li,
 #group-list li,
 #friend-list li {
     position: relative;
-    margin: 0;
+    margin: 0 0.2em;
     list-style: none;
 }
 
@@ -212,11 +212,11 @@ ul#members-list li,
 }
 
 #klein-top-updates-badge {
-    background: #E74C3C;
+    background: #baff76;
 }
 
 #klein-top-updates-badge:after {
-    border-top-color: #E74C3C;
+    border-top-color: #baff76;
 }
 
 #klein-top-updates-badge {
@@ -391,7 +391,7 @@ li.friend-tab img.avatar {
 .buddypress .activity-meta a{
 	font-size: 12px;
 	font-weight: 700;
-	border-bottom: 1px dashed #BDC3C7;
+	border-bottom: 1px dashed #baff76;
 	margin-right: 10px;
 }
 
@@ -435,7 +435,7 @@ li.friend-tab img.avatar {
 #whats-new {
     min-height: 48px;
     width: 100%;
-    border: 1px solid #BDC3C7;
+    border: 1px solid #baff76;
 }
 
 #whats-new:focus {
@@ -593,20 +593,20 @@ form#search-groups-form,form#search-members-form {
 }
 
 .error {
-    background: #E74C3C;
+    background: #baff76;
     color: #baff76;
     padding: 10px;
     margin: 10px 0;
 }
 
 .updated {
-    background: #3498DB;
-    color: #baff76;
+    background: #baff76;
+    color: #214300;
 }
 
 .info {
-    background: #F1C40F;
-    color: #baff76;
+    background: #baff76;
+    color: #214300;
 }
 
 ul#group-admins li,ul#group-mods li {
@@ -644,7 +644,7 @@ li.last:first-child {
 }
 
 .item-list-tabs#subnav li,.item-list-tabs#subnav li select,#message p {
-    margin: 0;
+    margin: 0 0.2em;
 }
 
 .thread-count,.thread-avatar {
@@ -800,7 +800,7 @@ li.last:first-child {
 
 .acomment-delete,
 .delete-activity {
-    color: #E74C3C;
+    color: #baff76;
 }
 
 input#send-to-input {
@@ -870,7 +870,7 @@ input#send-to-input {
 }
 
 .messages #send-reply{
-	border-top: 1px dashed #BDC3C7;
+	border-top: 1px dashed #baff76;
 }
 .messages .message-box {
     margin: 20px 0;
@@ -884,7 +884,7 @@ input#send-to-input {
 .buddypress #invite-list li {
     padding: 10px;
     margin: 0 10px 10px 0;
-    background: #E74C3C;
+    background: #baff76;
     display: inline-block;
     color: #baff76;
     border-bottom: 5px solid #C0392B;
@@ -999,13 +999,12 @@ input#send-to-input {
 
 .buddypress .profile .button-nav li a{
 	padding: 10px;
-	background: #BDC3C7;
+	background: #baff76;
 	color: #baff76;
-	border-right: 1px solid #baff76;
 }
 
 .buddypress .profile .button-nav li.current a{
-	background: #95A5A6;
+	background: #baff76;
 }
 
 .buddypress .field-visibility-settings li{
@@ -1037,7 +1036,7 @@ input#send-to-input {
 #sitewide-notice #close-notice{
 	display: block;
 	font-weight: bold;
-	color: #E74C3C;
+	color: #baff76;
 	margin-top: 20px;
 }
 

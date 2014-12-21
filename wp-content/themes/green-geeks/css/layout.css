@@ -95,12 +95,12 @@
 /* #Site Styles
 ================================================== */
 ::selection {
-    background: #F1C40F;
+    background: #baff76;
 /* Safari */
 }
 
 ::-moz-selection {
-    background: #F1C40F;
+    background: #baff76;
 /* Firefox */
 }
 
@@ -294,7 +294,7 @@
     box-sizing: border-box;
     margin: 0 0 20px;
     padding: 20px;
-    border-bottom: 5px solid #BDC3C7;
+    border-bottom: 5px solid #baff76;
     background: #baff76;
 }
 
@@ -308,9 +308,9 @@
 /** Top Updates **/
 .bp-klein-dropdown-menu{
 	border-radius: 4px;
-	box-shadow: 0px 5px 0px #BDC3C7;
-	-moz-box-shadow: 0px 5px 0px #BDC3C7;
-	-webkit-box-shadow: 0px 5px 0px #BDC3C7;
+	box-shadow: 0px 5px 0px #baff76;
+	-moz-box-shadow: 0px 5px 0px #baff76;
+	-webkit-box-shadow: 0px 5px 0px #baff76;
 }
 
 #klein-top-updates {
@@ -560,9 +560,7 @@ a.front-page-highlights-nav-left:active,a.front-page-highlights-nav-right:active
 #bp-klein-top-bar {
     display: block;
     padding: 1em;
-    background: #214300;
 }
-#bp-klein-top-bar { border-bottom: none!important; } /*Overwrite */
 /* Site Name */
 .site-description {
     margin-top: 8px;
@@ -792,7 +790,7 @@ a.front-page-highlights-nav-left:active,a.front-page-highlights-nav-right:active
 
 .blog-content.post-formats-video {
     background: #121212;
-    color: #BDC3C7;
+    color: #baff76;
 }
 
 .sticky .blog-content-title h2 a:hover,.blog-content.post-formats-video h2 a:hover,.blog-content.post-formats-status h2 a:hover,.blog-content-title a:hover {
@@ -1273,7 +1271,7 @@ a.front-page-highlights-nav-left:active,a.front-page-highlights-nav-right:active
 	}
 	
 	.gears-pricing-table-title .glyphicon-star{
-		color: #F1C40F;
+		color: #baff76;
 	}
 
 	.gears-pricing-table-price-label{
@@ -1297,7 +1295,6 @@ a.front-page-highlights-nav-left:active,a.front-page-highlights-nav-right:active
 
 	.gears-pricing-table-features-list{
 		list-style: none;
-		border-bottom: 1px solid #BDC3C7;
 		margin: 0;
 		padding: 10px 20px;
 		color: #34495E;
@@ -1309,7 +1306,7 @@ a.front-page-highlights-nav-left:active,a.front-page-highlights-nav-right:active
 	}
 	
 	.gears-pricing-table-features-list .glyphicon-remove{
-		color: #E74C3C;
+		color: #baff76;
 	}
 
 	.gears-pricing-table-features{
@@ -1357,9 +1354,8 @@ a.front-page-highlights-nav-left:active,a.front-page-highlights-nav-right:active
 	}
 	
 	.pmpro_btn.pmpro_btn-submit-checkout:hover{
-		  background-color: #3071a9;
-			
-			color: #f6ffed;
+		background-color: #438700;
+		color: #f6ffed;
 	}
 	
 	.pmpro_error {

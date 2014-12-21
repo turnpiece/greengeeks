@@ -56,7 +56,6 @@ input[type="password"],
 input[type="email"],
 textarea,
 select {
-	border: 1px solid #BDC3C7;
 	font: 16px/1.8em 'Anonymous Pro', Monaco, monospace, sans-serif;
 	background: #f6ffed;
 	color: #7F8C8D;
@@ -111,7 +110,6 @@ table#wp-calendar td,
 .widget{
     font: 16px/1.8em 'Anonymous Pro', Monaco, monospace, sans-serif;
 	background: #65cb00;
-	border-bottom: 5px solid #214300;
 	color: #baff76;
 }
 
@@ -132,8 +130,6 @@ span.page-numbers, a.page-numbers {
     background: #65cb00;
     color: #baff76;
     float: left;
-    border-right: 1px solid #214300;
-	border-bottom: 5px solid #214300;
 }
 
 .item-list-tabs li a,.activity-type-tabs li a {
@@ -147,7 +143,6 @@ span.page-numbers, a.page-numbers {
     -moz-box-sizing: border-box;
     box-sizing: border-box;
     padding: .75em;
-    border-bottom: 1px solid #214300;
     background: #65cb00;
     color: #baff76;
     font-weight: 700;
@@ -157,36 +152,24 @@ span.page-numbers, a.page-numbers {
     background: #214300;
 }
 
-#klein-top-updates-badge:after,.item-list-tabs li a span:after {
-    border-color: #214300 !important;
-}
-
 #klein-top-updates-badge,
 .item-list-tabs li a span {
     background: #214300;
 }
 
 #bp-klein-user-nav .bp-klein-sub-nav li a {
-    border-bottom: 1px solid #34495E;
     background: #214300;
     color: #baff76;
 }
 
 #bp-klein-user-nav .bp-klein-sub-nav li a:hover {
-    border-bottom: 1px solid #214300;
     background: #34495E;
-}
-
-#whats-new:focus {
-    border: 2px solid #65cb00;
 }
 
 .bx-wrapper .bx-pager .bx-pager-item,.bx-wrapper .bx-controls-auto .bx-controls-auto-item {
     display: inline-block;
     background: #65cb00;
     padding: 8px 6px;
-    border-bottom: 5px solid #214300;
-    border-right: 1px solid #214300;
 }
 
 .labeled-box {
@@ -194,8 +177,6 @@ span.page-numbers, a.page-numbers {
     right: 90px;
     margin-top: 3px;
     padding: 0 10px;
-    border: 1px solid #214300;
-    border-top: none;
     background: #65cb00;
     cursor: pointer;
 }
@@ -204,8 +185,6 @@ span.page-numbers, a.page-numbers {
     display: inline-block;
     float: left;
     padding: 7px 12px 6px;
-    border-right: 1px solid #214300;
-    border-bottom: 5px solid #214300;
     background: #65cb00;
     font-size: 14px;
 }
@@ -214,7 +193,6 @@ a.fp-controls {
     display: inline-block;
     float: left;
     padding: 10px 20px;
-    border-bottom: 5px solid #214300;
     background: #65cb00;
     color: #baff76;
 }
@@ -237,15 +215,12 @@ a.fp-controls {
 .widget.widget_nav_menu li a{
 	background: #438700;
 	color: #f6ffed;
-	border-bottom: 1px solid #214300;
 }
 
 /* User Bar */
 #bp-klein-top-bar {
     display: block;
     padding: 1em;
-    border-bottom: 5px solid #214300;
-    background: #65cb00;
 }
 
 #site-name h1 a {
@@ -262,7 +237,6 @@ a.fp-controls {
     box-sizing: border-box;
     padding: 20px 10px;
     width: 100%;
-    border-bottom: 1px solid #214300;
     background: #65cb00;
     color: #baff76;
     font-size: 16px;
@@ -295,35 +269,6 @@ a.fp-controls {
 	padding: 6px 12px;
 }
 
-/**
- * TURQUOISE PRESET
- *
- * @package Klein
- * @since 1.0
- *
- */
-.bx-wrapper .bx-controls-direction a,
-.bbp-pagination-links span.current, 
-.woocommerce span.onsale,.woocommerce-page span.onsale,.woocommerce .widget_layered_nav ul li,.woocommerce-page .widget_layered_nav ul li,.woocommerce ul.products li.product .onsale,.woocommerce-page ul.products li.product .onsale,.item-list-tabs li a,.activity-type-tabs li a {
-    background: #65cb00;
-}
-
-a.fp-controls,.front-page-highlights-nav-left,.front-page-highlights-nav-right,.bx-wrapper .bx-pager .bx-pager-item,.bx-wrapper .bx-controls-auto .bx-controls-auto-item,span.page-numbers,a.page-numbers,#bp-klein-top-bar {
-    background: #65cb00;
-    border-bottom: 5px solid #214300;
-}
-
-#whats-new:focus {
-    border: 2px solid #65cb00;
-}
-
-.entry-content-thumbnail-zoom {
-    background: #65cb00;
-}
-
-.woocommerce .woocommerce-pagination li a.page-numbers:hover,.woocommerce .woocommerce-pagination li span.page-numbers.current:hover,.woocommerce .widget_price_filter .ui-slider .ui-slider-range,.woocommerce-page .widget_price_filter .ui-slider .ui-slider-range {
-    background: #65cb00;
-}
 
 /*
  * Mobile Navigation
@@ -344,7 +289,4 @@ a.fp-controls,.front-page-highlights-nav-left,.front-page-highlights-nav-right,.
 .menu.mobile li a .sub-menu-toggle
 {	
 	background: #214300;
-}
-.menu.mobile li a {
-	border-bottom: 1px solid #214300;
 }

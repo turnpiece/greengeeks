@@ -135,7 +135,7 @@ function gg_scripts(){
 	wp_enqueue_script( 'klein-bootstrap-js', get_template_directory_uri() . '/js/bootstrap.js', array( 'jquery' ), KLEIN_VERSION , true );
 	
 	// Template JS
-	wp_enqueue_script( 'klein', get_template_directory_uri() . '/js/klein.js', array('jquery'), KLEIN_VERSION, true );
+	wp_enqueue_script( 'green-geeks', get_stylesheet_directory_uri() . '/js/green-geeks.js', array('jquery'), KLEIN_VERSION, true );
 		
 	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) 
 	{

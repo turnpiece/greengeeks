@@ -50,20 +50,11 @@
     background: #438700;
 }
 
-.item-list-tabs li a span:after {
-    border-top-color: #34495E;
-}
-
 #klein-top-updates-badge {
-    background: #E74C3C;
+    background: #baff76;
 }
 
 .desktop-menu ul.sub-menu li a,.desktop-menu ul.children li a,#header,.woocommerce .widget_price_filter .ui-slider .ui-slider-range,.woocommerce-page .widget_price_filter .ui-slider .ui-slider-range,#footer-widgets {
-    background: #214300;
-}
-
-
-a.fp-controls,.front-page-highlights-nav-left,.front-page-highlights-nav-right,.bx-wrapper .bx-pager .bx-pager-item,.bx-wrapper .bx-controls-auto .bx-controls-auto-item,span.page-numbers,a.page-numbers,#bp-klein-top-bar {
     background: #214300;
 }
 
@@ -74,7 +65,6 @@ a.fp-controls,.front-page-highlights-nav-left,.front-page-highlights-nav-right,.
 .widget {
     color: #438700;
     background: #baff76;
-    border-bottom: none;
 }
 
 .widget a {
@@ -130,7 +120,6 @@ a.fp-controls,.front-page-highlights-nav-left,.front-page-highlights-nav-right,.
  * */
 .menu.mobile li a{
 	background: #214300;
-	
 }
 .menu.mobile .sub-menu li a:hover,
 .menu.mobile li a:hover{
@@ -140,7 +129,4 @@ a.fp-controls,.front-page-highlights-nav-left,.front-page-highlights-nav-right,.
 .menu.mobile li a .sub-menu-toggle
 {	
 	background: #438700;
-}
-.menu.mobile li a {
-	border-bottom: 1px solid #438700;
 }

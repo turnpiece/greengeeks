@@ -103,9 +103,6 @@
 						<h1><?php bloginfo( 'name' ); ?></h1>
 						<img src="<?php echo $logo; ?>" alt="<?php echo get_bloginfo( 'name' ); ?> - <?php echo get_bloginfo( 'description' ); ?>"/>
 					</a>
-					<p class="remove-bottom site-description">
-						<?php bloginfo('description'); ?>
-					</p>
 				</div>
 				
 				<div class="desktop-menu col-md-8 col-sm-8 show-on-desktops">
