@@ -22,7 +22,7 @@
   overflow: hidden;
 }
 #option-tree-settings-api .postbox {
-  background: #fff;
+  background: #f6ffed;
   border: none;
   margin: 0 20px;
 }
@@ -85,7 +85,7 @@
 }
 #option-tree-header #option-tree-logo a {
   background: transparent url(../images/ot-logo.png) no-repeat 13px center;
-  border-right: 1px solid #333;
+  border-right: 1px solid #214300;
   display: block;
   float: left;
   height: 24px;
@@ -158,7 +158,7 @@
           border-radius: 3px 0 0 3px; 
 }
 .wrap.settings-wrap .ui-tabs-nav li.ui-state-active { 
-  background: #fff; 
+  background: #f6ffed; 
   border-color: #ccc; 
   color: #000; 
 }
@@ -200,7 +200,7 @@
 .metabox-holder .format-setting-label .label {
   background: none;
   border: none;
-  color: #333;
+  color: #214300;
   cursor: text;
   display: block;
   font-family: sans-serif !important;
@@ -245,7 +245,7 @@
   padding-top: 10px;
 }
 #option-tree-settings-api h4 {
-  color: #333;
+  color: #214300;
   font-size: 1.12em;
   font-weight: bold;
   margin: 1em 0 0.5em 0;
@@ -364,7 +364,7 @@
   ---------------------------------------------------*/
 input.option-tree-ui-upload-input,
 input.option-tree-ui-input {
-  background: #fff;
+  background: #f6ffed;
   border: 1px solid #ccc !important;
   line-height: 17px;
   font-size: 12px;
@@ -532,7 +532,7 @@ div.option-tree-ui-media-wrap {
   border-radius: 4px;
 }
 .option-tree-setting-body {
-  background: #fff;
+  background: #f6ffed;
   border-top: 1px solid #ccc;
   display: none;
   padding: 10px;
@@ -570,7 +570,7 @@ li ul .format-setting-label {
   padding: 10px 0;
 }
 .option-tree-save-layout.active-layout {
-  border-left: 1px solid #fff;
+  border-left: 1px solid #f6ffed;
   padding-left: 9px;
 }
 .option-tree-save-layout .widefat {
@@ -715,7 +715,7 @@ select.option-tree-ui-select option {
   margin: 0 10px 10px 0px;
 }
 .type-radio-image .option-tree-ui-radio-images img {
-  background: #fff;
+  background: #f6ffed;
   border: 1px solid #ccc;
   cursor: pointer;
   padding: 5px;
@@ -756,7 +756,7 @@ select.option-tree-ui-select option {
   width: 90px;
 }
 .ot-numeric-slider.ui-slider { 
-  background: #fff;
+  background: #f6ffed;
   border: 1px solid #ccc;
   margin: 8px 8px 0 8px; 
   position: relative; 
@@ -1056,8 +1056,8 @@ input[type="submit"].option-tree-ui-button::-moz-focus-inner {
   background-image: -o-linear-gradient(top,#fefefe,#f4f4f4);
   background-image: linear-gradient(to bottom,#fefefe,#f4f4f4);
   border-color: #bbb;
-  color: #333;
-  text-shadow: 0 1px 0 #fff;
+  color: #214300;
+  text-shadow: 0 1px 0 #f6ffed;
 }
 .option-tree-ui-button.hover,
 .option-tree-ui-button:hover,
@@ -1094,8 +1094,8 @@ input[type="submit"].option-tree-ui-button::-moz-focus-inner {
   background-image: -o-linear-gradient(top,#f4f4f4,#fefefe);
   background-image: linear-gradient(to bottom,#f4f4f4,#fefefe);
   border-color: #999;
-  color: #333;
-  text-shadow: 0 -1px 0 #fff;
+  color: #214300;
+  text-shadow: 0 -1px 0 #f6ffed;
   -webkit-box-shadow: inset 0 2px 5px -3px rgba(0,0,0,0.5);
   box-shadow: inset 0 2px 5px -3px rgba(0,0,0,0.5);
 }
@@ -1129,7 +1129,7 @@ input[type="submit"].option-tree-ui-button::-moz-focus-inner {
   border-bottom-color: #1e6a8d;
   -webkit-box-shadow: inset 0 1px 0 rgba(120,200,230,0.5);
   box-shadow: inset 0 1px 0 rgba(120,200,230,0.5);
-  color: #fff;
+  color: #f6ffed;
   text-decoration: none;
   text-shadow: 0 1px 0 rgba(0,0,0,0.1);
 }
@@ -1147,7 +1147,7 @@ input[type="submit"].option-tree-ui-button::-moz-focus-inner {
   border-color: #1b607f;
   -webkit-box-shadow: inset 0 1px 0 rgba(120,200,230,0.6);
   box-shadow: inset 0 1px 0 rgba(120,200,230,0.6);
-  color: #fff;
+  color: #f6ffed;
   text-shadow: 0 -1px 0 rgba(0,0,0,0.3);
 }
 .option-tree-ui-button.blue.focus,
@@ -1196,7 +1196,7 @@ input[type="submit"].option-tree-ui-button::-moz-focus-inner {
   border-bottom-color: #8d2e1e;
   -webkit-box-shadow: inset 0 1px 0 rgba(229,134,119,0.5);
   box-shadow: inset 0 1px 0 rgba(229,134,119,0.5);
-  color: #fff;
+  color: #f6ffed;
   text-decoration: none;
   text-shadow: 0 1px 0 rgba(0,0,0,0.1);
 }
@@ -1214,7 +1214,7 @@ input[type="submit"].option-tree-ui-button::-moz-focus-inner {
   border-color: #7f291b;
   -webkit-box-shadow: inset 0 1px 0 rgba(229,134,119,0.6);
   box-shadow: inset 0 1px 0 rgba(229,134,119,0.6);
-  color: #fff;
+  color: #f6ffed;
   text-shadow: 0 -1px 0 rgba(0,0,0,0.3);
 }
 .option-tree-ui-button.red.focus,
@@ -1288,7 +1288,7 @@ input[type="submit"].option-tree-ui-button::-moz-focus-inner {
   border-bottom-left-radius: 0px;
 }
 .option-tree-ui-buttons {
-  background: #fff;
+  background: #f6ffed;
   border: 1px solid #ccc;
   margin: 11px 5px 0 2px;
   min-width: 523px;

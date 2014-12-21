@@ -13,18 +13,8 @@ li.load-more a, .nav-previous-link .nav-previous,
 	white-space: nowrap;
 	vertical-align: middle;
 	cursor: pointer;
-	border: 1px solid rgba(0, 0, 0, 0);
-	border-radius: 2px;
-	-webkit-border-radius: 0;
-	-moz-border-radius: 0;
-	-ms-border-radius: 0;
-	-0-border-radius: 0;
-	-webkit-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;
-	-o-user-select: none;
-	user-select: none;
-	color: #fff;	
+	border: 1px solid #081000;
+	color: #f6ffed;	
 }
 
 input[type=submit],input[type=button], button, .woocommerce .button, 
@@ -92,7 +82,7 @@ input[type=submit],input[type=button], button, .woocommerce .button, li.load-mor
 .btn-primary {
   background-image: none;
   background-repeat: no-repeat;
-  border-color: #2d6ca2;
+  border-color: #65cb00;
 }
 
 input[type=submit],input[type=button]:active, button:active, .woocommerce .button:active, li.load-more a:active, 
@@ -101,7 +91,7 @@ input[type=submit],input[type=button]:active, button:active, .woocommerce .butto
 .btn-primary:active,
 .btn-primary.active {
   background-color: #3071a9;
-  border-color: #2d6ca2;
+  border-color: #65cb00;
 }
 
 .btn-success {

@@ -105,7 +105,7 @@
 }
 
 .fluid,.boxed {
-    background: #fff;
+    background: #f6ffed;
 }
 
 .boxed {
@@ -278,7 +278,7 @@
 }
 
 .line-heading a:hover {
-    color: #fff;
+    color: #f6ffed;
 }
 
 .klein-curtain-content {
@@ -555,7 +555,7 @@ a.fp-controls {
 }
 
 a.front-page-highlights-nav-left:hover,a.front-page-highlights-nav-right:hover,a.fp-controls:hover {
-    color: #fff;
+    color: #f6ffed;
     opacity: 0.9;
 }
 
@@ -1119,7 +1119,7 @@ a.front-page-highlights-nav-left:active,a.front-page-highlights-nav-right:active
 }
 
 .desktop-menu ul.sub-menu li a:hover,.desktop-menu ul.children li a:hover {
-    background: #333;
+    background: #214300;
 }
 
 .desktop-menu ul.sub-menu li,.desktop-menu ul.children li {
@@ -1216,7 +1216,7 @@ a.front-page-highlights-nav-left:active,a.front-page-highlights-nav-right:active
 }
 
 .list_carousel_navigator i:hover {
-    color: #333;
+    color: #214300;
 }
 
 .list_carousel_navigator:last-child {
@@ -1486,8 +1486,8 @@ a.front-page-highlights-nav-left:active,a.front-page-highlights-nav-right:active
 	
 	.pmpro_btn.pmpro_btn-submit-checkout:hover{
 		  background-color: #3071a9;
-			border-color: #2d6ca2;
-			color: #fff;
+			border-color: #65cb00;
+			color: #f6ffed;
 	}
 	
 	.pmpro_error {
@@ -1540,7 +1540,7 @@ a.front-page-highlights-nav-left:active,a.front-page-highlights-nav-right:active
 
 	.activity.gears-module .activity-content:after {
 		border-color: rgba(136, 183, 213, 0);
-		border-right-color: #fff;
+		border-right-color: #f6ffed;
 		border-width: 5px;
 		top: 20px;
 	}
