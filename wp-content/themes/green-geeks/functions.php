@@ -150,3 +150,88 @@ function gg_scripts(){
 }
 
 add_action( 'wp_enqueue_scripts', 'gg_scripts' );
+
+
+
+/**
+ * Shows entry meta of a post inside the 'loop'
+ */
+if (!function_exists('klein_entry_meta')) {
+function klein_entry_meta(){
+?>
+	<footer class="entry-meta">
+		
+		<?php
+			/* translators: used between list items, there is a space after the comma */
+			$category_list = get_the_category_list( __( ', ', 'klein' ) );
+	
+			/* translators: used between list items, there is a space after the comma */
+			$tag_list = get_the_tag_list( '', __( ', ', 'klein' ) );
+	
+			// always show the date and the author
+			_e( sprintf( '%s / ', klein_posted_on( false ) ), 'klein' );
+			
+			if ( ! klein_categorized_blog() ) {
+				// This blog only has 1 category so we just need to worry about tags in the meta text
+				if ( '' != $tag_list ) {
+					$meta_text = __( 'Tagged %2$s', 'klein' );
+				} else {
+					$meta_text = '';
+				}
+	
+			} else {
+				// But this blog has loads of categories so we should probably display them here
+				if ( '' != $tag_list ) {
+					$meta_text = __( 'Posted in %1$s and tagged %2$s', 'klein' );
+				} else {
+					$meta_text = __( 'Posted in %1$s', 'klein' );
+				}
+	
+			} // end check for categories on this blog
+			
+			printf(				
+				$meta_text,
+				$category_list,
+				$tag_list,
+				get_permalink(),
+				the_title_attribute( 'echo=0' )
+			);
+		?>
+	
+		<?php edit_post_link( __( 'Edit', 'klein' ), '<span class="edit-link">', '</span>' ); ?>
+	</footer><!-- .entry-meta -->
+<?php
+}
+}
+
+/**
+ * Prints HTML with meta information for the current post-date/time and author.
+ */
+function klein_posted_on( $echo = true ) {
+	
+	global $post;
+	
+	$time_string = '<time class="entry-date published" datetime="%1$s">%2$s</time>';
+	
+	$time_string = sprintf( $time_string,
+		esc_attr( get_the_date( 'c' ) ),
+		esc_html( get_the_date() ),
+		esc_attr( get_the_modified_date( 'c' ) ),
+		esc_html( get_the_modified_date() )
+	);
+	
+	$entry_meta = sprintf( __( '<span class="posted-on">%1$s</span>', 'klein' ),
+		sprintf( '<a href="%1$s" title="%2$s" rel="bookmark">%3$s</a>',
+			esc_url( get_permalink() ),
+			esc_attr( get_the_time() ),
+			$time_string
+		)
+	);
+	
+	if( $echo ){
+		echo $entry_meta;
+	}else{		
+		return $entry_meta;
+	}
+	
+}

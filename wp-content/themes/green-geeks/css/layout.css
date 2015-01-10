@@ -559,7 +559,7 @@ a.front-page-highlights-nav-left:active,a.front-page-highlights-nav-right:active
 /* User Bar */
 #bp-klein-top-bar {
     display: block;
-    padding: 1em;
+    padding: 0.2em;
 }
 /* Site Name */
 .site-description {
@@ -605,7 +605,7 @@ a.front-page-highlights-nav-left:active,a.front-page-highlights-nav-right:active
 /* # Header 
 	========================== */
 #header {
-    padding: 1em 0;
+    padding: 0.3em 0;
     background: #2C3E50;
 }
 

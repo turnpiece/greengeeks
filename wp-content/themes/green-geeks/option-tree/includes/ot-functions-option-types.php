@@ -90,7 +90,7 @@ if ( ! function_exists( 'ot_type_background' ) ) {
           $background_color = isset( $field_value['background-color'] ) ? esc_attr( $field_value['background-color'] ) : '';
           
           /* set border color */
-          $border_color = in_array( $background_color, array( '#FFFFFF', '#FFF', '#ffffff', '#fff' ) ) ? '#ccc' : $background_color;
+          $border_color = in_array( $background_color, array( '#FFFFFF', '#FFF', '#f6ffed', '#fff' ) ) ? '#ccc' : $background_color;
           
           /* input */
           echo '<input type="text" name="' . esc_attr( $field_name ) . '[background-color]" id="' . $field_id . '-picker" value="' . $background_color . '" class="widefat option-tree-ui-input cp_input ' . esc_attr( $field_class ) . '" autocomplete="off" />';
@@ -360,7 +360,7 @@ if ( ! function_exists( 'ot_type_colorpicker' ) ) {
           echo '<input type="text" name="' . esc_attr( $field_name ) . '" id="' . esc_attr( $field_id ) . '" value="' . esc_attr( $field_value ) . '" class="widefat option-tree-ui-input cp_input ' . esc_attr( $field_class ) . '" autocomplete="off" />';
               
           /* set border color */
-          $border_color = in_array( $field_value, array( '#FFFFFF', '#FFF', '#ffffff', '#fff' ) ) ? '#ccc' : esc_attr( $field_value );
+          $border_color = in_array( $field_value, array( '#FFFFFF', '#FFF', '#f6ffed', '#fff' ) ) ? '#ccc' : esc_attr( $field_value );
           
           echo '<div id="cp_' . esc_attr( $field_id ) . '" class="cp_box"' . ( $field_value ? " style='background-color:" . esc_attr( $field_value ) . "; border-color:$border_color;'" : '' ) . '></div>';
         
@@ -1702,7 +1702,7 @@ if ( ! function_exists( 'ot_type_typography' ) ) {
             $background_color = isset( $field_value['font-color'] ) ? esc_attr( $field_value['font-color'] ) : '';
             
             /* set border color */
-            $border_color = in_array( $background_color, array( '#FFFFFF', '#FFF', '#ffffff', '#fff' ) ) ? '#ccc' : $background_color;
+            $border_color = in_array( $background_color, array( '#FFFFFF', '#FFF', '#f6ffed', '#fff' ) ) ? '#ccc' : $background_color;
             
             /* input */
             echo '<input type="text" name="' . esc_attr( $field_name ) . '[font-color]" id="' . esc_attr( $field_id ) . '-picker" value="' . esc_attr( $background_color ) . '" class="widefat option-tree-ui-input cp_input ' . esc_attr( $field_class ) . '" autocomplete="off" placeholder="font-color" />';

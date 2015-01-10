@@ -5,6 +5,18 @@
  * @since version 1.0
  *
  */
+
+ /* fonts */
+
+.activity,
+.standard-form {
+    font: 14px/1.4em 'Anonymous Pro', Monaco, monospace, sans-serif;
+}
+
+.standard-form {
+    padding: 1em;
+    background: #baff76;
+}
  
 table th p:last-child,table td.data p:last-child {
     margin-bottom: 0;

@@ -38,17 +38,36 @@ Tags: custom-header, custom-background, threaded-comments, sticky-post, translat
   * darker = 214300
   * black = 081000
   *
-  * light = 8fff21
+  * light = cbff66
   * lighter = baff76
   * white = f6ffed
   *
   */
   
 body {
-	line-height: 1.9em;
-	font: 18px/2em 'Roboto', Arial, Helvetica, sans-serif;
+    line-height: 1.4em;
+	font: 14px/1.4em 'Anonymous Pro', Monaco, monospace, sans-serif;
 	color: #214300;
 	word-wrap: break-word;
+}
+
+/* fonts */
+#primary {
+    font: 18px/1.8em 'Roboto', Arial, Helvetica, sans-serif;
+}
+
+.widget, 
+.entry-meta,
+.comment-meta,
+.comment-form,
+.commments-title,
+.reply,
+.submit, 
+.btn,
+.blog-content-date-readmore,
+.blog-content-readmore,
+label {
+    font: 14px/1.4em 'Anonymous Pro', Monaco, monospace, sans-serif;
 }
 
 input[type="text"],
@@ -56,9 +75,9 @@ input[type="password"],
 input[type="email"],
 textarea,
 select {
-	font: 16px/1.8em 'Anonymous Pro', Monaco, monospace, sans-serif;
-	background: #f6ffed;
-	color: #7F8C8D;
+	font: 18px/1.6em 'Anonymous Pro', Monaco, monospace, sans-serif;
+	background: #cbff66;
+	color: #081000;
 }
 
 table#wp-calendar th,
@@ -76,6 +95,10 @@ table#wp-calendar td,
     background: transparent;
 }
 
+li p {
+    line-height: 1.6em;
+}
+
 .blog-content-title a {
     color: #214300;
 }
@@ -87,7 +110,7 @@ table#wp-calendar td,
 }
 
 .comments-area{
-	border-top: 5px solid #214300;
+	border-top: none;
 }
 
 .desktop-menu ul.sub-menu li a,.desktop-menu ul.children li a {
@@ -111,6 +134,7 @@ table#wp-calendar td,
     font: 16px/1.8em 'Anonymous Pro', Monaco, monospace, sans-serif;
 	background: #65cb00;
 	color: #baff76;
+    border-bottom: none;
 }
 
 .widget_display_stats dd {
@@ -120,7 +144,6 @@ table#wp-calendar td,
 
 div.bbp-template-notice.info {
 	color: #438700;
-	
 	background: none;
 }
 
@@ -139,12 +162,9 @@ span.page-numbers, a.page-numbers {
 
 #bp-klein-user-nav li a {
     display: block;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
     padding: .75em;
-    background: #65cb00;
-    color: #baff76;
+    background: transparent;
+    color: #438700;
     font-weight: 700;
 }
 
@@ -220,11 +240,20 @@ a.fp-controls {
 /* User Bar */
 #bp-klein-top-bar {
     display: block;
-    padding: 1em;
+    padding: 0.2em;
+}
+
+#bp-klein-user-bar .btn {
+    background: transparent;
+    color: #438700;
 }
 
 #site-name h1 a {
     color: #65cb00;
+    text-decoration: none;
+}
+
+.site-content a.btn {
     text-decoration: none;
 }
 
@@ -289,4 +318,21 @@ a.fp-controls {
 .menu.mobile li a .sub-menu-toggle
 {	
 	background: #214300;
+}
+
+/* Edit links */
+a.comment-edit-link, 
+a.post-edit-link {
+    color: #438700;
+    background: transparent;
+}
+
+/* Comments */
+#reply-title, 
+.comments-title {
+    float: left;
+    font-size: 20px;
+    margin-left: 15%;
+    padding: 20px 0 0;
+    text-transform: uppercase;
 }

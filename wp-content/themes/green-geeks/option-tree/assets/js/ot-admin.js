@@ -460,7 +460,7 @@
           return false;
         },
         onChange: function (hsb, hex, rgb) {
-          var bc = $.inArray(hex, [ 'FFFFFF', 'FFF', 'ffffff', 'fff' ]) != -1 ? 'ccc' : hex;
+          var bc = $.inArray(hex, [ 'FFFFFF', 'FFF', 'f6ffed', 'fff' ]) != -1 ? 'ccc' : hex;
           $('#cp_'+field_id).css({'backgroundColor':'#'+hex,'borderColor':'#'+bc});
           $('#cp_'+field_id).prev('input').attr('value', '#'+hex);
         }
