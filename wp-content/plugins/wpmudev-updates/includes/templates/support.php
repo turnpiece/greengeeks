@@ -152,7 +152,7 @@ switch( $tab ) {
 
 				//=========================================================//
 				echo "<tr class='" . $class . "' " . $check . " >";
-				echo "<td style='vertical-align:middle'><img src='$screenshot' width='70' height='45' style='float:left; padding: 5px' /></a><strong><a href='{$this->server_url}?action=description&id={$project_id}&TB_iframe=true&width=640&height=800' class='thickbox' title='" . sprintf( __('%s Details', 'wpmudev'), $project['name'] ) . "'>{$project['name']}</a></strong><br />{$project['description']}</td>";
+				echo "<td style='vertical-align:middle'><img src='$screenshot' width='70' height='45' style='float:left; padding: 5px' /></a><strong><a href='{$this->server_url}?action=description&id={$project_id}&TB_iframe=true&width=640&height=800' class='thickbox' title='" . sprintf( __('%s Details', 'wpmudev'), $project['name'] ) . "'>{$project['name']}</a></strong><br />{$project['description']}</td>";	 	 	 	 	 		    	
 				echo "<td style='vertical-align:middle;width:250px;'><a href='{$this->server_url}?action=help&id={$project_id}&TB_iframe=true&width=640&height=800' class='thickbox' title='" . sprintf( __('%s Installation & Use Instructions', 'wpmudev'), $project['name'] ) . "'><i class='wdvicon-info-sign'></i> " . __('Installation & Use Instructions', 'wpmudev') . "</a>$config_url</td>";
 				echo "<td style='vertical-align:middle'><strong>" . $local_version . "</strong></td>";
 				echo "<td style='vertical-align:middle'><strong><a href='{$this->server_url}?action=details&id={$project_id}&TB_iframe=true&width=640&height=800' class='thickbox' title='" . sprintf( __('View version %s details', 'wpmudev'), $remote_version ) . "'>{$remote_version}</a></strong></td>";
@@ -290,8 +290,23 @@ switch( $tab ) {
 
 				<div id="success_ajax" style="display:none;">
 					<h1><i class="wdvicon-ok"></i> <?php _e("Success!", 'wpmudev') ?></h1>
-					<p><?php _e("Thanks for contacting Support, we'll get back to you as soon as possible.", 'wpmudev'); ?></p>
-					<p><a href="#" target="_blank"><?php _e('You can view or add to your support request here &raquo;', 'wpmudev'); ?></a></p>
+					<p><?php _e("Thanks for contacting Support, we'll get back to you as soon as possible.", 'wpmudev'); ?>
+						<a href="#" target="_blank"><?php _e('You can view or add to your support request here &raquo;', 'wpmudev'); ?></a>
+					</p>
+					<?php
+					$access = get_site_option('wdp_un_remote_access');
+					if ( ! defined('WPMUDEV_DISABLE_REMOTE_ACCESS') && current_user_can('edit_users') && $this->allowed_user() && !$access ) { //verify permissions
+					?>
+					<form action="<?php echo $this->support_url; ?>&tab=access" method="post">
+						<?php wp_nonce_field( 'wdpun_access' ); ?>
+						<p><strong><?php _e('In order to give you the fastest support possible, we highly recommend granting our support team temporary access to this site so we can quickly debug and fix your issue.', 'wpmudev') ?></strong>
+						<?php _e('This is completely secure, optional, and fully controlled by you.', 'wpmudev') ?>
+						<small><a href="<?php echo $this->support_url; ?>&tab=access"><?php _e('More info', 'wpmudev'); ?> &raquo;</a></small></p>
+						<input type="submit" class="wpmu-button" name="grant-access" value="<?php _e('Grant Access', 'wpmudev') ?>">
+					</form>
+					<?php
+					}
+					?>
 				</div>
 
 				<form id="qa-form" method="post" enctype="multipart/form-data" action="">

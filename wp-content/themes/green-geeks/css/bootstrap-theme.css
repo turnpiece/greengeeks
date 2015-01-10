@@ -50,7 +50,7 @@ input[type=submit],input[type=button]:active, button:active, .woocommerce .butto
 .btn.loading, button.loading, input[type="submit"].loading, input[type="reset"].loading, li.load-more.loading a, input[type="button"].loading,
 .btn-primary:active,
 .btn-primary.active {
-  background-color: #438700;
+  background-color: #65cb00;
 }
 
 .btn-success {

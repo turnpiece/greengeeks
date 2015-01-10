@@ -5,6 +5,22 @@ Change Log:
 ----------------------------------------------------------------------
 ----------------------------------------------------------------------
 
+3.4.9 - 11/14/2014 - Aaron
+----------------------------------------------------------------------
+- New: Prompt to grant support access after submitting a ticket
+- Fix: Add workaround for poorly coded Mojo Marketplace/github-plugin-updater
+- Fix: Stop running and deregister crons on subsites in multisite
+- Fix: Remove unused free projects list from single member dashboard
+- Fix: Minor css padding issue in WP 4.0
+
+3.4.8 - 11/6/2014 - Aaron
+----------------------------------------------------------------------
+- New: Support single membership autoupdates for packaged products (CoursePress + MarketPress)
+
+3.4.7 - 10/9/2014 - Aaron
+----------------------------------------------------------------------
+- Fix: Adjust css to avoid triggering a Comodo firewall rule on some hosts
+
 3.4.6 - 8/21/2014 - Aaron
 ----------------------------------------------------------------------
 - Fix: Install button never showed complete in project details window
@@ -234,4 +250,4 @@ Added option to disable admin notices.
 Initial Release.
 
 
-87274-1410476945
+87274-1420914292-au

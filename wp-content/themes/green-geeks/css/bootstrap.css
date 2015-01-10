@@ -2078,9 +2078,11 @@ fieldset[disabled] .btn-default.active {
   
 }
 
-.btn-primary {
-  color: #214300;
-  background-color: #65cb00;
+.btn-primary,
+.ig-container .btn-primary {
+  color: #214300 !important;
+  background-color: #65cb00 !important;
+  border: none !important;
   
 }
 
@@ -2088,9 +2090,12 @@ fieldset[disabled] .btn-default.active {
 .btn-primary:focus,
 .btn-primary:active,
 .btn-primary.active,
-.open .dropdown-toggle.btn-primary {
-  color: #081000;
-  background-color: #65cb00;
+.open .dropdown-toggle.btn-primary,
+.ig-container .btn-primary:hover,
+.ig-container .btn-primary:focus,
+.ig-container .btn-primary:active {
+  color: #081000 !important;
+  background-color: #65cb00 !important;
   
 }
 

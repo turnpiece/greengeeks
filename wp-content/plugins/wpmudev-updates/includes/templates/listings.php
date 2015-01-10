@@ -135,7 +135,7 @@ if ( $this->get_apikey() && ($data['membership'] == 'full' || is_numeric($data['
 						$active = $local_projects[$project['id']]['filename'] == $current_theme;
 
 						if ( !$active && current_user_can('switch_themes') && $this->project_compatible( $project['id'] ) ) {
-							$activate_url = wp_nonce_url( "themes.php?action=activate&amp;template=" . urlencode( $local_projects[$project['id']]['filename'] ) . "&amp;stylesheet=" . urlencode( $local_projects[$project['id']]['filename'] ), 'switch-theme_' . $local_projects[$project['id']]['filename'] );	 	 	 	 	 		    	
+							$activate_url = wp_nonce_url( "themes.php?action=activate&amp;template=" . urlencode( $local_projects[$project['id']]['filename'] ) . "&amp;stylesheet=" . urlencode( $local_projects[$project['id']]['filename'] ), 'switch-theme_' . $local_projects[$project['id']]['filename'] );
 						}
 					}
 				}

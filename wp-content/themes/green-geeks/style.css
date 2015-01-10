@@ -80,6 +80,18 @@ select {
     border: none;
 }
 
+a {
+    color: #438700;
+}
+
+a:hover {
+    color: #081000;
+}
+
+h5 {
+    font-size: 18px;
+}
+
 table#wp-calendar th,
 table#wp-calendar td,
 .entry-title a:visited,
@@ -335,4 +347,11 @@ a.post-edit-link {
     margin-left: 15%;
     padding: 20px 0 0;
     text-transform: uppercase;
+}
+
+/* Buddypress */
+.buddypress #groups-list li h5 a, 
+.buddypress #members-dir-list li h5 a, 
+.buddypress #member-list li h5 a {
+  font-size: 18px;
 }

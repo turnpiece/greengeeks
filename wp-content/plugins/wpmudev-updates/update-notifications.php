@@ -4,7 +4,7 @@ Plugin Name: WPMU DEV Dashboard
 Plugin URI: http://premium.wpmudev.org/project/wpmu-dev-dashboard/
 Description: Brings the power of WPMU DEV direct to you, it'll revolutionize how you use WordPress, activate now!
 Author: WPMU DEV
-Version: 3.4.6
+Version: 3.4.9
 Author URI: http://premium.wpmudev.org/
 Text Domain: wpmudev
 Domain Path: /includes/languages/
@@ -40,7 +40,7 @@ class WPMUDEV_Dashboard {
 	/**
 	 * @var string
 	 */
-	var $version = '3.4.6';
+	var $version = '3.4.9';
 	/**
 	 * @var int
 	 */
@@ -110,11 +110,11 @@ class WPMUDEV_Dashboard {
 		add_filter( 'plugins_api', array(
 				&$this,
 				'filter_plugin_info'
-			), 20, 3 ); //run later to work with bad autoupdate plugins
+			), 101, 3 ); //run later to work with bad autoupdate plugins
 		add_filter( 'themes_api', array(
 				&$this,
 				'filter_plugin_info'
-			), 20, 3 ); //run later to work with bad autoupdate plugins
+			), 101, 3 ); //run later to work with bad autoupdate plugins
 
 		add_action( 'admin_init', array( &$this, 'first_redirect' ) );
 
@@ -144,11 +144,16 @@ class WPMUDEV_Dashboard {
 			include_once( dirname( __FILE__ ) . '/includes/custom-module.php' );
 		}
 
-		// Schedule update jobs
-		if ( ! wp_next_scheduled( 'wpmudev_scheduled_jobs' ) ) {
-			wp_schedule_event( time(), 'twicedaily', 'wpmudev_scheduled_jobs' );
+		// Schedule update cron on main site only
+		if ( is_main_site() ) {
+			if ( ! wp_next_scheduled( 'wpmudev_scheduled_jobs' ) ) {
+				wp_schedule_event( time(), 'twicedaily', 'wpmudev_scheduled_jobs' );
+			}
+
+			add_action( 'wpmudev_scheduled_jobs', array( $this, 'refresh_updates' ) );
+		} else if ( wp_next_scheduled( 'wpmudev_scheduled_jobs' ) ) {
+			wp_clear_scheduled_hook( 'wpmudev_scheduled_jobs' ); //temporary code to clean out unneeded crons on subsites from previous versions
 		}
-		add_action( 'wpmudev_scheduled_jobs', array( $this, 'refresh_updates' ) );
 
 		register_activation_hook( __FILE__, array( $this, 'install' ) );
 	}
@@ -1879,9 +1884,17 @@ class WPMUDEV_Dashboard {
 	 * @return bool
 	 */
 	function user_can_install( $project_id ) {
-		$data           = $this->get_updates();
-		$local_projects = $this->get_local_projects();
-		if ( isset( $data['membership'] ) && $this->allowed_user() && ( ( $data['membership'] == 'full' || $data['membership'] == $project_id ) || $data['projects'][ $project_id ]['paid'] == 'free' || $data['projects'][ $project_id ]['paid'] == 'lite' ) ) {
+		$data = $this->get_updates();
+		if ( isset( $data['membership'] ) &&
+		     $this->allowed_user() &&
+		     (
+			     ( $data['membership'] == 'full' || $data['membership'] == $project_id ||
+			       ( isset( $data['projects'][ $project_id ]['package'] ) && $data['projects'][ $project_id ]['package'] == $data['membership'] ) //handles packaged projects
+			     ) ||
+			     $data['projects'][ $project_id ]['paid'] == 'free' ||
+			     $data['projects'][ $project_id ]['paid'] == 'lite'
+		     )
+		) {
 			return true;
 		}
 
