@@ -70,6 +70,9 @@ $table_prefix  = 'wp_';
  */
 define('WP_DEBUG', false);
 
+// set to UK English
+define ('WPLANG', 'en_GB');
+
 // temp localhost updates
 define('FS_METHOD', 'direct');
 
