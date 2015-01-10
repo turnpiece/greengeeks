@@ -45,8 +45,7 @@ Tags: custom-header, custom-background, threaded-comments, sticky-post, translat
   */
   
 body {
-    line-height: 1.4em;
-	font: 14px/1.4em 'Anonymous Pro', Monaco, monospace, sans-serif;
+	font: 15px/1.4em 'Anonymous Pro', Monaco, monospace, sans-serif;
 	color: #214300;
 	word-wrap: break-word;
 }
@@ -75,9 +74,10 @@ input[type="password"],
 input[type="email"],
 textarea,
 select {
-	font: 18px/1.6em 'Anonymous Pro', Monaco, monospace, sans-serif;
-	background: #cbff66;
-	color: #081000;
+	font: 18px/1.8em 'Anonymous Pro', Monaco, monospace, sans-serif;
+	background: #438700;
+	color: #baff76;
+    border: none;
 }
 
 table#wp-calendar th,

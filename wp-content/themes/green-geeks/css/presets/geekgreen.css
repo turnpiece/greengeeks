@@ -25,12 +25,13 @@
 .bx-wrapper .bx-controls-direction a,
 .bbp-pagination-links span.current, 
 .woocommerce span.onsale,.woocommerce-page span.onsale,.woocommerce .widget_layered_nav ul li,.woocommerce-page .widget_layered_nav ul li,.woocommerce ul.products li.product .onsale,.woocommerce-page ul.products li.product .onsale,.item-list-tabs li a,.activity-type-tabs li a {
-    background: #214300;
+    background: #438700;
 }
 
 .site-content a {
     /*padding: 0 0.3em;*/
     text-decoration: underline;
+    color: #438700;
 }
 
 .site-content a:hover {
