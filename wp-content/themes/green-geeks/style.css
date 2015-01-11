@@ -40,33 +40,15 @@ Tags: custom-header, custom-background, threaded-comments, sticky-post, translat
   *
   * light = cbff66
   * lighter = baff76
+  * lightest = d4ffa9
   * white = f6ffed
   *
   */
   
 body {
-	font: 15px/1.4em 'Anonymous Pro', Monaco, monospace, sans-serif;
+    font: 18px/1.8em 'Roboto', Arial, Helvetica, sans-serif;
 	color: #214300;
 	word-wrap: break-word;
-}
-
-/* fonts */
-#primary {
-    font: 18px/1.8em 'Roboto', Arial, Helvetica, sans-serif;
-}
-
-.widget, 
-.entry-meta,
-.comment-meta,
-.comment-form,
-.commments-title,
-.reply,
-.submit, 
-.btn,
-.blog-content-date-readmore,
-.blog-content-readmore,
-label {
-    font: 14px/1.4em 'Anonymous Pro', Monaco, monospace, sans-serif;
 }
 
 input[type="text"],
@@ -74,9 +56,9 @@ input[type="password"],
 input[type="email"],
 textarea,
 select {
-	font: 18px/1.8em 'Anonymous Pro', Monaco, monospace, sans-serif;
-	background: #438700;
-	color: #baff76;
+    font: 18px/1.8em 'Roboto', Arial, Helvetica, sans-serif;
+	background: #d4ffa9;
+	color: #438700;
     border: none;
 }
 
@@ -99,6 +81,10 @@ table#wp-calendar td,
 	color: #214300;
 }
 
+.entry-meta {
+    font-size: 15px;
+}
+
 #header {
     background: #214300;
 }
@@ -115,7 +101,8 @@ li p {
     color: #214300;
 }
 
-.blog-author .bp-profile-link a,.blog-author .author-post-link a {
+.blog-author .bp-profile-link a,
+.blog-author .author-post-link a {
     background: #baff76;
     color: #438700;
     font-size: 16px;
@@ -143,7 +130,6 @@ li p {
 }
 
 .widget{
-    font: 16px/1.8em 'Anonymous Pro', Monaco, monospace, sans-serif;
 	background: #65cb00;
 	color: #baff76;
     border-bottom: none;
@@ -167,26 +153,19 @@ span.page-numbers, a.page-numbers {
     float: left;
 }
 
-.item-list-tabs li a,.activity-type-tabs li a {
-    background-color: #65cb00;
-    color: #baff76;
-}
-
 #bp-klein-user-nav li a {
     display: block;
     padding: .75em;
     background: transparent;
     color: #438700;
-    font-weight: 700;
-}
-
-#klein-top-updates-badge,.item-list-tabs li a span {
-    background: #214300;
 }
 
 #klein-top-updates-badge,
 .item-list-tabs li a span {
-    background: #214300;
+    background: #65cb00;
+    color: #214300;
+    top: -22px;
+    border-radius: 5px;
 }
 
 #bp-klein-user-nav .bp-klein-sub-nav li a {
@@ -218,7 +197,7 @@ span.page-numbers, a.page-numbers {
     float: left;
     padding: 7px 12px 6px;
     background: #65cb00;
-    font-size: 14px;
+    font-size: 15px;
 }
 
 a.fp-controls {

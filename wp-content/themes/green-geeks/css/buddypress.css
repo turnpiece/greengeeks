@@ -6,13 +6,6 @@
  *
  */
 
- /* fonts */
-
-.activity,
-.standard-form {
-    font: 14px/1.4em 'Anonymous Pro', Monaco, monospace, sans-serif;
-}
-
 .standard-form {
     padding: 1em;
     background: #baff76;
@@ -78,11 +71,12 @@ span.page-numbers:last-child, a.page-numbers:last-child{
 	top: 5px;
 	border-bottom: none;
 }
+/*
 .item-list-tabs li a,.activity-type-tabs li a {
     background-color: #214300;
     color: #baff76;
 }
-
+*/
 .item-list-tabs li.loading {
     padding-right: 8px;
     background-color: #438700;
@@ -94,7 +88,7 @@ span.page-numbers:last-child, a.page-numbers:last-child{
 	padding-right: 22px;
 	background-image: url(../images/bp_loader.gif);
 	background-repeat: no-repeat;
-	 background-color: #438700;
+	background-color: #438700;
 	background-position: right center;
 }
 
@@ -184,11 +178,6 @@ ul#members-list li,
 	font-size: 14px;
 }
 
-.item-list-tabs li.feed a {
-    padding-left: 0 !important;
-    background-color: transparent;
-}
-
 #klein-top-updates-badge,.item-list-tabs li a span {
     position: relative;
     background: #2C3E50;
@@ -249,7 +238,8 @@ li#groups-order-select,.item-list-tabs#subnav li#activity-filter-select,.item-li
     display: block;
     padding: 10px;
     text-decoration: none;
-    font-weight: 700;
+    border-radius: 5px;
+    font-size: 15px;
 }
 
 .buddypress li#groups-order-select{
@@ -295,10 +285,6 @@ li.bp-klein-nav-fix label,li#groups-order-select label,li#members-order-select l
 
 .bp-content-area .hentry a {
     text-decoration: none;
-}
-
-.item-list-tabs,#bp-klein-user-nav {
-    font: 13px/24px 'Anonymous Pro', Monaco, monospace, sans-serif;
 }
 
 .bp-klein-sub-nav {
@@ -400,10 +386,11 @@ li.friend-tab img.avatar {
 #group-dir-count-top,#group-dir-count-bottom,#member-dir-count-top,#member-dir-count-bottom,.buddypress .acomment-meta,.pagination,.acomment-content,.acomment-options a,.activity-meta a,.item-meta {
     opacity: 0.9;
 }
+.buddypress .activity-header {
+    font-size: 15px;
+}
 .buddypress .activity-meta a{
-	font-size: 12px;
-	font-weight: 700;
-	border-bottom: 1px dashed #baff76;
+	font-size: 15px;
 	margin-right: 10px;
 }
 
@@ -633,13 +620,9 @@ ul#group-admins li,ul#group-mods li {
 
 #post-in-label, li.feed,#activity-filter-select label {
 	margin-top: 6px!important;
-	font-size: 10px;
+	font-size: 15px;
 	font-weight: 700;
 	text-transform: uppercase;
-}
-
-li.feed > a {
-    color: #438700;
 }
 
 li.last {

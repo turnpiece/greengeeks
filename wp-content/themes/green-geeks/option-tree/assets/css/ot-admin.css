@@ -392,7 +392,6 @@ div.option-tree-ui-media-wrap {
 .textarea,
 .ot-metabox-wrapper textarea {
   width: 99.9%;
-  font-family: 'Anonymous Pro', Monaco, monospace;
   line-height: 150%;
   outline: 0;
   padding: 10px;
