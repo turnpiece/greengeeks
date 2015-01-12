@@ -303,7 +303,7 @@ body {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 14px;
   line-height: 1.428571429;
-  color: #333333;
+  color: #438700;
   background-color: #f6ffed;
 }
 
@@ -719,7 +719,7 @@ pre {
   margin: 0 0 10px;
   font-size: 13px;
   line-height: 1.428571429;
-  color: #333333;
+  color: #438700;
   word-break: break-all;
   word-wrap: break-word;
   background-color: #f5f5f5;
@@ -3265,7 +3265,7 @@ input[type="button"].btn-block {
   clear: both;
   font-weight: normal;
   line-height: 1.428571429;
-  color: #333333;
+  color: #438700;
   white-space: nowrap;
 }
 
