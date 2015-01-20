@@ -81,7 +81,9 @@ table#wp-calendar td,
 	color: #214300;
 }
 
-.entry-meta {
+.entry-meta,
+.blog-content-comment,
+.blog-content-meta {
     font-size: 15px;
 }
 
