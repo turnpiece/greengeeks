@@ -450,7 +450,7 @@ UBSTYLE;
      * @param $styles
      * @return array|string
      */
-    private function _prefix_styles( $styles ){
+    private static function _prefix_styles( $styles ){
         if( !empty( $styles ) ){
             $styles = array_filter( explode( "}", $styles) );
             $output = array();

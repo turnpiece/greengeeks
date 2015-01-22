@@ -51,20 +51,34 @@ if( !function_exists( 'esc_textarea' ) ) {
  */
 class ub_Ahc_AdminHelpContent {
 
+	/**
+	 * @var WpmuDev_ContextualHelp
+	 */
 	private $_help;
-	private $_default_text = 'You can change the content in this Help drop-down by going to Branding > Help Content.';
+	private $_default_text = "";
 
 	function __construct () {
 		if (!class_exists('WpmuDev_ContextualHelp')) require_once('admin-help-content-files/class_wd_contextual_help.php');
 		$this->_help = new WpmuDev_ContextualHelp();
 
+		$this->_default_text = __('You can change the content in this Help drop-down by going to Branding > Help Content.', 'ub');
 		add_action('admin_init', array(&$this, 'register_settings'));
 
 		add_action( 'ultimatebranding_settings_menu_help', array(&$this, 'create_admin_page') );
 		add_filter( 'ultimatebranding_settings_menu_help_process', array(&$this, 'process_admin_page'), 10, 1 );
+		add_action( 'admin_init', array($this, "enqueue_admin_scripts") );
 
 		$this->_initialize_help_content();
 
+	}
+
+	/**
+	 * Enqueues admin script
+	 *
+	 * @since 2.0.2
+	 */
+	function enqueue_admin_scripts(){
+		wp_enqueue_script('ub_adminhelp_js', ub_files_url('modules/admin-help-content-files/js/main.js'), array(), null, true);
 	}
 
 	function ub_Ahc_AdminHelpContent() {
@@ -84,6 +98,8 @@ class ub_Ahc_AdminHelpContent {
 		$tabs = $opts['tabs'];
 		foreach ($tabs as $idx => $tab) {
 			$tabs[$idx]['id'] = md5(@$tab['title'] . @$tab['content'] . time());
+			$tabs[$idx]['content'] = "<p>" . apply_filters( "the_content", $tab["content"] ) . "</p>";
+
 		}
 		$this->_help->add_page('_global_', $tabs, $opts['sidebar'], !@$opts['merge_panels']);
 		$this->_help->initialize();
@@ -136,6 +152,9 @@ class ub_Ahc_AdminHelpContent {
 
 	/**
 	 * Sets plugin options.
+	 * @param $opts
+	 *
+	 * @return bool
 	 */
 	private function _set_options ($opts) {
 		return ub_update_option('admin_help_content', $opts);
@@ -143,6 +162,9 @@ class ub_Ahc_AdminHelpContent {
 
 /* ----- Handlers ----- */
 
+	/**
+	 * Registers settings
+	 */
 	function register_settings () {
 		register_setting('admin_help_content', 'ub');
 		add_settings_section('admin_help_content_setting_section', __('Help Content', 'ub'), '__return_false', 'admin_help_content');
@@ -173,10 +195,14 @@ class ub_Ahc_AdminHelpContent {
 			?>
 				<div class="ahc-help_item <?php echo $class; ?> ahc_existing_help_item">
 					<label for='ahc-tab-<?php echo $idx; ?>-title'><?php _e('Help Item Title', 'ub'); ?></label>
-					<input type='text' class='widefat ahc-tab-title' name='admin_help_content[tabs][<?php echo $idx; ?>][title]' id='ahc-tab-<?php echo $idx; ?>-title' value='<?php echo $title; ?>' />
+					<input type='text' class='widefat ahc_tab_title' name='admin_help_content[tabs][<?php echo $idx; ?>][title]' id='ahc-tab-<?php echo $idx; ?>-title' value='<?php echo $title; ?>' />
 					<?php
-					$args = array("textarea_name" => "admin_help_content[tabs][" . $idx . "][content]", "textarea_rows" => 5);
-					wp_editor( $body, "admin_help_content[tabs][" . $idx . "][content]", $args );
+					$args = array(
+						"textarea_name" => "admin_help_content[tabs][" . $idx . "][content]",
+						"textarea_rows" => 10,
+						"editor_class" => "admin_help_content_editor"
+					);
+					wp_editor( $body, "admin_help_content_tabs_" . $idx . "_content", $args );
 					?>
 					<br/>
 					<label for='ahc-tab-<?php echo $idx; ?>-content'><?php _e('Help Item Content', 'ub'); ?></label>
@@ -187,34 +213,6 @@ class ub_Ahc_AdminHelpContent {
 			<?php
 		}
 
-		echo <<<EoAhcTabsJs
-<style type="text/css">
-.ahc-help_item {
-	padding: 10px;
-	border:1px solid #ccc;
-	-moz-border-radius:3px;-khtml-border-radius:3px;-webkit-border-radius:3px;border-radius:3px;
- 	-moz-box-shadow: 0 3px 3px #ccc;
- 	-webkit-box-shadow: 0 3px 3px #ccc;
- 	box-shadow: 0 3px 3px #ccc;
-}
-.ahc-help_item.even {
-	background: #eee;
-}
-</style>
-<script type="text/javascript">
-jQuery(".ahc-remove_item").click(function () {
-	if(jQuery('.ahc_existing_help_item').length <= 1) {
-		alert('You must have at least one help item.');
-	} else {
-		jQuery(this).parent().hide();
-		jQuery(this).parent().find('.ahc-tab-title').val('');
-	}
-
-	return false;
-});
-
-</script>
-EoAhcTabsJs;
 	}
 
 	function help_content_new_element () {
@@ -225,12 +223,12 @@ EoAhcTabsJs;
 		<input type='text' class='widefat' name='admin_help_content[new_tab][title]' id='ahc-tab-new-title' value='' />
 		<label for='ahc-tab-new-content'><?php _e('New Help Item Content','ub'); ?></label>
 		<?php
-		$args = array("textarea_name" => "admin_help_content[new_tab][content]", "textarea_rows" => 5);
-		wp_editor( '', "admin_help_content[new_tab][content]", $args );
+		$args = array("textarea_name" => "admin_help_content[new_tab][content]", "textarea_rows" => 10);
+		wp_editor( '', "admin_help_content_new_tab_content", $args );
 		?>
 		<br/>
 		<?php _e( 'HTML Allowed.', 'ub' ); ?>
-		<p><input type="submit" value="<?php echo esc_attr(__('Add', 'ub')); ?>" /></p>
+		<p><input type="submit" class="button" value="<?php echo esc_attr(__('Add', 'ub')); ?>" /></p>
 		</div>
 		<?php
 	}
@@ -240,7 +238,7 @@ EoAhcTabsJs;
 		$bar = stripslashes($opts['sidebar']);
 
 		$args = array("textarea_name" => "admin_help_content[sidebar]", "textarea_rows" => 5);
-		wp_editor( $bar, "admin_help_content[sidebar]", $args );
+		wp_editor( $bar, "admin_help_content_sidebar", $args );
 		?>
 		<br/>
 		<?php
@@ -329,7 +327,6 @@ EoAhcTabsJs;
 			<div class="postbox">
 				<h3 class="hndle" style='cursor:auto;'><span><?php _e('Admin Panel Help Settings','ub'); ?></span></h3>
 				<div class="inside">
-						<?php //settings_fields('admin_help_content'); ?>
 						<?php do_settings_sections('admin_help_content'); ?>
 				</div>
 			</div>

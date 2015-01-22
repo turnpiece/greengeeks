@@ -5,6 +5,16 @@ Author: Marko Miljus (Incsub), Barry (Incsub), Andrew Billits, Ulrich Sossou, Ve
 Change Log: 
 ----------------------------------------------------------------------
 ----------------------------------------------------------------------
+DATE: 19 Jan, 2015  - VERSION: 1.8.0.3
+==================================
+1) Fixed minor bugs that caused php nags
+
+DATE: 18 Jan, 2015  - VERSION: 1.8.0.2
+==================================
+1) Fixed bug in text change for replacing punctuations
+2) Fixed bug in contextual help content
+3) Added visual editor to help content
+
 
 DATE: 18 Oct, 2014  - VERSION: 1.8.0.1
 ==================================
@@ -217,4 +227,4 @@ DATE: 09 JUN, 2012 - VERSION: 1
 - Initial release of the Ultimate Branding plugin
 
 
-87274-1420995839-ai
+87274-1421791102-au

@@ -65,7 +65,7 @@ if(!class_exists('WpmuDev_ContextualHelp')) {
 		 */
 		public function add_tab ($screen_id, $tab=array()) {
 			if (!is_array($tab)) return false;
-			$this->_pages[] = isset($this->_pages[$screen_id]) ? $this->_pages[$screen_id] : array();
+			$this->_pages[] = isset($this->_pages[$screen_id]) ? $this->_pages[$screen_id] : array();	 				   	  		  	
 			@$this->_pages[$screen_id]['tabs'][] = $tab;
 		}
 
@@ -138,7 +138,6 @@ if(!class_exists('WpmuDev_ContextualHelp')) {
 			$screen->set_help_sidebar(@$info['sidebar']);
 
 			foreach ($info['tabs'] as $tab) {
-			  	$tab['content'] = nl2br( $tab['content'] );
 				$screen->add_help_tab($tab);
 			}
 		}

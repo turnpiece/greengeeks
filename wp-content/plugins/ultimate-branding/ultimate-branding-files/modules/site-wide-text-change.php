@@ -39,6 +39,7 @@ require_once( 'site-wide-text-change-files/sitewidetextincludes/classes/function
  **/
 class ub_Site_Wide_Text_Change {
 
+
 	/**
 	 * Current version of the plugin
 	 **/
@@ -163,7 +164,7 @@ class ub_Site_Wide_Text_Change {
         echo "</td>";
         echo "<td valign='top' class=''>";
         ?>
-        <select  name='<?php echo "swtble[$key][admin_front]" ?>' ">
+        <select  name='<?php echo "swtble[$key][admin_front]" ?>'>
             <option <?php selected("both", $table['admin_front']) ?> value="both"><?php _e("Both", "ub"); ?></option>
             <option <?php selected("admin", $table['admin_front']) ?> value="admin"><?php _e("Admin pages only", "ub"); ?></option>
             <option <?php selected("front", $table['admin_front']) ?> value="front"><?php _e("Front-end pages only", "ub"); ?></option>
@@ -271,12 +272,12 @@ class ub_Site_Wide_Text_Change {
 					$save[addslashes($key)]['title'] = 'Text Change : ' . esc_attr(stripslashes($table['find']));
 //					$save[addslashes($key)]['find'] = htmlentities($table['find'], CREDITS_ALL, 'UTF-8');
 					$save[addslashes($key)]['find'] = $table['find'];
-					$save[addslashes($key)]['ignorecase'] = $table['ignorecase'];
+					$save[addslashes($key)]['ignorecase'] = isset($table['ignorecase']) ? $table['ignorecase'] : "0";
 					$save[addslashes($key)]['domain'] = $table['domain'];
 					$save[addslashes($key)]['replace'] = $table['replace'];
 					$save[addslashes($key)]['admin_front'] = $table['admin_front'];
 
-					if($table['ignorecase'] == '1') {
+					if(isset($table['ignorecase']) && $table['ignorecase'] == '1') {
 						$op['domain-' . $table['domain']]['find'][] = '/' . str_replace('/','\/', stripslashes($table['find'])) . '/i';
 					} else {
 						$op['domain-' . $table['domain']]['find'][] = '/' . str_replace('/','\/', stripslashes($table['find'])) . '/';
@@ -382,6 +383,13 @@ class ub_Site_Wide_Text_Change {
 
 	}
 
+	/**
+	 * Finds-out where to the text change should be applied
+	 *
+	 * @param $prefix
+	 *
+	 * @return bool
+	 */
     private function _get_admin_front($prefix){
         if( isset( $prefix['admin_front'] ) && $prefix['admin_front'] !== "both" ){
             return $admin_front = $prefix['admin_front'] === "admin" ? is_admin() : !is_admin();
@@ -419,10 +427,16 @@ class ub_Site_Wide_Text_Change {
 		elseif( isset( $tt['domain-']['replace'] ) )
 			$toreplace =  (array) $tt['domain-']['replace'];
 
-
         if( $admin_front ){
-            $transtext = str_replace("&#8217;", "’", $transtext);
-            $transtext = preg_replace( $toprocess, $toreplace, $transtext );
+            $transtext =  str_replace("&#8217;", "’", $transtext);
+
+	        /**
+	         * Escape punctuations
+	         */
+	        foreach( $toprocess as &$processee ){
+		        $processee = quotemeta($processee);
+	        }
+	        $transtext = preg_replace( $toprocess, $toreplace, $transtext  );
         }
 
 

@@ -1,15 +1,15 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Ultimate Branding\n"
-"POT-Creation-Date: 2014-10-18 22:21+0330\n"
-"PO-Revision-Date: 2014-10-18 22:22+0330\n"
+"POT-Creation-Date: 2015-01-18 23:18+0330\n"
+"PO-Revision-Date: 2015-01-18 23:18+0330\n"
 "Last-Translator: Sam Najian <sam@incsub.com>\n"
 "Language-Team: Sam Najian <sam@incsub.com>\n"
 "Language: en_US\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.6.9\n"
+"X-Generator: Poedit 1.7.3\n"
 "X-Poedit-Basepath: ../..\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
@@ -17,6 +17,7 @@ msgstr ""
 "_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *.js\n"
 
 #: ultimate-branding-files/classes/class.help.php:94
 #: ultimate-branding-files/classes/ubadmin.php:537
@@ -102,7 +103,7 @@ msgstr ""
 
 #: ultimate-branding-files/classes/ubadmin.php:282
 #: ultimate-branding-files/classes/ubadmin.php:548
-#: ultimate-branding-files/modules/admin-help-content.php:148
+#: ultimate-branding-files/modules/admin-help-content.php:161
 msgid "Help Content"
 msgstr ""
 
@@ -573,70 +574,76 @@ msgstr ""
 
 #: ultimate-branding-files/modules/admin-footer-text.php:128
 #: ultimate-branding-files/modules/admin-footer-text.php:148
-#: ultimate-branding-files/modules/admin-help-content.php:232
-#: ultimate-branding-files/modules/admin-help-content.php:247
+#: ultimate-branding-files/modules/admin-help-content.php:221
+#: ultimate-branding-files/modules/admin-help-content.php:236
 msgid "HTML Allowed."
 msgstr ""
 
-#: ultimate-branding-files/modules/admin-help-content.php:126
+#: ultimate-branding-files/modules/admin-help-content.php:65
+msgid ""
+"You can change the content in this Help drop-down by going to Branding > "
+"Help Content."
+msgstr ""
+
+#: ultimate-branding-files/modules/admin-help-content.php:133
 msgid "Admin Help"
 msgstr ""
 
-#: ultimate-branding-files/modules/admin-help-content.php:149
+#: ultimate-branding-files/modules/admin-help-content.php:162
 msgid "Existing Help Items"
 msgstr ""
 
-#: ultimate-branding-files/modules/admin-help-content.php:150
+#: ultimate-branding-files/modules/admin-help-content.php:163
 msgid "Add New Help Item"
 msgstr ""
 
-#: ultimate-branding-files/modules/admin-help-content.php:152
+#: ultimate-branding-files/modules/admin-help-content.php:165
 msgid "Help Sidebar"
 msgstr ""
 
-#: ultimate-branding-files/modules/admin-help-content.php:154
+#: ultimate-branding-files/modules/admin-help-content.php:167
 msgid "Help Panel Settings"
 msgstr ""
 
-#: ultimate-branding-files/modules/admin-help-content.php:164
+#: ultimate-branding-files/modules/admin-help-content.php:177
 msgid "There are no existing help items to edit."
 msgstr ""
 
-#: ultimate-branding-files/modules/admin-help-content.php:175
+#: ultimate-branding-files/modules/admin-help-content.php:188
 msgid "Help Item Title"
 msgstr ""
 
-#: ultimate-branding-files/modules/admin-help-content.php:182
+#: ultimate-branding-files/modules/admin-help-content.php:199
 msgid "Help Item Content"
 msgstr ""
 
-#: ultimate-branding-files/modules/admin-help-content.php:183
+#: ultimate-branding-files/modules/admin-help-content.php:200
 msgid "Remove this item"
 msgstr ""
 
-#: ultimate-branding-files/modules/admin-help-content.php:224
+#: ultimate-branding-files/modules/admin-help-content.php:213
 msgid "New Help Item Title"
 msgstr ""
 
-#: ultimate-branding-files/modules/admin-help-content.php:226
+#: ultimate-branding-files/modules/admin-help-content.php:215
 msgid "New Help Item Content"
 msgstr ""
 
-#: ultimate-branding-files/modules/admin-help-content.php:233
+#: ultimate-branding-files/modules/admin-help-content.php:222
 #: ultimate-branding-files/modules/custom-admin-bar-files/views/_add_new_links.php:37
 #: ultimate-branding-files/modules/custom-admin-bar-files/views/add_new.php:90
 msgid "Add"
 msgstr ""
 
-#: ultimate-branding-files/modules/admin-help-content.php:261
+#: ultimate-branding-files/modules/admin-help-content.php:250
 msgid "Do not show new help panels in Network Admin area"
 msgstr ""
 
-#: ultimate-branding-files/modules/admin-help-content.php:269
+#: ultimate-branding-files/modules/admin-help-content.php:258
 msgid "Keep default help items (if any) and merge the new ones with them."
 msgstr ""
 
-#: ultimate-branding-files/modules/admin-help-content.php:330
+#: ultimate-branding-files/modules/admin-help-content.php:319
 msgid "Admin Panel Help Settings"
 msgstr ""
 
@@ -898,15 +905,15 @@ msgid ""
 "site."
 msgstr ""
 
-#: ultimate-branding-files/modules/custom-dashboard-welcome.php:102
+#: ultimate-branding-files/modules/custom-dashboard-welcome.php:111
 msgid "Custom Dashboard Welcome"
 msgstr ""
 
-#: ultimate-branding-files/modules/custom-dashboard-welcome.php:104
+#: ultimate-branding-files/modules/custom-dashboard-welcome.php:113
 msgid "Custom message: "
 msgstr ""
 
-#: ultimate-branding-files/modules/custom-dashboard-welcome.php:111
+#: ultimate-branding-files/modules/custom-dashboard-welcome.php:120
 msgid "Leave empty to remove custom welcome widget"
 msgstr ""
 
@@ -1124,76 +1131,76 @@ msgid ""
 "prefer.</small>"
 msgstr ""
 
-#: ultimate-branding-files/modules/site-wide-text-change.php:86
+#: ultimate-branding-files/modules/site-wide-text-change.php:87
 msgid "Warning, this page is not loaded with the full replacements processed."
 msgstr ""
 
-#: ultimate-branding-files/modules/site-wide-text-change.php:130
-#: ultimate-branding-files/modules/site-wide-text-change.php:202
+#: ultimate-branding-files/modules/site-wide-text-change.php:131
+#: ultimate-branding-files/modules/site-wide-text-change.php:203
 msgid "Find this text"
 msgstr ""
 
-#: ultimate-branding-files/modules/site-wide-text-change.php:137
+#: ultimate-branding-files/modules/site-wide-text-change.php:138
 msgid "Ignore case when replacing text."
 msgstr ""
 
-#: ultimate-branding-files/modules/site-wide-text-change.php:143
+#: ultimate-branding-files/modules/site-wide-text-change.php:144
 msgid "in this text domain"
 msgstr ""
 
-#: ultimate-branding-files/modules/site-wide-text-change.php:147
-#: ultimate-branding-files/modules/site-wide-text-change.php:218
+#: ultimate-branding-files/modules/site-wide-text-change.php:148
+#: ultimate-branding-files/modules/site-wide-text-change.php:219
 msgid "( leave blank for global changes )"
 msgstr ""
 
-#: ultimate-branding-files/modules/site-wide-text-change.php:153
-#: ultimate-branding-files/modules/site-wide-text-change.php:224
+#: ultimate-branding-files/modules/site-wide-text-change.php:154
+#: ultimate-branding-files/modules/site-wide-text-change.php:225
 msgid "and replace it with"
 msgstr ""
 
-#: ultimate-branding-files/modules/site-wide-text-change.php:162
+#: ultimate-branding-files/modules/site-wide-text-change.php:163
 msgid "Admin/Front-end only?"
-msgstr ""
-
-#: ultimate-branding-files/modules/site-wide-text-change.php:167
-#: ultimate-branding-files/modules/site-wide-text-change.php:238
-msgid "Both"
 msgstr ""
 
 #: ultimate-branding-files/modules/site-wide-text-change.php:168
 #: ultimate-branding-files/modules/site-wide-text-change.php:239
-msgid "Admin pages only"
+msgid "Both"
 msgstr ""
 
 #: ultimate-branding-files/modules/site-wide-text-change.php:169
+#: ultimate-branding-files/modules/site-wide-text-change.php:240
+msgid "Admin pages only"
+msgstr ""
+
+#: ultimate-branding-files/modules/site-wide-text-change.php:170
 msgid "Front-end pages only"
 msgstr ""
 
-#: ultimate-branding-files/modules/site-wide-text-change.php:195
+#: ultimate-branding-files/modules/site-wide-text-change.php:196
 msgid "New Text Change Rule"
 msgstr ""
 
-#: ultimate-branding-files/modules/site-wide-text-change.php:208
+#: ultimate-branding-files/modules/site-wide-text-change.php:209
 msgid "Ignore case when finding text."
 msgstr ""
 
-#: ultimate-branding-files/modules/site-wide-text-change.php:214
+#: ultimate-branding-files/modules/site-wide-text-change.php:215
 msgid ""
 "in this text <abbr title=\"A text domain is related to the "
 "internationisation of the text, you should leave this blank unless you know "
 "what it means.\">domain</abbr>"
 msgstr ""
 
-#: ultimate-branding-files/modules/site-wide-text-change.php:233
+#: ultimate-branding-files/modules/site-wide-text-change.php:234
 msgid "Admin only"
 msgstr ""
 
-#: ultimate-branding-files/modules/site-wide-text-change.php:240
+#: ultimate-branding-files/modules/site-wide-text-change.php:241
 msgid "Front pages only"
 msgstr ""
 
-#: ultimate-branding-files/modules/site-wide-text-change.php:317
-#: ultimate-branding-files/modules/site-wide-text-change.php:345
+#: ultimate-branding-files/modules/site-wide-text-change.php:318
+#: ultimate-branding-files/modules/site-wide-text-change.php:346
 msgid "Delete selected"
 msgstr ""
 

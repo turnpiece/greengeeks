@@ -1,4 +1,4 @@
-/* @override http://dev.site/wp-content/plugins/ultimate-branding/ultimate-branding-files/css/defaultadmin.css?ver=1 */
+/* @override http://dev.site/wp-content/plugins/ultimate-branding/ultimate-branding-files/css/defaultadmin.css?ver=1 */	 				   	  		  	
 
 #poststuff form div.postbox div.inside h3 {
     background: none;
@@ -78,5 +78,24 @@ li.link_row h4{
     width: 60px;
 }
 
+/*
+    Help content module
+*/
+.ahc-help_item {
+    padding: 10px;
+    border:1px solid #ccc;
+    -moz-border-radius:3px;-khtml-border-radius:3px;-webkit-border-radius:3px;border-radius:3px;
+    -moz-box-shadow: 0 3px 3px #ccc;
+    -webkit-box-shadow: 0 3px 3px #ccc;
+    box-shadow: 0 3px 3px #ccc;
+}
+.ahc-help_item.even {
+    background: #eee;
+}
 
-/* 87274-1420995839-ai */
+.ahc_tab_title{
+    margin-bottom:10px;
+}
+
+
+/* 87274-1421791102-au */

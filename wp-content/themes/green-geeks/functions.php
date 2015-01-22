@@ -22,7 +22,7 @@ function klein_setup() {
 	 * If you're building a theme based on klein, use a find and replace
 	 * to change 'klein' to the name of your theme in all the template files
 	 */
-	load_theme_textdomain( 'klein', get_template_directory() . '/languages' );
+	load_theme_textdomain( 'klein', get_stylesheet_directory() . '/languages' );
 	
 	// add default posts and comments RSS feed links to head
 	add_theme_support( 'automatic-feed-links' );
@@ -47,7 +47,7 @@ function klein_setup() {
 	add_theme_support( 'post-formats', array( 'video', 'status' ) );
 
 	//bbPress support 
-	add_theme_support( 'bbpress' );
+	//add_theme_support( 'bbpress' );
 	
 	//use Klein's stylesheet for woocommerce
 	/*
@@ -62,8 +62,15 @@ function klein_setup() {
 
 	// don't read in parent styles as well
 	remove_action( 'wp_enqueue_scripts', 'klein_scripts', 10 );
-}
 
+	// customize read more link
+	//add_filter( 'the_content_more_link', 'gg_modify_read_more_link' );
+}
+/*
+function gg_modify_read_more_link() {
+	return '<a class="more-link" href="' . get_permalink() . '"><i class="glyphicon glyphicon-arrow-right"></i></a>';
+}
+*/
 function gg_scripts(){
 
 	global $wp_version;
@@ -135,7 +142,7 @@ function gg_scripts(){
 	wp_enqueue_script( 'klein-bootstrap-js', get_template_directory_uri() . '/js/bootstrap.js', array( 'jquery' ), KLEIN_VERSION , true );
 	
 	// Template JS
-	wp_enqueue_script( 'green-geeks', get_stylesheet_directory_uri() . '/js/green-geeks.js', array('jquery'), KLEIN_VERSION, true );
+	wp_enqueue_script( 'klein', get_stylesheet_directory_uri() . '/js/green-geeks.js', array('jquery'), KLEIN_VERSION, true );
 		
 	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) 
 	{
