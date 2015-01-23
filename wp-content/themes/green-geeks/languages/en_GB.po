@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Klein 2.1.1 v2.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2015-01-20 21:57-0000\n"
+"PO-Revision-Date: 2015-01-23 23:57-0000\n"
 "Last-Translator: admin <klein@joseph.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -22,7 +22,7 @@ msgstr ""
 # @ klein
 #: 404.php:14
 msgid "Four 'Oh! Four!"
-msgstr ""
+msgstr "404 ERROR"
 
 # @ klein
 #: 404.php:16
@@ -1574,7 +1574,7 @@ msgstr ""
 # @ klein
 #: content-status.php:63 content-video.php:68 content.php:73
 msgid "Continue Reading"
-msgstr "Test ->"
+msgstr "<i class=\"glyphicon glyphicon-arrow-right\"></i>"
 
 # @ klein
 #: functions.php:81

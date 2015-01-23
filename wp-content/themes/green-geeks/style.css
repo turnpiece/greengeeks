@@ -291,6 +291,10 @@ a.fp-controls {
 	padding: 6px 12px;
 }
 
+.blog-content-readmore > a {
+    border-radius: 50%;
+}
+
 
 /*
  * Mobile Navigation
