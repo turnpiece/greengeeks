@@ -66,6 +66,15 @@
   color: #baff76;
 }
 
+#klein-top-updates-btn {
+  background-color: #65cb00 !important;
+}
+
+#klein-top-updates-btn.open,
+#klein-top-updates-btn:hover {
+  background-color: #8fff21 !important;
+}
+
 .desktop-menu ul.sub-menu li a,.desktop-menu ul.children li a,#header,.woocommerce .widget_price_filter .ui-slider .ui-slider-range,.woocommerce-page .widget_price_filter .ui-slider .ui-slider-range,#footer-widgets {
     background: #214300;
 }

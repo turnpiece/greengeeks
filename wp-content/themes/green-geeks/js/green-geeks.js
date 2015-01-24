@@ -44,6 +44,7 @@ jQuery(document).ready(function($) {
 		$("#klein-top-updates-btn").click(function(e) {
 			e.preventDefault();
 			$("#klein-top-updates-nav").toggle();
+			$(this).toggleClass('open');
 		});
 		
 		/**
