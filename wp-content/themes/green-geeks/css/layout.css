@@ -226,7 +226,6 @@
     top: 55%;
     left: 28%;
     overflow: hidden;
-    background: #438700;
     text-align: center;
     opacity: 0;
     filter: alpha(opacity=0);
@@ -316,23 +315,19 @@
 #klein-top-updates {
     position: relative;
     display: inline-block;
-    margin-left: -4px;
+    margin-left: 4px;
+    border-radius: 50%;
 }
 
 #klein-top-updates-nav {
 	position: absolute;
-	right: -16px;
+	right: 40px;
 	z-index: 9999;
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
-	margin-top: 20px;
-	background: #EDEFF1;
-}
-
-#klein-top-updates-nav {
-	background: #baff76;
-	border: 1px solid #baff76;
+	margin-top: 20px; 
+    border-radius: 15% 0;
 }
 
 #klein-top-updates-nav:after, #klein-top-updates-nav:before {

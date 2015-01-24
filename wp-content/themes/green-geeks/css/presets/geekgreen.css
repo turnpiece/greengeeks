@@ -42,8 +42,10 @@
 }
 
 .widget-title {
-    border-bottom: 1px solid #438700;
-    color: #438700;
+    border-bottom: 3px solid #baff76;
+    color: #081000;
+    background: #65cb00;
+    border-radius: 0 30px 0 0;
 }
 
 #footer {
@@ -52,6 +54,16 @@
 
 #klein-top-updates-badge {
     background: #baff76;
+}
+
+#klein-top-updates-nav {
+  background: #438700;
+  color: #8fff21;
+  border: none;
+}
+
+#klein-top-updates-nav a {
+  color: #baff76;
 }
 
 .desktop-menu ul.sub-menu li a,.desktop-menu ul.children li a,#header,.woocommerce .widget_price_filter .ui-slider .ui-slider-range,.woocommerce-page .widget_price_filter .ui-slider .ui-slider-range,#footer-widgets {

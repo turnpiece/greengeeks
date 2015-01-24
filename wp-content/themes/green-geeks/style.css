@@ -135,6 +135,12 @@ li p {
 	background: #65cb00;
 	color: #baff76;
     border-bottom: none;
+    border-radius: 5px 30px;
+}
+
+.widget .widget-title {
+    color: #081000;
+    font-size: 18px;
 }
 
 .widget_display_stats dd {
@@ -208,13 +214,6 @@ a.fp-controls {
     padding: 10px 20px;
     background: #65cb00;
     color: #baff76;
-}
-
-#front-page-widgets-section-a .widget.widget_bp_groups_widget .widget-title,
-#front-page-widgets-section-a .widget.widget_bp_core_members_widget .widget-title,
-.widget.widget_bp_groups_widget .widget-title,
-.widget.widget_bp_core_members_widget .widget-title {
-	color: #214300;
 }
 
 .embed-vimeo iframe{
