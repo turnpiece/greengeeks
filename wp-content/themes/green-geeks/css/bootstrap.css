@@ -2083,7 +2083,7 @@ fieldset[disabled] .btn-default.active {
   color: #214300 !important;
   background-color: #65cb00 !important;
   border: none !important;
-  
+  border-radius: 24%;
 }
 
 .btn-primary:hover,
