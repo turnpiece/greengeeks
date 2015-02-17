@@ -113,10 +113,6 @@
     max-width: 1140px;
 }
 
-.container{
-	max-width: 980px;
-}
-
 /* Hide page title on homepage */
 .home-page .klein-breadcrumbs,
 .home-page #content-header{
@@ -551,7 +547,7 @@ a.front-page-highlights-nav-left:active,a.front-page-highlights-nav-right:active
 /* User Bar */
 #bp-klein-top-bar {
     display: block;
-    padding: 0.2em;
+    padding: 1em 0 0;
 }
 /* Site Name */
 .site-description {
@@ -597,8 +593,7 @@ a.front-page-highlights-nav-left:active,a.front-page-highlights-nav-right:active
 /* # Header 
 	========================== */
 #header {
-    padding: 0.3em 0;
-    background: #2C3E50;
+    padding: 0.2em 0;
 }
 
 #header h1 {
@@ -613,7 +608,7 @@ a.front-page-highlights-nav-left:active,a.front-page-highlights-nav-right:active
 	=========================== */
 #menu {
     color: #baff76;
-    font-size: 36px;
+    font-size: 48px;
     cursor: pointer;
 }
 
@@ -624,8 +619,10 @@ a.front-page-highlights-nav-left:active,a.front-page-highlights-nav-right:active
 
 /* #Blogs
 	========================== */
-.search .blog-content-title h2, .archive .blog-content-title h2,.blog .blog-content-title h2 {
-    font-size: 22px;
+.search .blog-content-title h2, 
+.archive .blog-content-title h2,
+.blog .blog-content-title h2 {
+    font-size: 30px;
 }
 
 .blog-pad.entry-content iframe,.blog-pad.entry-content embed {
@@ -963,6 +960,9 @@ a.front-page-highlights-nav-left:active,a.front-page-highlights-nav-right:active
     float: left;
     margin: 0;
     list-style: none;
+    font-size: 24px;
+    line-height: 30px;
+    text-transform: uppercase;
 }
 
 .desktop-menu ul li a {

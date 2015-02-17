@@ -52,6 +52,17 @@
     background: #438700;
 }
 
+#bp-klein-top-bar {
+  background: #214300;
+}
+
+#bp-klein-top-bar .container {
+  height: 130px;
+  background-image: url(../../images/Earthrise.png);
+  background-repeat: no-repeat;
+  background-position: bottom left;
+}
+
 #klein-top-updates-badge {
   background: #baff76;
 }
