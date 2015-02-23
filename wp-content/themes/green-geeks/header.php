@@ -54,8 +54,7 @@
 								<?php klein_user_nav(); ?>
 							<?php } ?>
 						<?php }else{ ?>
-							<a data-toggle="modal" id="klein-login-btn" class="btn btn-primary" href="#klein_login_modal" title="<?php _e( 'Login', 'klein' ); ?>"><i class="icon-lock"></i> <?php _e( 'Login', 'klein' ); ?></a>
-							<?php echo str_replace( '<a', '<a id="klein-register-btn" title="'.__('Register','klein').'" class="btn btn-primary" ', wp_register('', '', false)); ?>
+							<a data-toggle="modal" id="klein-login-btn" href="#klein_login_modal" title="<?php _e( 'Login', 'klein' ); ?>"><i class="glyphicon glyphicon-user"></i> <?php _e( 'Login', 'klein' ); ?></a>
 							<div class="modal fade" id="klein_login_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 								<div class="modal-dialog">
 									<div class="modal-content">
@@ -72,6 +71,10 @@
 													<?php wp_login_form(); ?>
 													<?php do_action( 'login_form' ); //3rd party applications/plugins support ?>
 												<?php do_action( 'klein_after_login_form_modal_body' ); ?>
+
+												<p><?php _e( "Not a green geek yet?", 'greengeeks' ) ?>
+													<?php echo str_replace( '<a', '<a id="klein-register-btn" title="'.__('Register','klein').'"', wp_register('', '', false)); ?>
+												</p>
 											</div>
 												<?php // support 3rd party plugins ?>
 											<div class="clearfix">
