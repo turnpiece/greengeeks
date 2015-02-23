@@ -401,6 +401,7 @@ class ub_Site_Wide_Text_Change {
 	 **/
 	function replace_text( $transtext, $normtext, $domain ) {
 		$tt = $this->get_translation_ops();
+
         $admin_front = true;
 
 		if( !is_array( $tt ) )
@@ -429,16 +430,16 @@ class ub_Site_Wide_Text_Change {
 
         if( $admin_front ){
             $transtext =  str_replace("&#8217;", "’", $transtext);
-
 	        /**
 	         * Escape punctuations
 	         */
 	        foreach( $toprocess as &$processee ){
-		        $processee = quotemeta($processee);
+		        $processee = $this->_escape_punctuations( $processee );
 	        }
-	        $transtext = preg_replace( $toprocess, $toreplace, $transtext  );
-        }
 
+	        $replaced_transtext = preg_replace( $toprocess, $toreplace, $transtext  );
+	        $transtext = empty($replaced_transtext) ? $transtext : $replaced_transtext;
+        }
 
 		return $transtext;
 	}
@@ -469,6 +470,32 @@ class ub_Site_Wide_Text_Change {
 			ob_end_clean();
 			echo $content;
 		}
+	}
+
+	/**
+	 * Escapes punctuations in $string
+	 * @param $string
+	 *
+	 * @return mixed
+	 */
+	private function _escape_punctuations( $string ) {
+		$string = str_replace( array(
+			"?",
+			"!",
+			"*",
+			"$",
+			"€",
+			"£"
+		), array(
+			"\?",
+			"\!",
+			"\*",
+			"\$",
+			"\€",
+			"\£",
+		), $string );
+
+		return $string;
 	}
 
 }

@@ -63,7 +63,7 @@ class CustomPress_Core {
 		if(!empty($lang))
 		{
 			// If it can't find one too bad.
-			wp_register_script('jquery-ui-datepicker-lang', $this->plugin_url . "datepicker/js/i18n/jquery.ui.datepicker-$lang.js", array('jquery','jquery-ui-datepicker'), '1.8.18');	 	 	 	 		   		 	
+			wp_register_script('jquery-ui-datepicker-lang', $this->plugin_url . "datepicker/js/i18n/jquery.ui.datepicker-$lang.js", array('jquery','jquery-ui-datepicker'), '1.8.18');
 		}
 
 		// Dynamic CSS switching for date picker

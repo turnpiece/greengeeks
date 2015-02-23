@@ -55,7 +55,7 @@ class UB_Admin_Bar_Forms  {
 		$disabled = self::get_option('disabled_menus');
 		$disabled = is_array($disabled) ? $disabled : array();
 
-		echo '<input type="hidden" name="wdcab[disabled_menus]" value="" />';
+		echo '<input type="hidden" name="wdcab[disabled_menus]" value="" />';	 				   	  		  	
 		foreach ($_menus as $id => $lbl) {
 			$checked = in_array($id, $disabled) ? 'checked="checked"' : '';
 			echo '' .
