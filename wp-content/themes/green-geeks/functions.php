@@ -242,3 +242,36 @@ function klein_posted_on( $echo = true ) {
 	}
 	
 }
+
+/**
+ * Displays user info in loop
+ */
+function klein_author(){
+	global $post;
+	?>
+	<?php if( function_exists( 'bp_core_fetch_avatar' ) ){ ?>
+			<div class="blog-author-avatar">
+				<a title="<?php _e( 'Posts', 'klein' ); ?>" href="<?php echo get_author_posts_url( get_the_author_meta( 'ID' ) ); ?>">
+					<?php echo bp_core_fetch_avatar( array( 'type' => 'full', 'item_id' => $post->post_author ) ); ?>
+				</a>
+			</div>
+			<div class="blog-author-name center">
+				<a title="<?php _e( 'Posts', 'klein' ); ?>" href="<?php echo get_author_posts_url( get_the_author_meta( 'ID' ) ); ?>">
+					<?php the_author_meta( 'display_name' ); ?>
+				</a>
+			</div>
+
+		<?php }else{ ?>
+			<div class="blog-author-avatar no-bp">
+				<a title="<?php _e( 'Posts', 'klein' ); ?>" href="<?php echo get_author_posts_url( get_the_author_meta( 'ID' ) ); ?>">
+					<?php echo get_avatar( $post->post_author, 75 ); ?>
+				</a>
+			</div>
+			<div class="blog-author-name no-bp center">
+				<a title="<?php _e( 'Posts', 'klein' ); ?>" href="<?php echo get_author_posts_url( get_the_author_meta( 'ID' ) ); ?>">
+					<?php echo get_the_author(); ?>
+				</a>
+			</div>
+		<?php } ?>
+	<?php
+}
