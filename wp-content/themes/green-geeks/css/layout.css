@@ -296,10 +296,6 @@
 /* #Page Styles
 ================================================== */
 
-#klein-login-btn {
-    margin-right: 8px;
-}
-
 /** Top Updates **/
 .bp-klein-dropdown-menu{
 	border-radius: 4px;
@@ -990,10 +986,15 @@ a.front-page-highlights-nav-left:active,a.front-page-highlights-nav-right:active
 }
 
 .desktop-menu ul li a {
-    color: #baff76;
+    color: #65cb00;
 }
 
-.desktop-menu ul.sub-menu,.desktop-menu ul.children {
+.desktop-menu ul li a:hover {
+    color: #cbff66;
+}
+
+.desktop-menu ul.sub-menu,
+.desktop-menu ul.children {
     position: absolute;
     z-index: 9999;
     display: none;
@@ -1005,7 +1006,8 @@ a.front-page-highlights-nav-left:active,a.front-page-highlights-nav-right:active
 	float: right;
 }
 
-.desktop-menu ul.sub-menu li:first-child,.desktop-menu ul.children li:first-child {
+.desktop-menu ul.sub-menu li:first-child,
+.desktop-menu ul.children li:first-child {
     margin-top: 4em;
 }
 

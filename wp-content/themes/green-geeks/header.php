@@ -86,6 +86,8 @@
 								</div><!-- /.modal-dialog -->
 							</div><!-- /.modal -->
 						<?php } ?>
+
+						<?php //get_search_form(); ?>
 					</div>
 				</div>
 			</div>

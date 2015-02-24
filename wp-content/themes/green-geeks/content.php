@@ -33,15 +33,6 @@
 					<?php the_excerpt(); ?>
 				</div>
 				<div class="blog-pad blog-content-date-readmore">
-					<div class="blog-content-comment">
-						<i class="icon-comment "></i> 
-						<?php if( comments_open() ){ ?>
-							<?php comments_number( 'No Responses', 'One Response', '% Responses' ); ?> /
-							<?php echo get_post_reply_link(); ?>
-						<?php }else{ ?>
-							<?php _e( 'Comments are closed.','klein' ); ?>
-						<?php }?>
-					</div>
 					<div class="blog-content-readmore">
 						<a class="btn btn-primary" href="<?php echo esc_url( the_permalink() ) ?>" title="<?php echo esc_attr( the_title() ); ?>">
 							<?php _e( 'Continue Reading','klein' ); ?>
