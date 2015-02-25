@@ -23,8 +23,9 @@
   */
 
 .bx-wrapper .bx-controls-direction a,
-.bbp-pagination-links span.current, 
-.woocommerce span.onsale,.woocommerce-page span.onsale,.woocommerce .widget_layered_nav ul li,.woocommerce-page .widget_layered_nav ul li,.woocommerce ul.products li.product .onsale,.woocommerce-page ul.products li.product .onsale,.item-list-tabs li a,.activity-type-tabs li a {
+.bbp-pagination-links span.current,
+.item-list-tabs li a,
+.activity-type-tabs li a {
     background: #65cb00;
 }
 
@@ -37,7 +38,8 @@
     color: #081000;
 }
 
-.desktop-menu ul.sub-menu li a:hover,.desktop-menu ul.children li a:hover {
+.desktop-menu ul.sub-menu li a:hover,
+.desktop-menu ul.children li a:hover {
     background: #214300;
 }
 
@@ -49,11 +51,7 @@
 }
 
 #footer {
-    background: #438700;
-}
-
-#bp-klein-top-bar {
-  background: #214300;
+    background: transparent;
 }
 
 #bp-klein-top-bar .container {
@@ -68,7 +66,6 @@
 }
 
 #klein-top-updates-nav {
-  background: #438700;
   color: #8fff21;
   border: 3px solid;
 }
@@ -86,11 +83,13 @@
   background-color: #8fff21 !important;
 }
 
-.desktop-menu ul.sub-menu li a,.desktop-menu ul.children li a,#header,.woocommerce .widget_price_filter .ui-slider .ui-slider-range,.woocommerce-page .widget_price_filter .ui-slider .ui-slider-range,#footer-widgets {
+.desktop-menu ul.sub-menu li a,
+.desktop-menu ul.children li a,
+#footer-widgets {
     background: #214300;
 }
 
-.woocommerce .widget_layered_nav ul small.count,.woocommerce-page .widget_layered_nav ul small.count,.bx-wrapper .bx-pager.bx-default-pager a:hover,.bx-wrapper .bx-pager.bx-default-pager a.active,.item-list-tabs li.selected a,.item-list-tabs li.current a,.activity-type-tabs li.selected a {
+.bx-wrapper .bx-pager.bx-default-pager a:hover,.bx-wrapper .bx-pager.bx-default-pager a.active,.item-list-tabs li.selected a,.item-list-tabs li.current a,.activity-type-tabs li.selected a {
     background: #438700;
 }
 
@@ -161,6 +160,13 @@
 .menu.mobile li a .sub-menu-toggle
 {	
 	background: #438700;
+}
+
+.klein-blog-article-list{
+  background: #f6ffed;
+  border-radius: 0 50px;
+  padding: 1em;
+  margin-bottom: 2.8em;
 }
 
 /* user bar */

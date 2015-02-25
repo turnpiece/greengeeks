@@ -88,7 +88,8 @@ table#wp-calendar td,
 }
 
 #header {
-    background: #214300;
+    background: transparent;
+    margin: 1.4em 0;
 }
 
 #footer {
@@ -135,7 +136,7 @@ li p {
 	background: #65cb00;
 	color: #baff76;
     border-bottom: none;
-    border-radius: 5px 30px;
+    border-radius: 0 30px;
 }
 
 .widget .widget-title {
