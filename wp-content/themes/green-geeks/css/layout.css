@@ -682,6 +682,7 @@ a.front-page-highlights-nav-left:active,a.front-page-highlights-nav-right:active
     box-sizing: border-box;
     width: 15%;
     text-align: center;
+    margin-right: 4%;
 }
 
 .blog-author-name {

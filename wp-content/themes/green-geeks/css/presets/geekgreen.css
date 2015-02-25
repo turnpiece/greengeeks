@@ -162,11 +162,30 @@
 	background: #438700;
 }
 
-.klein-blog-article-list{
+.klein-blog-article-list,
+.single .blog-content {
   background: #f6ffed;
   border-radius: 0 50px;
   padding: 1em;
   margin-bottom: 2.8em;
+}
+
+.single .entry-title {
+    font-size: 48px;
+    line-height: 50px;
+    color: #baff76;
+    text-align: center;
+}
+
+.comments-area {
+  background: #baff76;
+  border-radius: 0 50px;
+  padding: 1em;
+  margin-left: 19%;
+}
+
+.comment-form {
+  width: 100%;
 }
 
 /* user bar */
