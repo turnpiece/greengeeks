@@ -163,13 +163,17 @@
 }
 
 .klein-blog-article-list,
+.single .blog-content,
+.comments-area .comment,
+.comments-area .comment-respond-container {
+  border-radius: 0 50px;
+  padding: 2.8em;
+}
+.klein-blog-article-list,
 .single .blog-content {
   background: #f6ffed;
-  border-radius: 0 50px;
-  padding: 1em;
   margin-bottom: 2.8em;
 }
-
 .single .entry-title {
     font-size: 48px;
     line-height: 50px;
@@ -178,14 +182,30 @@
 }
 
 .comments-area {
+    margin-left: 19%;
+}
+
+.comments-area .comment,
+.comments-area .comment-respond-container {
   background: #baff76;
-  border-radius: 0 50px;
-  padding: 1em;
-  margin-left: 19%;
+}
+
+.comments-area .comment .comment-meta {
+  position: absolute;
+  left: -260px;
+  width: 200px;
+}
+
+li.comment {
+  margin-left: 0;
 }
 
 .comment-form {
   width: 100%;
+}
+
+.comment-form .form-submit {
+  text-align: right;
 }
 
 /* user bar */
