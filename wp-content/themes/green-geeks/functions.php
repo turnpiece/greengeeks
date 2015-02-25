@@ -6,7 +6,6 @@
  *
  */
 
-
 /**
  * Sets up theme defaults and registers support for various WordPress features.
  *
@@ -65,6 +64,20 @@ function klein_setup() {
 
 	// customize read more link
 	//add_filter( 'the_content_more_link', 'gg_modify_read_more_link' );
+
+	// remove sidebar adding facility
+	remove_action( 'wp_ajax_klein_sidebar_add', 'klein_sidebar_add' );
+	remove_action( 'wp_ajax_klein_sidebar_delete', 'klein_sidebar_delete' );
+	remove_action( 'wp_ajax_klein_sidebar_update', 'klein_sidebar_update' );
+
+	remove_action('admin_menu', 'klein_register_sidebar_settings');
+
+	// remove appearance meta box
+	remove_action( 'load-post.php', 'klein_post_meta_boxes_setup' );
+	remove_action( 'load-post-new.php', 'klein_post_meta_boxes_setup' );
+
+	/* Save post meta on the 'save_post' hook. */
+	remove_action( 'save_post', 'klein_save_post_class_meta', 10, 2 );
 }
 /*
 function gg_modify_read_more_link() {
