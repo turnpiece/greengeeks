@@ -4,7 +4,7 @@
  *
  * The area of the page that contains both current comments
  * and the comment form. The actual display of comments is
- * handled by a callback to klein_comment() which is
+ * handled by a callback to gg_comment() which is
  * located in the inc/template-tags.php file.
  *
  * @package klein
@@ -49,12 +49,12 @@ if ( post_password_required() )
 		<ol class="comment-list">
 			<?php
 				/* Loop through and list the comments. Tell wp_list_comments()
-				 * to use klein_comment() to format the comments.
+				 * to use gg_comment() to format the comments.
 				 * If you want to overload this in a child theme then you can
-				 * define klein_comment() and that will be used instead.
-				 * See klein_comment() in inc/template-tags.php for more.
+				 * define gg_comment() and that will be used instead.
+				 * See gg_comment() in inc/template-tags.php for more.
 				 */
-				wp_list_comments( array( 'callback' => 'klein_comment' ) );
+				wp_list_comments( array( 'callback' => 'gg_comment' ) );
 			?>
 		</ol><!-- .comment-list -->
 

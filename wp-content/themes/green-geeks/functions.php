@@ -288,3 +288,66 @@ function klein_author(){
 		<?php } ?>
 	<?php
 }
+
+if ( ! function_exists( 'gg_comment' ) ) :
+/**
+ * Template for comments and pingbacks.
+ *
+ * Used as a callback by wp_list_comments() for displaying the comments.
+ */
+function gg_comment( $comment, $args, $depth = 0 ) {
+
+	$GLOBALS['comment'] = $comment;
+
+	if ( 'pingback' == $comment->comment_type || 'trackback' == $comment->comment_type ) : ?>
+
+	<li id="comment-<?php comment_ID(); ?>" <?php comment_class(); ?>>
+		<div class="comment-body">
+			<?php _e( 'Pingback:', 'klein' ); ?> <?php comment_author_link(); ?> <?php edit_comment_link( __( 'Edit', 'klein' ), '<span class="edit-link">', '</span>' ); ?>
+		</div>
+
+	<?php else : ?>
+
+	<li id="comment-<?php comment_ID(); ?>" <?php comment_class( empty( $args['has_children'] ) ? '' : 'parent' ); ?>>
+		<article id="div-comment-<?php comment_ID(); ?>" class="comment-body">
+			<div class="comment-author">
+				<?php if ( 0 != $args['avatar_size'] ) : ?>
+				<div class="comment-author-avatar">
+					<a title="<?php _e( 'Posts', 'klein' ); ?>" href="<?php echo get_comment_author_link() ?>">
+						<?php echo get_avatar( $comment ); ?>
+					</a>
+				</div>
+				<?php endif; ?>
+				<div class="comment-author-name center">
+					<?php printf( '<cite class="fn">%s</cite>', get_comment_author_link() ); ?>
+				</div>
+			</div><!-- .comment-author -->
+			<div class="comment-content">
+				<header class="comment-meta">
+					<div class="comment-metadata">
+						<a href="<?php echo esc_url( get_comment_link( $comment->comment_ID ) ); ?>">
+							<time datetime="<?php comment_time( 'c' ); ?>">
+								<?php printf( _x( '%1$s at %2$s', '1: date, 2: time', 'klein' ), get_comment_date(), get_comment_time() ); ?>
+							</time>
+						</a>
+					</div><!-- .comment-metadata -->
+
+					<?php if ( '0' == $comment->comment_approved ) : ?>
+					<p class="comment-awaiting-moderation"><?php _e( 'Your comment is awaiting moderation.', 'klein' ); ?></p>
+					<?php endif; ?>
+				</header><!-- .comment-meta -->
+				<div class="blog-pad entry-content">
+					<?php comment_text(); ?>
+				</div>
+				<footer class="reply">
+					<?php edit_comment_link( __( 'Edit', 'klein' ), '<span class="edit-link">', '</span>' ); ?>
+					<?php comment_reply_link( array_merge( $args, array( 'add_below' => 'div-comment', 'depth' => $depth, 'max_depth' => $args['max_depth'] ) ) ); ?>
+				</footer><!-- .reply -->
+			</div><!-- .comment-content -->
+			<div class="clear"></div>
+		</article><!-- .comment-body -->
+
+	<?php
+	endif;
+}
+endif; // ends check for gg_comment()
