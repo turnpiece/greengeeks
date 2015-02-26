@@ -165,6 +165,7 @@
 .single .blog-content,
 .single .comment-content,
 .single .comment-respond {
+  margin-top: 0;
   border-radius: 0 50px;
   padding: 2.8em;
 }

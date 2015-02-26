@@ -277,7 +277,7 @@ function klein_author(){
 		<?php }else{ ?>
 			<div class="blog-author-avatar no-bp">
 				<a title="<?php _e( 'Posts', 'klein' ); ?>" href="<?php echo get_author_posts_url( get_the_author_meta( 'ID' ) ); ?>">
-					<?php echo get_avatar( $post->post_author, 75 ); ?>
+					<?php echo get_avatar( $post->post_author, 150 ); ?>
 				</a>
 			</div>
 			<div class="blog-author-name no-bp center">
@@ -313,8 +313,12 @@ function gg_comment( $comment, $args, $depth = 0 ) {
 			<div class="comment-author">
 				<?php if ( 0 != $args['avatar_size'] ) : ?>
 				<div class="comment-author-avatar">
-					<a title="<?php _e( 'Posts', 'klein' ); ?>" href="<?php echo get_comment_author_link() ?>">
-						<?php echo get_avatar( $comment ); ?>
+					<a title="<?php _e( 'Posts', 'klein' ); ?>" href="<?php echo get_author_posts_url( $comment->user_id ); ?>">
+						<?php if( function_exists( 'bp_core_fetch_avatar' ) ) : ?>
+						<?php echo bp_core_fetch_avatar( array( 'type' => 'full', 'item_id' => $comment->user_id ) ); ?>
+						<?php else : ?>
+						<?php echo get_avatar( $comment, 150 ); ?>
+						<?php endif; ?>
 					</a>
 				</div>
 				<?php endif; ?>
