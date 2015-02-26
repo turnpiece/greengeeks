@@ -22,7 +22,7 @@ define('DB_NAME', 'greengeeks');
 define('DB_USER', 'root');
 
 /** MySQL database password */
-define('DB_PASSWORD', 'c0df15h66');
+define('DB_PASSWORD', 't35t1ng');
 
 /** MySQL hostname */
 define('DB_HOST', 'localhost');
