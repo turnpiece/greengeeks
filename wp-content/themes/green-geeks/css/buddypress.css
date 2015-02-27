@@ -283,6 +283,15 @@ li.bp-klein-nav-fix label,li#groups-order-select label,li#members-order-select l
     margin-right: 5px;
 }
 
+.bp-content-area:before,
+.bp-content-area:after {
+    display: table;
+    content: " ";
+}
+.bp-content-area:after {
+    clear: both;
+}
+
 .bp-content-area .hentry a {
     text-decoration: none;
 }

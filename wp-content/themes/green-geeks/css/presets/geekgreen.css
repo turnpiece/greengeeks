@@ -164,26 +164,28 @@
 
 .blog-content,
 .comment-content,
-.comment-respond {
+.comment-respond,
+.bp-content-area {
   margin-top: 0;
   border-radius: 0 4em;
   padding: 2.8em;
+  display: block;
 }
 .blog-content,
-.comment-content {
+.bp-content-area {
   background: #f6ffed;
   margin-bottom: 2.8em;
+}
+.comment-content,
+.comment-respond {
+  background: #baff76;
+  margin-bottom: 1.4em;
 }
 .single .entry-title {
     font-size: 48px;
     line-height: 50px;
     color: #baff76;
     text-align: center;
-}
-
-.comment-content,
-.comment-respond {
-  background: #baff76;
 }
 
 li.comment {

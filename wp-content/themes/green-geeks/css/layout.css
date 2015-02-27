@@ -318,9 +318,11 @@
 	margin-top: 16px; 
     border-radius: 12% 0;
     padding: 20px;
+    background: #214300;
 }
 
-#klein-top-updates-nav:after, #klein-top-updates-nav:before {
+#klein-top-updates-nav:after, 
+#klein-top-updates-nav:before {
 	bottom: 100%;
 	border: solid transparent;
 	content: " ";
@@ -344,7 +346,8 @@
     display: none;
 }
 
-#klein-top-updates-nav ul,#klein-top-updates-nav li {
+#klein-top-updates-nav ul,
+#klein-top-updates-nav li {
     margin: 0;
     list-style: none;
 }
