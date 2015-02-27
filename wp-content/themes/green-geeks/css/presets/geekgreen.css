@@ -162,15 +162,15 @@
 	background: #438700;
 }
 
-.single .blog-content,
-.single .comment-content,
-.single .comment-respond {
+.blog-content,
+.comment-content,
+.comment-respond {
   margin-top: 0;
-  border-radius: 0 50px;
+  border-radius: 0 4em;
   padding: 2.8em;
 }
-.single .blog-content,
-.single .comment-content {
+.blog-content,
+.comment-content {
   background: #f6ffed;
   margin-bottom: 2.8em;
 }
@@ -181,8 +181,8 @@
     text-align: center;
 }
 
-.single .comment-content,
-.single .comment-respond {
+.comment-content,
+.comment-respond {
   background: #baff76;
 }
 
