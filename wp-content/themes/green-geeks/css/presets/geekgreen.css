@@ -164,15 +164,13 @@
 
 .blog-content,
 .comment-content,
-.comment-respond,
-.bp-content-area {
+.comment-respond {
   margin-top: 0;
   border-radius: 0 4em;
   padding: 2.8em;
   display: block;
 }
-.blog-content,
-.bp-content-area {
+.blog-content {
   background: #f6ffed;
   margin-bottom: 2.8em;
 }
@@ -181,7 +179,7 @@
   background: #baff76;
   margin-bottom: 1.4em;
 }
-.single .entry-title {
+.entry-title {
     font-size: 48px;
     line-height: 50px;
     color: #baff76;
@@ -253,4 +251,37 @@ li.comment {
 
 #bp-klein-user-bar  input[type="search"] {
   -webkit-appearance: textfield;
+}
+
+
+
+/* Buddypress */
+
+.bp-content-area {
+    width: 80%;
+    margin: 2.8em auto;
+}
+
+#buddypress .activity-item {
+    margin-bottom: 1.4em;
+    width: 90%;
+    margin-left: 10%;
+}
+#buddypress #item-header-content,
+#buddypress .activity-item .activity-content .activity-inner,
+#buddypress .activity-item .activity-comments .acomment-content {
+    border-radius: 0 4em;
+    padding: 1.4em 2.8em;
+    display: block;
+    background: #f6ffed;
+}
+#buddypress .activity-item .activity-avatar {
+    margin-left: -10%;
+    margin-top: -1.4em;
+}
+#buddypress .activity-item .activity-comments li {
+
+}
+#activity-filter-select {
+    color: #8fff21;
 }
