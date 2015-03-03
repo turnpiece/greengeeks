@@ -29,12 +29,16 @@
     background: #65cb00;
 }
 
-.site-content a {
+.site-content .blog-content a,
+.buddypress .activity-inner a,
+.buddypress .acomment-content a {
     /*padding: 0 0.3em;*/
     color: #438700;
 }
 
-.site-content a:hover {
+.site-content a:hover,
+.buddypress .activity-inner a:hover,
+.buddypress .acomment-content a:hover {
     color: #081000;
 }
 

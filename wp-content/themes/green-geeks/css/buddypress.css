@@ -239,7 +239,6 @@ li#groups-order-select,.item-list-tabs#subnav li#activity-filter-select,.item-li
     padding: 10px;
     text-decoration: none;
     border-radius: 5px;
-    font-size: 15px;
 }
 
 .buddypress li#groups-order-select{
@@ -291,11 +290,11 @@ li.bp-klein-nav-fix label,li#groups-order-select label,li#members-order-select l
 .bp-content-area:after {
     clear: both;
 }
-
+/*
 .bp-content-area .hentry a {
-    text-decoration: none;
+    text-decoration: underline;
 }
-
+*/
 .bp-klein-sub-nav {
     display: none;
 }
@@ -379,7 +378,7 @@ li.friend-tab img.avatar {
 }
 
 .activity-header,.acomment-meta,.activity-meta,.acomment-options {
-    color: #555;
+    color: #65cb00;
     max-width: 90%;
 }
 .activity-meta a:after{
@@ -395,12 +394,23 @@ li.friend-tab img.avatar {
 #group-dir-count-top,#group-dir-count-bottom,#member-dir-count-top,#member-dir-count-bottom,.buddypress .acomment-meta,.pagination,.acomment-content,.acomment-options a,.activity-meta a,.item-meta {
     opacity: 0.9;
 }
-.buddypress .activity-header {
-    font-size: 15px;
+.activity-header,
+.activity-meta {
+    color: #65cb00;
+}
+.activity-meta {
+    text-align: right;
+}
+.buddypress a {
+    color: #65cb00;
+    text-decoration: underline;
+}
+.buddypress a:hover {
+    color: #baff76;
 }
 .buddypress .activity-meta a{
-	font-size: 15px;
 	margin-right: 10px;
+    text-align: right;
 }
 
 .buddypress .activity-meta a span.count{
@@ -468,7 +478,7 @@ li.friend-tab img.avatar {
 }
 
 .acomment-meta,.acomment-options {
-	margin: 0 0 0px 40px;
+	margin: 0 0 .4em 40px;
 	padding: 2px 0 0;
 	list-style: none;
 }
@@ -476,7 +486,10 @@ li.friend-tab img.avatar {
 .acomment-meta,.acomment-options a{
 	display: inline-block;
 	margin-right: 4px;
-	font-size: 90%;
+}
+
+.acomment-options {
+    text-align: right;
 }
 
 .activity-header p {
@@ -627,9 +640,10 @@ ul#group-admins li,ul#group-mods li {
     padding: 2px 0 !important;
 }
 
-#post-in-label, li.feed,#activity-filter-select label {
+#post-in-label, 
+li.feed,
+#activity-filter-select label {
 	margin-top: 6px!important;
-	font-size: 15px;
 	font-weight: 700;
 	text-transform: uppercase;
 }
