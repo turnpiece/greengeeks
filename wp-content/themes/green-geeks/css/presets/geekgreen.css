@@ -177,7 +177,8 @@
 	background: #438700;
 }
 
-.blog-content,
+.single .blog-content,
+.blog-content-excerpt,
 .comment-content,
 .comment-respond {
   margin-top: 0;
@@ -185,9 +186,13 @@
   padding: 2.8em;
   display: block;
 }
-.blog-content {
+.single .blog-content,
+.blog-content-excerpt {
   background: #f6ffed;
   margin-bottom: 2.8em;
+}
+.blog-pad.blog-content-excerpt {
+  padding: 2.8em;
 }
 .comment-content,
 .comment-respond {
