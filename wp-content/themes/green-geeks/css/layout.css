@@ -786,6 +786,9 @@ a.front-page-highlights-nav-left:active,a.front-page-highlights-nav-right:active
 }
 
 .blog-content-readmore {
+    margin-top: -1em;
+    margin-right: -1em;
+    max-width: 2em;
     float: right;
 }
 

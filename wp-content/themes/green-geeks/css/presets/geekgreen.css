@@ -189,6 +189,8 @@
 .single .blog-content,
 .blog-content-excerpt {
   background: #f6ffed;
+}
+.single .blog-content {
   margin-bottom: 2.8em;
 }
 .blog-pad.blog-content-excerpt {

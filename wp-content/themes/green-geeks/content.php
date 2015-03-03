@@ -32,14 +32,11 @@
 				<div class="blog-pad blog-content-excerpt">
 					<?php the_excerpt(); ?>
 				</div>
-				<div class="blog-pad blog-content-date-readmore">
-					<div class="blog-content-readmore">
-						<a class="btn btn-primary" href="<?php echo esc_url( the_permalink() ) ?>" title="<?php echo esc_attr( the_title() ); ?>">
-							<?php _e( 'Continue Reading','klein' ); ?>
-						</a>
-					</div>
-					<div class="clear"></div>
-				</div>	
+				<div class="blog-content-readmore">
+					<a class="btn btn-primary" href="<?php echo esc_url( the_permalink() ) ?>" title="<?php echo esc_attr( the_title() ); ?>">
+						<?php _e( 'Continue Reading','klein' ); ?>
+					</a>
+				</div>
 				<div class="blog-pad blog-content-meta">
 					<?php klein_entry_meta(); ?>
 				</div>	
