@@ -391,6 +391,10 @@ li.friend-tab img.avatar {
 	margin-top: 20px;
 }
 
+.activity-comments {
+    margin-top: 1.4em;
+}
+
 #group-dir-count-top,#group-dir-count-bottom,#member-dir-count-top,#member-dir-count-bottom,.buddypress .acomment-meta,.pagination,.acomment-content,.acomment-options a,.activity-meta a,.item-meta {
     opacity: 0.9;
 }
@@ -465,15 +469,17 @@ li.friend-tab img.avatar {
 	list-style: none;
 }
 
-#activity-stream .activity-avatar,#activity-stream .acomment-avatar {
+#activity-stream .activity-avatar,
+#activity-stream .acomment-avatar {
     position: absolute;
-    left: -30px;
+    left: -4em;
     max-width: 4em;
-    margin-top: 6px;
 }
 
+#activity-stream .acomment-avatar {
+    left: -.5em;
+}
 .acomment-avatar img {
-    margin-left: 24px;
     width: 32px;
 }
 
@@ -502,13 +508,13 @@ li.friend-tab img.avatar {
 	height: 275px; /** right here, you can adjust the height of your video. Cheers! **/
 	background: #438700;
 	padding: 5px;
-	border: 1px solid #232323;
+	border: 1px solid #214300;
 	box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	-webkit-box-sizing: border-box;
 }
 
-
+/*
 .activity-header .avatar {
     position: absolute;
     top: 3px;
@@ -516,19 +522,17 @@ li.friend-tab img.avatar {
     width: 20px;
     height: auto;
 }
-
+*/
 .activity-content .activity-inner {
-    margin: 8px 0;
+    margin: .5em 0;
 }
 
 .acomment-content {
     margin-left: 40px;
-    background: none;
 }
 
 
 #activity-stream .activity-content {
-    margin-left: 40px;
     padding: inherit;
     min-height: 70px;
 }
