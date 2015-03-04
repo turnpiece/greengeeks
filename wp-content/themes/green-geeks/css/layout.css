@@ -628,13 +628,6 @@ a.front-page-highlights-nav-left:active,a.front-page-highlights-nav-right:active
     max-width: 100%;
 }
 
-.single .blog-pad,
-.archive .blog-pad,
-.search .blog-pad,
-.blog .blog-pad {
-    padding: 0 0;
-}
-
 .single .format-standard .blog-pad {
     padding: 0 0;
 }
@@ -643,12 +636,8 @@ a.front-page-highlights-nav-left:active,a.front-page-highlights-nav-right:active
     padding-top: 0 !important;
 }
 
-.single .blog-pad:first-child {
-    padding: 0 0 0;
-}
-
 .blog-pad {
-    padding: 0 0;
+    padding: .8em 1.4em;
 	display: inline-block;
 	width: 100%;
 }
@@ -751,7 +740,6 @@ a.front-page-highlights-nav-left:active,a.front-page-highlights-nav-right:active
     display: block;
     float: left;
     width: 80%;
-    padding-left: 5%;
 }
 
 .comment-respond {

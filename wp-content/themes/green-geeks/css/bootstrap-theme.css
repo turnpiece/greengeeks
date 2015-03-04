@@ -45,12 +45,22 @@ input[type=submit],input[type=button], button, .woocommerce .button, li.load-mor
   background-repeat: no-repeat;
 }
 
-input[type=submit],input[type=button]:active, button:active, .woocommerce .button:active, li.load-more a:active, 
-.nav-previous-link:active .nav-previous:active,.nav-next-link .nav-next:active, .generic-button a:active,
-.btn.loading, button.loading, input[type="submit"].loading, input[type="reset"].loading, li.load-more.loading a, input[type="button"].loading,
+input[type=submit],
+input[type=button]:active, 
+button:active, 
+li.load-more a:active, 
+.nav-previous-link:active .nav-previous:active,
+.nav-next-link .nav-next:active, 
+.generic-button a:active,
+.btn.loading, button.loading, 
+input[type="submit"].loading, 
+input[type="reset"].loading, 
+li.load-more.loading a, 
+input[type="button"].loading,
 .btn-primary:active,
 .btn-primary.active {
-  background-color: #65cb00;
+  border-color: #65cb00;
+  background: transparent;
 }
 
 .btn-success {

@@ -26,14 +26,14 @@
 				</div>	
 				<div class="blog-content-thumbnail">
 					<?php if( has_post_thumbnail() ){ ?>
-						<?php the_post_thumbnail( 'klein-post-thumbnail', array( 'class' => 'scale-to-grid' ) ); ?>
+						<a href="<?php echo esc_url( the_permalink() ) ?>" title="<?php echo esc_attr( the_title() ); ?>">
+							<?php the_post_thumbnail( 'klein-post-thumbnail', array( 'class' => 'scale-to-grid' ) ); ?>
+						</a>
 					<?php }?>
 				</div>	
 				<div class="blog-pad blog-content-excerpt">
 					<?php the_excerpt(); ?>
-				</div>
-				<div class="blog-content-readmore">
-					<a class="btn btn-primary" href="<?php echo esc_url( the_permalink() ) ?>" title="<?php echo esc_attr( the_title() ); ?>">
+					<a class="btn btn-primary readmore" href="<?php echo esc_url( the_permalink() ) ?>" title="<?php echo esc_attr( the_title() ); ?>">
 						<?php _e( 'Continue Reading','klein' ); ?>
 					</a>
 				</div>

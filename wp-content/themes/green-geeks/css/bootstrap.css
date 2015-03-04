@@ -2081,9 +2081,9 @@ fieldset[disabled] .btn-default.active {
 .btn-primary,
 .ig-container .btn-primary {
   color: #214300 !important;
-  background-color: #65cb00 !important;
-  border: none !important;
-  border-radius: 24%;
+  background-color: transparent !important;
+  border-color: #65cb00 !important;
+  border-radius: 0.1em;
 }
 
 .btn-primary:hover,
@@ -2128,6 +2128,11 @@ fieldset[disabled] .btn-primary.active {
   color: #f6ffed;
   background-color: #438700;
   
+}
+
+.btn-primary.readmore {
+  float: right;
+  clear: both;
 }
 
 .btn-warning:hover,
