@@ -104,10 +104,6 @@
 /* Firefox */
 }
 
-.fluid,.boxed {
-    background: #081000;
-}
-
 .boxed {
     margin: 0 auto;
     max-width: 1140px;
