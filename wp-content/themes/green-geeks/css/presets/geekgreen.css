@@ -22,6 +22,21 @@
   *
   */
 
+/* backgrounds */  
+.fluid,
+.boxed {
+    background: #f6ffed;
+}
+
+.home .fluid,
+.home .boxed {
+    background: #438700;
+}
+
+.site-header {
+  background: #081000;
+}
+
 .bx-wrapper .bx-controls-direction a,
 .bbp-pagination-links span.current,
 .item-list-tabs li a,
@@ -86,6 +101,7 @@
 
 #klein-top-updates-nav {
   color: #8fff21;
+  background: ;
   border: 3px solid;
 }
 
