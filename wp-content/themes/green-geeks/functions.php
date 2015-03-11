@@ -326,7 +326,7 @@ function gg_comment( $comment, $args, $depth = 0 ) {
 					<?php printf( '<cite class="fn">%s</cite>', get_comment_author_link() ); ?>
 				</div>
 			</div><!-- .comment-author -->
-			<div class="comment-content">
+			<div class="blog-pad comment-content">
 				<header class="comment-meta">
 					<div class="comment-metadata">
 						<a href="<?php echo esc_url( get_comment_link( $comment->comment_ID ) ); ?>">
@@ -340,7 +340,7 @@ function gg_comment( $comment, $args, $depth = 0 ) {
 					<p class="comment-awaiting-moderation"><?php _e( 'Your comment is awaiting moderation.', 'klein' ); ?></p>
 					<?php endif; ?>
 				</header><!-- .comment-meta -->
-				<div class="blog-pad entry-content">
+				<div class="entry-content">
 					<?php comment_text(); ?>
 				</div>
 				<footer class="reply">

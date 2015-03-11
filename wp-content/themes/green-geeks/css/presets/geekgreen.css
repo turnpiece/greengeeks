@@ -188,6 +188,9 @@
   background: #baff76;
   margin-bottom: 2.8em;
 }
+.single .blog-content {
+  background: #f6ffed;
+}
 .comment-content,
 .comment-respond {
   background: #baff76;
@@ -231,6 +234,16 @@ li.comment {
     height: auto;
     margin: 0;
     width: auto;
+}
+.comments-title {
+  color: #8fff21;
+  margin-left: 19%;
+}
+.comment-reply-title {
+  color: #438700;
+}
+li.comment time {
+  color: #65cb00;
 }
 
 /* user bar */
