@@ -201,11 +201,7 @@ function klein_entry_meta(){
 	
 			} else {
 				// But this blog has loads of categories so we should probably display them here
-				if ( '' != $tag_list ) {
-					$meta_text = __( 'Posted in %1$s and tagged %2$s', 'klein' );
-				} else {
-					$meta_text = __( 'Posted in %1$s', 'klein' );
-				}
+				$meta_text = __( '%1$s', 'klein' );
 	
 			} // end check for categories on this blog
 			

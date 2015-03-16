@@ -1828,7 +1828,7 @@ msgstr ""
 #: inc/template-tags.php:286
 #, php-format
 msgid ""
-"Posted in %1$s and tagged %2$s. Bookmark the <a href=\"%3$s\" title="
+"%1$s and tagged %2$s. Bookmark the <a href=\"%3$s\" title="
 "\"Permalink to %4$s\" rel=\"bookmark\">permalink</a>."
 msgstr ""
 
@@ -1836,7 +1836,7 @@ msgstr ""
 #: inc/template-tags.php:288
 #, php-format
 msgid ""
-"Posted in %1$s. Bookmark the <a href=\"%3$s\" title=\"Permalink to %4$s\" "
+"%1$s. Bookmark the <a href=\"%3$s\" title=\"Permalink to %4$s\" "
 "rel=\"bookmark\">permalink</a>."
 msgstr ""
 
