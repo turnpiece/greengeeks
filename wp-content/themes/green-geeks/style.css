@@ -18,3 +18,64 @@ Tags: custom-header, custom-background, threaded-comments, sticky-post, translat
   * Add you css below, they won't be overwritten when you update.
   */
   
+
+ /**
+  * Colours
+  *
+  *
+  * base = 65cb00
+  *
+  * dark = 438700
+  * darker = 214300
+  * black = 081000
+  *
+  * light = cbff66
+  * lighter = baff76
+  * lightest = d4ffa9
+  * white = f6ffed
+  *
+  */
+
+html {
+  font-size: 20px; }
+
+body {
+  font-family: "Roboto", "Source Sans Pro", Arial, sans-serif;
+  color: #214300;
+  font-size: 0.9375em;
+  line-height: 1.8;
+  margin-bottom: 1.6em;
+  margin-bottom: 0; }
+
+a {
+    color: #438700; }
+
+.klein-blog-article-list h3 a {
+    color: #438700; }
+
+legend, caption, h1, h2, h3, h4, h5, h6 {
+    color: #214300; }
+
+.archive-entry-author .by-label, 
+.archive-entry-author .archive-date {
+    color: #65cb00; }
+
+
+#bp-klein-top-bar {
+    background: #081000;
+}
+.content-heading {
+    background: #d4ffa9;
+}
+
+/*Menu
+----------- */
+.desktop-menu ul.menu.desktop li a {
+    color: #65cb00;
+}
+
+/*Archives
+----------- */
+.archive-excerpt {
+  margin: 20px 0 20px 0; 
+}
