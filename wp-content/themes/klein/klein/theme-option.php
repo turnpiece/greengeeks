@@ -233,10 +233,10 @@ function custom_theme_options() {
        'type'        => 'select',
        'section'     => 'header',
        'class'       => '',
-       'std' => 'style-3',
+       'std' => 'style-1',
        'choices'     => array(
          array(
-          'value' => 'style-3',
+          'value' => 'style-1',
           'label' => 'Header Style 1'
           ),
          array(

@@ -50,6 +50,13 @@ body {
 a {
     color: #438700; }
 
+/*Buttons
+---------------- */
+.add_to_cart_button, 
+.btn.btn-primary {
+    background-color: #438700;
+}
+
 .klein-blog-article-list h3 a {
     color: #438700; }
 
