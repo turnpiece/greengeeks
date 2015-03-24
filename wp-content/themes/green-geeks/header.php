@@ -39,7 +39,7 @@
 	<div id="bp-klein-top-bar">
 		<nav id="bp-klein-user-bar" class="container" role="navigation">
 			<div class="row">
-				<div class="col-xs-4 col-sm-2">
+				<div class="col-xs-4 col-sm-3">
 					<div class="site-branding" id="site-name">
 						<a id="logo-anchor" href="<?php echo esc_url( home_url( '/' ) ); ?>" title="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) . ' - ' . get_bloginfo( 'description' ) ); ?>" rel="home">
 							<?php
@@ -51,8 +51,7 @@
 						</a>
 					</div>
 				</div>
-				<?php $menu_cols = klein_the_menu_columns(); ?>
-				<div class="desktop-menu col-xs-<?php echo esc_attr($menu_cols['menu']); ?> visible-sm visible-md visible-lg">
+				<div class="desktop-menu col-xs-7 visible-sm visible-md visible-lg">
 						<div class="pull-right">
 						<?php
 							$defaults = array(
@@ -82,7 +81,7 @@
 						<div class="clearfix"></div>
 				</div>
 				
-				<div id="bp-klein-user-bar-action" class="col-sm-<?php echo esc_attr($menu_cols['actions']); ?> col-xs-6">
+				<div id="bp-klein-user-bar-action" class="col-sm-2 col-xs-6">
 					<div class="pull-right">
 						<?php if( is_user_logged_in() ){ ?>
 							<?php
