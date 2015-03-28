@@ -75,6 +75,10 @@ legend, caption, h1, h2, h3, h4, h5, h6 {
 .content-heading {
     background: #d4ffa9;
 }
+#content-header {
+    padding-bottom: 10px;
+    padding-top: 25px;
+}
 
 /*Menu
 ----------- */
@@ -86,4 +90,42 @@ legend, caption, h1, h2, h3, h4, h5, h6 {
 ----------- */
 .archive-excerpt {
   margin: 20px 0 20px 0; 
+}
+
+/* BUttons
+----------- */
+.woocommerce .shipping-calculator-button, .add_to_cart_button, .subscription-toggle, .generic-button a, .bp-login-widget-register-link a, a.comment-edit-link, a.post-edit-link, a.vc_inline-link, button, input[type="button"], input[type="reset"], input[type="submit"] {
+    background-color: #438700;
+}
+
+#comments #respond {
+  background-color: #d4ffa9;
+}
+
+/* Inputs 
+----------- */
+select, textarea, input[type="text"], input[type="password"], input[type="date"], input[type="datetime"], input[type="datetime-local"], input[type="month"], input[type="time"], input[type="email"], input[type="number"], input[type="range"], input[type="search"], input[type="tel"], input[type="url"], input[type="week"] {
+    background: #f6ffed;
+    border: 1px solid #438700;
+    box-shadow: none;
+}
+
+/* Footer
+----------- */
+#footer, #footer a {
+    color: #baff76;
+}
+#footer {
+    background: #438700;
+}
+
+
+
+
+.bp-login-widget-register-link a, a.comment-edit-link, a.post-edit-link, a.vc_inline-link, a.comment-edit-link:visited, a.post-edit-link:visited, a.vc_inline-link:visited, a.comment-edit-link:hover, a.post-edit-link:hover, a.vc_inline-link:hover, a.btn, a.btn:hover, a.btn:visited, .btn {
+    color: #f6ffed;
+}
+
+.bp-login-widget-register-link a, .btn.btn-default {
+    background-color: #438700;
 }
