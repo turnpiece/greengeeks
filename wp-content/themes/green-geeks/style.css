@@ -110,6 +110,11 @@ select, textarea, input[type="text"], input[type="password"], input[type="date"]
     box-shadow: none;
 }
 
+input[type="radio"], 
+input[type="checkbox"] {
+    margin: 4px 10px 0;
+}
+
 /* Footer
 ----------- */
 #footer, #footer a {
@@ -128,4 +133,40 @@ select, textarea, input[type="text"], input[type="password"], input[type="date"]
 
 .bp-login-widget-register-link a, .btn.btn-default {
     background-color: #438700;
+}
+
+
+/* buddypress
+----------- */
+.buddypress #whats-new-form,
+#search-groups-form, 
+#search-members-form {
+  background: #65cb00;
+  border-radius: 0 1em 0 1em;
+}
+
+#message {
+  background: #baff76;
+}
+
+.info {
+  color: #214300;
+}
+
+.buddypress-head {
+  background: #438700;
+}
+
+#item-nav {
+  background-color: #d4ffa9;
+}
+
+.item-list-tabs li.selected a, .item-list-tabs li.selected a:hover, .activity-type-tabs li.selected a, .activity-type-tabs li a:hover {
+    color: #214300;
+}
+.item-list-tabs li.selected a, .item-list-tabs li.current a, .activity-type-tabs li.selected a {
+    border-bottom: 8px solid #214300;
+}
+.item-list-tabs li a, .activity-type-tabs li a {
+    color: #438700;
 }
