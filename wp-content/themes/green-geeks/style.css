@@ -50,7 +50,7 @@ body {
 a {
     color: #438700; }
 
-/*Buttons
+/* Buttons
 ---------------- */
 .add_to_cart_button, 
 .btn.btn-primary {
@@ -80,19 +80,19 @@ legend, caption, h1, h2, h3, h4, h5, h6 {
     padding-top: 25px;
 }
 
-/*Menu
+/* Menu
 ----------- */
 .desktop-menu ul.menu.desktop li a {
     color: #65cb00;
 }
 
-/*Archives
+/* Archives
 ----------- */
 .archive-excerpt {
   margin: 20px 0 20px 0; 
 }
 
-/* BUttons
+/* Buttons
 ----------- */
 .woocommerce .shipping-calculator-button, .add_to_cart_button, .subscription-toggle, .generic-button a, .bp-login-widget-register-link a, a.comment-edit-link, a.post-edit-link, a.vc_inline-link, button, input[type="button"], input[type="reset"], input[type="submit"] {
     background-color: #438700;
@@ -115,6 +115,18 @@ input[type="checkbox"] {
     margin: 4px 10px 0;
 }
 
+#bp-klein-top-bar #klein-search-container.active {
+    top: 55px;
+}
+#bp-klein-top-bar #klein-search-container {
+  background: #65cb00;
+  box-shadow: none;
+  width: 300px;
+  left: -300px;
+  padding: 12px;
+  border-radius: 8px 0;
+}
+
 /* Footer
 ----------- */
 #footer, #footer a {
@@ -133,6 +145,18 @@ input[type="checkbox"] {
 
 .bp-login-widget-register-link a, .btn.btn-default {
     background-color: #438700;
+}
+
+/* Alerts
+----------- */
+.alert-info {
+    background-color: #214300;
+    border-color: none;
+    color: #d4ffa9;
+}
+.alert {
+  padding: 1em 2em;
+  border-radius: 0 12px;
 }
 
 
@@ -155,6 +179,7 @@ input[type="checkbox"] {
 
 .buddypress-head {
   background: #438700;
+  padding: 2em 0;
 }
 
 #item-nav {
