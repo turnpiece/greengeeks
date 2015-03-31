@@ -1,5 +1,5 @@
 /*
-Theme Name: `green Geeks 2
+Theme Name: Green Geeks
 Author: Turnpiece
 Description: Klein is an innovative WordPress theme built to support BuddyPress, bbPress, and WooComerce out of the box. Perfect for website that interacts with number of users. Let your members create profile, send message, add connection, or share what's happening in their life.  Collaborate through forums or sell any products you want. 
 Version: 3.0
@@ -135,8 +135,13 @@ input[type="checkbox"] {
 #footer {
     background: #438700;
 }
-
-
+#footer-widgets {
+    background: #baff76;
+    color: #438700;
+}
+#footer-widgets .widget-title {
+  color: #65cb00;
+}
 
 
 .bp-login-widget-register-link a, a.comment-edit-link, a.post-edit-link, a.vc_inline-link, a.comment-edit-link:visited, a.post-edit-link:visited, a.vc_inline-link:visited, a.comment-edit-link:hover, a.post-edit-link:hover, a.vc_inline-link:hover, a.btn, a.btn:hover, a.btn:visited, .btn {
