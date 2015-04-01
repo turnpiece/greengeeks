@@ -6,6 +6,24 @@
  *
  */
 
+add_action( 'load-post.php', 'gg_post_meta_boxes_setup' );
+add_action( 'load-post-new.php', 'gg_post_meta_boxes_setup' );
+
+function gg_post_meta_boxes_setup() {
+
+	/* Add meta boxes on the 'add_meta_boxes' hook. */
+	add_action( 'add_meta_boxes', 'gg_remove_post_meta_boxes', 99 );
+}
+
+function gg_remove_post_meta_boxes() {
+	// remove appearance meta box on posts
+	remove_meta_box(
+		'klein-appearance-meta-box',
+		'post',
+		'side'
+	);
+}
+
 
 add_filter( 'comment_form_defaults', 'gg_remove_comment_form_allowed_tags' );
 function gg_remove_comment_form_allowed_tags( $defaults ) {
