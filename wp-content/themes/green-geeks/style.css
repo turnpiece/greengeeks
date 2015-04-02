@@ -115,8 +115,12 @@ input[type="checkbox"] {
     margin: 4px 10px 0;
 }
 
+select {
+  height: auto !important;
+}
+
 #bp-klein-top-bar #klein-search-container.active {
-    top: 55px;
+  top: 55px;
 }
 #bp-klein-top-bar #klein-search-container {
   background: #65cb00;
