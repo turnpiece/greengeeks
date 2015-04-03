@@ -92,7 +92,7 @@
 							<?php if( function_exists('bp_core_get_user_domain' ) ){ ?>
 								
 								<div class="top-profile-avatar">
-									<a href="<?php echo admin_url() ?>" title="<?php _e('Write/Edit Posts','klein') ?>"><?php echo get_avatar($current_user->ID, 32); ?></a>
+									<a href="<?php echo bp_core_get_user_domain( $current_user->ID ) ?>" title="<?php _e('Your profile','klein') ?>"><?php echo get_avatar($current_user->ID, 32); ?></a>
 								</div>
 								
 								<?php klein_user_nav(); ?>

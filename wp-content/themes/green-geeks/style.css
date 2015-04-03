@@ -169,7 +169,7 @@ select {
 }
 
 
-/* buddypress
+/* Buddypress
 ----------- */
 .buddypress #whats-new-form,
 #search-groups-form, 
@@ -193,6 +193,21 @@ select {
 
 #item-nav {
   background-color: #d4ffa9;
+}
+
+#item-nav #admin-personal-li {
+  float: right;
+  padding: 5px 10px;
+}
+
+#item-nav #admin-personal-li a {
+  color: #d4ffa9;
+  background-color: #438700;
+  border-radius: 20px;
+}
+
+#item-nav #admin-personal-li a:hover {
+  background-color: #214300;
 }
 
 .item-list-tabs li.selected a, .item-list-tabs li.selected a:hover, .activity-type-tabs li.selected a, .activity-type-tabs li a:hover {
