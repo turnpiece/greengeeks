@@ -87,7 +87,7 @@ function gg_users_admin_link() {
 	// check if this is a user's own profile page
 	if (bp_loggedin_user_domain() == bp_displayed_user_domain()) : ?>
 	<li id="logout-li" class="generic-button">
-		<a href="<?php echo wp_logout_url() ?>" class="btn">
+		<a href="<?php echo wp_logout_url( home_url() ) ?>" class="btn">
 			<?php _e('Logout', 'klein') ?>
 			<div class="glyphicon glyphicon-log-out"></div>
 		</a>

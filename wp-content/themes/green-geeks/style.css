@@ -218,3 +218,17 @@ select {
 .item-list-tabs li a, .activity-type-tabs li a {
     color: #438700;
 }
+
+.activity-header p {
+    color: #214300;
+    font-size: inherit;
+}
+
+#subnav.item-list-tabs li a {
+    font-size: inherit;
+    padding: 0 10px;
+}
+#subnav.item-list-tabs li.current a,
+#subnav.item-list-tabs li a:hover {
+    color: #214300;
+}
