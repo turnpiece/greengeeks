@@ -84,10 +84,17 @@ function gg_remove_comment_form_allowed_tags( $defaults ) {
 
 add_action( 'bp_member_options_nav', 'gg_users_admin_link' );
 function gg_users_admin_link() {
+	// check if this is a user's own profile page
 	if (bp_loggedin_user_domain() == bp_displayed_user_domain()) : ?>
-	<li id="admin-personal-li">
-		<a href="<?php echo admin_url() ?>">
-			<?php _e('Admin control panel', 'klein') ?>
+	<li id="logout-li" class="generic-button">
+		<a href="<?php echo wp_logout_url() ?>" class="btn">
+			<?php _e('Logout', 'klein') ?>
+			<div class="glyphicon glyphicon-log-out"></div>
+		</a>
+	</li>
+	<li id="admin-personal-li" class="generic-button">
+		<a href="<?php echo admin_url() ?>" class="btn">
+			<?php _e('Admin', 'klein') ?>
 			<div class="glyphicon glyphicon-edit"></div>
 		</a>
 	</li>

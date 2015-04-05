@@ -96,6 +96,11 @@ legend, caption, h1, h2, h3, h4, h5, h6 {
 ----------- */
 .woocommerce .shipping-calculator-button, .add_to_cart_button, .subscription-toggle, .generic-button a, .bp-login-widget-register-link a, a.comment-edit-link, a.post-edit-link, a.vc_inline-link, button, input[type="button"], input[type="reset"], input[type="submit"] {
     background-color: #438700;
+    border: 0 none;
+    border-radius: 50px;
+    color: #f6ffed;
+    display: inline-block;
+    padding: 6px 12px;
 }
 
 #comments #respond {
@@ -195,19 +200,13 @@ select {
   background-color: #d4ffa9;
 }
 
-#item-nav #admin-personal-li {
+#item-nav .generic-button {
   float: right;
-  padding: 5px 10px;
+  margin: 5px;
 }
 
-#item-nav #admin-personal-li a {
-  color: #d4ffa9;
-  background-color: #438700;
-  border-radius: 20px;
-}
-
-#item-nav #admin-personal-li a:hover {
-  background-color: #214300;
+#item-nav .generic-button > a.btn {
+  color: #f6ffed;
 }
 
 .item-list-tabs li.selected a, .item-list-tabs li.selected a:hover, .activity-type-tabs li.selected a, .activity-type-tabs li a:hover {
