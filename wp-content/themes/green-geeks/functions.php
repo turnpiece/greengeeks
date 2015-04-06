@@ -47,8 +47,14 @@ function klein_setup() {
 	// add post formats
 	add_theme_support( 'post-formats', array( 'video', 'gallery', 'quote', 'audio' ) );
 
-	// remove siebar settings
-	remove_action('admin_menu', 'klein_register_sidebar_settings');
+	if (is_admin()) {
+		// remove siebar settings
+		remove_action('admin_menu', 'klein_register_sidebar_settings');
+
+		// relabel posts
+		//add_action( 'admin_menu', 'gg_change_post_label' );
+		//add_action( 'init', 'gg_change_post_object' );
+	}
 	
 }
 endif; // klein_setup
@@ -99,4 +105,31 @@ function gg_users_admin_link() {
 		</a>
 	</li>
 	<?php endif;
+}
+
+function gg_change_post_label() {
+    global $menu;
+    global $submenu;
+    $menu[5][0] = 'Thought';
+    $submenu['edit.php'][5][0] = 'Thoughts';
+    $submenu['edit.php'][10][0] = 'Add Thought';
+    $submenu['edit.php'][16][0] = 'Tags';
+    echo '';
+}
+function gg_change_post_object() {
+    global $wp_post_types;
+    $labels = &$wp_post_types['post']->labels;
+    $labels->name = 'Thoughts';
+    $labels->singular_name = 'Thought';
+    $labels->add_new = 'Add Thought';
+    $labels->add_new_item = 'Add Thought';
+    $labels->edit_item = 'Edit Thought';
+    $labels->new_item = 'Thought';
+    $labels->view_item = 'View Thought';
+    $labels->search_items = 'Search Thoughts';
+    $labels->not_found = 'No Thoughts found';
+    $labels->not_found_in_trash = 'No Thoughts found in Trash';
+    $labels->all_items = 'All Thoughts';
+    $labels->menu_name = 'Thought';
+    $labels->name_admin_bar = 'Thought';
 }
