@@ -22,6 +22,7 @@
 <link rel="icon" href="<?php echo $favicon; ?>" type="image/x-icon" />
 <link rel="shortcut icon" href="<?php echo $favicon; ?>" type="image/x-icon" />
 <!-- favicon end -->
+<link href='http://fonts.googleapis.com/css?family=Roboto:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
 <!-- custom background css -->
 <?php klein_custom_background(); ?>
 <!-- custom background css end -->
