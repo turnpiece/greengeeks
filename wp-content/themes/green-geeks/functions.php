@@ -177,10 +177,6 @@ if( !function_exists('klein_login_logo') ){ ?>
 			background: #f6ffed;
 			-webkit-box-shadow: none;
 			box-shadow: none;
-			border-radius: 0;
-			-webkit-border-radius: 0;
-			-moz-border-radius: 0;
-			-webkit-border-radius: 0;
 			font-family: "Roboto", Arial, sans-serif;
 			border-radius: 4px;
 			-moz-border-radius: 4px;
@@ -255,12 +251,12 @@ if( !function_exists('klein_login_logo') ){ ?>
 
 			/*start*/
 
-			color: #fff;
+			color: #f6ffed;
 			-moz-border-radius: 20px;
 			-webkit-border-radius: 20px;
 			border-radius: 20px;
 
-			background: #2ECC71;
+			background: #438700;
 			display: block;
 			
 			padding: 10px 20px;
