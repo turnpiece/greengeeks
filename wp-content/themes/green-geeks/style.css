@@ -70,7 +70,7 @@ legend, caption, h1, h2, h3, h4, h5, h6 {
 
 #bp-klein-top-bar {
     background: #081000;
-    padding: 15px 0 0px;
+    padding: 15px 0 10px;
 }
 .content-heading {
     background: #d4ffa9;
@@ -91,40 +91,14 @@ legend, caption, h1, h2, h3, h4, h5, h6 {
   color: #65cb00;
 }
 
-.menu.mobile {
-  position: absolute;
-  z-index: 9999;
-  top: 66px;
-  left: 0;
-  width: 100%;
-  display: none;
-  padding-left: 0; }
-  .menu.mobile #main-menu-search {
-    display: none; }
-  .menu.mobile li {
-    margin: 0;
-    list-style: none; }
-
     .menu.mobile li a {
-      font-size: 18px;
-      display: inline-block;
-      box-sizing: border-box;
-      width: 100%;
       padding: 10px 30px;
       color: #65cb00;
       border-bottom: 1px solid #438700;
       background: #214300; }
   .menu.mobile .sub-menu li a {
-    font-size: 16px;
-    font-style: italic;
     background: #214300; }
   .menu.mobile li a .sub-menu-toggle {
-    display: inline-block;
-    float: right;
-    margin: -10px;
-    margin-right: 0;
-    padding: 8px 18px;
-    text-align: center;
     background: #001000; }
   .menu.mobile li a:hover {
     background: #001000; }
