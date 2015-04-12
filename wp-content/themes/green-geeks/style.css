@@ -72,9 +72,6 @@ a:hover, a:focus,
 .klein-blog-article-list h3 a {
     color: #438700; }
 
-legend, caption, h1, h2, h3, h4, h5, h6 {
-    color: #214300; }
-
 legend, caption, h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
     color: #438700; }
 
@@ -106,17 +103,17 @@ legend, caption, h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
   color: #65cb00;
 }
 
-    .menu.mobile li a {
-      padding: 10px 30px;
-      color: #65cb00;
-      border-bottom: 1px solid #438700;
-      background: #214300; }
-  .menu.mobile .sub-menu li a {
-    background: #214300; }
-  .menu.mobile li a .sub-menu-toggle {
-    background: #001000; }
-  .menu.mobile li a:hover {
-    background: #001000; }
+.menu.mobile li a {
+  padding: 10px 30px;
+  color: #65cb00;
+  border-bottom: 1px solid #438700;
+  background: #214300; }
+.menu.mobile .sub-menu li a {
+  background: #214300; }
+.menu.mobile li a .sub-menu-toggle {
+  background: #001000; }
+.menu.mobile li a:hover {
+  background: #001000; }
 
 /* Archives
 ----------- */
@@ -143,7 +140,7 @@ legend, caption, h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 ----------- */
 select, textarea, input[type="text"], input[type="password"], input[type="date"], input[type="datetime"], input[type="datetime-local"], input[type="month"], input[type="time"], input[type="email"], input[type="number"], input[type="range"], input[type="search"], input[type="tel"], input[type="url"], input[type="week"] {
     background: #f6ffed;
-    border: 1px solid #438700;
+    border: none;
     box-shadow: none;
 }
 
