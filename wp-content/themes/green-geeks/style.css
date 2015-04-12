@@ -47,8 +47,20 @@ body {
   margin-bottom: 1.6em;
   margin-bottom: 0; }
 
-a {
+a,
+.single-navigation .prev-posts h3 a {
     color: #438700; }
+
+a:hover, a:focus,
+.single-navigation .prev-posts h3 a:hover,
+.single-navigation .prev-posts h3 a:focus {
+  color: #214300;
+}
+
+.site-main .blog-content .entry-content a:hover,
+.site-main .blog-content .entry-content a:focus {
+  text-decoration: underline;
+}
 
 /* Buttons
 ---------------- */
@@ -62,6 +74,9 @@ a {
 
 legend, caption, h1, h2, h3, h4, h5, h6 {
     color: #214300; }
+
+legend, caption, h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+    color: #438700; }
 
 .archive-entry-author .by-label, 
 .archive-entry-author .archive-date {
@@ -248,4 +263,19 @@ select {
 #subnav.item-list-tabs li.current a,
 #subnav.item-list-tabs li a:hover {
     color: #214300;
+}
+
+/* Social links */
+.content-sharer {
+  background: #d4ffa9;
+  border-radius: 4px;
+}
+.content-sharer .caption {
+  color: #65cb00;
+  font-size: 1em;
+}
+.article-sharer {
+  color: #f6ffed;
+  padding: 0;
+  border-radius: 4px;
 }
