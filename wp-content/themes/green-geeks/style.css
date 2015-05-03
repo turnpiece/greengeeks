@@ -139,8 +139,8 @@ legend, caption, h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 /* Inputs 
 ----------- */
 select, textarea, input[type="text"], input[type="password"], input[type="date"], input[type="datetime"], input[type="datetime-local"], input[type="month"], input[type="time"], input[type="email"], input[type="number"], input[type="range"], input[type="search"], input[type="tel"], input[type="url"], input[type="week"] {
-    background: #f6ffed;
-    border: none;
+    background: #cbff66;
+    border: 1px solid #438700;
     box-shadow: none;
 }
 
