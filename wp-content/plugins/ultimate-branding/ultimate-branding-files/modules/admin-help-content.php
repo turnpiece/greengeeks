@@ -315,7 +315,7 @@ class ub_Ahc_AdminHelpContent {
 				$_POST['admin_help_content']['sidebar'] = stripslashes($_POST['admin_help_content']['sidebar']);
 				$this->_set_options($_POST['admin_help_content']);
 			}
-			$goback = add_query_arg('settings-updated', 'true',  wp_get_referer());
+			$goback = UB_Help::add_query_arg_raw('settings-updated', 'true',  wp_get_referer());
 			wp_redirect($goback);
 			die;
 		}

@@ -247,4 +247,14 @@ jQuery(function ($) {
         UB_Ordering.save();
     });
 
+    $(document).on("click", ".ub_adminbar_use_icon", function(){
+        var $this = $(this),
+            $tr = $this.closest("table").find(".ub_adminbar_icon_tr");
+
+        if( $this.is(":checked") ){
+            $tr.slideDown();
+        }else{
+            $tr.slideUp();
+        }
+    })
 });

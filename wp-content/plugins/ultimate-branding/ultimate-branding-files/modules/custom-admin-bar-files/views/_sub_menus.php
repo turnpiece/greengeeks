@@ -12,16 +12,16 @@
         </div>
         <h3 class="hndle">
             <a href="#" data-id="<?php echo $sub->id; ?>" class="wdcab_step_delete button-secondary pull-right"><?php _e("Delete", "ub"); ?></a>
-                                                <span>
-                                                    <span class="wdcab_step_count"><?php echo $i; ?> </span>:&nbsp;
-                                                    <?php echo $sub->title_image;  ?>
-                                                </span>
+            <span>
+                <span class="wdcab_step_count"><?php echo $i; ?> </span>:&nbsp;
+                <?php echo $sub->title_image;  ?>
+            </span>
         </h3>
         <div class="inside">
             <?php _e("Type:", "ub"); ?>&nbsp; <h3 class="inline"><?php echo ucfirst( $sub->link_type ); ?></h3>
             <p>
                 <label for="<?php echo $menu->get_field_id( "ub_admin_bar_title" ); ?>"><?php _e("Title:", "ub"); ?></label>
-                <input type="text" id="<?php echo $menu->get_field_id( "ub_admin_bar_title" ); ?>" class="wdcab_step_title widefat" name="ub_ab_prev[<?php echo $menu->id ?>][links][<?php echo $sub->id ?>][title]" value="<?php echo $sub->title; ?>">
+                <input type="text" id="<?php echo $menu->get_field_id( "ub_admin_bar_title" ); ?>" class="wdcab_step_title widefat" name="ub_ab_prev[<?php echo $menu->id ?>][links][<?php echo $sub->id ?>][title]" value="<?php echo esc_attr( $sub->title ) ; ?>">
             </p>
             <p>
                 <label for="<?php echo $menu->get_field_id( "ub_admin_bar_url" ); ?>"><?php _e("URL:", "ub"); ?></label>

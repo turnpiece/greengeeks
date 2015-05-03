@@ -29,6 +29,14 @@
                             <?php UB_Admin_Bar_Forms::create_disable_box() ?>
                         </td>
                     </tr>
+                    <tr>
+                        <th scope="row">
+                            <?php _e('Select User Roles affected by above', 'ub') ?>
+                        </th>
+                        <td>
+                            <?php UB_Admin_Bar_Forms::create_roles_box('wp_menu_roles') ?>
+                        </td>
+                    </tr>
                     <?php endif; ?>
                     <tr>
                         <th scope="row">
@@ -73,4 +81,3 @@
         </div>
     </div>
 </div>
-

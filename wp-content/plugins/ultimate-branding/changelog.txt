@@ -5,6 +5,37 @@ Author: Marko Miljus (Incsub), Barry (Incsub), Andrew Billits, Ulrich Sossou, Ve
 Change Log: 
 ----------------------------------------------------------------------
 ----------------------------------------------------------------------
+
+DATE: 29 APR, 2015  - VERSION: 1.8.1.4
+==================================
+- Fixed: Bug in role based removal of default menus
+
+
+DATE: 27 APR, 2015  - VERSION: 1.8.1.3
+==================================
+- Fixed: Php nag for roles array
+- Fixed: Some menus showing up after upgrade
+
+DATE: 24 APR, 2015  - VERSION: 1.8.1.2
+==================================
+- Added: Better handling of roles in custom admin bar
+- Fixed: Missing icons in new custom menu bar settings before saving
+
+DATE: 23 APR, 2015  - VERSION: 1.8.1.1
+==================================
+- Fixed: Ability to add favicons using external image url
+- Fixed: Other minor bugs
+
+DATE: 22 APR, 2015  - VERSION: 1.8.1
+==================================
+- Added: Favicon for sub-sites
+- Added: Ability to enable custom admin menus only to certain roles
+- Added: Icons for each top level menu
+- Fixed: Menus not showing up on mobile devices
+- Fixed: Vulnerability in add_query_arg and remove_query_arg
+- Fixed: double “pages” in admin export page
+
+
 DATE: 23 Jan, 2015  - VERSION: 1.8.0.4
 ==================================
 1) Fixed bug in text change module
@@ -232,4 +263,4 @@ DATE: 09 JUN, 2012 - VERSION: 1
 - Initial release of the Ultimate Branding plugin
 
 
-87274-1424729189-au
+87274-1430644647-au

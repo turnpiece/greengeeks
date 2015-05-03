@@ -60,24 +60,17 @@ class ub_Admin_Footer_Text {
 
 	function initialise_plugin() {
 
-		add_action( 'ultimatebranding_settings_menu_footer', array(&$this, 'output_admin_options') );
-		add_filter( 'ultimatebranding_settings_menu_footer_process', array(&$this, 'update_admin_options'), 10, 1 );
+		add_action( 'ultimatebranding_settings_menu_footer', array($this, 'output_admin_options') );
+		add_filter( 'ultimatebranding_settings_menu_footer_process', array($this, 'update_admin_options'), 10, 1 );
 
 		// remove all the remaining filters for the admin footer so that they don't mess the footer up
 		remove_all_filters( 'admin_footer_text' );
-		add_filter( 'admin_footer_text', array( &$this, 'output' ), 1, 1 );
+		add_filter( 'admin_footer_text', array( $this, 'output' ), 1, 1 );
 
-		add_filter( 'update_footer' , array( &$this, 'blank_version' ), 99 );
-
-		add_action( 'in_admin_footer' , array(&$this, 'stuff'));
+		add_filter( 'update_footer' , array( $this, 'blank_version' ), 99 );
 
 	}
 
-	function stuff() {
-		global $wp_filter;
-
-		//print_r($wp_filter);
-	}
 
 	function update_admin_options( $status ) {
 		ub_update_option( 'admin_footer_text' , stripslashes( $_POST['admin_footer_text'] ) );

@@ -10,6 +10,8 @@
  * @property bool $is_image
  * @property string $title_image
  * @property int $external_id
+ * @property string $icon
+ * @property bool $use_icon
  */
 class UB_Admin_Bar_Menu{
 
@@ -29,14 +31,14 @@ class UB_Admin_Bar_Menu{
      */
     var $menu;
 
-    /**
-     * Constructs the class
-     *
-     * @since 1.5
-     * @access public
-     *
-     * @param WP_Post $post
-     */
+	/**
+	 * Constructs the class
+	 *
+	 * @since 1.5
+	 *
+	 * @param $id
+	 * @param array $menu
+	 */
     function __construct($id, array $menu){
         $this->id = $id;
         $this->menu = (object) $menu;
@@ -175,7 +177,9 @@ class UB_Admin_Bar_Menu{
         if( $this->is_image ){
             return "<img  class='ub_admin_bar_image' src='{$this->menu->title}' />";
         }
-        return $this->menu->title;
+	    $icon = $this->use_icon ? "<span class='dashicons dashicons-{$this->icon}'></span>" : "";
+		$title_class = $this->use_icon ? "ub_adminbar_text has_icon" : "ub_adminbar_text";
+        return $icon . "<span class='{$title_class}'>" . $this->menu->title . "<span>";
     }
 
     /**
@@ -223,4 +227,12 @@ class UB_Admin_Bar_Menu{
     public function get_field_id( $field ){
         return $field . "-" . $this->id;
     }
+
+	function get_icon(){
+		return  isset( $this->menu->dashicons ) ? $this->menu->dashicons : "media-default";
+	}
+
+	function get_use_icon(){
+		return (bool) ( isset( $this->menu->use_icon ) ? $this->menu->use_icon : false );
+	}
 }

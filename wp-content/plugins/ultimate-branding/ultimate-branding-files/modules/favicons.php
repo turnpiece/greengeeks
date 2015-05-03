@@ -25,29 +25,63 @@
   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+include_once "favicons/UB_Blog_Favicons.php";
+
 class ub_favicons {
 
-    var $build = 2;
-    var $db;
+	/**
+	 * WP default fav
+	 * @var string
+	 *
+	 * @since 1.8.1
+	 */
+	private static $_default_fav = "";
+
+	/**
+	 * @const prefix of favicons when saving and retrieving from options/sitemeta table
+	 *
+	 * @since 1.8.1
+	 */
+	const FAV_PREFIX = "ub_favicon";
 
     function __construct() {
 
+	    self::$_default_fav = admin_url() . 'images/wordpress-logo.svg';
+
         // Admin interface
-        add_action('ultimatebranding_settings_menu_images', array(&$this, 'manage_output'));
-        add_filter('ultimatebranding_settings_menu_images_process', array(&$this, 'process'));
+        add_action('ultimatebranding_settings_menu_images', array($this, 'manage_output'));
+        add_filter('ultimatebranding_settings_menu_images_process', array($this, 'process'));
 
-        add_action('admin_head', array(&$this, 'admin_head'));
-        add_action('admin_head', array(&$this, 'global_head'));
-        add_action('wp_head', array(&$this, 'global_head'));
+        add_action('admin_head', array($this, 'admin_head'));
+        add_action('admin_head', array($this, 'global_head'));
+        add_action('wp_head', array($this, 'global_head'));
 
-        add_action('wp_before_admin_bar_render', array(&$this, 'change_blavatar_icon'));
+        add_action('wp_before_admin_bar_render', array($this, 'change_blavatar_icon'));
+	    add_action("wp_ajax_ub_save_favicon", array($this, "ajax_ub_save_favicon"));
+	    add_action("wp_ajax_ub_reset_favicon", array($this, "ajax_ub_reset_favicon"));
+
+	    add_filter("clean_url", array($this, "clean_url"), 10, 30);
+	    add_action( 'admin_enqueue_scripts', array($this, 'enqueue_scripts') );
+	    add_action( 'wp_enqueue_scripts', array($this, 'enqueue_scripts') );
     }
+
+	function enqueue_scripts() {
+		wp_register_style( 'ub_favicons_style', ub_files_url('modules/favicons/css/admin.css')  . '', false, '1.0.0' );
+		wp_enqueue_style( 'ub_favicons_style' );
+	}
 
     function ub_favicons() {
         $this->__construct();
     }
 
-    function get_url_valid_shema($url) {
+	/**
+	 * Returns valid schema
+	 *
+	 * @param $url
+	 *
+	 * @return mixed
+	 */
+    public static function get_url_valid_shema($url) {
         $image = $url;
 
         $v_image_url = parse_url($url);
@@ -65,8 +99,12 @@ class ub_favicons {
         return $image;
     }
 
+	/**
+	 * Process delete or update requests
+	 *
+	 * @return bool
+	 */
     function process() {
-        global $plugin_page;
 
         if (isset($_GET['resetfavicon']) && isset($_GET['page']) && $_GET['page'] == 'branding') {
             //login_image_save
@@ -76,10 +114,6 @@ class ub_favicons {
             ub_delete_option('ub_favicon_dir');
             ub_delete_option('ub_favicon_url');
 
-            $uploaddir = ub_wp_upload_dir();
-            $uploadurl = ub_wp_upload_url();
-
-            $response = wp_remote_head(admin_url() . 'images/wordpress-logo.svg');
 
             ub_update_option('ub_favicon', false);
 
@@ -88,13 +122,14 @@ class ub_favicons {
             ub_update_option('ub_favicon', $_POST['wp_favicon']);
             ub_update_option('ub_favicon_id', $_POST['wp_favicon_id']);
             ub_update_option('ub_favicon_size', $_POST['wp_favicon_size']);
+            ub_update_option('ub_favicons_use_as_default', $_POST['ub_favicons_use_as_default']);
         }
 
         return true;
     }
 
     function manage_output() {
-        global $wpdb, $current_site, $page;
+        global $page;
 
         wp_enqueue_style('thickbox');
         wp_enqueue_script('thickbox');
@@ -106,25 +141,6 @@ class ub_favicons {
         elseif (isset($_GET['updated']))
             echo '<div id="message" class="updated fade"><p>' . __('Changes saved.', 'ub') . '</p></div>';
 
-
-        $uploaddir = ub_wp_upload_dir();
-        $uploadurl = ub_wp_upload_url();
-
-        $favicon = ub_get_option('ub_favicon', false);
-        $favicon_dir = ub_get_option('ub_favicon_dir', false);
-        $favicon_url = ub_get_option('ub_favicon_url', false);
-
-        /* if (!$favicon) {
-
-          // Check for backwards compatibility
-          if (!$favicon_dir && file_exists($uploaddir . '/ultimate-branding/includes/favicon/favicon.png')) {
-          ub_update_option('ub_favicon_dir', $uploaddir . '/ultimate-branding/includes/favicon/favicon.png');
-          ub_update_option('ub_favicon_url', $uploadurl . '/ultimate-branding/includes/favicon/favicon.png');
-
-          $favicon_dir = ub_get_option('ub_favicon_dir', false);
-          $favicon_url = ub_get_option('ub_favicon_url', false);
-          }
-          } */
         ?>
 
         <div class='wrap nosubsub'>
@@ -145,7 +161,7 @@ class ub_favicons {
 
                     if (!$favicon) {
                         if (isset($favicon_old) && trim($favicon_old) !== '') {
-                            $favicon = $this->get_url_valid_shema($favicon_old);
+                            $favicon = self::get_url_valid_shema($favicon_old);
                         } else {
                             if ($favicon_id) {
                                 if (is_multisite() && function_exists('is_plugin_active_for_network') && is_plugin_active_for_network('ultimate-branding/ultimate-branding.php')) {
@@ -161,7 +177,7 @@ class ub_favicons {
                             } else if ($favicon) {
                                 list($width, $height) = getimagesize($favicon);
                             } else {
-                                $response = wp_remote_head(admin_url() . 'images/wordpress-logo.svg');
+                                $response = wp_remote_head( self::$_default_fav );
                                 if (!is_wp_error($response) && !empty($response['response']['code']) && $response['response']['code'] == '200') {//support for 3.8+
                                     $favicon = false; //admin_url() . 'images/wordpress-logo.svg';
                                 } else {
@@ -171,17 +187,20 @@ class ub_favicons {
                         }
                     }
                     ?>
-                    <?php if ($favicon) { ?>
-                        <img src="<?php echo $this->get_url_valid_shema($favicon) . '?' . md5(time()); ?>" width="16" height="16" />
-                    <?php } else { ?>
-                        <img src="<?php echo admin_url() . 'images/wordpress-logo.svg' . '?' . md5(time()); ?>" width="16" height="16" />
-                    <?php } ?>
-                    <h4><?php _e('Change Favicon', 'ub'); ?></h4>
 
-                    <input class="upload-url" id="wp_favicon" type="text" size="36" name="wp_favicon" value="<?php echo esc_attr($this->get_url_valid_shema($favicon)); ?>" />
-                    <input class="st_upload_button" id="wp_favicon_button" type="button" value="<?php _e('Browse', 'ub'); ?>" />
+
+	                <?php if( is_multisite() ): ?>
+                        <h4><?php _e('Main site Favicon', 'ub'); ?></h4>
+					<?php else: ?>
+		                <h4><?php _e('Change Favicon', 'ub'); ?></h4>
+		            <?php endif; ?>
+	                <img id="ub_main_site_favicon" data-src="<?php echo self::get_favicon(); ?>" src="<?php echo self::get_favicon(); ?>" width="16" height="16" />
+	                <input class="upload-url" id="wp_favicon" type="text" size="36" name="wp_favicon" value="<?php echo esc_attr( self::get_favicon(null, false) ); ?>" />
+                    <input class="st_upload_button button" id="wp_favicon_button" type="button" value="<?php _e('Browse', 'ub'); ?>" />
                     <input type="hidden" name="favicon_id" id="wp_favicon_id" value="<?php echo esc_attr($favicon_id); ?>" />
                     <input type="hidden" name="wp_favicon_size" id="wp_favicon_size" value="<?php echo esc_attr($favicon_size); ?>" />
+
+	                <?php  $this->_render_subsites_favicon();  ?>
                 </div>
             </div>
         </div>
@@ -211,7 +230,7 @@ class ub_favicons {
             if (!$favicon) {
                 $site_ico = $uploadurl . '/ultimate-branding/includes/favicon/favicon.png';
             } else {
-                $site_ico = $this->get_url_valid_shema($favicon);
+                $site_ico = self::get_url_valid_shema($favicon);
             }
 
             echo '<style type="text/css">
@@ -224,81 +243,29 @@ class ub_favicons {
     }
 
     function global_head() {
-
-        $uploaddir = ub_wp_upload_dir();
-        $uploadurl = ub_wp_upload_url();
+		global $current_blog;
 
         $favicon_dir = ub_get_option('ub_favicon_dir', false);
-        $favicon_url = ub_get_option('ub_favicon_url', false);
         $favicon = ub_get_option('ub_favicon', false);
 
-        // Check for backwards compatibility
-        /* if (!$favicon_dir && file_exists($uploaddir . '/ultimate-branding/includes/favicon/favicon.png')) {
-          ub_update_option('ub_favicon_dir', $uploaddir . '/ultimate-branding/includes/favicon/favicon.png');
-          ub_update_option('ub_favicon_url', $uploadurl . '/ultimate-branding/includes/favicon/favicon.png');
-
-          $favicon_dir = ub_get_option('ub_favicon_dir', false);
-          $favicon_url = ub_get_option('ub_favicon_url', false);
-          } */
-
-        if ($favicon) {
-            $favicon_url = $favicon;
-        }
-
         if ($favicon_dir && file_exists($favicon_dir) || $favicon) {
-            $favicon_url = preg_replace(array('/http:/i', '/https:/i'), '', $favicon_url);
-            echo '<link rel="shortcut icon" href="' . $this->get_url_valid_shema($favicon_url) . '" />';
+            echo '<link rel="shortcut icon" href="' . self::get_favicon($current_blog->blog_id) . '" />';
         }
     }
 
+	/**
+	 * Changes icons of the subnsites in the admin menus
+	 *
+	 *
+	 */
     function change_blavatar_icon() {
         global $wp_admin_bar;
 
-        $favicon = ub_get_option('ub_favicon', false);
-
         foreach ((array) $wp_admin_bar->user->blogs as $blog) {
-            // Our new blavatar
-            if (is_multisite() && function_exists('is_plugin_active_for_network') && is_plugin_active_for_network('ultimate-branding/ultimate-branding.php')) {
-                $favicon_url = get_site_option('ub_favicon_url', false);
 
-                if ($favicon) {
-                    $favicon_url = $favicon;
-                }
-            } else {
-                if (function_exists('switch_to_blog')) {
-                    switch_to_blog($blog->userblog_id);
-                }
-
-                $favicon_url = get_option('ub_favicon_url', false);
-
-                if ($favicon) {
-                    $favicon_url = $favicon;
-                }
-
-                if (function_exists('restore_current_blog')) {
-                    restore_current_blog();
-                }
-            }
-
-            if (empty($favicon_url)) {
-                $blavatar = "";
-            } else {
-                echo '<style>#wpadminbar .quicklinks li .blavatar{width: 16px;height: 16px;padding-right: 5px;padding-top: 5px;}</style>';
-                $favicon_url = preg_replace(array('/http:/i', '/https:/i'), '', $favicon_url);
-                if ($favicon) {
-                    $favicon_url = $favicon;
-                }
-                $blavatar = '<img src="' . $this->get_url_valid_shema(esc_url($favicon_url)) . '" alt="' . esc_attr__('Blavatar') . '" width="16" height="16" class="blavatar"/>';
-            }
-
+	        $blavatar = '<img src="' . self::get_favicon( $blog->userblog_id ) . '" alt="' . esc_attr__('Blavatar') . '" width="16" height="16" class="blavatar"/>';
             $blogname = empty($blog->blogname) ? $blog->domain : $blog->blogname;
-            $menu_id = 'blog-' . $blog->userblog_id;
 
-            // Get the information for our menu item
-            $oldnode = $wp_admin_bar->get_node('blog-' . $blog->userblog_id);
-            // Remove it
-            $wp_admin_bar->remove_node('blog-' . $blog->userblog_id);
-            // Update and add it back in again
             $wp_admin_bar->add_menu(array(
                 'parent' => 'my-sites-list',
                 'id' => 'blog-' . $blog->userblog_id,
@@ -308,7 +275,197 @@ class ub_favicons {
         }
     }
 
+	/**
+	 * Renders sub-sites favicon section
+	 *
+	 * @since 1.8.1
+	 *
+	 */
+	function _render_subsites_favicon(){
+		if( !is_multisite() || wp_is_large_network() ) return;?>
+		<p>
+			<label for="ub_favicons_use_as_default">
+				<input type="checkbox" id="ub_favicons_use_as_default" name="ub_favicons_use_as_default" <?php checked(self::_use_as_default(), true); ?>  />
+				<?php _e("Use this as default favicon for all sub-sites", "ub"); ?>
+			</label>
+		</p>
+		<p>&nbsp;</p>
+		<p>&nbsp;</p>
+		<h4><?php _e("Sub-site favicons", "ub"); ?></h4>
+		<?php
+		$table = new UB_Blog_Favicons();
+		$table->prepare_items();
+		$table->display();
+
+	}
+
+
+	/**
+	 * Checks to see if blog has a favicon
+	 *
+	 * @param null $blog_id
+	 *
+	 * @since 1.8.1
+	 *
+	 * @return bool
+	 */
+	public static function has_favicon( $blog_id = null ){
+		$favicon =  ub_get_option(self::FAV_PREFIX . $blog_id, false);
+		return isset( $favicon['url'] );
+	}
+
+	/**
+	 * Retrieves favicon based on blog_id
+	 *
+	 * @param string $blog_id
+	 * @param bool $add_tail
+	 *
+	 * @since 1.8.1
+	 *
+	 * @return string
+	 */
+	public static function get_favicon( $blog_id = null, $add_tail = true ){
+
+		/**
+		 * If it's the main site return the main fav
+		 */
+		if( empty( $blog_id ) && is_main_site( $blog_id ) )
+			return self::get_main_favicon( $add_tail );
+
+		$tail = $add_tail ? '?' . md5(time()) : "";
+
+		$key = self::FAV_PREFIX . $blog_id;
+		$favicon =  ub_get_option($key, false);
+
+
+		if( isset( $favicon['url'] ) )
+			return self::get_url_valid_shema($favicon['url']) . $tail;
+
+		if( self::_use_as_default() )
+			return self::get_main_favicon( $add_tail );
+		else
+			return self::$_default_fav . $tail;
+	}
+
+	/**
+	 * Retrieves main favicon
+	 *
+	 * @param bool $add_tail
+	 *
+	 * @since 1.8.1
+	 *
+	 * @return string
+	 */
+	public static function get_main_favicon( $add_tail = true ){
+		$favicon = ub_get_option(self::FAV_PREFIX, false);
+		$tail = $add_tail ? '?' . md5(time()) : "";
+
+		if( $favicon )
+			return self::get_url_valid_shema( $favicon ) . $tail;
+
+		return self::$_default_fav . $tail;
+	}
+
+	/**
+	 * Returns use as default option
+	 * If it's true it means that the main image is being used as default favicon for all sub-sites
+	 *
+	 * @since 1.8.1
+	 *
+	 * @return bool
+	 */
+	private static function _use_as_default(){
+		return (bool) ub_get_option("ub_favicons_use_as_default", false);
+	}
+
+	/**
+	 * Saves favicon to db using ajax
+	 *
+	 * @since 1.8.1
+	 *
+	 */
+	public function ajax_ub_save_favicon(){
+		$data = $_POST['ub_favicons'];
+		$id = (int) key($data);
+		$data = current($data);
+
+		/**
+		 * Empty url
+		 */
+		if( empty( $data['url']  ) ){
+			wp_send_json_error(
+				__("Please specify image", "ub")
+			);
+		}
+
+		/**
+		 * Id = 0
+		 */
+		if( $id === 0 ){
+			wp_send_json_error(
+				__("Please specify image", "ub")
+			);
+		}
+
+		if( wp_verify_nonce($data['nonce'], "ub_save_favicon") ){
+			unset( $data['nonce'] );
+			ub_update_option( self::FAV_PREFIX . $id, $data );
+			wp_send_json_success(__("Favicon successfully updated", "ub"));
+		}
+
+		wp_die();
+	}
+
+	/**
+	 * Resets favicon to default ( removes the fav )
+	 *
+	 * @since 1.8.1
+	 *
+	 */
+	public function ajax_ub_reset_favicon(){
+		$id = (int) $_POST['id'];
+		$nonce = $_POST['nonce'];
+
+		/**
+		 * Id = 0
+		 */
+		if( $id === 0 ){
+			wp_send_json_error(
+				__("Invalid id", "ub")
+			);
+		}
+
+		if( wp_verify_nonce($nonce, "ub_reset_favicon") ){
+			ub_delete_option(self::FAV_PREFIX . $id);
+			wp_send_json_success(array(
+				"update" => __("Favicon successfully updated", "ub"),
+				"fav" => self::get_favicon($id)
+			));
+		}
+
+		wp_die();
+	}
+
+	/**
+	 * Removes #038; from url
+	 *
+	 * @filter clean_url
+	 *
+	 * @param $good_protocol_url
+	 * @param $original_url
+	 * @param $_context
+	 *
+	 * @since 1.8.1
+	 *
+	 * @return mixed
+	 */
+	function clean_url($good_protocol_url, $original_url, $_context){
+		if( isset($_GET['page']) && $_GET['page'] === "branding" ){
+			$good_protocol_url = str_replace("#038;", "", $good_protocol_url);
+		}
+
+		return $good_protocol_url;
+	}
 }
 
 $ub_favicons = new ub_favicons();
-?>

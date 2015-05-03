@@ -195,6 +195,7 @@ if (!class_exists('UltimateBrandingAdmin')) {
             do_action('ultimatebranding_admin_header_global');
 
             $tab = (isset($_GET['tab'])) ? $_GET['tab'] : '';
+
             if (empty($tab)) {
                 $tab = 'dashboard';
             }
@@ -372,16 +373,16 @@ if (!class_exists('UltimateBrandingAdmin')) {
                             switch ($_GET['action']) {
                                 case 'enable': check_admin_referer('enable-module-' . $_GET['module']);
                                     if ($this->activate_module($_GET['module'])) {
-                                        wp_safe_redirect(remove_query_arg(array('module', '_wpnonce', 'action'), wp_get_referer()));
+                                        wp_safe_redirect(UB_Help::remove_query_arg_raw(array('module', '_wpnonce', 'action'), wp_get_referer()));
                                     } else {
-                                        wp_safe_redirect(remove_query_arg(array('module', '_wpnonce', 'action'), wp_get_referer()));
+                                        wp_safe_redirect(UB_Help::remove_query_arg_raw(array('module', '_wpnonce', 'action'), wp_get_referer()));
                                     }
                                     break;
                                 case 'disable': check_admin_referer('disable-module-' . $_GET['module']);
                                     if ($this->deactivate_module($_GET['module'])) {
-                                        wp_safe_redirect(remove_query_arg(array('module', '_wpnonce', 'action'), wp_get_referer()));
+                                        wp_safe_redirect(UB_Help::remove_query_arg_raw(array('module', '_wpnonce', 'action'), wp_get_referer()));
                                     } else {
-                                        wp_safe_redirect(remove_query_arg(array('module', '_wpnonce', 'action'), wp_get_referer()));
+                                        wp_safe_redirect(UB_Help::remove_query_arg_raw(array('module', '_wpnonce', 'action'), wp_get_referer()));
                                     }
                                     break;
                             }
@@ -391,124 +392,124 @@ if (!class_exists('UltimateBrandingAdmin')) {
 
                                 $this->activate_module($module);
                             }
-                            wp_safe_redirect(remove_query_arg(array('module', '_wpnonce', 'action'), wp_get_referer()));
+                            wp_safe_redirect(UB_Help::remove_query_arg_raw(array('module', '_wpnonce', 'action'), wp_get_referer()));
                         } elseif (isset($_GET['action']) && $_GET['action'] == 'disableallmodules') {
                             check_admin_referer('disable-all-modules');
                             foreach ($this->modules as $module => $value) {
 
                                 $this->deactivate_module($module);
                             }
-                            wp_safe_redirect(remove_query_arg(array('module', '_wpnonce', 'action'), wp_get_referer()));
+                            wp_safe_redirect(UB_Help::remove_query_arg_raw(array('module', '_wpnonce', 'action'), wp_get_referer()));
                         }
                         break;
 
                     case 'images': check_admin_referer('ultimatebranding_settings_menu_images');
                         if (apply_filters('ultimatebranding_settings_menu_images_process', true)) {
-                            wp_safe_redirect(add_query_arg('msg', 1, wp_get_referer()));
+                            wp_safe_redirect(UB_Help::add_query_arg_raw('msg', 1, wp_get_referer()));
                         } else {
-                            wp_safe_redirect(add_query_arg('msg', 2, wp_get_referer()));
+                            wp_safe_redirect(UB_Help::add_query_arg_raw('msg', 2, wp_get_referer()));
                         }
                         break;
 
                     case 'adminbar': check_admin_referer('ultimatebranding_settings_menu_adminbar');
                         if (apply_filters('ultimatebranding_settings_menu_adminbar_process', true)) {
-                            wp_safe_redirect(add_query_arg('msg', 1, wp_get_referer()));
+                            wp_safe_redirect(UB_Help::add_query_arg_raw('msg', 1, wp_get_referer()));
                         } else {
-                            wp_safe_redirect(add_query_arg('msg', 2, wp_get_referer()));
+                            wp_safe_redirect(UB_Help::add_query_arg_raw('msg', 2, wp_get_referer()));
                         }
                         break;
 
                     case 'help': check_admin_referer('ultimatebranding_settings_menu_help');
                         if (apply_filters('ultimatebranding_settings_menu_help_process', true)) {
-                            wp_safe_redirect(add_query_arg('msg', 1, wp_get_referer()));
+                            wp_safe_redirect(UB_Help::add_query_arg_raw('msg', 1, wp_get_referer()));
                         } else {
-                            wp_safe_redirect(add_query_arg('msg', 2, wp_get_referer()));
+                            wp_safe_redirect(UB_Help::add_query_arg_raw('msg', 2, wp_get_referer()));
                         }
                         break;
 
                     case 'footer': check_admin_referer('ultimatebranding_settings_menu_footer');
                         if (apply_filters('ultimatebranding_settings_menu_footer_process', true)) {
-                            wp_safe_redirect(add_query_arg('msg', 1, wp_get_referer()));
+                            wp_safe_redirect(UB_Help::add_query_arg_raw('msg', 1, wp_get_referer()));
                         } else {
-                            wp_safe_redirect(add_query_arg('msg', 2, wp_get_referer()));
+                            wp_safe_redirect(UB_Help::add_query_arg_raw('msg', 2, wp_get_referer()));
                         }
                         break;
 
                     case 'header': check_admin_referer('ultimatebranding_settings_menu_header');
                         if (apply_filters('ultimatebranding_settings_menu_header_process', true)) {
-                            wp_safe_redirect(add_query_arg('msg', 1, wp_get_referer()));
+                            wp_safe_redirect(UB_Help::add_query_arg_raw('msg', 1, wp_get_referer()));
                         } else {
-                            wp_safe_redirect(add_query_arg('msg', 2, wp_get_referer()));
+                            wp_safe_redirect(UB_Help::add_query_arg_raw('msg', 2, wp_get_referer()));
                         }
                         break;
 
                     case 'widgets': check_admin_referer('ultimatebranding_settings_menu_widgets');
                         if (apply_filters('ultimatebranding_settings_menu_widgets_process', true)) {
-                            wp_safe_redirect(add_query_arg('msg', 1, wp_get_referer()));
+                            wp_safe_redirect(UB_Help::add_query_arg_raw('msg', 1, wp_get_referer()));
                         } else {
-                            wp_safe_redirect(add_query_arg('msg', 2, wp_get_referer()));
+                            wp_safe_redirect(UB_Help::add_query_arg_raw('msg', 2, wp_get_referer()));
                         }
                         break;
 
                     case 'permalinks': check_admin_referer('ultimatebranding_settings_menu_permalinks');
                         if (apply_filters('ultimatebranding_settings_menu_permalinks_process', true)) {
-                            wp_safe_redirect(add_query_arg('msg', 1, wp_get_referer()));
+                            wp_safe_redirect(UB_Help::add_query_arg_raw('msg', 1, wp_get_referer()));
                         } else {
-                            wp_safe_redirect(add_query_arg('msg', 2, wp_get_referer()));
+                            wp_safe_redirect(UB_Help::add_query_arg_raw('msg', 2, wp_get_referer()));
                         }
                         break;
 
                     case 'sitegenerator': check_admin_referer('ultimatebranding_settings_menu_sitegenerator');
                         if (apply_filters('ultimatebranding_settings_menu_sitegenerator_process', true)) {
-                            wp_safe_redirect(add_query_arg('msg', 1, wp_get_referer()));
+                            wp_safe_redirect(UB_Help::add_query_arg_raw('msg', 1, wp_get_referer()));
                         } else {
-                            wp_safe_redirect(add_query_arg('msg', 2, wp_get_referer()));
+                            wp_safe_redirect(UB_Help::add_query_arg_raw('msg', 2, wp_get_referer()));
                         }
                         break;
 
                     case 'textchange': check_admin_referer('ultimatebranding_settings_menu_textchange');
                         if (apply_filters('ultimatebranding_settings_menu_textchange_process', true)) {
-                            wp_safe_redirect(add_query_arg('msg', 1, wp_get_referer()));
+                            wp_safe_redirect(UB_Help::add_query_arg_raw('msg', 1, wp_get_referer()));
                         } else {
-                            wp_safe_redirect(add_query_arg('msg', 2, wp_get_referer()));
+                            wp_safe_redirect(UB_Help::add_query_arg_raw('msg', 2, wp_get_referer()));
                         }
                         break;
 
                     case 'css': check_admin_referer('ultimatebranding_settings_menu_css');
                         if (apply_filters('ultimatebranding_settings_menu_css_process', true)) {
-                            wp_safe_redirect(add_query_arg('msg', 1, wp_get_referer()));
+                            wp_safe_redirect(UB_Help::add_query_arg_raw('msg', 1, wp_get_referer()));
                         } else {
-                            wp_safe_redirect(add_query_arg('msg', 2, wp_get_referer()));
+                            wp_safe_redirect(UB_Help::add_query_arg_raw('msg', 2, wp_get_referer()));
                         }
                         break;
 
                     case 'from_email': check_admin_referer('ultimatebranding_settings_menu_from_email');
                         if (apply_filters('ultimatebranding_settings_menu_from_email_process', true)) {
-                            wp_safe_redirect(add_query_arg('msg', 1, wp_get_referer()));
+                            wp_safe_redirect(UB_Help::add_query_arg_raw('msg', 1, wp_get_referer()));
                         } else {
-                            wp_safe_redirect(add_query_arg('msg', 2, wp_get_referer()));
+                            wp_safe_redirect(UB_Help::add_query_arg_raw('msg', 2, wp_get_referer()));
                         }
                         break;
 
                     case 'admin_menu': check_admin_referer('ultimatebranding_settings_admin_menu');
                         if (apply_filters('ultimatebranding_settings_admin_menu_process', true)) {
-                            wp_safe_redirect(add_query_arg('msg', 1, wp_get_referer()));
+                            wp_safe_redirect(UB_Help::add_query_arg_raw('msg', 1, wp_get_referer()));
                         } else {
-                            wp_safe_redirect(add_query_arg('msg', 2, wp_get_referer()));
+                            wp_safe_redirect(UB_Help::add_query_arg_raw('msg', 2, wp_get_referer()));
                         }
                         break;
 
 
                     case 'ultimate-color-schemes': check_admin_referer('ultimatebranding_settings_ultimate_color_schemes');
                         if (apply_filters('ultimatebranding_settings_menu_ultimate_color_schemes_process', true)) {
-                            wp_safe_redirect(add_query_arg('msg', 1, wp_get_referer()));
+                            wp_safe_redirect(UB_Help::add_query_arg_raw('msg', 1, wp_get_referer()));
                         } else {
-                            wp_safe_redirect(add_query_arg('msg', 2, wp_get_referer()));
+                            wp_safe_redirect(UB_Help::add_query_arg_raw('msg', 2, wp_get_referer()));
                         }
                         break;
 
                     case 'admin-message': check_admin_referer('ultimatebranding_settings_admin_message');
-                        wp_safe_redirect(add_query_arg('msg', apply_filters( 'ultimatebranding_settings_admin_message_process', 1 ) , wp_get_referer() ));
+                        wp_safe_redirect(UB_Help::add_query_arg_raw('msg', apply_filters( 'ultimatebranding_settings_admin_message_process', 1 ) , wp_get_referer() ));
                         break;
 
                     default: do_action('ultimatebranding_settings_update_' . $tab);
@@ -656,7 +657,7 @@ if (!class_exists('UltimateBrandingAdmin')) {
             <?php
             if (isset($_GET['msg'])) {
                 echo '<div id="message" class="updated fade"><p>' . $messages[(int) $_GET['msg']] . '</p></div>';
-                $_SERVER['REQUEST_URI'] = remove_query_arg(array('message'), $_SERVER['REQUEST_URI']);
+                $_SERVER['REQUEST_URI'] = UB_Help::remove_query_arg(array('message'), $_SERVER['REQUEST_URI']);
             }
             ?>
 
@@ -835,7 +836,7 @@ if (!class_exists('UltimateBrandingAdmin')) {
             <?php
             if (isset($_GET['msg'])) {
                 echo '<div id="message" class="updated fade"><p>' . $messages[(int) $_GET['msg']] . '</p></div>';
-                $_SERVER['REQUEST_URI'] = remove_query_arg(array('message'), $_SERVER['REQUEST_URI']);
+                $_SERVER['REQUEST_URI'] = UB_Help::remove_query_arg(array('message'), $_SERVER['REQUEST_URI']);
             }
             ?>
             <div id="poststuff" class="metabox-holder m-settings">
@@ -880,7 +881,7 @@ if (!class_exists('UltimateBrandingAdmin')) {
             <?php
             if (isset($_GET['msg'])) {
                 echo '<div id="message" class="updated fade"><p>' . $messages[(int) $_GET['msg']] . '</p></div>';
-                $_SERVER['REQUEST_URI'] = remove_query_arg(array('message'), $_SERVER['REQUEST_URI']);
+                $_SERVER['REQUEST_URI'] = UB_Help::remove_query_arg(array('message'), $_SERVER['REQUEST_URI']);
             }
             ?>
             <div id="poststuff" class="metabox-holder m-settings">
@@ -925,7 +926,7 @@ if (!class_exists('UltimateBrandingAdmin')) {
             <?php
             if (isset($_GET['msg'])) {
                 echo '<div id="message" class="updated fade"><p>' . $messages[(int) $_GET['msg']] . '</p></div>';
-                $_SERVER['REQUEST_URI'] = remove_query_arg(array('message'), $_SERVER['REQUEST_URI']);
+                $_SERVER['REQUEST_URI'] = UB_Help::remove_query_arg(array('message'), $_SERVER['REQUEST_URI']);
             }
             ?>
             <div id="poststuff" class="metabox-holder m-settings">
@@ -970,7 +971,7 @@ if (!class_exists('UltimateBrandingAdmin')) {
             <?php
             if (isset($_GET['msg'])) {
                 echo '<div id="message" class="updated fade"><p>' . $messages[(int) $_GET['msg']] . '</p></div>';
-                $_SERVER['REQUEST_URI'] = remove_query_arg(array('message'), $_SERVER['REQUEST_URI']);
+                $_SERVER['REQUEST_URI'] = UB_Help::remove_query_arg(array('message'), $_SERVER['REQUEST_URI']);
             }
             ?>
             <div id="poststuff" class="metabox-holder m-settings">
@@ -1015,7 +1016,7 @@ if (!class_exists('UltimateBrandingAdmin')) {
             <?php
             if (isset($_GET['msg'])) {
                 echo '<div id="message" class="updated fade"><p>' . $messages[(int) $_GET['msg']] . '</p></div>';
-                $_SERVER['REQUEST_URI'] = remove_query_arg(array('message'), $_SERVER['REQUEST_URI']);
+                $_SERVER['REQUEST_URI'] = UB_Help::remove_query_arg(array('message'), $_SERVER['REQUEST_URI']);
             }
             ?>
             <div id="poststuff" class="metabox-holder m-settings">
@@ -1060,7 +1061,7 @@ if (!class_exists('UltimateBrandingAdmin')) {
             <?php
             if (isset($_GET['msg'])) {
                 echo '<div id="message" class="updated fade"><p>' . $messages[(int) $_GET['msg']] . '</p></div>';
-                $_SERVER['REQUEST_URI'] = remove_query_arg(array('message'), $_SERVER['REQUEST_URI']);
+                $_SERVER['REQUEST_URI'] = UB_Help::remove_query_arg(array('message'), $_SERVER['REQUEST_URI']);
             }
             ?>
             <div id="poststuff" class="metabox-holder m-settings">
@@ -1104,7 +1105,7 @@ if (!class_exists('UltimateBrandingAdmin')) {
             <?php
             if (isset($_GET['msg'])) {
                 echo '<div id="message" class="updated fade"><p>' . $messages[(int) $_GET['msg']] . '</p></div>';
-                $_SERVER['REQUEST_URI'] = remove_query_arg(array('message'), $_SERVER['REQUEST_URI']);
+                $_SERVER['REQUEST_URI'] = UB_Help::remove_query_arg(array('message'), $_SERVER['REQUEST_URI']);
             }
             ?>
             <div id="poststuff" class="metabox-holder m-settings">
@@ -1149,7 +1150,7 @@ if (!class_exists('UltimateBrandingAdmin')) {
             <?php
             if (isset($_GET['msg'])) {
                 echo '<div id="message" class="updated fade"><p>' . $messages[(int) $_GET['msg']] . '</p></div>';
-                $_SERVER['REQUEST_URI'] = remove_query_arg(array('message'), $_SERVER['REQUEST_URI']);
+                $_SERVER['REQUEST_URI'] = UB_Help::remove_query_arg(array('message'), $_SERVER['REQUEST_URI']);
             }
             ?>
             <div id="poststuff" class="metabox-holder m-settings">
@@ -1194,7 +1195,7 @@ if (!class_exists('UltimateBrandingAdmin')) {
             <?php
             if (isset($_GET['msg'])) {
                 echo '<div id="message" class="updated fade"><p>' . $messages[(int) $_GET['msg']] . '</p></div>';
-                $_SERVER['REQUEST_URI'] = remove_query_arg(array('message'), $_SERVER['REQUEST_URI']);
+                $_SERVER['REQUEST_URI'] = UB_Help::remove_query_arg(array('message'), $_SERVER['REQUEST_URI']);
             }
             ?>
             <div id="poststuff" class="metabox-holder m-settings">
@@ -1241,7 +1242,7 @@ if (!class_exists('UltimateBrandingAdmin')) {
             <?php
             if (isset($_GET['msg'])) {
                 echo '<div id="message" class="updated fade"><p>' . $messages[(int) $_GET['msg']] . '</p></div>';
-                $_SERVER['REQUEST_URI'] = remove_query_arg(array('message'), $_SERVER['REQUEST_URI']);
+                $_SERVER['REQUEST_URI'] = UB_Help::remove_query_arg(array('message'), $_SERVER['REQUEST_URI']);
             }
             ?>
             <div id="poststuff" class="metabox-holder m-settings">
@@ -1288,7 +1289,7 @@ if (!class_exists('UltimateBrandingAdmin')) {
             <?php
             if (isset($_GET['msg'])) {
                 echo '<div id="message" class="updated fade"><p>' . $messages[(int) $_GET['msg']] . '</p></div>';
-                $_SERVER['REQUEST_URI'] = remove_query_arg(array('message'), $_SERVER['REQUEST_URI']);
+                $_SERVER['REQUEST_URI'] = UB_Help::remove_query_arg(array('message'), $_SERVER['REQUEST_URI']);
             }
             ?>
             <div id="poststuff" class="metabox-holder m-settings">
@@ -1334,7 +1335,7 @@ if (!class_exists('UltimateBrandingAdmin')) {
             <?php
             if (isset($_GET['msg'])) {
                 echo '<div id="message" class="updated fade"><p>' . $messages[(int) $_GET['msg']] . '</p></div>';
-                $_SERVER['REQUEST_URI'] = remove_query_arg(array('message'), $_SERVER['REQUEST_URI']);
+                $_SERVER['REQUEST_URI'] = UB_Help::remove_query_arg(array('message'), $_SERVER['REQUEST_URI']);
             }
             ?>
             <div id="poststuff" class="metabox-holder m-settings">
@@ -1380,7 +1381,7 @@ if (!class_exists('UltimateBrandingAdmin')) {
             <?php
             if (isset($_GET['msg'])) {
                 echo '<div id="message" class="updated fade"><p>' . $messages[(int) $_GET['msg']] . '</p></div>';
-                $_SERVER['REQUEST_URI'] = remove_query_arg(array('message'), $_SERVER['REQUEST_URI']);
+                $_SERVER['REQUEST_URI'] = UB_Help::remove_query_arg(array('message'), $_SERVER['REQUEST_URI']);
             }
             ?>
             <div id="poststuff" class="metabox-holder m-settings">

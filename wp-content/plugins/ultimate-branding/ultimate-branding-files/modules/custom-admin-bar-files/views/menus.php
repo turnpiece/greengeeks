@@ -29,6 +29,18 @@ foreach( UB_Admin_Bar::menus() as $menu ):
                         </td>
                     </tr>
                     <tr>
+	                    <th scope="row"><?php _e("Use Icon", "ub");?></th>
+	                    <td>
+		                    <input class="ub_adminbar_use_icon" type="checkbox" <?php checked($menu->use_icon, true); ?>  name="ub_ab_prev[<?php echo $menu->id ?>][use_icon]">
+	                    </td>
+                    </tr>
+                    <tr class="ub_adminbar_icon_tr <?php echo $menu->use_icon ? '' : 'ub_hidden'; ?>">
+	                    <th scope="row"><?php _e("Icon", "ub") ?> <br><small><?php _e("Icon to be used beside the menu text and shown on mobile devices", "ub") ?></small></th>
+	                    <td>
+							<?php UB_Admin_Bar_Forms::render_dashicons_radios($menu); ?>
+	                    </td>
+                    </tr>
+                    <tr>
                         <th scope="row"><?php _e("Title link leads to", "ub"); ?></th>
                         <td>
                             <input id="<?php echo $menu->get_field_id( "title_link-url-type-blank" ); ?>" type="radio" class="title_link-url-type" data-value="#" name="ub_ab_prev[<?php echo $menu->id; ?>][url]"  value="#" <?php checked( $menu->link_type, "#" ); ?>>
@@ -54,6 +66,12 @@ foreach( UB_Admin_Bar::menus() as $menu ):
                         <th scope="row"><?php _e("Open in new window?", "ub"); ?></th>
                         <td>
                             <input type="checkbox" name="ub_ab_prev[<?php echo $menu->id ?>][target]"  <?php  checked( $menu->target, "_blank" ); ?> >
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row"><?php _e("Select User Roles allowed to see menu", "ub"); ?></th>
+                        <td>
+                        <?php UB_Admin_Bar_Forms::create_submenu_roles( $menu ); ?>
                         </td>
                     </tr>
                     <tr>

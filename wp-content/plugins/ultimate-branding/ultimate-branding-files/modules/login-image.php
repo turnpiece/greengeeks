@@ -265,7 +265,7 @@ class ub_Login_Image {
                     <h4><?php _e('Change Image', 'login_image'); ?></h4>
 
                     <input class="upload-url" id="wp_login_image" type="text" size="36" name="wp_login_image" value="<?php echo esc_attr($login_image); ?>" />
-                    <input class="st_upload_button" id="wp_login_image_button" type="button" value="<?php _e('Browse', 'login_image'); ?>" />
+                    <input class="st_upload_button button" id="wp_login_image_button" type="button" value="<?php _e('Browse', 'login_image'); ?>" />
                     <input type="hidden" name="wp_login_image_id" id="wp_login_image_id" value="<?php echo esc_attr($login_image_id); ?>" />
                     <input type="hidden" name="wp_login_image_size" id="wp_login_image_size" value="<?php echo esc_attr($login_image_size); ?>" />
                     <input type="hidden" name="wp_login_image_width" id="wp_login_image_width" value="<?php echo esc_attr($login_image_width); ?>" />
