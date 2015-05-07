@@ -81,7 +81,7 @@
 						</div>
 						<div class="clearfix"></div>
 				</div>
-				
+				<?php /*
 				<div id="bp-klein-user-bar-action" class="col-sm-2 col-xs-6">
 					<div class="pull-right">
 						<?php if( is_user_logged_in() ){ ?>
@@ -104,7 +104,7 @@
 						<?php } ?>
 					</div>
 				</div>
-
+				*/ ?>
 				<div class="small-screen-device-nav col-xs-2 visible-xs">
 						<nav id="site-navigation" class="main-navigation pull-right" role="navigation">
 							<div id="menu">

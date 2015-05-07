@@ -55,6 +55,11 @@ function klein_setup() {
 		//add_action( 'admin_menu', 'gg_change_post_label' );
 		//add_action( 'init', 'gg_change_post_object' );
 	}
+
+	remove_filter( 'wp_title', 'klein_wp_title' );
+
+	// don't show the admin bar on the front end
+	show_admin_bar( false );
 	
 }
 endif; // klein_setup
