@@ -92,7 +92,7 @@ function gg_remove_comment_form_allowed_tags( $defaults ) {
 	return $defaults;
 
 }
-
+/*
 add_action( 'bp_member_options_nav', 'gg_users_admin_link' );
 function gg_users_admin_link() {
 	// check if this is a user's own profile page
@@ -109,6 +109,30 @@ function gg_users_admin_link() {
 			<div class="glyphicon glyphicon-edit"></div>
 		</a>
 	</li>
+	<?php endif;
+}
+*/
+add_action( 'bp_member_header_actions', 'gg_member_header_actions' );
+function gg_member_header_actions() {
+	if (bp_loggedin_user_domain() == bp_displayed_user_domain()) : ?>
+	<p>
+		<div id="write-post" class="generic-button">
+			<a href="<?php echo admin_url( 'post-new.php' ) ?>" class="btn">
+				<?php _e('Write', 'klein') ?>
+				<div class="glyphicon glyphicon-edit"></div>
+			</a>
+		</div>
+		<?php _e('what you think', 'klein'); ?>
+	</p>
+
+	<p>
+		<div id="profile-logout" class="generic-button">
+			<a href="<?php echo wp_logout_url( home_url() ) ?>" class="btn">
+				<?php _e('Logout', 'klein') ?>
+				<div class="glyphicon glyphicon-log-out"></div>
+			</a>
+		</div>
+	</p>
 	<?php endif;
 }
 

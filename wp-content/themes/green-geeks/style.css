@@ -220,9 +220,24 @@ select {
   color: #214300;
 }
 
+.fg-white {
+  color: #f6ffed;
+}
+
 .buddypress-head {
+  color: #d4ffa9;
   background: #438700;
   padding: 2em 0;
+}
+
+.buddypress-head p,
+.buddypress-head .fg-cloud {
+  color: #d4ffa9;
+}
+
+.buddypress #item-buttons a {
+   font-size: 0.9375em;
+   padding: 0.4em 0.8em;
 }
 
 #item-nav {
