@@ -54,6 +54,10 @@ function klein_setup() {
 		// relabel posts
 		//add_action( 'admin_menu', 'gg_change_post_label' );
 		//add_action( 'init', 'gg_change_post_object' );
+
+		// allow contributors to upload images
+		if ( current_user_can('contributor') && !current_user_can('upload_files') )
+			add_action('admin_init', 'gg_allow_contributor_uploads');
 	}
 
 	remove_filter( 'wp_title', 'klein_wp_title' );
@@ -245,6 +249,12 @@ function gg_change_post_object() {
     $labels->all_items = 'All Thoughts';
     $labels->menu_name = 'Thought';
     $labels->name_admin_bar = 'Thought';
+}
+
+// allow contributors to upload files
+function gg_allow_contributor_uploads() {
+     $contributor = get_role('contributor');
+     $contributor->add_cap('upload_files');
 }
 
 if( !function_exists('klein_login_logo') ){ ?>
