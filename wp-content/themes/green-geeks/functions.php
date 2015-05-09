@@ -66,6 +66,90 @@ endif; // klein_setup
 
 add_action( 'after_setup_theme', 'klein_setup' );
 
+/**
+ * Register widgetized area and update sidebar with default widgets
+ */
+function gg_widgets_init() {
+	/*
+	 * Default Sidebars
+	 */
+	register_sidebar( array(
+		'name'          => __( 'Sidebar Right', 'klein' ),
+		'id'            => 'sidebar-1',
+		'before_widget' => '<aside id="%1$s" class="widget %2$s">',
+		'after_widget'  => '</aside>',
+		'before_title'  => '<h3 class="widget-title">',
+		'after_title'   => '</h3><div class="widget-clear"></div>',
+	) );
+	
+	/*
+	 * Front Page Sidebars
+	 */
+	register_sidebar( array(
+		'name'          => __( 'Page Sidebar Right', 'klein' ),
+		'id'            => 'page-sidebar-right',
+		'before_widget' => '<aside id="%1$s" class="widget %2$s">',
+		'after_widget'  => '</aside>',
+		'before_title'  => '<h3 class="widget-title">',
+		'after_title'   => '</h3><div class="widget-clear"></div>',
+	) );
+	
+	/**
+	 * BuddyPress Sidebar
+	 */
+	register_sidebar( array(
+		'name'          => __( '(BuddyPress) Sidebar Right', 'klein' ),
+		'id'            => 'bp-klein-sidebar',
+		'before_widget' => '<aside id="%1$s" class="widget %2$s">',
+		'after_widget'  => '</aside>',
+		'before_title'  => '<h3 class="widget-title">',
+		'after_title'   => '</h3><div class="widget-clear"></div>',
+	) );
+
+
+	
+	// Footer Widgets
+	
+	$footer_widgets_count = 4;
+	$footer_widgets_index = 0;
+	
+	for( $i = 0; $i < $footer_widgets_count; $i++){
+	
+		$footer_widgets_index ++;
+	
+		register_sidebar( array(
+			'name'          => __( 'Footer Widget Area ' . $footer_widgets_index, 'klein' ),
+			'id'            => 'bp-klein-footer-' . $footer_widgets_index,
+			'before_widget' => '<aside id="%1$s-footer-'.$footer_widgets_index.'" class="row widget  %2$s">',
+			'after_widget'  => '</aside>',
+			'before_title'  => '<h3 class="widget-title">',
+			'after_title'   => '</h3><div class="widget-clear"></div>',
+		));
+		
+	}
+	
+	// Register Additional Sidebars
+	$sidebars = unserialize( get_option( KLEIN_SIDEBAR_KEY ) ); 
+	
+	if( !empty( $sidebars ) ){ 
+		foreach( $sidebars as $sidebar ){ 
+			if( !empty( $sidebar['klein-sidebar-name'] ) ){ 
+				register_sidebar( array(
+					'name'          => $sidebar['klein-sidebar-name'],
+					'id' 			=> $sidebar['klein-sidebar-id'],
+					'before_widget' => '<aside id="%1$s" class="row widget  %2$s">',
+					'after_widget'  => '</aside>',
+					'before_title'  => '<h3 class="widget-title">',
+					'after_title'   => '</h3><div class="widget-clear"></div>',
+				));
+			}
+		}
+	}
+}
+
+remove_action( 'widgets_init', 'klein_widgets_init' );
+add_action( 'widgets_init', 'gg_widgets_init' );
+
 add_action( 'load-post.php', 'gg_post_meta_boxes_setup' );
 add_action( 'load-post-new.php', 'gg_post_meta_boxes_setup' );
 
