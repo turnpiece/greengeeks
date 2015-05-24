@@ -203,7 +203,9 @@ select {
   border-bottom: none;
 }
 
-.widget.widget_nav_menu li a:hover {
+.widget.widget_nav_menu li a:hover,
+.widget.widget_nav_menu li a.current-menu-item,
+.widget.widget_nav_menu li a.current_page_item {
   color: #f6ffed;
   background: transparent;
 }
