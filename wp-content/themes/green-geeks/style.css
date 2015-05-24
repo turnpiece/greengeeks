@@ -313,11 +313,18 @@ select {
 }
 
 /* BP Security */
+
+#signup_form #security-question-section #gg-security-check {
+  width: 150px;
+  display: inline;
+}
+
 @media only screen and (min-width: 768px){
 
   #signup_form .submit,
   #signup_form .register-section {
-    width: 48%;
+    margin-top: 1.6em;
+    width: 45%;
   }
 
   /* Signup form */
@@ -335,4 +342,21 @@ select {
   #signup_form #security-question-section {
     float: right;
   }
+}
+
+/* Login modal */
+.modal-content {
+  background: #f6ffed;
+  -webkit-box-shadow: 0 0 0 0;
+  box-shadow: 0 0 0 0;
+  border: 0;
+}
+
+.modal-open #page {
+  opacity: 0.3;
+}
+
+.modal-header .close {
+  background: #cbff66;
+  color: #438700;
 }

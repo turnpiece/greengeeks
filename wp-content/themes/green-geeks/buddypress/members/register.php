@@ -27,7 +27,7 @@
 
 				<?php /***** Basic Account Details ******/ ?>
 
-				<h4><?php _e( 'Account Details', 'buddypress' ); ?></h4>
+				<h4><?php _e( 'Account details', 'buddypress' ); ?></h4>
 
 				<label for="signup_username"><?php _e( 'Username', 'buddypress' ); ?> <?php _e( '(required)', 'buddypress' ); ?></label>
 				<?php do_action( 'bp_signup_username_errors' ); ?>
@@ -60,7 +60,7 @@
 
 				<div class="register-section" id="profile-details-section">
 
-					<h4><?php _e( 'Profile Details', 'buddypress' ); ?></h4>
+					<h4><?php _e( 'Who are you?', 'green-geeks' ); ?></h4>
 
 					<?php /* Use the profile field loop to render input fields for the 'base' profile field group */ ?>
 					<?php if ( bp_is_active( 'xprofile' ) ) : if ( bp_has_profile( array( 'profile_group_id' => 1, 'fetch_field_data' => false ) ) ) : while ( bp_profile_groups() ) : bp_the_profile_group(); ?>
@@ -90,11 +90,11 @@
 									<a class="field-visibility-settings-close" href="#"><?php _e( 'Close', 'buddypress' ) ?></a>
 
 								</div>
-							<?php else : ?>
+							<?php else : /*?>
 								<p class="field-visibility-settings-notoggle" id="field-visibility-settings-toggle-<?php bp_the_profile_field_id() ?>">
 									<?php printf( __( 'This field can be seen by: <span class="current-visibility-level">%s</span>', 'buddypress' ), bp_get_the_profile_field_visibility_level_label() ) ?>
 								</p>
-							<?php endif ?>
+							<?php */endif ?>
 
 							<?php do_action( 'bp_custom_profile_edit_fields' ); ?>
 

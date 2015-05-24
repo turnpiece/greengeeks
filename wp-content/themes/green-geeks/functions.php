@@ -365,13 +365,86 @@ function gg_security_check_field() {
 			?>
 		</label>
 		<input type="hidden" name="gg-security-check-id" value="<?php echo $uid; ?>" />
-		<input type="number" name="gg-security-check" required="required" />
+		<input type="number" id="gg-security-check" name="gg-security-check" required="required" />
 	</div>
 	<?php
 }
-
 add_action( 'bp_after_signup_profile_fields', 'gg_security_check_field' );
 
+if (!function_exists('klein_login_register_link')) {?>
+<?php function klein_login_register_link() { ?>
+		<?php 
+			$login_enabled = ot_get_option('enable_login', 'yes');
+			$register_enabled = ot_get_option('enable_register', 'yes');
+		?>
+		<!-- login -->
+		<?php if ('on' === $login_enabled) { ?>
+			<a data-toggle="modal" id="klein-login-btn" class="btn btn-primary" href="#gg_login_modal" title="<?php $register_enabled == 'on' ? _e( 'Login or join', 'klein' ) : _e( 'Login', 'klein' ); ?>"><i class="glyphicon glyphicon-user"></i></a>
+			<!-- the modal -->
+			<?php add_action( 'wp_footer', 'gg_the_login_modal' ); ?>
+
+		<?php } ?>
+		
+	<?php return; ?>
+<?php } ?>
+<?php }
+
+/**
+ * Log in Modal
+ * @return void
+ */
+if (!function_exists('gg_the_login_modal')) {
+function gg_the_login_modal() {
+	// get registration enabled setting
+	$register_enabled = ot_get_option('enable_register', 'yes');
+?>
+<div class="modal fade" id="gg_login_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+					<span class="glyphicon glyphicon-remove"></span>
+				</button>
+				<h4 class="modal-title">
+					<?php _e( sprintf( 'Login to %s', get_bloginfo( 'name' ) ),'klein' ); ?>
+				</h4>
+			</div>
+			<div class="modal-body">
+				<div class="row">
+					<div class="col-sm-6 social-connect-column">
+						<p><em><?php echo ot_get_option('modal_text', __('Sign in with a social media account.','green-geeks')); ?></em></p>
+						<?php do_action('klein_login_form'); ?>
+					</div>
+					<div class="col-sm-6 login-column">
+						<div id="klein-modal-body">
+							<?php do_action( 'klein_before_login_form_modal_body' ); ?>
+							<?php wp_login_form(); ?>
+							<?php do_action( 'login_form' ); //3rd party applications/plugins support ?>
+							<?php do_action( 'klein_after_login_form_modal_body' ); ?>
+						</div>
+					</div>
+				</div>
+				<?php if ('on' === $register_enabled) : ?>
+				<div class="row">
+					<div class="col-sm-8 registration-column">
+						<h5 class="modal-title"><?php _e( 'Don\'t have an account?', 'green-geeks' ); ?></h5>
+						<p><em><?php _e('Registration is painless and will allow you to interact with other green geeks, create a profile and write articles for the site.', 'green-geeks'); ?></em></p>
+						<p><?php echo str_replace( '<a', '<a id="klein-register-btn" title="'.__('Register','klein').'" class="btn btn-primary" ', wp_register('', '', false)); ?></p>
+					</div>
+				</div>
+				<?php endif; ?>
+				<?php // support 3rd party plugins ?>
+				<div class="clearfix">
+					<?php do_action( 'login_footer' ); ?>
+				</div>
+
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<?php
+}
+}
 
 if( !function_exists('klein_login_logo') ){ ?>
 <?php function klein_login_logo() { ?>
