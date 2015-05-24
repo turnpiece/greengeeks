@@ -313,22 +313,26 @@ select {
 }
 
 /* BP Security */
+@media only screen and (min-width: 768px){
 
-/* Signup form */
-#signup_form .submit {
-  width: 48%;
-  float: right;
-  text-align: right;
-  margin-top: 5em;
-}
+  #signup_form .submit,
+  #signup_form .register-section {
+    width: 48%;
+  }
 
-#signup_form #basic-details-section {
-  float: left;
-  width: 48%;
-}
+  /* Signup form */
+  #signup_form .submit {
+    float: right;
+    text-align: right;
+    margin-top: 5em;
+  }
 
-#signup_form #profile-details-section,
-#signup_form #security-question-section {
-  float: right;
-  width: 48%;
+  #signup_form #basic-details-section {
+    float: left;
+  }
+
+  #signup_form #profile-details-section,
+  #signup_form #security-question-section {
+    float: right;
+  }
 }

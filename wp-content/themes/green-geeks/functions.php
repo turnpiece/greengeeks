@@ -340,7 +340,7 @@ function gg_security_check_field() {
 	set_transient( 'gg-security-check_' . $uid, array( $a, $op, $b ), 12 * 60 * 60 );
 
 	?>
-	<div id="security-question-section">
+	<div id="security-question-section" class="register-section">
 		<h4><?php esc_html_e( 'Prove you\'re a geek', 'gg-security-check' ); ?></h4>
 		<?php do_action( 'bp_security_check_errors' ); ?>
 		<label for="gg-security-check" style="display: inline;">
