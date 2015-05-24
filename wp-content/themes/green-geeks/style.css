@@ -136,6 +136,10 @@ legend, caption, h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
   background-color: #d4ffa9;
 }
 
+#kleinScrollToTop {
+  color: #65cb00;
+}
+
 /* Inputs 
 ----------- */
 select, textarea, input[type="text"], input[type="password"], input[type="date"], input[type="datetime"], input[type="datetime-local"], input[type="month"], input[type="time"], input[type="email"], input[type="number"], input[type="range"], input[type="search"], input[type="tel"], input[type="url"], input[type="week"] {
@@ -171,16 +175,19 @@ select {
     color: #baff76;
 }
 #footer {
-    background: #438700;
+    background: #214300;
 }
 #footer-widgets {
-    background: #baff76;
-    color: #438700;
+    background: #438700;
+    color: #65cb00;
 }
 #footer-widgets .widget-title {
   color: #65cb00;
 }
 
+#footer-widgets a {
+  color: #d4ffa9;
+}
 
 .bp-login-widget-register-link a, a.comment-edit-link, a.post-edit-link, a.vc_inline-link, a.comment-edit-link:visited, a.post-edit-link:visited, a.vc_inline-link:visited, a.comment-edit-link:hover, a.post-edit-link:hover, a.vc_inline-link:hover, a.btn, a.btn:hover, a.btn:visited, .btn {
     color: #f6ffed;
@@ -192,8 +199,17 @@ select {
 
 .widget.widget_nav_menu li a {
   background: transparent;
-  color: #438700;
+  color: #d4ffa9;
   border-bottom: none;
+}
+
+.widget.widget_nav_menu li a:hover {
+  color: #f6ffed;
+  background: transparent;
+}
+
+#footer-widgets .widget_categories li::before, #footer-widgets .widget_recent_comments li::before, #footer-widgets .widget_meta li::before, #footer-widgets .widget_pages li::before, #footer-widgets .widget_recent_entries li::before, #footer-widgets .widget_rss li::before, #footer-widgets .widget_archive li::before {
+    color: #65cb00;
 }
 
 /* Alerts
@@ -208,6 +224,12 @@ select {
   border-radius: 0 12px;
 }
 
+/* Text
+----------- */
+
+blockquote p {
+  color: #214300;
+}
 
 /* Buddypress
 ----------- */
