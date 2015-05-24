@@ -268,6 +268,14 @@ blockquote p {
    padding: 0.4em 0.8em;
 }
 
+.buddypress .activity-meta a {
+  color: #65cb00;
+}
+
+.buddypress .activity-meta a:hover {
+  color: #438700;
+}
+
 #item-nav {
   background-color: #d4ffa9;
 }
