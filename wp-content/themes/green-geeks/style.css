@@ -190,6 +190,12 @@ select {
     background-color: #438700;
 }
 
+.widget.widget_nav_menu li a {
+  background: transparent;
+  color: #438700;
+  border-bottom: none;
+}
+
 /* Alerts
 ----------- */
 .alert-info {
@@ -304,4 +310,25 @@ select {
 
 #wpadminbar a {
   color: #baff76 !important
+}
+
+/* BP Security */
+
+/* Signup form */
+#signup_form .submit {
+  width: 48%;
+  float: right;
+  text-align: right;
+  margin-top: 5em;
+}
+
+#signup_form #basic-details-section {
+  float: left;
+  width: 48%;
+}
+
+#signup_form #profile-details-section,
+#signup_form #security-question-section {
+  float: right;
+  width: 48%;
 }

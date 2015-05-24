@@ -23,6 +23,9 @@ function klein_setup() {
 	 * to change 'klein' to the name of your theme in all the template files
 	 */
 	load_theme_textdomain( 'klein', get_template_directory() . '/languages' );
+
+	// translations for this child theme
+	load_child_theme_textdomain( 'green-geeks', get_stylesheet_directory() . '/languages' );
 	
 	// add default posts and comments RSS feed links to head
 	add_theme_support( 'automatic-feed-links' );
@@ -257,6 +260,118 @@ function gg_allow_contributor_uploads() {
      $contributor = get_role('contributor');
      $contributor->add_cap('upload_files');
 }
+
+/** BP Security Check **/
+
+/**
+ * Check if the user's input was correct
+ */
+function gg_security_check_validate() {
+	global $bp;
+
+	$uid = $_POST['gg-security-check-id'];
+	$sum = get_transient( 'gg-security-check_' . $uid );
+
+	$a  = $sum[0];
+	$op = $sum[1];
+	$b  = $sum[2];
+
+	$answer = intval( $_POST['gg-security-check'] );
+
+	/* Calculate the actual answer */
+	if ( 2 == $op ) {
+		$result = $a - $b;
+	} else {
+		$result = $a + $b;
+	}
+
+	/* The submitted answer was incorrect */
+	if ( $result !== $answer ) {
+		$bp->signup->errors['security_check'] = __( 'Sorry, please answer the question again', 'green-geeks' );
+	}
+
+	/* The answer field wasn't filled in */
+	elseif ( empty( $answer ) ) {
+		$bp->signup->errors['security_check'] = __( 'This is a required field', 'green-geeks' );
+	}
+
+	/* Clean up the transient if the answer was correct */
+	else {
+		delete_transient( 'gg-security-check' . $uid );
+	}
+}
+
+add_action( 'bp_signup_validate', 'gg_security_check_validate' );
+
+
+/**
+ * Render the input fields
+ */
+function gg_security_check_field() {
+
+	/* Get a random number between 0 and 10 (inclusive) */
+	$a = mt_rand( 0, 10 );
+	$b = mt_rand( 0, 10 );
+
+	/* Get a random operation */
+	$op = mt_rand( 1, 2 );
+
+	/* Make adjustments to the numbers for subtraction */
+	if ( 2 == $op ) {
+
+		/* Make sure that $a is greater then $b; if not, switch them */
+		if ( $b > $a ) {
+			$_a = $a;     // backup $a
+			$a = $b;      // assign $a (lower number) to $b (higher number)
+			$b = $_a;     // assign $b to the original $a
+			unset( $_a ); // destroy the backup variable
+		}
+
+		/* If the numbers are equal then the result will be zero, which will cause an error */
+		elseif ( $a == $b ) {
+			$a++;
+		}
+	}
+
+	/* Generate a unique ID to save the sum information under */
+	$uid = uniqid();
+
+	/* Save sum information (expiry = 12 hours) */
+	set_transient( 'gg-security-check_' . $uid, array( $a, $op, $b ), 12 * 60 * 60 );
+
+	?>
+	<div id="security-question-section">
+		<h4><?php esc_html_e( 'Prove you\'re a geek', 'gg-security-check' ); ?></h4>
+		<?php do_action( 'bp_security_check_errors' ); ?>
+		<label for="gg-security-check" style="display: inline;">
+			<?php
+
+			/* First number */
+			echo $a;
+
+			/* Print operation as proper HTML entity */
+			if ( 2 == $op ) {
+				echo ' &#8722; '; // subtraction
+			} else {
+				echo ' &#43; '; // addition
+			}
+
+			/* Second number */
+			echo $b;
+
+			/* Equals symbol */
+			echo ' &#61;';
+
+			?>
+		</label>
+		<input type="hidden" name="gg-security-check-id" value="<?php echo $uid; ?>" />
+		<input type="number" name="gg-security-check" required="required" />
+	</div>
+	<?php
+}
+
+add_action( 'bp_after_signup_profile_fields', 'gg_security_check_field' );
+
 
 if( !function_exists('klein_login_logo') ){ ?>
 <?php function klein_login_logo() { ?>
