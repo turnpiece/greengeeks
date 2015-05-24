@@ -627,3 +627,15 @@ if( !function_exists('klein_login_logo') ){ ?>
     </style>
 <?php } 
 } // end func!klein_login_logo
+
+
+/** TEMPLATE TAGS **/
+
+if ( ! function_exists( 'klein_content_nav' ) ) :
+/**
+ * Remove navigation to next/previous posts
+ */
+function klein_content_nav( $nav_id ) {
+	return;
+}
+endif; // klein_content_nav
