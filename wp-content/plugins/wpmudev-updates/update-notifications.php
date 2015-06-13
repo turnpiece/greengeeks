@@ -4,7 +4,7 @@ Plugin Name: WPMU DEV Dashboard
 Plugin URI: https://premium.wpmudev.org/project/wpmu-dev-dashboard/
 Description: Brings the power of WPMU DEV direct to you, it'll revolutionize how you use WordPress, activate now!
 Author: WPMU DEV
-Version: 3.5.2
+Version: 3.5.3
 Author URI: http://premium.wpmudev.org/
 Text Domain: wpmudev
 Domain Path: /includes/languages/
@@ -40,7 +40,7 @@ class WPMUDEV_Dashboard {
 	/**
 	 * @var string
 	 */
-	var $version = '3.5.2';
+	var $version = '3.5.3';
 	/**
 	 * @var int
 	 */
@@ -1406,7 +1406,7 @@ class WPMUDEV_Dashboard {
 			} else if ( $this->allowed_user() && ! $this->get_apikey() ) { //no api key yet and they are activating user
 				printf( __( 'There is a new version of %1$s available on WPMU DEV. <a href="%2$s" class="thickbox" title="%3$s">View version %4$s details</a> or <a href="%5$s" target="_blank" title="Setup your WPMU DEV account to update">configure to update</a>.', 'wpmudev' ), $plugin_name, esc_url( $update_url ), esc_attr( $plugin_name ), $version, $this->dashboard_url );
 			} else if ( $this->allowed_user() ) { //no permissions to update
-				printf( __( 'There is a new version of %1$s available on WPMU DEV. <a href="%2$s" class="thickbox" title="%3$s">View version %4$s details</a> or <a href="%5$s" target="_blank" title="Upgrade your WPMU DEV membership">upgrade to update</a>.', 'wpmudev' ), $plugin_name, esc_url( $update_url ), esc_attr( $plugin_name ), $version, apply_filters( 'wpmudev_project_upgrade_url', esc_url( 'https://premium.wpmudev.org/wp-login.php?redirect_to=' . urlencode( $plugin_url ) . '#signup' ), $project_id ) );
+				printf( __( 'There is a new version of %1$s available on WPMU DEV. <a href="%2$s" class="thickbox" title="%3$s">View version %4$s details</a> or <a href="%5$s" target="_blank" title="Upgrade your WPMU DEV membership">upgrade to update</a>.', 'wpmudev' ), $plugin_name, esc_url( $update_url ), esc_attr( $plugin_name ), $version, apply_filters( 'wpmudev_project_upgrade_url', esc_url( 'https://premium.wpmudev.org/wp-login.php?redirect_to=' . urlencode( $plugin_url ) . '#signup' ), $project_id ) );	 	 	 	 	 		    	
 			} else {
 				printf( __( 'There is a new version of %1$s available on WPMU DEV. <a href="%2$s" class="thickbox" title="%3$s">View version %4$s details</a>.', 'wpmudev' ), $plugin_name, esc_url( $update_url ), esc_attr( $plugin_name ), $version );
 			}
@@ -1793,6 +1793,8 @@ class WPMUDEV_Dashboard {
 				if ( isset( $data['membership'] ) && $data['membership'] == 'full' && $project['paid'] == 'lite' ) {
 					continue;
 				}
+				//skip showing Upfront root, Protected Content, and old Membership
+				if ( in_array( $id, array( $this->upfront, 140, 928907 ) ) ) continue;
 
 				$suggest[] = array( 'id' => $id, 'name' => stripslashes( $project['name'] ), 'type' => $project['type'] );
 			}
