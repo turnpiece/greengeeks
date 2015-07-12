@@ -306,6 +306,17 @@ blockquote p {
     font-size: inherit;
 }
 
+.activity .activity-item.new_blog_post .activity-inner p {
+  position: relative;
+  padding-right: 250px;
+}
+
+.activity .activity-item.new_blog_post .activity-inner p img {
+  position: absolute;
+  max-width: 200px;
+  right: 0;
+}
+
 #subnav.item-list-tabs li a {
     font-size: inherit;
     padding: 0 10px;
