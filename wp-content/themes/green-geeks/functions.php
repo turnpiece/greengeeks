@@ -36,7 +36,7 @@ function klein_setup() {
 	// add featured-image theme support
 	add_theme_support( 'post-thumbnails' );
 
-	add_image_size( 'klein-thumbnail-large', 788, 368, true ); 
+	add_image_size( 'klein-thumbnail-large', 870, 368, true ); 
 	add_image_size( 'klein-thumbnail-slider', 580, 277, true ); 
 	add_image_size( 'klein-thumbnail-highlights', 325, 325, true ); 
 	add_image_size( 'klein-thumbnail', 255, 185, true );
