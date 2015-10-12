@@ -28,7 +28,7 @@ class FCWorkflowActions
 			    'priority' => 'high'
 			    );
 		    // TODO: this might cause issues with other plugins - compatibility issues - for the time being this feature is turned off.
-			if( get_site_option("oasiswf_hide_workflow_graphic") !== "yes") {
+			if( get_option("oasiswf_hide_workflow_graphic") !== "yes") {
 		    	add_meta_box($mbox['id'], $mbox['title'], array('FCWorkflowActions','history_graphic_box'), $mbox['page'], $mbox['context'], $mbox['priority']);
 			}
 		}
@@ -40,7 +40,7 @@ class FCWorkflowActions
 
 	static function workflow_submit_popup()
 	{
-		if( get_site_option("oasiswf_activate_workflow") == "active" &&
+		if( get_option("oasiswf_activate_workflow") == "active" &&
 		   is_admin() && preg_match_all('/page=oasiswf(.*)|post-new\.(.*)|post\.(.*)/', $_SERVER['REQUEST_URI'], $matches )){
 		   
 			$is_post_published = false;
@@ -61,8 +61,8 @@ class FCWorkflowActions
 				FCWorkflowActions::localize_submit_workflow_script();
 			}
 			$role = FCProcessFlow::get_current_user_role() ;
-			$skip_workflow_roles = get_site_option('oasiswf_skip_workflow_roles') ;
-			$show_workflow_for_post_types = get_site_option('oasiswf_show_wfsettings_on_post_types');
+			$skip_workflow_roles = get_option('oasiswf_skip_workflow_roles') ;
+			$show_workflow_for_post_types = get_option('oasiswf_show_wfsettings_on_post_types');
 		   if( (is_array($skip_workflow_roles) && !in_array($role, $skip_workflow_roles)) && // do not hide the ootb publish section for skip_workflow_roles option
          (is_array(show_workflow_for_post_types) && in_array($post_type, show_workflow_for_post_types))){ // do not show ootb publish section for oasiswf_show_wfsettings_on_post_types
             FCWorkflowActions::ootb_publish_section_hide() ;
@@ -83,7 +83,7 @@ class FCWorkflowActions
 				$is_post_published = true;
 			}
 		}		
-		if( get_site_option("oasiswf_activate_workflow") == "active" &&
+		if( get_option("oasiswf_activate_workflow") == "active" &&
 		   is_admin() && preg_match_all('/page=oasiswf(.*)|post-new\.(.*)|post\.(.*)/', $_SERVER['REQUEST_URI'], $matches )){
 
 			if( $chkResult == "inbox" ){
@@ -122,17 +122,18 @@ class FCWorkflowActions
          $post_type = get_post_type();
 
          // do not hide the ootb publish section for skip_workflow_roles option, but hide it if the post is in the workflow
-         $skip_workflow_roles = get_site_option('oasiswf_skip_workflow_roles') ;
-         $show_workflow_for_post_types = get_site_option('oasiswf_show_wfsettings_on_post_types');
+         $skip_workflow_roles = get_option('oasiswf_skip_workflow_roles') ;
+         $show_workflow_for_post_types = get_option('oasiswf_show_wfsettings_on_post_types');
          $row = null;
-         if( isset($_GET['post']) && $_GET["post"] && isset($_GET['action']) && $_GET["action"] == "edit")
+         if( isset($_GET['post']) && $_GET["post"] && isset($_GET['action']) && sanitize_text_field( $_GET["action"] ) == "edit")
          {
-            $row = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM " . FCUtility::get_action_history_table_name() . " WHERE post_id = %d AND action_status = 'assignment'", $_GET["post"] )) ;
+         	$post_id = intval( sanitize_text_field( $_GET["post"] ));
+            $row = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM " . FCUtility::get_action_history_table_name() . " WHERE post_id = %d AND action_status = 'assignment'", $post_id )) ;
          }
 		 
-		   if( (is_array($skip_workflow_roles) && !in_array($role, $skip_workflow_roles)) && // do not hide the ootb publish section for skip_workflow_roles option
+		   if( !$is_post_published && (is_array($skip_workflow_roles) && !in_array($role, $skip_workflow_roles)) && // do not hide the ootb publish section for skip_workflow_roles option
          	(is_array($show_workflow_for_post_types) && in_array($post_type, $show_workflow_for_post_types))){ // do not show ootb publish section for oasiswf_show_wfsettings_on_post_types
-            FCWorkflowActions::ootb_publish_section_hide() ;
+		   	FCWorkflowActions::ootb_publish_section_hide() ;
          }
 
 		   // if the item is in the workflow, hide the OOTB publish section
@@ -151,10 +152,13 @@ class FCWorkflowActions
                          '',
                    		 OASISWF_VERSION,
                          true);
+               
+               $workflow_terminology_options = get_option( 'oasiswf_custom_workflow_terminology' );
+               $abort_workflow_label = !empty( $workflow_terminology_options['abortWorkflowText'] ) ? $workflow_terminology_options['abortWorkflowText'] : __( 'Abort Workflow', 'oasisworkflow' );
 
                wp_localize_script( 'owf-abort-workflow', 'owf_abort_workflow_vars', array(
-         						'abortWorkflow' => __( 'Abort workflow', 'oasisworkflow' ),
-               				'abortWorkflowConfirm' => __( 'Are you sure to abort the workflow?', 'oasisworkflow' )
+         						'abortWorkflow' => $abort_workflow_label,
+               				'abortWorkflowConfirm' => __( 'Are you sure to terminate the workflow?', 'oasisworkflow' )
                        ));
 				}
 			}
@@ -218,7 +222,7 @@ class FCWorkflowActions
          require_once( OASISWF_PATH . "includes/workflow-base.php" ) ;
          require_once( OASISWF_PATH . "includes/process-flow.php" ) ;
       }
-      $email_settings = get_site_option('oasiswf_email_settings') ;
+      $email_settings = get_option('oasiswf_email_settings') ;
       if ( $email_settings['reminder_emails'] == "yes" ) {
       	$ddate = gmdate( 'Y-m-d' ) ;
       	$rows = $wpdb->get_results( "SELECT * FROM " . FCUtility::get_emails_table_name() . " WHERE action = 1 AND send_date = '$ddate'" ) ;
@@ -256,8 +260,10 @@ class FCWorkflowActions
 
 	static function localize_submit_workflow_script()
 	{
+		$workflow_terminology_options = get_option( 'oasiswf_custom_workflow_terminology' );
+		$submit_to_workflow_label = !empty( $workflow_terminology_options['submitToWorkflowText'] ) ? $workflow_terminology_options['submitToWorkflowText'] : __( 'Submit to Workflow', 'oasisworkflow' );
       wp_localize_script( 'owf_submit_workflow', 'owf_submit_workflow_vars', array(
-				'submitToWorkflowButton' => __( 'Submit to Workflow', 'oasisworkflow' ),
+				'submitToWorkflowButton' => $submit_to_workflow_label,
 				'allStepsNotDefined' => __( 'All steps are not defined.\n Please check the workflow.', 'oasisworkflow' ),
 				'notValidWorkflow' => __( 'The selected workflow is not valid.\n Please check this workflow.', 'oasisworkflow' ),
 				'noUsersDefined' => __( 'No users found for the given role.', 'oasisworkflow' ),
@@ -268,20 +274,22 @@ class FCWorkflowActions
             'stepNotDefined' => __( 'This step is not defined.', 'oasisworkflow' ),
             'dueDateRequired' => __( 'Please enter a due date.', 'oasisworkflow' ),
             'noAssignedActors' => __( 'No assigned actor(s).', 'oasisworkflow' ),
-				'drdb' =>  get_site_option('oasiswf_reminder_days'),
-				'drda' =>  get_site_option('oasiswf_reminder_days_after'),
+				'drdb' =>  get_option('oasiswf_reminder_days'),
+				'drda' =>  get_option('oasiswf_reminder_days_after'),
 				'dateFormat' => FCUtility::owf_date_format_to_jquery_ui_format( get_option( 'date_format' )),
 				'editDateFormat' => FCUtility::owf_date_format_to_jquery_ui_format( OASISWF_EDIT_DATE_FORMAT ),
-				'allowedPostTypes' => json_encode(get_site_option('oasiswf_show_wfsettings_on_post_types')),
-				'defaultDueDays' =>  get_site_option('oasiswf_default_due_days')
+				'allowedPostTypes' => json_encode(get_option('oasiswf_show_wfsettings_on_post_types')),
+				'defaultDueDays' =>  get_option('oasiswf_default_due_days')
 				
       ));
 	}
 
 	static function localize_submit_step_script()
 	{
+		$workflow_terminology_options = get_option( 'oasiswf_custom_workflow_terminology' );
+		$sign_off_label = !empty( $workflow_terminology_options['signOffText'] ) ? $workflow_terminology_options['signOffText'] : __( 'Sign Off', 'oasisworkflow' );		
       wp_localize_script( 'owf_submit_step', 'owf_submit_step_vars', array(
-				'signOffButton' => __( 'Sign Off', 'oasisworkflow' ),
+				'signOffButton' => $sign_off_label,
 				'claimButton' => __( 'Claim', 'oasisworkflow' ),
 				'inboxButton' => __( 'Go to Workflow Inbox', 'oasisworkflow' ),
 				'firstStepMessage' => __( 'This is the first step in the workflow.</br> Do you really want to cancel the post/page from the workflow?', 'oasisworkflow' ),
@@ -293,14 +301,35 @@ class FCWorkflowActions
             'noAssignedActors' => __( 'No assigned actor(s).', 'oasisworkflow' ),
 				'multipleUsers' => __( 'You can select multiple users only for review step.\n Selected step is', 'oasisworkflow' ),
 				'step' => __( 'step.', 'oasisworkflow' ),
-      		'drdb' =>  get_site_option('oasiswf_reminder_days'),
-				'drda' =>  get_site_option('oasiswf_reminder_days_after'),
+      		'drdb' =>  get_option('oasiswf_reminder_days'),
+				'drda' =>  get_option('oasiswf_reminder_days_after'),
 				'dateFormat' => FCUtility::owf_date_format_to_jquery_ui_format( get_option( 'date_format' )),
 				'editDateFormat' => FCUtility::owf_date_format_to_jquery_ui_format( OASISWF_EDIT_DATE_FORMAT ),
-				'allowedPostTypes' => json_encode(get_site_option('oasiswf_show_wfsettings_on_post_types')),
-				'defaultDueDays' =>  get_site_option('oasiswf_default_due_days')
+				'allowedPostTypes' => json_encode(get_option('oasiswf_show_wfsettings_on_post_types')),
+				'defaultDueDays' =>  get_option('oasiswf_default_due_days')
       ));
 	}
+	
+	static function owf_submit_to_workflow_hook_test($postId, $workflowId) {
+		FCUtility::owf_logger("this is testing the submit to workflow hook");
+		FCUtility::owf_logger("PostID:" . $postId);
+		FCUtility::owf_logger("Workflow ID:" . $workflowId);
+	}
+	 
+	static function owf_step_sign_off_hook_test($postId, $workflowId, $fromStepId, $toStepId) {
+		FCUtility::owf_logger("this is testing the step sign off workflow hook");
+		FCUtility::owf_logger("PostID:" . $postId);
+		FCUtility::owf_logger("Workflow ID:" . $workflowId);
+		FCUtility::owf_logger("From Step ID:" . $fromStepId);
+		FCUtility::owf_logger("To Step ID:" . $toStepId);
+	}
+	
+	static function owf_workflow_complete_hook_test($postId, $workflowId) {
+		FCUtility::owf_logger("this is testing the workflow completion hook");
+		FCUtility::owf_logger("PostID:" . $postId);
+		FCUtility::owf_logger("Workflow ID:" . $workflowId);
+	}
+	
 }
 add_action('wp_ajax_get_first_step_in_wf', array( 'FCProcessFlow', 'get_first_step_in_wf' ) );
 add_action('wp_ajax_get_pre_next_steps', array( 'FCProcessFlow', 'get_pre_next_steps' ) );

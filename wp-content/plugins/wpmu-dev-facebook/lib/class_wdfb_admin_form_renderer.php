@@ -226,18 +226,6 @@ class Wdfb_AdminFormRenderer {
 		echo $this->_create_checkbox( 'connect', 'allow_facebook_registration', @$opt['allow_facebook_registration'] );
 	}
 
-	function create_force_facebook_registration_box() {
-		$opt = $this->_get_option( 'wdfb_connect' );
-		echo $this->_create_checkbox( 'connect', 'force_facebook_registration', @$opt['force_facebook_registration'] );
-		echo '<span id="wdfb-force_facebook_registration-help"></span>';
-		echo '<br />';
-		echo $this->_create_checkbox( 'connect', 'require_facebook_account', @$opt['require_facebook_account'] );
-		echo ' <label for="require_facebook_account">' . __( 'Require Facebook account', 'wdfb' ) . '</label>';
-		echo '<div><small>' . __( 'By default, Facebook registration form will allow your users to register with their Facebook account, or with their chosen usernames and emails.', 'wdfb' ) . '</small></div>';
-		echo '<div><small>' . __( 'Check this if users will need to have a Facebook account already.', 'wdfb' ) . '</small></div>';
-		echo '<div style="color: #FF8F00; font-size: 13px; font-weight: 600;">' . __( 'As of the latest Facebook API V2.0, Facebook registration plugin will be discontinued after July 30, 2015. For registration you should use "Allow single-click registration"', 'wdfb' ) . '</small></div>';
-	}
-
 	function create_no_main_site_registration_box() {
 		$opt = $this->_get_option( 'wdfb_connect' );
 		echo $this->_create_checkbox( 'connect', 'no_main_site_registration', @$opt['no_main_site_registration'] );
@@ -286,11 +274,6 @@ class Wdfb_AdminFormRenderer {
 
 		echo $this->_create_text_box( 'connect', 'login_redirect_url', @$opt['login_redirect_url'] );
 		echo '<div><small>' . sprintf( __( 'This is what will happen upon login: my users will be redirected to %s.', 'wdfb' ), $url ) . '</small></div>';
-	}
-
-	function create_captcha_box() {
-		$opt = $this->_get_option( 'wdfb_connect' );
-		echo $this->_create_checkbox( 'connect', 'no_captcha', @$opt['no_captcha'] );
 	}
 
 	function create_autologin_box() {
@@ -387,7 +370,7 @@ class Wdfb_AdminFormRenderer {
 			echo '<label>' . ucfirst( $type->labels->name ) . '</label><br />';
 		}
 		echo '<div id="wdfb-like_button-special_cases">';
-		if ( defined( 'BP_VERSION' ) ) {
+		if ( defined( 'BP_VERSION' ) && class_exists('BuddyPress') ) {
 			echo '<div id="wdfb-like_button-bp_activity-anchor">';
 			echo '<label for="not_in_post_types-_buddypress_activity">' . __( 'Allow &quot;Like&quot; button for BuddyPress Activities', 'wdfb' ) . '</label>: ';
 			echo $this->_create_subcheckbox( 'button', 'not_in_post_types', '_buddypress_activity', @in_array( '_buddypress_activity', $opt['not_in_post_types'] ) );
@@ -821,7 +804,7 @@ class Wdfb_AdminFormRenderer {
 		}
 
 		// BP Activities mappings
-		if ( defined( 'BP_VERSION' ) ) {
+		if ( defined( 'BP_VERSION' ) && class_exists('BuddyPress') ) {
 			$pname     = 'bp_activity';
 			$pval      = __( 'BuddyPress Activity update', 'wdfb' );
 			$fb_action = @$opts["type_{$pname}_fb_type"];
@@ -900,24 +883,9 @@ class Wdfb_AdminFormRenderer {
 		$this->_create_widget_box( 'events', $description );
 	}
 
-	function create_widget_facepile_box() {
-		$description = sprintf( __( 'Easily display Facebook Facepile. <table> <tr><th>Widget settings preview</th><th>Widget preview<th></tr> <tr><td valign="top"><img src="%s/img/facepile_allowed.png" /></td><td valign="top"><img src="%s/img/facepile_allowed_result.jpg" /></td></tr> </table>', 'wdfb' ), WDFB_PLUGIN_URL, WDFB_PLUGIN_URL );
-		$this->_create_widget_box( 'facepile', $description );
-	}
-
 	function create_widget_likebox_box() {
 		$description = sprintf( __( 'Easily display Facebook Like Box. <table> <tr><th>Widget settings preview</th><th>Widget preview<th></tr> <tr><td valign="top"><img src="%s/img/likebox_allowed.png" /></td><td valign="top"><img src="%s/img/likebox_allowed_result.jpg" /></td></tr> </table>', 'wdfb' ), WDFB_PLUGIN_URL, WDFB_PLUGIN_URL );
 		$this->_create_widget_box( 'likebox', $description );
-	}
-
-	function create_widget_recommendations_box() {
-		$description = sprintf( __( 'Easily display Facebook Recommendations. <table> <tr><th>Widget settings preview</th><th>Widget preview<th></tr> <tr><td valign="top"><img src="%s/img/recommendations_allowed.png" /></td><td valign="top"><img src="%s/img/recommendations_allowed_result.jpg" /></td></tr> </table>', 'wdfb' ), WDFB_PLUGIN_URL, WDFB_PLUGIN_URL );
-		$this->_create_widget_box( 'recommendations', $description );
-	}
-
-	function create_widget_activityfeed_box() {
-		$description = sprintf( __( 'Easily display Facebook Activity Feed. <table> <tr><th>Widget settings preview</th><th>Widget preview<th></tr> <tr><td valign="top"><img src="%s/img/activityfeed_allowed.png" /></td><td valign="top"><img src="%s/img/activityfeed_allowed_result.jpg" /></td></tr> </table>', 'wdfb' ), WDFB_PLUGIN_URL, WDFB_PLUGIN_URL );
-		$this->_create_widget_box( 'activityfeed', $description );
 	}
 
 	function create_widget_recent_comments_box() {
@@ -987,7 +955,9 @@ class Wdfb_AdminFormRenderer {
 			$fb_accounts = isset($fb_accounts['auth_accounts']) ? $fb_accounts['auth_accounts'] : array();
 			*/
 
-			if ( $fb_accounts && current_user_can('manage_options') ) {
+			$current_user_can_edit = ( $post->post_type === 'page' ) ? current_user_can('edit_pages') : current_user_can('edit_posts');
+
+			if ( $fb_accounts && $current_user_can_edit ) {
 				echo '<div>';
 				echo '	<label for="wdfb_metabox_publishing_account">' . __( 'Publish to wall of this Facebook account:', 'wdfb' ) . '</label>';
 				echo '	<select name="wdfb_metabox_publishing_account" id="wdfb_metabox_publishing_account">';

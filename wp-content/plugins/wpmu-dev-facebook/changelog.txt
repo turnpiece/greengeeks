@@ -1,10 +1,24 @@
 Plugin Name: Ultimate Facebook
 Author: Ve Bailovity (Incsub)
-Contributor: Umesh Kumar
+Contributors: Umesh Kumar, Julien Zerbib
 
 Change Log:
 ----------------------------------------------------------------------
 ----------------------------------------------------------------------
+
+2.8.1 - 2015-10-02 - Julien Zerbib
+- Added: Editor can chose the FB account he is publishing in
+- Added: Publishing Title, Account and Publish are saved when the post has a draft status
+
+2.7.9.6 - 2015-07-22 - Umesh Kumar
+- Fixed: Permissions issue for new APP
+- Fixed: Album selector not working
+- Fixed: Crop Image, if enabled in album widget/shortcode
+- Added: One CLick Registration to signup
+- Removed: Facebook Recommendation, FacePile, Activity Feed (Discontinued by Facebook)
+
+2.7.9.5 - 2015-04-24 - Umesh Kumar
+- Fixed: Settings for like and send button on home page and archive pages
 
 2.7.9.4 - 2015-04-23 - Umesh Kumar
 - Fixed: Updated permissions required for Auto Posting
@@ -438,4 +452,4 @@ Change Log:
 - Added date threshold parameter for Facebook Events widget.
 
 
-87274-1433014432-ai
+87274-1444688388-au

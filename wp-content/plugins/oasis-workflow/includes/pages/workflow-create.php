@@ -4,12 +4,12 @@ $wfid = "";
 $workflow = "";
 $wfeditable = true;
 if( isset($_GET['wf_id']) && $_GET["wf_id"] ) {
-	$wfid = $_GET["wf_id"] ;
+	$wfid = intval( sanitize_text_field( $_GET["wf_id"] )) ;
 	$workflow = $create_workflow->get_workflow_by_id( $wfid  );
-	$wfeditable = $create_workflow->is_wf_editable( $_GET["wf_id"] ) ; // check editable.
+	$wfeditable = $create_workflow->is_wf_editable( $wfid ) ; // check editable.
 
 	if( isset($_POST['save_action']) && !$_POST["save_action"] ){
-		$workflow_message = FCWorkflowValidate::check_workflow_validate($wfid)	;
+		$workflow_message = FCWorkflowValidate::check_workflow_validate( $wfid )	;
 	}
 }
 $workflow_info = "";
@@ -27,7 +27,7 @@ echo "<script type='text/javascript'>
 	if (is_object($workflow)){?>
 		<h2><label id="page_top_lbl"><?php echo $workflow->name . " (" . $workflow->version .")" ;?></label></h2>
 	<?php }?>
-	<form id="wf-form" method="post" action="<?php echo network_admin_url('admin.php?page=oasiswf-admin');?>" >
+	<form id="wf-form" method="post" action="<?php echo admin_url('admin.php?page=oasiswf-admin');?>" >
 		<div style="margin-bottom:10px;">
 			<div id='fc_message' <?php echo  ($workflow_message) ? "class='updated fc_error_message'" : "";?> >
 				<p><?php echo $workflow_message ; ?></p>

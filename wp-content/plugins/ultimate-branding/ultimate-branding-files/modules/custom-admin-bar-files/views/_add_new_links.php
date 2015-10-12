@@ -25,7 +25,7 @@
                     <input type="text" class="widefat wdcab_last_wizard_step_url" name="ub_ab_prev[<?php echo $menu->id ?>][links][_last_][url]">
                 </p>
                 <p>
-                    <label for="wdcab_last_wizard_step_title"><?php _e("Title:"); ?></label>
+                    <label for="wdcab_last_wizard_step_title"><?php _e("Title:", 'ub'); ?></label>
                     <input type="text" class="widefat"  name="ub_ab_prev[<?php echo $menu->id ?>][links][_last_][title]">
                 </p>
                 <p>

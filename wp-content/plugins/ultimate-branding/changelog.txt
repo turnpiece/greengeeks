@@ -5,11 +5,28 @@ Author: Marko Miljus (Incsub), Barry (Incsub), Andrew Billits, Ulrich Sossou, Ve
 Change Log: 
 ----------------------------------------------------------------------
 ----------------------------------------------------------------------
+DATE: 4 Sep, 2015  - VERSION: 1.8.2
+==================================
+- Fixed: Bug in "View Switch Icon" and "View Switch Icon Hover" ( Color Schemes )
+- Fixed: Bug in role based hiding/showing core menus ( Admin Bar )
+- Added: Super-Admin role when hiding/showing core menus ( Admin Bar )
+
+DATE: 22 Aug, 2015  - VERSION: 1.8.1.7
+==================================
+- Fixed: Bug in setting favicon for the main site only ( Custom Multisite Favicons )
+
+DATE: 21 Aug, 2015  - VERSION: 1.8.1.6
+==================================
+- Fixed: Deprecation nag coming with WordPress 4.3
+
+DATE: 24 June, 2015  - VERSION: 1.8.1.5
+==================================
+- Fixed: Support for language translation
+- Fixed: Unwanted double and single quote escaping in admin bar custom css
 
 DATE: 29 APR, 2015  - VERSION: 1.8.1.4
 ==================================
 - Fixed: Bug in role based removal of default menus
-
 
 DATE: 27 APR, 2015  - VERSION: 1.8.1.3
 ==================================
@@ -263,4 +280,4 @@ DATE: 09 JUN, 2012 - VERSION: 1
 - Initial release of the Ultimate Branding plugin
 
 
-87274-1430644647-au
+87274-1444688386-au

@@ -11,7 +11,7 @@ class FCWorkflowEmail extends FCWorkflowBase
 			$user = get_user_by('email', $touser);
 		}
 		
-		$email_settings = get_site_option('oasiswf_email_settings') ;
+		$email_settings = get_option('oasiswf_email_settings') ;
 		$from_name = $email_settings['from_name'];
 		if (empty( $email_settings['from_name'] )) {
 			$decoded_blog_name = html_entity_decode (  get_option( 'blogname' ), ENT_QUOTES, 'UTF-8' );
@@ -20,7 +20,7 @@ class FCWorkflowEmail extends FCWorkflowBase
 		
 		$from_email = $email_settings['from_email_address'];
 		if (empty( $email_settings['from_email_address'] )) {
-			$from_email = get_site_option( 'admin_email' );
+			$from_email = get_option( 'admin_email' );
 		}
 		$headers = array("From: " .  $from_name . " <" . $from_email . ">", "Content-Type: text/html; charset=UTF-8");
 
@@ -151,7 +151,7 @@ class FCWorkflowEmail extends FCWorkflowBase
 				'create_datetime' => current_time('mysql')
 			);
 		$emails_table = FCUtility::get_emails_table_name();
-		$email_settings = get_site_option('oasiswf_email_settings') ;
+		$email_settings = get_option('oasiswf_email_settings') ;
 		if( $mails->assign_subject && 
 				$mails->assign_content &&
 				$email_settings['assignment_emails'] == "yes" ){
@@ -193,17 +193,19 @@ class FCWorkflowEmail extends FCWorkflowBase
       global $wpdb;
       if ( $user_id )
       {
-         $wpdb->get_results( "DELETE FROM " . FCUtility::get_emails_table_name() . " WHERE action = 1 and history_id = " . $action_history_id . " and to_user = " . $user_id) ;
+      	$sql = "DELETE FROM " . FCUtility::get_emails_table_name() . " WHERE action = 1 AND history_id = %d AND to_user = %d";
+         $wpdb->get_results( $wpdb->prepare( $sql, array( $action_history_id, $user_id ))) ;
       }
       else
       {
-         $wpdb->get_results( "DELETE FROM " . FCUtility::get_emails_table_name() . " WHERE action = 1 and history_id = " . $action_history_id) ;
+      	$sql = "DELETE FROM " . FCUtility::get_emails_table_name() . " WHERE action = 1 and history_id = %d";
+         $wpdb->get_results( $wpdb->prepare( $sql, $action_history_id)) ;
       }
 	}
 
 	static function post_published_notification( $new_status, $old_status, $post )
 	{
-		$email_settings = get_site_option('oasiswf_email_settings') ;
+		$email_settings = get_option('oasiswf_email_settings') ;
 		
 	   // Send email when post is published, also do not send email when post has auto-draft or inherit statuses.
     	if ( $email_settings['post_publish_emails'] == "yes" 

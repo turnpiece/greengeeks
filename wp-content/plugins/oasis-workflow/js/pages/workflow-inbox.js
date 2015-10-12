@@ -342,7 +342,8 @@ jQuery(document).ready(function() {
 			   };
 		jQuery(this).parent().children(".loading").show();
 		jQuery.get(ajaxurl, data, function( response ) {
-			jQuery("#step_submit_content").html(response);
+			var content = jQuery.parseJSON( response.trim() );
+			jQuery("#step_submit_content").html( content );
 			setTimeout("call_modal()", 100);			
 		});
 		call_modal = function(){
@@ -378,7 +379,8 @@ jQuery(document).ready(function() {
 		
 		jQuery.post(ajaxurl, data, function( response ) {
 			if( response ){
-				jQuery("#reassign-div").html(response) ;
+				var content = jQuery.parseJSON( response.trim() );
+				jQuery("#reassign-div").html( content ) ;
 				setTimeout("call_reassign_modal()", 100);				
 			}
 		});
@@ -409,7 +411,9 @@ jQuery(document).ready(function() {
 		data = {
 				action: 'get_step_comment',
 				actionid: jQuery(this).attr("actionid"),
-				page_action: page_chk
+                comment: jQuery(this).attr('data-comment'),
+				page_action: page_chk,
+                post_id: jQuery(this).attr('post_id')
 			   };
 		
 
@@ -417,12 +421,13 @@ jQuery(document).ready(function() {
 		jQuery(this).hide();
 		jQuery.post(ajaxurl, data, function( response ) {
 			jQuery("#post_com_count_content").html(response) ;
-			setTimeout("call_comment_modal()", 100);			
+			setTimeout("call_comment_modal()", 100);
 		});
 		
 		call_comment_modal = function(){
 			jQuery(inbox_obj).parent().children(".loading").hide();
 			jQuery("#stepcomment-setting").owfmodal();
+			jQuery("#simplemodal-container").css("max-height","90%");
 		}
 	});
 	

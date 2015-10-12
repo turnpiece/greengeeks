@@ -919,7 +919,7 @@ abstract class BaseFacebook
 		 * It cause unknown errors, we need latest PHP SDK
 		 */
 		if (isset($params['access_token']) && !isset($params['appsecret_proof'])) {
-//			$params['appsecret_proof'] = $this->getAppSecretProof($params['access_token']);
+//			$params['appsecret_proof'] = $this->getAppSecretProof($params['access_token']);	 	 	 	 			  			 
 		}
 
 		// json_encode all params values that are not strings

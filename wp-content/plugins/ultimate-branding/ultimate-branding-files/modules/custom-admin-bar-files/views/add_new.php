@@ -44,7 +44,7 @@
                             <input class="title_link-url-type" data-value="<?php echo network_admin_url(); ?>" type="radio" name="ub_ab_tmp[][url]"  value="admin_url">
                             <label for="title_link-admin_url"><?php _e("Site Admin area", "ub"); ?></label><br>
                             <input class="title_link-this_url-switch title_link-url-type" class="title_link-this_url-switch title_link-url-type" data-value="" type="radio" name="ub_ab_tmp[][url]" value="url"  >
-                            <label for="title_link-this_url-switch"><?php _e("This URL:"); ?></label>
+                            <label for="title_link-this_url-switch"><?php _e("This URL:", 'ub'); ?></label>
                             <input type="text" class="title_link-this_url"  size="48" name="ub_ab_tmp[][url]" value="" ><br>
                         </td>
                     </tr>

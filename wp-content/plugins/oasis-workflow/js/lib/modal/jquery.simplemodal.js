@@ -604,7 +604,7 @@
 			var s = this, top, left,
 				hc = (w[0]/2) - (s.d.container.outerHeight(true)/2),
 				vc = (w[1]/2) - (s.d.container.outerWidth(true)/2),
-				st = s.d.container.css('position') !== 'fixed' ? wndw.scrollTop() : 0;
+				st = s.d.container.css('position') !== 'fixed' ? wndw.scrollTop() : 50;
 
 			if (s.o.position && Object.prototype.toString.call(s.o.position) === '[object Array]') {
 				top = st + (s.o.position[0] || hc);

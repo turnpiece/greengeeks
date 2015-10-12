@@ -67,11 +67,44 @@ class BpfbBinder {
 					image_resize($new_img, $thumb_w, $thumb_h, false, 'bpfbt');
 				}
 				$ret[] = pathinfo($new_img, PATHINFO_BASENAME);
-			}
-			else return false;
+			} else return false; // Rename failure
 		}
 
 		return $ret;
+	}
+
+	/**
+	 * Sanitizes the path and expands it into full form.
+	 *
+	 * @param string $file Relative file path
+	 *
+	 * @return mixed Sanitized path, or (bool)false on failure
+	 */
+	public static function resolve_temp_path ($file) {
+		$file = ltrim($file, '/');
+
+		// No subdirs in path, so we can do this quick check too
+		if ($file !== basename($file)) return false;
+
+		$tmp_path = trailingslashit(wp_normalize_path(realpath(BPFB_TEMP_IMAGE_DIR)));
+		if (empty($tmp_path)) return false;
+
+		$full_path = wp_normalize_path(realpath($tmp_path . $file));
+		if (empty($full_path)) return false;
+
+		// Are we still within our defined TMP dir?
+		$rx = preg_quote($tmp_path, '/');
+		$full_path = preg_match("/^{$rx}/", $full_path)
+			? $full_path
+			: false
+		;
+		if (empty($full_path)) return false;
+
+		// Also, does this resolve to an actual file?
+		return file_exists($full_path)
+			? $full_path
+			: false
+		;
 	}
 
 	/**
@@ -172,7 +205,7 @@ EOFontIconCSS;
 	 * Handles video preview requests.
 	 */
 	function ajax_preview_video () {
-		$url = $_POST['data'];
+		$url = !empty($_POST['data']) ? esc_url($_POST['data']) : false;
 		$url = preg_match('/^https?:\/\//i', $url) ? $url : BPFB_PROTOCOL . $url;
 		$warning = __('There has been an error processing your request', 'bpfb');
 		$response = $url ? __('Processing...', 'bpfb') : $warning;
@@ -185,7 +218,7 @@ EOFontIconCSS;
 	 * Handles link preview requests.
 	 */
 	function ajax_preview_link () {
-		$url = $_POST['data'];
+		$url = !empty($_POST['data']) ? esc_url($_POST['data']) : false;
 		$scheme = parse_url($url, PHP_URL_SCHEME);
 		if (!$scheme || !preg_match('/^https?$/', $scheme)) {
 			$url = "http://{$url}";
@@ -206,10 +239,10 @@ EOFontIconCSS;
 			$image_els = $html->find('img');
 			foreach ($image_els as $el) {
 				if ($el->width > 100 && $el->height > 1) // Disregard spacers
-					$images[] = $el->src;
+					$images[] = esc_url($el->src);
 			}
 			$og_image = $html->find('meta[property=og:image]', 0);
-			if ($og_image) array_unshift($images, $og_image->content);
+			if ($og_image) array_unshift($images, esc_url($og_image->content));
 
 			$title = $html->find('title', 0);
 			$title = $title ? $title->plaintext: $url;
@@ -231,8 +264,8 @@ EOFontIconCSS;
 		echo json_encode(array(
 			"url" => $url,
 			"images" => $images,
-			"title" => $title,
-			"text" => $text,
+			"title" => esc_attr($title),
+			"text" => esc_attr($text),
 		));
 		exit();
 	}
@@ -257,6 +290,7 @@ EOFontIconCSS;
 	 */
 	function ajax_preview_remote_image () {
 		header('Content-type: application/json');
+		$data = !empty($_POST['data']) ? esc_url($_POST['data']) : false;
 		echo json_encode($_POST['data']);
 		exit();
 	}
@@ -269,7 +303,8 @@ EOFontIconCSS;
 		parse_str($_POST['data'], $data);
 		$data = is_array($data) ? $data : array('bpfb_photos'=>array());
 		foreach ($data['bpfb_photos'] as $file) {
-			@unlink (BPFB_TEMP_IMAGE_DIR . $file);
+			$path = self::resolve_temp_path($file);
+			if (!empty($path)) @unlink($path);
 		}
 		echo json_encode(array('status'=>'ok'));
 		exit();
@@ -282,28 +317,35 @@ EOFontIconCSS;
 		$bpfb_code = $activity = '';
 		$aid = 0;
 		$codec = new BpfbCodec;
-		if (!empty($_POST['data']['bpfb_video_url'])) {
-			$bpfb_code = $codec->create_video_tag($_POST['data']['bpfb_video_url']);
-		}
-		if (!empty($_POST['data']['bpfb_link_url'])) {
-			$bpfb_code = $codec->create_link_tag(
-				$_POST['data']['bpfb_link_url'],
-				$_POST['data']['bpfb_link_title'],
-				$_POST['data']['bpfb_link_body'],
-				$_POST['data']['bpfb_link_image']
-			);
-		}
-		if (!empty($_POST['data']['bpfb_photos'])) {
-			$images = $this->move_images($_POST['data']['bpfb_photos']);
-			$bpfb_code = $codec->create_images_tag($images);
+
+		if (!empty($_POST['data'])) {
+			if (!empty($_POST['data']['bpfb_video_url'])) {
+				$bpfb_code = $codec->create_video_tag($_POST['data']['bpfb_video_url']);
+			}
+			if (!empty($_POST['data']['bpfb_link_url'])) {
+				$bpfb_code = $codec->create_link_tag(
+					$_POST['data']['bpfb_link_url'],
+					$_POST['data']['bpfb_link_title'],
+					$_POST['data']['bpfb_link_body'],
+					$_POST['data']['bpfb_link_image']
+				);
+			}
+			if (!empty($_POST['data']['bpfb_photos'])) {
+				$images = $this->move_images($_POST['data']['bpfb_photos']);
+				$bpfb_code = $codec->create_images_tag($images);
+			}
 		}
 
 		$bpfb_code = apply_filters('bpfb_code_before_save', $bpfb_code);
 
 		// All done creating tags. Now, save the code
-		$gid = (int)@$_POST['group_id'];
+		$gid = !empty($_POST['group_id']) && is_numeric($_POST['group_id'])
+			? (int)$_POST['group_id']
+			: false
+		;
 		if ($bpfb_code) {
-			$content = @$_POST['content'] . "\n" . $bpfb_code;
+			$content = !empty($_POST['content']) ? $_POST['content'] : '';
+			$content .= "\n{$bpfb_code}";
 			$content = apply_filters('bp_activity_post_update_content', $content);
 			$aid = $gid ?
 				groups_post_update(array('content' => $content, 'group_id' => $gid))

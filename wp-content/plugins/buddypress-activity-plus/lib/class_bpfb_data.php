@@ -47,7 +47,7 @@ class Bpfb_Data_Container {
 	}
 
 	private function _get ($option, $fallback=false) {
-		if (isset($this->_data[$option])) return $this->_data[$option];	 	 	 	 			 	  	 
+		if (isset($this->_data[$option])) return $this->_data[$option];
 		return $fallback;
 	}
 }

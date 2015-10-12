@@ -1,21 +1,22 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Ultimate Branding\n"
-"POT-Creation-Date: 2015-04-22 19:16+0330\n"
-"PO-Revision-Date: 2015-04-22 19:17+0330\n"
-"Last-Translator: Sam Najian <sam@incsub.com>\n"
-"Language-Team: Sam Najian <sam@incsub.com>\n"
+"POT-Creation-Date: 2015-06-24 01:11+0330\n"
+"PO-Revision-Date: 2015-06-24 01:12+0330\n"
+"Last-Translator: \n"
+"Language-Team: \n"
 "Language: en_US\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.7.5\n"
+"X-Generator: Poedit 1.8.1\n"
 "X-Poedit-Basepath: ../..\n"
+"X-Poedit-WPHeader: ultimate-branding.php\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
 "esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;"
 "_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: *.js\n"
 
@@ -206,7 +207,7 @@ msgstr ""
 #: ultimate-branding-files/classes/ubadmin.php:1280
 #: ultimate-branding-files/classes/ubadmin.php:1326
 #: ultimate-branding-files/classes/ubadmin.php:1372
-#: ultimate-branding-files/modules/favicons.php:135
+#: ultimate-branding-files/modules/favicons.php:142
 #: ultimate-branding-files/modules/login-image.php:211
 #: ultimate-branding-files/modules/ultimate-color-schemes.php:425
 msgid "Changes saved."
@@ -216,7 +217,7 @@ msgstr ""
 #: ultimate-branding-files/classes/ubadmin.php:874
 #: ultimate-branding-files/classes/ubadmin.php:1098
 #: ultimate-branding-files/classes/ubadmin.php:1143
-#: ultimate-branding-files/modules/favicons.php:133
+#: ultimate-branding-files/modules/favicons.php:140
 #: ultimate-branding-files/modules/login-image.php:209
 msgid "There was an error uploading the file, please try again."
 msgstr ""
@@ -387,7 +388,7 @@ msgid ""
 msgstr ""
 
 #: ultimate-branding-files/help/contextual.footer.php:9
-#: ultimate-branding-files/modules/admin-footer-text.php:117
+#: ultimate-branding-files/modules/admin-footer-text.php:110
 msgid "Dashboard Footer Content"
 msgstr ""
 
@@ -459,7 +460,7 @@ msgid ""
 msgstr ""
 
 #: ultimate-branding-files/help/contextual.images.php:9
-#: ultimate-branding-files/modules/favicons.php:141
+#: ultimate-branding-files/modules/favicons.php:148
 msgid "Favicons"
 msgstr ""
 
@@ -568,12 +569,12 @@ msgid ""
 "tab."
 msgstr ""
 
-#: ultimate-branding-files/modules/admin-footer-text.php:121
+#: ultimate-branding-files/modules/admin-footer-text.php:114
 msgid "Footer Text"
 msgstr ""
 
-#: ultimate-branding-files/modules/admin-footer-text.php:128
-#: ultimate-branding-files/modules/admin-footer-text.php:148
+#: ultimate-branding-files/modules/admin-footer-text.php:121
+#: ultimate-branding-files/modules/admin-footer-text.php:141
 #: ultimate-branding-files/modules/admin-help-content.php:230
 #: ultimate-branding-files/modules/admin-help-content.php:245
 msgid "HTML Allowed."
@@ -631,7 +632,7 @@ msgstr ""
 
 #: ultimate-branding-files/modules/admin-help-content.php:231
 #: ultimate-branding-files/modules/custom-admin-bar-files/views/_add_new_links.php:37
-#: ultimate-branding-files/modules/custom-admin-bar-files/views/add_new.php:96
+#: ultimate-branding-files/modules/custom-admin-bar-files/views/add_new.php:108
 msgid "Add"
 msgstr ""
 
@@ -695,6 +696,11 @@ msgstr ""
 msgid "Updates"
 msgstr ""
 
+#: ultimate-branding-files/modules/custom-admin-bar-files/inc/UB_Admin_Bar_Forms.php:317
+#: ultimate-branding-files/modules/custom-admin-bar-files/inc/UB_Admin_Bar_Forms.php:359
+msgid "Current user has this role"
+msgstr ""
+
 #: ultimate-branding-files/modules/custom-admin-bar-files/inc/UB_Admin_Bar_Tab.php:33
 msgid "New Bar"
 msgstr ""
@@ -708,46 +714,46 @@ msgid "Please save before you can add submenus"
 msgstr ""
 
 #: ultimate-branding-files/modules/custom-admin-bar-files/views/_add_new_links.php:12
-#: ultimate-branding-files/modules/custom-admin-bar-files/views/add_new.php:71
+#: ultimate-branding-files/modules/custom-admin-bar-files/views/add_new.php:83
 msgid "New link"
 msgstr ""
 
 #: ultimate-branding-files/modules/custom-admin-bar-files/views/_add_new_links.php:16
 #: ultimate-branding-files/modules/custom-admin-bar-files/views/_sub_menus.php:27
-#: ultimate-branding-files/modules/custom-admin-bar-files/views/add_new.php:75
+#: ultimate-branding-files/modules/custom-admin-bar-files/views/add_new.php:87
 msgid "URL:"
 msgstr ""
 
 #: ultimate-branding-files/modules/custom-admin-bar-files/views/_add_new_links.php:18
-#: ultimate-branding-files/modules/custom-admin-bar-files/views/add_new.php:77
+#: ultimate-branding-files/modules/custom-admin-bar-files/views/add_new.php:89
 msgid "Administrative page (e.g. \"post-new.php\" or \"themes.php\")"
 msgstr ""
 
 #: ultimate-branding-files/modules/custom-admin-bar-files/views/_add_new_links.php:19
-#: ultimate-branding-files/modules/custom-admin-bar-files/views/add_new.php:78
+#: ultimate-branding-files/modules/custom-admin-bar-files/views/add_new.php:90
 msgid "Site page (e.g. \"/\" or \"/2007-06-05/an-old-post\")"
 msgstr ""
 
 #: ultimate-branding-files/modules/custom-admin-bar-files/views/_add_new_links.php:20
-#: ultimate-branding-files/modules/custom-admin-bar-files/views/add_new.php:79
+#: ultimate-branding-files/modules/custom-admin-bar-files/views/add_new.php:91
 msgid "External page (e.g. \"http://www/example.com/2007-06-05/an-old-post\")"
 msgstr ""
 
 #: ultimate-branding-files/modules/custom-admin-bar-files/views/_add_new_links.php:22
-#: ultimate-branding-files/modules/custom-admin-bar-files/views/add_new.php:81
+#: ultimate-branding-files/modules/custom-admin-bar-files/views/add_new.php:93
 msgid "Preview:"
 msgstr ""
 
 #: ultimate-branding-files/modules/custom-admin-bar-files/views/_add_new_links.php:28
 #: ultimate-branding-files/modules/custom-admin-bar-files/views/_sub_menus.php:23
-#: ultimate-branding-files/modules/custom-admin-bar-files/views/add_new.php:87
+#: ultimate-branding-files/modules/custom-admin-bar-files/views/add_new.php:99
 #: ultimate-branding-files/modules/rebranded-meta-widget.php:118
 msgid "Title:"
 msgstr ""
 
 #: ultimate-branding-files/modules/custom-admin-bar-files/views/_add_new_links.php:33
 #: ultimate-branding-files/modules/custom-admin-bar-files/views/_sub_menus.php:33
-#: ultimate-branding-files/modules/custom-admin-bar-files/views/add_new.php:92
+#: ultimate-branding-files/modules/custom-admin-bar-files/views/add_new.php:104
 msgid "Open in new window"
 msgstr ""
 
@@ -811,26 +817,41 @@ msgid "This URL:"
 msgstr ""
 
 #: ultimate-branding-files/modules/custom-admin-bar-files/views/add_new.php:52
+#: ultimate-branding-files/modules/custom-admin-bar-files/views/menus.php:32
+msgid "Use Icon"
+msgstr ""
+
+#: ultimate-branding-files/modules/custom-admin-bar-files/views/add_new.php:58
+#: ultimate-branding-files/modules/custom-admin-bar-files/views/menus.php:38
+msgid "Icon"
+msgstr ""
+
+#: ultimate-branding-files/modules/custom-admin-bar-files/views/add_new.php:58
+#: ultimate-branding-files/modules/custom-admin-bar-files/views/menus.php:38
+msgid "Icon to be used beside the menu text and shown on mobile devices"
+msgstr ""
+
+#: ultimate-branding-files/modules/custom-admin-bar-files/views/add_new.php:64
 #: ultimate-branding-files/modules/custom-admin-bar-files/views/menus.php:66
 msgid "Open in new window?"
 msgstr ""
 
-#: ultimate-branding-files/modules/custom-admin-bar-files/views/add_new.php:58
+#: ultimate-branding-files/modules/custom-admin-bar-files/views/add_new.php:70
 #: ultimate-branding-files/modules/custom-admin-bar-files/views/menus.php:72
 msgid "Select User Roles allowed to see menu"
 msgstr ""
 
-#: ultimate-branding-files/modules/custom-admin-bar-files/views/add_new.php:64
+#: ultimate-branding-files/modules/custom-admin-bar-files/views/add_new.php:76
 #: ultimate-branding-files/modules/custom-admin-bar-files/views/menus.php:78
 msgid "Add new link"
 msgstr ""
 
-#: ultimate-branding-files/modules/custom-admin-bar-files/views/add_new.php:106
+#: ultimate-branding-files/modules/custom-admin-bar-files/views/add_new.php:118
 #: ultimate-branding-files/modules/custom-admin-bar-files/views/menus.php:87
 msgid "Configure Links"
 msgstr ""
 
-#: ultimate-branding-files/modules/custom-admin-bar-files/views/add_new.php:110
+#: ultimate-branding-files/modules/custom-admin-bar-files/views/add_new.php:122
 #: ultimate-branding-files/modules/custom-admin-bar-files/views/menus.php:99
 msgid "Drag and drop links to sort them into the order you want."
 msgstr ""
@@ -899,18 +920,6 @@ msgid ""
 "other styling of the links in admin bar"
 msgstr ""
 
-#: ultimate-branding-files/modules/custom-admin-bar-files/views/menus.php:32
-msgid "Use Icon"
-msgstr ""
-
-#: ultimate-branding-files/modules/custom-admin-bar-files/views/menus.php:38
-msgid "Icon"
-msgstr ""
-
-#: ultimate-branding-files/modules/custom-admin-bar-files/views/menus.php:38
-msgid "Icon to be used beside the menu text and shown on mobile devices"
-msgstr ""
-
 #: ultimate-branding-files/modules/custom-admin-bar-files/views/menus.php:44
 msgid "Title link leads to"
 msgstr ""
@@ -964,52 +973,52 @@ msgid ""
 "site."
 msgstr ""
 
-#: ultimate-branding-files/modules/favicons.php:145
+#: ultimate-branding-files/modules/favicons.php:152
 msgid "This is the image that is displayed as a Favicon - "
 msgstr ""
 
-#: ultimate-branding-files/modules/favicons.php:146
+#: ultimate-branding-files/modules/favicons.php:153
 #: ultimate-branding-files/modules/login-image.php:220
 msgid "Reset the image"
 msgstr ""
 
-#: ultimate-branding-files/modules/favicons.php:186
+#: ultimate-branding-files/modules/favicons.php:193
 msgid "Main site Favicon"
 msgstr ""
 
-#: ultimate-branding-files/modules/favicons.php:188
+#: ultimate-branding-files/modules/favicons.php:195
 msgid "Change Favicon"
 msgstr ""
 
-#: ultimate-branding-files/modules/favicons.php:192
+#: ultimate-branding-files/modules/favicons.php:199
 #: ultimate-branding-files/modules/favicons/UB_Blog_Favicons.php:154
 #: ultimate-branding-files/modules/login-image.php:268
 msgid "Browse"
 msgstr ""
 
-#: ultimate-branding-files/modules/favicons.php:259
+#: ultimate-branding-files/modules/favicons.php:266
 msgid "Blavatar"
 msgstr ""
 
-#: ultimate-branding-files/modules/favicons.php:282
+#: ultimate-branding-files/modules/favicons.php:289
 msgid "Use this as default favicon for all sub-sites"
 msgstr ""
 
-#: ultimate-branding-files/modules/favicons.php:287
+#: ultimate-branding-files/modules/favicons.php:294
 msgid "Sub-site favicons"
 msgstr ""
 
-#: ultimate-branding-files/modules/favicons.php:390
-#: ultimate-branding-files/modules/favicons.php:399
+#: ultimate-branding-files/modules/favicons.php:397
+#: ultimate-branding-files/modules/favicons.php:406
 msgid "Please specify image"
 msgstr ""
 
-#: ultimate-branding-files/modules/favicons.php:406
-#: ultimate-branding-files/modules/favicons.php:434
+#: ultimate-branding-files/modules/favicons.php:413
+#: ultimate-branding-files/modules/favicons.php:441
 msgid "Favicon successfully updated"
 msgstr ""
 
-#: ultimate-branding-files/modules/favicons.php:427
+#: ultimate-branding-files/modules/favicons.php:434
 msgid "Invalid id"
 msgstr ""
 
@@ -1191,76 +1200,76 @@ msgid ""
 "prefer.</small>"
 msgstr ""
 
-#: ultimate-branding-files/modules/site-wide-text-change.php:87
+#: ultimate-branding-files/modules/site-wide-text-change.php:88
 msgid "Warning, this page is not loaded with the full replacements processed."
 msgstr ""
 
-#: ultimate-branding-files/modules/site-wide-text-change.php:131
-#: ultimate-branding-files/modules/site-wide-text-change.php:203
+#: ultimate-branding-files/modules/site-wide-text-change.php:132
+#: ultimate-branding-files/modules/site-wide-text-change.php:204
 msgid "Find this text"
 msgstr ""
 
-#: ultimate-branding-files/modules/site-wide-text-change.php:138
+#: ultimate-branding-files/modules/site-wide-text-change.php:139
 msgid "Ignore case when replacing text."
 msgstr ""
 
-#: ultimate-branding-files/modules/site-wide-text-change.php:144
+#: ultimate-branding-files/modules/site-wide-text-change.php:145
 msgid "in this text domain"
 msgstr ""
 
-#: ultimate-branding-files/modules/site-wide-text-change.php:148
-#: ultimate-branding-files/modules/site-wide-text-change.php:219
+#: ultimate-branding-files/modules/site-wide-text-change.php:149
+#: ultimate-branding-files/modules/site-wide-text-change.php:220
 msgid "( leave blank for global changes )"
 msgstr ""
 
-#: ultimate-branding-files/modules/site-wide-text-change.php:154
-#: ultimate-branding-files/modules/site-wide-text-change.php:225
+#: ultimate-branding-files/modules/site-wide-text-change.php:155
+#: ultimate-branding-files/modules/site-wide-text-change.php:226
 msgid "and replace it with"
 msgstr ""
 
-#: ultimate-branding-files/modules/site-wide-text-change.php:163
+#: ultimate-branding-files/modules/site-wide-text-change.php:164
 msgid "Admin/Front-end only?"
-msgstr ""
-
-#: ultimate-branding-files/modules/site-wide-text-change.php:168
-#: ultimate-branding-files/modules/site-wide-text-change.php:239
-msgid "Both"
 msgstr ""
 
 #: ultimate-branding-files/modules/site-wide-text-change.php:169
 #: ultimate-branding-files/modules/site-wide-text-change.php:240
-msgid "Admin pages only"
+msgid "Both"
 msgstr ""
 
 #: ultimate-branding-files/modules/site-wide-text-change.php:170
+#: ultimate-branding-files/modules/site-wide-text-change.php:241
+msgid "Admin pages only"
+msgstr ""
+
+#: ultimate-branding-files/modules/site-wide-text-change.php:171
 msgid "Front-end pages only"
 msgstr ""
 
-#: ultimate-branding-files/modules/site-wide-text-change.php:196
+#: ultimate-branding-files/modules/site-wide-text-change.php:197
 msgid "New Text Change Rule"
 msgstr ""
 
-#: ultimate-branding-files/modules/site-wide-text-change.php:209
+#: ultimate-branding-files/modules/site-wide-text-change.php:210
 msgid "Ignore case when finding text."
 msgstr ""
 
-#: ultimate-branding-files/modules/site-wide-text-change.php:215
+#: ultimate-branding-files/modules/site-wide-text-change.php:216
 msgid ""
 "in this text <abbr title=\"A text domain is related to the "
 "internationisation of the text, you should leave this blank unless you know "
 "what it means.\">domain</abbr>"
 msgstr ""
 
-#: ultimate-branding-files/modules/site-wide-text-change.php:234
+#: ultimate-branding-files/modules/site-wide-text-change.php:235
 msgid "Admin only"
 msgstr ""
 
-#: ultimate-branding-files/modules/site-wide-text-change.php:241
+#: ultimate-branding-files/modules/site-wide-text-change.php:242
 msgid "Front pages only"
 msgstr ""
 
-#: ultimate-branding-files/modules/site-wide-text-change.php:318
-#: ultimate-branding-files/modules/site-wide-text-change.php:346
+#: ultimate-branding-files/modules/site-wide-text-change.php:319
+#: ultimate-branding-files/modules/site-wide-text-change.php:347
 msgid "Delete selected"
 msgstr ""
 
@@ -1329,4 +1338,26 @@ msgstr ""
 
 #: ultimate-branding-files/modules/ultimate-color-schemes.php:471
 msgid "Reset Scheme Colors"
+msgstr ""
+
+#. Plugin Name of the plugin/theme
+msgid "Ultimate Branding"
+msgstr ""
+
+#. Plugin URI of the plugin/theme
+msgid "https://premium.wpmudev.org/project/ultimate-branding/"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid ""
+"A complete white-label and branding solution for multisite. Login images, "
+"favicons, remove WordPress links and branding, and much more."
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "WPMU DEV"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "http://premium.wpmudev.org/"
 msgstr ""

@@ -5,8 +5,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 } // Exit if accessed directly
 
-
-
 // FUNCTION to see if checkboxes should be checked
 function jd_checkCheckbox( $field, $sub1 = false, $sub2 = '' ) {
 	if ( $sub1 ) {
@@ -196,6 +194,19 @@ function wpt_mail( $subject, $body, $override=false ) {
 	}
 }
 
+function wpt_show_debug() {
+	// Nothing triggers this. If you want some debugging information, just add the parameter to the URL.
+	if ( isset( $_GET['debug'] ) && $_GET['debug'] == 'true' ) {
+		$debug = get_option( 'wpt_debug' );
+		echo "<pre>";
+		print_r( $debug );
+		echo "</pre>";
+	}
+	if ( isset( $_GET['debug'] ) && $_GET['debug'] == 'delete' ) {
+		delete_option( 'wpt_debug' );
+	}	
+}
+
 function jd_remote_json( $url, $array = true ) {
 	$input = jd_fetch_url( $url );
 	$obj   = json_decode( $input, $array );
@@ -297,17 +308,63 @@ if ( ! function_exists( 'mb_strlen' ) ) {
 if ( ! function_exists( 'mb_substr' ) ) {
 	function mb_substr( $str, $start, $count = 'end' ) {
 		if ( $start != 0 ) {
-			$split = self::mb_substr_split_unicode( $str, intval( $start ) );
+			$split = mb_substr_split_unicode( $str, intval( $start ) );
 			$str   = substr( $str, $split );
 		}
 
 		if ( $count !== 'end' ) {
-			$split = self::mb_substr_split_unicode( $str, intval( $count ) );
+			$split = mb_substr_split_unicode( $str, intval( $count ) );
 			$str   = substr( $str, 0, $split );
 		}
 
 		return $str;
 	}
+}
+
+if ( ! function_exists( 'mb_substr_split_unicode' ) ) {
+	function mb_substr_split_unicode( $str, $splitPos ) {
+		if ( $splitPos == 0 ) {
+			return 0;
+        }
+        $byteLen = strlen( $str );
+
+        if ( $splitPos > 0 ) {
+            if ( $splitPos > 256 ) {
+                // Optimize large string offsets by skipping ahead N bytes.
+                // This will cut out most of our slow time on Latin-based text,
+                // and 1/2 to 1/3 on East European and Asian scripts.
+                $bytePos = $splitPos;
+                while ( $bytePos < $byteLen && $str[$bytePos] >= "\x80" && $str[$bytePos] < "\xc0" ) {
+                    ++$bytePos;
+                }
+                $charPos = mb_strlen( substr( $str, 0, $bytePos ) );
+            } else {
+                $charPos = 0;
+                $bytePos = 0;
+            }
+
+            while ( $charPos++ < $splitPos ) {
+                ++$bytePos;
+                // Move past any tail bytes
+                while ( $bytePos < $byteLen && $str[$bytePos] >= "\x80" && $str[$bytePos] < "\xc0" ) {
+                    ++$bytePos;
+                }
+            }
+        } else {
+            $splitPosX = $splitPos + 1;
+            $charPos = 0; // relative to end of string; we don't care about the actual char position here
+            $bytePos = $byteLen;
+            while ( $bytePos > 0 && $charPos-- >= $splitPosX ) {
+                --$bytePos;
+                // Move past any tail bytes
+                while ( $bytePos > 0 && $str[$bytePos] >= "\x80" && $str[$bytePos] < "\xc0" ) {
+                    --$bytePos;
+                }
+            }
+        }
+
+        return $bytePos;
+    }	
 }
 
 // filter_var substitution for PHP <5.2
@@ -474,6 +531,7 @@ function wpt_get_support_form() {
 	global $current_user, $wpt_version;
 	get_currentuserinfo();
 	$request = '';
+	$response_email = '';
 	// send fields for WP to Twitter
 	$license = ( get_option( 'wpt_license_key' ) != '' ) ? get_option( 'wpt_license_key' ) : 'none';
 	if ( $license != '' ) {
@@ -565,23 +623,26 @@ $plugins_string
 		if ( substr( $sitename, 0, 4 ) == 'www.' ) {
 			$sitename = substr( $sitename, 4 );
 		}
+		$response_email = ( isset( $_POST['response_email'] ) ) ? $_POST['response_email'] : false;
 		$from_email = 'wordpress@' . $sitename;
-		$from       = "From: \"$current_user->display_name\" <$current_user->user_email>\r\nReply-to: \"$current_user->display_name\" <$current_user->user_email>\r\n";
+		$from       = "From: \"$current_user->display_name\" <$response_email>\r\nReply-to: \"$current_user->display_name\" <$response_email>\r\n";
 
 		if ( ! $has_read_faq ) {
-			echo "<div class='message error'><p>" . __( 'Please read the FAQ and other Help documents before making a support request.', 'wp-to-twitter' ) . "</p></div>";
+			echo "<div class='notice error'><p>" . __( 'Please read the FAQ and other Help documents before making a support request.', 'wp-to-twitter' ) . "</p></div>";
+		} else if ( ! $response_email ) {
+			echo "<div class='notice error'><p>" . __( 'Please supply a valid email where you can receive support responses.', 'wp-to-twitter' ) . "</p></div>";			
 		} else if ( ! $request ) {
-			echo "<div class='message error'><p>" . __( 'Please describe your problem. I\'m not psychic.', 'wp-to-twitter' ) . "</p></div>";
+			echo "<div class='notice error'><p>" . __( 'Please describe your problem. I\'m not psychic.', 'wp-to-twitter' ) . "</p></div>";
 		} else {
 			$sent = wp_mail( "plugins@joedolson.com", $subject, $message, $from );
 			if ( $sent ) {
 				if ( $has_donated == 'Donor' ) {
-					echo "<div class='message updated'><p>" . sprintf( __( 'Thank you for supporting WP to Twitter! I\'ll get back to you as soon as I can. Please make sure you can receive email at <code>%s</code>.', 'wp-to-twitter' ), $current_user->user_email ) . "</p></div>";
+					echo "<div class='notice updated'><p>" . sprintf( __( 'Thank you for supporting WP to Twitter! I\'ll get back to you as soon as I can. Please make sure you can receive email at <code>%s</code>.', 'wp-to-twitter' ), $response_email ) . "</p></div>";
 				} else {
-					echo "<div class='message updated'><p>" . sprintf( __( "Thanks for using WP to Twitter. Please ensure that you can receive email at <code>%s</code>.", 'wp-to-twitter' ), $current_user->user_email ) . "</p></div>";
+					echo "<div class='notice updated'><p>" . sprintf( __( "Thanks for using WP to Twitter. Please ensure that you can receive email at <code>%s</code>.", 'wp-to-twitter' ), $response_email ) . "</p></div>";
 				}
 			} else {
-				echo "<div class='message error'><p>" . __( "Sorry! I couldn't send that message. Here's the text of your request:", 'my-calendar' ) . "</p><p>" . sprintf( __( '<a href="%s">Contact me here</a>, instead.', 'wp-to-twitter' ), 'https://www.joedolson.com/contact/' ) . "</p><pre>$request</pre></div>";
+				echo "<div class='notice error'><p>" . __( "Sorry! I couldn't send that message. Here's the text of your request:", 'my-calendar' ) . "</p><p>" . sprintf( __( '<a href="%s">Contact me here</a>, instead.', 'wp-to-twitter' ), 'https://www.joedolson.com/contact/' ) . "</p><pre>$request</pre></div>";
 			}
 		}
 	}
@@ -606,7 +667,8 @@ $plugins_string
 			<li>" . __( 'What happened instead?', 'wp-to-twitter' ) . "</li>
 		</ul>
 		<p>
-		<code>" . __( 'Reply to:', 'wp-to-twitter' ) . " \"$current_user->display_name\" &lt;$current_user->user_email&gt;</code>
+		<label for='response_email'>" . __( 'Your Email', 'wp-to-twitter' ) . "</label><br />
+		<input type='email' name='response_email' id='response_email' value='$response_email' class='widefat' required='required' aria-required='true' />
 		</p>
 		<p>
 		<input type='checkbox' name='has_read_faq' id='has_read_faq' value='on' required='required' aria-required='true' /> <label for='has_read_faq'>" . sprintf( __( 'I have read <a href="%1$s">the FAQ for this plug-in</a> <span>(required)</span>', 'wp-to-twitter' ), 'http://www.joedolson.com/wp-to-twitter/support-2/' ) . "
@@ -812,14 +874,11 @@ class WPT_Normalizer
         $i = 0;
         $len = strlen($s);
 
-        while ($i < $len)
-        {
-            if ($s[$i] < "\x80")
-            {
+        while ($i < $len) {
+            if ($s[$i] < "\x80") {
                 // ASCII chars
 
-                if ($c)
-                {
+                if ($c) {
                     ksort($c);
                     $result .= implode('', $c);
                     $c = array();
@@ -828,37 +887,29 @@ class WPT_Normalizer
                 $j = 1 + strspn($s, $ASCII, $i+1);
                 $result .= substr($s, $i, $j);
                 $i += $j;
-            }
-            else
-            {
+            } else {
                 $ulen = $ulen_mask[$s[$i] & "\xF0"];
                 $uchr = substr($s, $i, $ulen);
                 $i += $ulen;
 
-                if (isset($combClass[$uchr]))
-                {
+                if (isset($combClass[$uchr])) {
                     // Combining chars, for sorting
 
                     isset($c[$combClass[$uchr]]) || $c[$combClass[$uchr]] = '';
                     $c[$combClass[$uchr]] .= isset($compatMap[$uchr]) ? $compatMap[$uchr] : (isset($decompMap[$uchr]) ? $decompMap[$uchr] : $uchr);
-                }
-                else
-                {
-                    if ($c)
-                    {
+                } else {
+                    if ($c) {
                         ksort($c);
                         $result .= implode('', $c);
                         $c = array();
                     }
 
-                    if ($uchr < "\xEA\xB0\x80" || "\xED\x9E\xA3" < $uchr)
-                    {
+                    if ($uchr < "\xEA\xB0\x80" || "\xED\x9E\xA3" < $uchr) {
                         // Table lookup
 
                         $j = isset($compatMap[$uchr]) ? $compatMap[$uchr] : (isset($decompMap[$uchr]) ? $decompMap[$uchr] : $uchr);
 
-                        if ($uchr != $j)
-                        {
+                        if ($uchr != $j) {
                             $uchr = $j;
 
                             $j = strlen($uchr);
@@ -883,9 +934,7 @@ class WPT_Normalizer
                                 $uchr = substr($uchr, 0, $ulen);
                             }
                         }
-                    }
-                    else
-                    {
+                    } else {
                         // Hangul chars
 
                         $uchr = unpack('C*', $uchr);
@@ -907,8 +956,7 @@ class WPT_Normalizer
             }
         }
 
-        if ($c)
-        {
+        if ( $c ) {
             ksort($c);
             $result .= implode('', $c);
         }
@@ -916,10 +964,31 @@ class WPT_Normalizer
         return $result;
     }
 
-    protected static function getData($file)
-    {
+    protected static function getData($file) {
         $file = __DIR__ . '/unidata/' . $file . '.ser';
-        if (file_exists($file)) return unserialize(file_get_contents($file));
-        else return false;
+        if ( file_exists( $file ) ) { 
+			return unserialize( file_get_contents( $file ) );
+        } else {
+			return false;
+		}
     }
+}
+
+/**
+ * Functions to provide fallbacks for changed function names in case any plug-ins or themes are calling WP to Twitter functions in custom code.
+ */
+function jd_twit_link( $link_ID ) {
+	return wpt_twit_link( $link_ID );
+}
+
+function jd_post_info( $post_ID ) {
+	return wpt_post_info( $post_ID );
+}
+
+function jd_twit( $post_ID, $type = 'instant' ) {
+	return wpt_tweet( $post_ID, $type );
+}
+
+function jd_addTwitterAdminStyles() {
+	return wpt_admin_style();
 }

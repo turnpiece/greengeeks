@@ -130,6 +130,6 @@ class Wdfb_WidgetRecentComments extends WP_Widget {
 		$limit = (int) $limit;
 		$limit = $limit ? $limit : 5;
 
-		return $wpdb->get_results( "SELECT * FROM {$wpdb->comments} AS c, {$wpdb->commentmeta} AS mc WHERE mc.meta_key='wdfb_comment' AND c.comment_ID=mc.comment_id ORDER BY c.comment_date DESC LIMIT {$limit}" );	 	 	 	 			  			 
+		return $wpdb->get_results( "SELECT * FROM {$wpdb->comments} AS c, {$wpdb->commentmeta} AS mc WHERE mc.meta_key='wdfb_comment' AND c.comment_ID=mc.comment_id ORDER BY c.comment_date DESC LIMIT {$limit}" );
 	}
 }

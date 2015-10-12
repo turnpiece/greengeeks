@@ -242,7 +242,7 @@ class ub_Ahc_AdminHelpContent {
 		?>
 		<br/>
 		<?php
-		_e( 'HTML Allowed.', 'admin_help_content' );
+		_e( 'HTML Allowed.', 'ub' );
 	}
 
 	function help_settings_element () {
