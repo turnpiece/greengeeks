@@ -1,13 +1,9 @@
 /*
 Theme Name: Green Geeks
-Theme URI: http://turnpiece.com/
-Author: Dunhakdis & Turnpiece
-Author URI: http://turnpiece.com/
-Description: Child theme of Klein for the Green Geeks website. Klein is an innovative WordPress theme built to support BuddyPress, bbPress, and WooComerce out of the box. Perfect for website that interacts with number of users. Let your members create profile, send message, add connection, or share what's happening in their life.  Collaborate through forums or sell any products you want. 
-Version: 2.1.4
-License: GPL
-Template: klein-2.1.4
-License URI: license.txt
+Author: Turnpiece
+Description: Theme for the Green Geeks website, a child theme of Klein.
+Version: 1.0
+Template: klein
 Tags: custom-header, custom-background, threaded-comments, sticky-post, translation-ready, microformats, rtl-language-support, editor-style, custom-menu
 */
 
@@ -17,16 +13,11 @@ Tags: custom-header, custom-background, threaded-comments, sticky-post, translat
  * @package Klein
  * @since version 1.0
  */
-@import url("../klein-2.1.4/style.css");
+@import url("../klein/style.css");
  /**
   * Add you css below, they won't be overwritten when you update.
   */
-
-/**
- * Fonts
- */
-@import url(http://fonts.googleapis.com/css?family=Anonymous+Pro:400,400italic,700,700italic);
-@import url(http://fonts.googleapis.com/css?family=Roboto:400,400italic,700,700italic);
+  
 
  /**
   * Colours
@@ -44,311 +35,377 @@ Tags: custom-header, custom-background, threaded-comments, sticky-post, translat
   * white = f6ffed
   *
   */
-  
+
+html {
+  font-size: 20px; }
+
 body {
-    font: 18px/1.8em 'Roboto', Arial, Helvetica, sans-serif;
-	color: #214300;
-	word-wrap: break-word;
+  font-family: "Roboto", Arial, sans-serif;
+  color: #214300;
+  font-size: 0.9375em;
+  line-height: 1.8;
+  margin-bottom: 1.6em;
+  margin-bottom: 0; }
+
+a,
+.single-navigation .prev-posts h3 a {
+    color: #438700; }
+
+a:hover, a:focus,
+.single-navigation .prev-posts h3 a:hover,
+.single-navigation .prev-posts h3 a:focus {
+  color: #214300;
 }
 
-input[type="text"],
-input[type="password"],
-input[type="email"],
-textarea,
-select {
-    font: 18px/1.8em 'Roboto', Arial, Helvetica, sans-serif;
-	background: #d4ffa9;
-	color: #438700;
-    border: none;
+.site-main .blog-content .entry-content a:hover,
+.site-main .blog-content .entry-content a:focus {
+  text-decoration: underline;
 }
 
-a {
-    color: #438700;
+.container {
+    padding-left: 0;
+    padding-right: 0;
 }
 
-a:hover {
-    color: #081000;
+/* Buttons
+---------------- */
+.add_to_cart_button, 
+.btn.btn-primary {
+    background-color: #438700;
 }
 
-h5 {
-    font-size: 18px;
-}
+.klein-blog-article-list h3 a {
+    color: #438700; }
 
-table#wp-calendar th,
-table#wp-calendar td,
-.entry-title a:visited,
-.entry-title a{
-	color: #d4ffa9;
-}
+legend, caption, h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+    color: #438700; }
 
-.entry-meta,
-.blog-content-comment,
-.blog-content-meta {
-    font-size: 15px;
-}
+.archive-entry-author .by-label, 
+.archive-entry-author .archive-date {
+    color: #65cb00; }
 
-#header {
-    margin: 0;
-}
 
-#footer {
-    background: transparent;
-}
-
-li p {
-    line-height: 1.6em;
-}
-
-.blog-content-title a {
-    color: #214300;
-}
-
-.blog-author .bp-profile-link a,
-.blog-author .author-post-link a {
-    background: #baff76;
-    color: #438700;
-    font-size: 16px;
-}
-
-.comments-area{
-	border-top: none;
-}
-
-.desktop-menu ul.sub-menu li a,.desktop-menu ul.children li a {
-    background: #214300;
-}
-
-.desktop-menu ul.sub-menu li:first-child:after
-.desktop-menu ul.children li:first-child:after {
-    
-}
-
-.desktop-menu ul.sub-menu li:first-child:before,.desktop-menu ul.children li:first-child:before {
-    
-}
-
-.widget,.widget a {
-    color: #214300;
-}
-
-.widget{
-	background: #65cb00;
-	color: #baff76;
-    border-bottom: none;
-    border-radius: 0 30px;
-}
-
-.widget .widget-title {
-    color: #081000;
-    font-size: 18px;
-}
-
-.widget_display_stats dd {
-    background: #214300;
-    color: #baff76;
-}
-
-div.bbp-template-notice.info {
-	color: #438700;
-	background: none;
-}
-
-span.page-numbers, a.page-numbers {
-    display: inline-block;
-    padding: 4px 10px;
-    background: #65cb00;
-    color: #baff76;
-    float: left;
-}
-
-#bp-klein-user-nav li a {
-    display: block;
-    padding: .75em;
-    background: transparent;
-    color: #438700;
-}
-
-#klein-top-updates-badge,
-.item-list-tabs li a span {
-    background: #65cb00;
-    color: #214300;
-    top: -22px;
-    border-radius: 5px;
-}
-
-#bp-klein-user-nav .bp-klein-sub-nav li a {
-    background: #214300;
-    color: #baff76;
-}
-
-#bp-klein-user-nav .bp-klein-sub-nav li a:hover {
-    background: #34495E;
-}
-
-.bx-wrapper .bx-pager .bx-pager-item,.bx-wrapper .bx-controls-auto .bx-controls-auto-item {
-    display: inline-block;
-    background: #65cb00;
-    padding: 8px 6px;
-}
-
-.labeled-box {
-    position: absolute;
-    right: 90px;
-    margin-top: 3px;
-    padding: 0 10px;
-    background: #65cb00;
-    cursor: pointer;
-}
-
-.front-page-highlights-nav-left,.front-page-highlights-nav-right {
-    display: inline-block;
-    float: left;
-    padding: 7px 12px 6px;
-    background: #65cb00;
-    font-size: 15px;
-}
-
-a.fp-controls {
-    display: inline-block;
-    float: left;
-    padding: 10px 20px;
-    background: #65cb00;
-    color: #baff76;
-}
-
-.embed-vimeo iframe{
-	background: #f6ffed;
-}
-
-#footer-widgets .widget-title{
-	color: #f6ffed;
-}
-
-.widget.widget_nav_menu li a{
-	background: #438700;
-	color: #f6ffed;
-}
-
-/* User Bar */
 #bp-klein-top-bar {
-    display: block;
-    padding: 0.2em;
+    background: #081000;
+    padding: 15px 0 10px;
+}
+.content-heading {
+    background: #d4ffa9;
+}
+#content-header {
+    padding-bottom: 10px;
+    padding-top: 25px;
 }
 
-#bp-klein-user-bar .btn {
-    background: transparent;
+/* Menu
+----------- */
+.desktop-menu ul.menu.desktop li a {
     color: #65cb00;
 }
 
-#site-name h1 a {
-    color: #65cb00;
-    text-decoration: none;
-}
-
-.site-content a.btn {
-    text-decoration: none;
-}
-
-.sticky .blog-content-title h2 a:hover,.blog-content.post-formats-video h2 a:hover,.blog-content.post-formats-status h2 a:hover,.blog-content-title a:hover {
-    color: #65cb00;
+.nav-btn {
+  background: #214300;
+  color: #65cb00;
 }
 
 .menu.mobile li a {
-    display: inline-block;
-    box-sizing: border-box;
-    padding: 20px 10px;
-    width: 100%;
-    background: #65cb00;
-    color: #baff76;
-    font-size: 16px;
-}
-
+  padding: 10px 30px;
+  color: #65cb00;
+  border-bottom: 1px solid #438700;
+  background: #214300; }
+.menu.mobile .sub-menu li a {
+  background: #214300; }
+.menu.mobile li a .sub-menu-toggle {
+  background: #001000; }
 .menu.mobile li a:hover {
-    background: #65cb00;
+  background: #001000; }
+
+/* Archives
+----------- */
+.archive-excerpt {
+  margin: 20px 0 20px 0; 
 }
 
-	.gears-pricing-table-title{
-		background: #65cb00;
-	}
-
-.wpb_teaser_grid.wpb_carousel .prev,
-.wpb_teaser_grid.wpb_carousel .next {
-	font-size: 20px;
-	padding: 8px 10px 10px 10px;
-	z-index: 999;
-	color: #baff76;
-	background: #65cb00;
+/* Buttons
+----------- */
+.woocommerce .shipping-calculator-button, .add_to_cart_button, .subscription-toggle, .generic-button a, .bp-login-widget-register-link a, a.comment-edit-link, a.post-edit-link, a.vc_inline-link, button, input[type="button"], input[type="reset"], input[type="submit"] {
+    background-color: #438700;
+    border: 0 none;
+    border-radius: 50px;
+    color: #f6ffed;
+    display: inline-block;
+    padding: 6px 12px;
 }
 
-.woocommerce ul.products li.product .onsale,.woocommerce-page ul.products li.product .onsale {
-	top: 0;
-	right: 0;
-	left: auto;
-	background: #65cb00;
-	margin: 0px 15px 0 0;
-	font-weight: 400;
-	padding: 6px 12px;
+#comments #respond {
+  background-color: #d4ffa9;
 }
 
-.blog-content-readmore > a {
-    border-radius: 50%;
+#kleinScrollToTop {
+  color: #65cb00;
 }
 
-
-/*
- * Mobile Navigation
- * 
- * Added @version 2.0.7
- * @package klein
- * @version 2.0.7
- * */
-.menu.mobile li a{
-	background: #65cb00;
-	
-}
-.menu.mobile .sub-menu li a:hover,
-.menu.mobile li a:hover{
-	background: #65cb00;
-}
-.menu.mobile .sub-menu li a,
-.menu.mobile li a .sub-menu-toggle
-{	
-	background: #214300;
-}
-
-/* Edit links */
-.edit-link {
-    border-top: none;
-    margin-top: 0;
-}
-
-a.comment-edit-link, 
-a.post-edit-link {
-    color: #438700;
+/* Inputs 
+----------- */
+select, textarea, input[type="text"], input[type="password"], input[type="date"], input[type="datetime"], input[type="datetime-local"], input[type="month"], input[type="time"], input[type="email"], input[type="number"], input[type="range"], input[type="search"], input[type="tel"], input[type="url"], input[type="week"] {
     background: #cbff66;
-    padding: 5px;
-    border-radius: 15px;
+    border: 1px solid #438700;
+    box-shadow: none;
 }
 
-a.comment-edit-link:hover, 
-a.post-edit-link:hover {
+input[type="radio"], 
+input[type="checkbox"] {
+    margin: 4px 10px 0;
+}
+
+select {
+  height: auto !important;
+}
+
+#bp-klein-top-bar #klein-search-container.active {
+  top: 55px;
+}
+#bp-klein-top-bar #klein-search-container {
+  background: #65cb00;
+  box-shadow: none;
+  width: 300px;
+  left: -300px;
+  padding: 12px;
+  border-radius: 8px 0;
+}
+
+/* Footer
+----------- */
+#footer, #footer a {
+    color: #baff76;
+}
+#footer {
+    background: #214300;
+}
+#footer-widgets {
     background: #438700;
-    color: #cbff66;
+    color: #65cb00;
+}
+#footer-widgets .widget-title {
+  color: #65cb00;
 }
 
-/* Comments */
-#reply-title, 
-.comments-title {
+#footer-widgets a {
+  color: #d4ffa9;
+}
+
+.bp-login-widget-register-link a, a.comment-edit-link, a.post-edit-link, a.vc_inline-link, a.comment-edit-link:visited, a.post-edit-link:visited, a.vc_inline-link:visited, a.comment-edit-link:hover, a.post-edit-link:hover, a.vc_inline-link:hover, a.btn, a.btn:hover, a.btn:visited, .btn {
+    color: #f6ffed;
+}
+
+.bp-login-widget-register-link a, .btn.btn-default {
+    background-color: #438700;
+}
+
+.widget.widget_nav_menu li a {
+  background: transparent;
+  color: #d4ffa9;
+  border-bottom: none;
+}
+
+.widget.widget_nav_menu li a:hover,
+.widget.widget_nav_menu li a.current-menu-item,
+.widget.widget_nav_menu li a.current_page_item {
+  color: #f6ffed;
+  background: transparent;
+}
+
+#footer-widgets .widget_categories li::before, #footer-widgets .widget_recent_comments li::before, #footer-widgets .widget_meta li::before, #footer-widgets .widget_pages li::before, #footer-widgets .widget_recent_entries li::before, #footer-widgets .widget_rss li::before, #footer-widgets .widget_archive li::before {
+    color: #65cb00;
+}
+
+/* Alerts
+----------- */
+.alert-info {
+    background-color: #214300;
+    border-color: none;
+    color: #d4ffa9;
+}
+.alert {
+  padding: 1em 2em;
+  border-radius: 0 12px;
+}
+
+/* Text
+----------- */
+
+blockquote p {
+  color: #214300;
+}
+
+/* Buddypress
+----------- */
+.buddypress #whats-new-form,
+#search-groups-form, 
+#search-members-form {
+  background: #65cb00;
+  border-radius: 0 1em 0 1em;
+}
+
+#message {
+  background: #baff76;
+}
+
+.info {
+  color: #214300;
+}
+
+.fg-white {
+  color: #f6ffed;
+}
+
+.buddypress-head {
+  color: #d4ffa9;
+  background: #438700;
+  padding: 2em 0;
+}
+
+.buddypress-head p,
+.buddypress-head .fg-cloud {
+  color: #d4ffa9;
+}
+
+.buddypress #item-buttons a {
+   font-size: 0.9375em;
+   padding: 0.4em 0.8em;
+}
+
+.buddypress .activity-meta a {
+  color: #65cb00;
+}
+
+.buddypress .activity-meta a:hover {
+  color: #438700;
+}
+
+#item-nav {
+  background-color: #d4ffa9;
+}
+
+#item-nav .generic-button {
+  float: right;
+  margin: 5px;
+}
+
+#item-nav .generic-button > a.btn {
+  color: #f6ffed;
+}
+
+.item-list-tabs li.selected a, .item-list-tabs li.selected a:hover, .activity-type-tabs li.selected a, .activity-type-tabs li a:hover {
+    color: #214300;
+}
+.item-list-tabs li.selected a, .item-list-tabs li.current a, .activity-type-tabs li.selected a {
+    border-bottom: 8px solid #214300;
+}
+.item-list-tabs li a, .activity-type-tabs li a {
+    color: #438700;
+}
+
+.activity-header p {
+    color: #214300;
+    font-size: inherit;
+}
+
+.activity .activity-item.new_blog_post .activity-inner {
+  position: relative;
+  padding-right: 250px;
+}
+
+.activity .activity-item.new_blog_post .activity-inner p img {
+  position: absolute;
+  max-width: 200px;
+  right: 0;
+  top: 0;
+}
+
+#subnav.item-list-tabs li a {
+    font-size: inherit;
+    padding: 0 10px;
+}
+#subnav.item-list-tabs li.current a,
+#subnav.item-list-tabs li a:hover {
+    color: #214300;
+}
+
+/* Social links */
+.content-sharer {
+  background: #d4ffa9;
+  border-radius: 4px;
+}
+.content-sharer .caption {
+  color: #65cb00;
+  font-size: 1em;
+}
+.article-sharer {
+  color: #f6ffed;
+  padding: 0;
+  border-radius: 4px;
+}
+
+/* WP Admin Bar */
+#wpadminbar .avatar {
+  border-radius: 50%;
+}
+
+#wpadminbar {
+  color: #65cb00 !important;
+  background: #081000;
+}
+
+#wpadminbar a {
+  color: #baff76 !important
+}
+
+/* BP Security */
+
+#signup_form #security-question-section #gg-security-check {
+  width: 150px;
+  display: inline;
+}
+
+@media only screen and (min-width: 768px){
+
+  #signup_form .submit,
+  #signup_form .register-section {
+    margin-top: 1.6em;
+    width: 45%;
+  }
+
+  /* Signup form */
+  #signup_form .submit {
+    float: right;
+    text-align: right;
+    margin-top: 5em;
+  }
+
+  #signup_form #basic-details-section {
     float: left;
-    font-size: 20px;
-    margin-left: 0;
-    padding: 20px 0 0;
-    text-transform: uppercase;
+  }
+
+  #signup_form #profile-details-section,
+  #signup_form #security-question-section {
+    float: right;
+  }
 }
 
-/* Buddypress */
-.buddypress #groups-list li h5 a, 
-.buddypress #members-dir-list li h5 a, 
-.buddypress #member-list li h5 a {
-  font-size: 18px;
+/* Login modal */
+.modal-content {
+  background: #f6ffed;
+  -webkit-box-shadow: 0 0 0 0;
+  box-shadow: 0 0 0 0;
+  border: 0;
+}
+
+.modal-open #page {
+  opacity: 0.3;
+}
+
+.modal-header .close {
+  background: #cbff66;
+  color: #438700;
 }

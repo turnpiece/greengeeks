@@ -6,7 +6,7 @@
  *
  */
 
-get_header(); ?>
+get_header(klein_header()); ?>
 <?php global $post; ?>
 <?php 
 	get_template_part( 'layout', 'full-content' );

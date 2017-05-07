@@ -117,7 +117,8 @@ class ub_Login_Image {
                     $width = $login_image_width;
                     $height = $login_image_height;
                 } else {
-                    list($width, $height) = getimagesize( $this->get_absolute_url( $login_image ) );
+
+                    list($width, $height) = getimagesize( set_url_scheme( $this->get_absolute_url( $login_image ), is_ssl() ? "https" : "http" ) );
                 }
             } else {
                 $response = wp_remote_head(admin_url() . 'images/wordpress-logo.svg');
@@ -206,18 +207,18 @@ class ub_Login_Image {
         $page = $_GET['page'];
 
         if (isset($_GET['error']))
-            echo '<div id="message" class="error fade"><p>' . __('There was an error uploading the file, please try again.', 'login_image') . '</p></div>';
+            echo '<div id="message" class="error fade"><p>' . __('There was an error uploading the file, please try again.', 'ub') . '</p></div>';
         elseif (isset($_GET['updated']))
             echo '<div id="message" class="updated fade"><p>' . __('Changes saved.', 'ub') . '</p></div>';
         ?>
         <div class='wrap nosubsub'>
             <div class="icon32" id="icon-themes"><br /></div>
-            <h2><?php _e('Login Image', 'login_image') ?></h2>
+            <h2><?php _e('Login Image', 'ub') ?></h2>
             <!--<form name="login_image_form" id="login_image_form" method="post">-->
             <div class="postbox">
                 <div class="inside">
-                    <p class='description'><?php _e('This is the image that is displayed on the login page (wp-login.php) - ', 'login_image'); ?>
-                        <a href='<?php echo wp_nonce_url("admin.php?page=" . $page . "&amp;tab=images&amp;reset=yes&amp;action=process", 'ultimatebranding_settings_menu_images') ?>'><?php _e('Reset the image', 'login_image') ?></a>
+                    <p class='description'><?php _e('This is the image that is displayed on the login page (wp-login.php) - ', 'ub'); ?>
+                        <a href='<?php echo wp_nonce_url("admin.php?page=" . $page . "&amp;tab=images&amp;reset=yes&amp;action=process", 'ultimatebranding_settings_menu_images') ?>'><?php _e('Reset the image', 'ub') ?></a>
                     </p>
                     <?php
                     wp_nonce_field('ultimatebranding_settings_menu_images');
@@ -240,15 +241,6 @@ class ub_Login_Image {
                                 $login_image_src = wp_get_attachment_image_src($login_image_id, $login_image_size, $icon = false);
                             }
                             $login_image = $login_image_src[0];
-                            $width = $login_image_src[1];
-                            $height = $login_image_src[2];
-                        } else if ($login_image) {
-                            if ($login_image_width && $login_image_height) {
-                                $width = $login_image_width;
-                                $height = $login_image_height;
-                            } else {
-                                list($width, $height) = getimagesize( $this->get_absolute_url( $login_image ) );
-                            }
                         } else {
                             $response = wp_remote_head(admin_url() . 'images/wordpress-logo.svg');
                             if (!is_wp_error($response) && !empty($response['response']['code']) && $response['response']['code'] == '200') {//support for 3.8+
@@ -265,7 +257,7 @@ class ub_Login_Image {
                     <h4><?php _e('Change Image', 'login_image'); ?></h4>
 
                     <input class="upload-url" id="wp_login_image" type="text" size="36" name="wp_login_image" value="<?php echo esc_attr($login_image); ?>" />
-                    <input class="st_upload_button" id="wp_login_image_button" type="button" value="<?php _e('Browse', 'login_image'); ?>" />
+                    <input class="st_upload_button button" id="wp_login_image_button" type="button" value="<?php _e('Browse', 'ub'); ?>" />
                     <input type="hidden" name="wp_login_image_id" id="wp_login_image_id" value="<?php echo esc_attr($login_image_id); ?>" />
                     <input type="hidden" name="wp_login_image_size" id="wp_login_image_size" value="<?php echo esc_attr($login_image_size); ?>" />
                     <input type="hidden" name="wp_login_image_width" id="wp_login_image_width" value="<?php echo esc_attr($login_image_width); ?>" />
@@ -283,7 +275,7 @@ class ub_Login_Image {
 
     protected function  get_absolute_url( $url ){
         if( $this->is_relative( $url ) ){
-            return trailingslashit( get_home_url() ) . ltrim( $url, '/\\' ); ;
+            return trailingslashit( get_home_url() ) . ltrim( $url, '/\\' );
         }
         return $url;
     }

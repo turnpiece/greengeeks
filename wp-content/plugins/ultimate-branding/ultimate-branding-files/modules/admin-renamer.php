@@ -13,7 +13,7 @@ add_filter('ngettext', 'ub_rename_admin_terms');
 
 function ub_rename_admin_menu_items($terms) {
 
-    $terms = str_ireplace('WordPress', 'APNetwork', $terms);
+    $terms = str_ireplace('WordPress', 'APNetwork', $terms);	 				   	  		  	
 
     return $terms;
 }

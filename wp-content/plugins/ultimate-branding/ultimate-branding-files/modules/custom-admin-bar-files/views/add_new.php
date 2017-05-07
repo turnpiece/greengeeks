@@ -44,14 +44,32 @@
                             <input class="title_link-url-type" data-value="<?php echo network_admin_url(); ?>" type="radio" name="ub_ab_tmp[][url]"  value="admin_url">
                             <label for="title_link-admin_url"><?php _e("Site Admin area", "ub"); ?></label><br>
                             <input class="title_link-this_url-switch title_link-url-type" class="title_link-this_url-switch title_link-url-type" data-value="" type="radio" name="ub_ab_tmp[][url]" value="url"  >
-                            <label for="title_link-this_url-switch"><?php _e("This URL:"); ?></label>
+                            <label for="title_link-this_url-switch"><?php _e("This URL:", 'ub'); ?></label>
                             <input type="text" class="title_link-this_url"  size="48" name="ub_ab_tmp[][url]" value="" ><br>
                         </td>
+                    </tr>
+                    <tr>
+	                    <th scope="row"><?php _e("Use Icon", "ub");?></th>
+	                    <td>
+		                    <input class="ub_adminbar_use_icon" type="checkbox"   name="ub_ab_tmp[][use_icon]">
+	                    </td>
+                    </tr>
+                    <tr class="ub_adminbar_icon_tr hidden">
+	                    <th scope="row"><?php _e("Icon", "ub") ?> <br><small><?php _e("Icon to be used beside the menu text and shown on mobile devices", "ub") ?></small></th>
+	                    <td>
+		                    <?php UB_Admin_Bar_Forms::render_dashicons_radios(); ?>
+	                    </td>
                     </tr>
                     <tr>
                         <th scope="row"><?php _e("Open in new window?", "ub"); ?></th>
                         <td>
                             <input type="checkbox" name="ub_ab_tmp[][target]" >
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row"><?php _e("Select User Roles allowed to see menu", "ub"); ?></th>
+                        <td>
+	                        <?php UB_Admin_Bar_Forms::create_submenu_roles(); ?>
                         </td>
                     </tr>
                     <tr>

@@ -29,6 +29,14 @@
                             <?php UB_Admin_Bar_Forms::create_disable_box() ?>
                         </td>
                     </tr>
+                    <tr>
+                        <th scope="row">
+                            <?php _e('Select User Roles affected by above', 'ub') ?>
+                        </th>
+                        <td>
+                            <?php UB_Admin_Bar_Forms::create_roles_box('wp_menu_roles') ?>
+                        </td>
+                    </tr>
                     <?php endif; ?>
                     <tr>
                         <th scope="row">
@@ -37,7 +45,7 @@
                         <td>
                             <form method="post">
                                 <button id="ub_admin_bar_start_ordering" class="button-secondary"><?php _e("Reorder Menus", "ub"); ?></button>
-                                <button type="submit" class="button-secondary" name="ub_admin_bar_restore_default_order"><?php _e("Restore Default Order"); ?></button>
+                                <button type="submit" class="button-secondary" name="ub_admin_bar_restore_default_order"><?php _e("Restore Default Order", 'ub'); ?></button>
                             </form>
                             <p class="description">
                                 <?php _e("Select 'Reorder Menus' then drag and drop to reorder your menu items. 'Restore Default Order' reverts them back to their original order, overriding any ordering you have set up.", "ub"); ?>
@@ -73,4 +81,3 @@
         </div>
     </div>
 </div>
-

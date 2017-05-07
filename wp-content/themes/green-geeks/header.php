@@ -22,6 +22,7 @@
 <link rel="icon" href="<?php echo $favicon; ?>" type="image/x-icon" />
 <link rel="shortcut icon" href="<?php echo $favicon; ?>" type="image/x-icon" />
 <!-- favicon end -->
+<link href='http://fonts.googleapis.com/css?family=Roboto:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
 <!-- custom background css -->
 <?php klein_custom_background(); ?>
 <!-- custom background css end -->
@@ -32,121 +33,101 @@
 </head>
 <body <?php body_class(); ?>>
 <?php
-	$container_class = ot_get_option( 'container', 'fluid' );
+	$container_class = ot_get_option( 'container', 'boxed' );
 ?>
 <div id="page" class="hfeed site <?php echo $container_class; ?>">
 	<?php do_action( 'before' ); ?>
-
-	<header id="header" class="site-header" role="banner">
-
-		<div id="bp-klein-top-bar">
-			<nav id="bp-klein-user-bar" class="container" role="navigation">
-				<div class="row">
-					<div id="bp-klein-user-bar-action" class="col-md-12 col-sm-12">
-						<div class="pull-right">
-							<?php if( is_user_logged_in() ){ ?>
-								<?php
-									global $current_user;
-									get_currentuserinfo();
-									$user_login = $current_user->user_login;
-								?>
-								<?php if( function_exists('bp_core_get_user_domain' ) ){ ?>
-									<a id="klein-top-bp-profile-link" class="btn btn-primary" href="<?php echo bp_core_get_user_domain( $current_user->ID );?>" title="<?php _e('My Profile','klein'); ?>">
-										<?php echo $current_user->display_name; ?>
-									</a>
-									<?php klein_user_nav(); ?>
-								<?php } ?>
-							<?php }else{ ?>
-								<a data-toggle="modal" id="klein-login-btn" href="#klein_login_modal" title="<?php _e( 'Login', 'klein' ); ?>"><i class="glyphicon glyphicon-user"></i> <?php _e( 'Login', 'klein' ); ?></a>
-								<div class="modal fade" id="klein_login_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-									<div class="modal-dialog">
-										<div class="modal-content">
-											<div class="modal-header">
-												<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-												<h4 class="modal-title">
-													<?php _e( sprintf( 'Login to %s', get_bloginfo( 'name' ) ),'klein' ); ?>
-												</h4>
-											</div>
-											<div class="modal-body">
-												
-												<div id="klein-modal-body">
-													<?php do_action( 'klein_before_login_form_modal_body' ); ?>
-														<?php wp_login_form(); ?>
-														<?php do_action( 'login_form' ); //3rd party applications/plugins support ?>
-													<?php do_action( 'klein_after_login_form_modal_body' ); ?>
-
-													<p><?php _e( "Not a green geek yet?", 'greengeeks' ) ?>
-														<?php echo str_replace( '<a', '<a id="klein-register-btn" title="'.__('Register','klein').'"', wp_register('', '', false)); ?>
-													</p>
-												</div>
-													<?php // support 3rd party plugins ?>
-												<div class="clearfix">
-													<?php do_action( 'login_footer' ); ?>
-												</div>
-												
-											</div>
-										</div><!-- /.modal-content -->
-									</div><!-- /.modal-dialog -->
-								</div><!-- /.modal -->
-							<?php } ?>
-
-							<?php //get_search_form(); ?>
-						</div>
-					</div>
-				</div>
-			</nav>
-		</div>
-		
-		<div class="container">
+	<div id="bp-klein-top-bar">
+		<nav id="bp-klein-user-bar" class="container" role="navigation">
 			<div class="row">
-				<div class="site-branding col-md-4 col-sm-4" id="site-name">
-					<a id="logo-anchor" href="<?php echo esc_url( home_url( '/' ) ); ?>" title="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) . ' - ' . get_bloginfo( 'description' ) ); ?>" rel="home">
-						<?php
-							$default_logo = get_template_directory_uri() . '/logo.png';
-							$logo = ot_get_option( 'logo', $default_logo );
-						?>
-						<h1><?php bloginfo( 'name' ); ?></h1>
-						<img src="<?php echo $logo; ?>" alt="<?php echo get_bloginfo( 'name' ); ?> - <?php echo get_bloginfo( 'description' ); ?>"/>
-					</a>
-				</div>
-				
-				<div class="desktop-menu col-md-8 col-sm-8 show-on-desktops">
-					<div class="pull-right">
-					<?php
-						
-						$defaults = array(
-							'theme_location'  => 'primary',
-							'container'       => 'div',
-							'container_class' => 'navigation-desktop',
-							'container_id'    => 'main-menu-desktop',
-							'menu_class'      => 'menu desktop',
-						);
-					?>
-					<?php wp_nav_menu( $defaults ); ?>
+				<div class="col-xs-4 col-sm-3">
+					<div class="site-branding" id="site-name">
+						<a id="logo-anchor" href="<?php echo esc_url( home_url( '/' ) ); ?>" title="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) . ' - ' . get_bloginfo( 'description' ) ); ?>" rel="home">
+							<?php
+								$default_logo = get_template_directory_uri() . '/logo.png';
+								$logo = ot_get_option( 'logo', $default_logo );
+							?>
+							<h1><?php bloginfo( 'name' ); ?></h1>
+							<img src="<?php echo $logo; ?>" alt="<?php echo get_bloginfo( 'name' ); ?> - <?php echo get_bloginfo( 'description' ); ?>"/>
+						</a>
 					</div>
-					<div class="clearfix"></div>
 				</div>
-				
-				<div class="small-screen-device-nav hide-on-desktops col-md-8 col-sm-8">
-					<nav id="site-navigation" class="main-navigation pull-right" role="navigation">
-						<div id="menu">
-							<div data-dropdown=".menu.mobile" class="nav-btn glyphicon glyphicon-align-justify icon-32" aria-hidden="true"></div>
-						</div>
-					</nav><!-- #site-navigation -->
-					<?php
-						$defaults = array(
-							'theme_location'  => 'primary',
-							'container'       => 'ul',
-							'container_class' => 'navigation',
-							'container_id'    => 'main-menu',
-							'menu_class'      => 'menu mobile container row',
-						);
+				<div class="desktop-menu col-xs-7 visible-sm visible-md visible-lg">
+						<div class="pull-right">
+						<?php
+							$defaults = array(
+								'theme_location'  => 'primary',
+								'container'       => 'div',
+								'container_class' => 'navigation-desktop',
+								'container_id'    => 'main-menu-desktop',
+								'menu_class'      => 'menu desktop',
+								'echo' => 0,
+								'fallback_cb' => false
+							);
 						?>
+						<?php $main_menu = wp_nav_menu( $defaults ); ?>
+						<?php if (empty($main_menu)) { ?>
+							<ul class="no-mg-bottom top-links-menu-container no-list">
+								<li>
+									<a class="mg-top-5 btn btn-primary" title="<?php _e('Select Menu', 'klein');?>" href="<?php echo admin_url(); ?>/nav-menus.php?action=locations">
+										<i class="fa fa-info-circle"></i>
+										<?php _e('Select/Create new Main Menu', 'klein');?>
+									</a>
+								</li>
+							</ul>
+						<?php } else {?> 
+							<?php echo $main_menu; ?>
+						<?php } ?>
+						</div>
+						<div class="clearfix"></div>
+				</div>
+
+				<div id="bp-klein-user-bar-action" class="col-sm-2 col-xs-6">
+					<div class="pull-right">
+						<?php if( is_user_logged_in() ){ ?>
+							<?php
+								global $current_user;
+								get_currentuserinfo();
+								$user_login = $current_user->user_login;
+							?>
+							<?php if( function_exists('bp_core_get_user_domain' ) ){ ?>
+								
+								<div class="top-profile-avatar">
+									<a href="<?php echo bp_core_get_user_domain( $current_user->ID ) ?>" title="<?php _e('Your profile','klein') ?>"><?php echo get_avatar($current_user->ID, 32); ?></a>
+								</div>
+								
+								<?php klein_user_nav(); ?>
+
+							<?php } ?>
+						<?php }else{ ?>
+							<?php klein_login_register_link(); ?>
+						<?php } ?>
+					</div>
+				</div>
+
+				<div class="small-screen-device-nav col-xs-2 visible-xs">
+						<nav id="site-navigation" class="main-navigation pull-right" role="navigation">
+							<div id="menu">
+								<div data-dropdown=".menu.mobile" class="nav-btn fa fa-reorder" aria-hidden="true"></div>
+							</div>
+						</nav><!-- #site-navigation -->
+						<?php
+							$defaults = array(
+								'theme_location'  => 'primary',
+								'container'       => 'ul',
+								'container_class' => 'navigation',
+								'container_id'    => 'main-menu',
+								'menu_class'      => 'menu mobile clearfix',
+							);
+						?>
+				</div>
+				<div class="mobile-menu-container">
 					<?php wp_nav_menu( $defaults ); ?>
 				</div>	
-			</div>	
-		</div>
-	</header><!-- #masthead -->
+
+			</div>
+		</nav>
+	</div>
 		
 	<div class="clearfix"></div>
 	
@@ -160,5 +141,13 @@
 			<?php putRevSlider( $rev_slider_id ); ?>
 		</div>	
 	<?php }?>
-	<div id="main" class="container site-main">
+	<?php if(function_exists('is_buddypress')) { ?>
+		<?php if( is_buddypress() ) { ?>
+			<div id="main" class="bp-container site-main">
+		<?php } else { ?>
+			<div id="main" class="container site-main">
+		<?php } ?>
+	<?php } else { ?>
+			<div id="main" class="container no-bp site-main">
+	<?php } ?>
 		

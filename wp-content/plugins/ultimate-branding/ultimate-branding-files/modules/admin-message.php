@@ -64,7 +64,7 @@ class UB_Admin_Message{
     function admin_message_page_output()
     {
         if (!current_user_can('manage_options')) {
-            echo "<p>" . __('Nice Try...', 'admin_message') . "</p>";  //If accessed properly, this message doesn't appear.
+            echo "<p>" . __('Nice Try...', 'ub') . "</p>";  //If accessed properly, this message doesn't appear.
             return;
         }
 
@@ -75,10 +75,10 @@ class UB_Admin_Message{
         ?>
         <table class="form-table">
             <tr valign="top">
-                <th scope="row"><?php _e('Message', 'admin_message') ?></th>
+                <th scope="row"><?php _e('Message', 'ub') ?></th>
                 <td>
                     <textarea name="admin_message" type="text" rows="5" wrap="soft" id="admin_message" style="width: 95%"/><?php echo $admin_message ?></textarea>
-                    <br /><?php _e('HTML allowed', 'admin_message') ?></td>
+                    <br /><?php _e('HTML allowed', 'ub') ?></td>
             </tr>
         </table>
     <?php

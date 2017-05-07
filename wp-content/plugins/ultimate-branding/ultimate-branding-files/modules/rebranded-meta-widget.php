@@ -64,17 +64,27 @@ function ub_rmw_manage_output() {
 
 class ub_WP_Widget_Rebranded_Meta extends WP_Widget {
 
-	function ub_WP_Widget_Rebranded_Meta() {
+	function __construct() {
 		$widget_ops = array('classname' => 'widget_meta', 'description' => __( "Log in/out, admin, feed and powered-by links", 'ub' ) );
-		$this->WP_Widget('meta', __('Meta'), $widget_ops);
+		parent::__construct('meta', __('Meta', 'ub'), $widget_ops);
+
 	}
+
+    /**
+     * Provide back-compat
+     *
+     *
+     */
+    function ub_WP_Widget_Rebranded_Meta(){
+        $this->__construct();
+    }
 
 	function widget( $args, $instance ) {
 
 		global $current_site;
 
 		extract($args);
-		$title = apply_filters('widget_title', empty($instance['title']) ? __('Meta') : $instance['title'], $instance, $this->id_base);
+		$title = apply_filters('widget_title', empty($instance['title']) ? __('Meta', 'ub') : $instance['title'], $instance, $this->id_base);
 
 		echo $before_widget;
 		if ( $title )
@@ -95,8 +105,8 @@ class ub_WP_Widget_Rebranded_Meta extends WP_Widget {
 			<ul>
 			<?php wp_register(); ?>
 			<li><?php wp_loginout(); ?></li>
-			<li><a href="<?php bloginfo('rss2_url'); ?>" title="<?php echo esc_attr(__('Syndicate this site using RSS 2.0')); ?>"><?php _e('Entries <abbr title="Really Simple Syndication">RSS</abbr>'); ?></a></li>
-			<li><a href="<?php bloginfo('comments_rss2_url'); ?>" title="<?php echo esc_attr(__('The latest comments to all posts in RSS')); ?>"><?php _e('Comments <abbr title="Really Simple Syndication">RSS</abbr>'); ?></a></li>
+			<li><a href="<?php bloginfo('rss2_url'); ?>" title="<?php echo esc_attr(__('Syndicate this site using RSS 2.0', 'ub')); ?>"><?php _e('Entries <abbr title="Really Simple Syndication">RSS</abbr>', "ub"); ?></a></li>
+			<li><a href="<?php bloginfo('comments_rss2_url'); ?>" title="<?php echo esc_attr(__('The latest comments to all posts in RSS', 'ub')); ?>"><?php _e('Comments <abbr title="Really Simple Syndication">RSS</abbr>', "ub"); ?></a></li>
 			<li><a href="<?php echo $global_site_link; ?>" title="<?php echo esc_attr( sprintf( __('Powered by %s', 'ub'), $global_site_name) ); ?>"><?php echo esc_attr($global_site_name) ?></a></li>
 			<?php wp_meta(); ?>
 			</ul>
@@ -119,5 +129,3 @@ class ub_WP_Widget_Rebranded_Meta extends WP_Widget {
 <?php
 	}
 }
-
-?>

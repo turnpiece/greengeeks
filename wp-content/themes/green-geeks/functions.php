@@ -6,6 +6,7 @@
  *
  */
 
+if (!function_exists('klein_setup')):
 /**
  * Sets up theme defaults and registers support for various WordPress features.
  *
@@ -21,337 +22,620 @@ function klein_setup() {
 	 * If you're building a theme based on klein, use a find and replace
 	 * to change 'klein' to the name of your theme in all the template files
 	 */
-	load_theme_textdomain( 'klein', get_stylesheet_directory() . '/languages' );
+	load_theme_textdomain( 'klein', get_template_directory() . '/languages' );
+
+	// translations for this child theme
+	load_child_theme_textdomain( 'green-geeks', get_stylesheet_directory() . '/languages' );
 	
 	// add default posts and comments RSS feed links to head
 	add_theme_support( 'automatic-feed-links' );
+
+	// WordPress 4.1 and above
+	add_theme_support('title-tag');
 	
 	// add featured-image theme support
-	add_theme_support( 'post-thumbnails' );  
-		add_image_size( 'klein-thumbnail-large', 650, 350, true ); 
-		add_image_size( 'klein-thumbnail-slider', 580, 277, true ); 
-		add_image_size( 'klein-thumbnail-highlights', 325, 325, true ); 
-		add_image_size( 'klein-thumbnail', 225, 185, true );
-	
-	
-	// add support for woocommerce
-	//add_theme_support( 'woocommerce' );
+	add_theme_support( 'post-thumbnails' );
+
+	add_image_size( 'klein-thumbnail-large', 870, 368, true ); 
+	add_image_size( 'klein-thumbnail-slider', 580, 277, true ); 
+	add_image_size( 'klein-thumbnail-highlights', 325, 325, true ); 
+	add_image_size( 'klein-thumbnail', 255, 185, true );
 	
 	// register the nav emnu
 	register_nav_menus( array(
 		'primary' => __( 'Primary Menu', 'klein' ),
+		'top-links' => __( 'Top Links Menu', 'klein' ),
 	));
 	
 	// add post formats
-	add_theme_support( 'post-formats', array( 'video', 'status' ) );
+	add_theme_support( 'post-formats', array( 'video', 'gallery', 'quote', 'audio' ) );
 
-	//bbPress support 
-	//add_theme_support( 'bbpress' );
+	if (is_admin()) {
+		// remove siebar settings
+		remove_action('admin_menu', 'klein_register_sidebar_settings');
+
+		// relabel posts
+		//add_action( 'admin_menu', 'gg_change_post_label' );
+		//add_action( 'init', 'gg_change_post_object' );
+
+		// allow contributors to upload images
+		if ( current_user_can('contributor') && !current_user_can('upload_files') )
+			add_action('admin_init', 'gg_allow_contributor_uploads');
+	}
+
+	remove_filter( 'wp_title', 'klein_wp_title' );
+
+	// don't show the admin bar on the front end
+	show_admin_bar( false );
+	add_filter('show_admin_bar', '__return_false');
 	
-	//use Klein's stylesheet for woocommerce
+}
+endif; // klein_setup
+
+add_action( 'after_setup_theme', 'klein_setup' );
+
+/**
+ * Register widgetized area and update sidebar with default widgets
+ */
+function gg_widgets_init() {
 	/*
-	if (defined('WOOCOMMERCE_VERSION')) {
-		if ( version_compare( WOOCOMMERCE_VERSION, "2.1" ) >= 0 ) {
-			add_filter( 'woocommerce_enqueue_styles', '__return_false' );
-		} else {
-			define( 'WOOCOMMERCE_USE_CSS', false );
+	 * Default Sidebars
+	 */
+	register_sidebar( array(
+		'name'          => __( 'Sidebar Right', 'klein' ),
+		'id'            => 'sidebar-1',
+		'before_widget' => '<aside id="%1$s" class="widget %2$s">',
+		'after_widget'  => '</aside>',
+		'before_title'  => '<h3 class="widget-title">',
+		'after_title'   => '</h3><div class="widget-clear"></div>',
+	) );
+	
+	/*
+	 * Front Page Sidebars
+	 */
+	register_sidebar( array(
+		'name'          => __( 'Page Sidebar Right', 'klein' ),
+		'id'            => 'page-sidebar-right',
+		'before_widget' => '<aside id="%1$s" class="widget %2$s">',
+		'after_widget'  => '</aside>',
+		'before_title'  => '<h3 class="widget-title">',
+		'after_title'   => '</h3><div class="widget-clear"></div>',
+	) );
+	
+	/**
+	 * BuddyPress Sidebar
+	 */
+	register_sidebar( array(
+		'name'          => __( '(BuddyPress) Sidebar Right', 'klein' ),
+		'id'            => 'bp-klein-sidebar',
+		'before_widget' => '<aside id="%1$s" class="widget %2$s">',
+		'after_widget'  => '</aside>',
+		'before_title'  => '<h3 class="widget-title">',
+		'after_title'   => '</h3><div class="widget-clear"></div>',
+	) );
+
+
+	
+	// Footer Widgets
+	
+	$footer_widgets_count = 4;
+	$footer_widgets_index = 0;
+	
+	for( $i = 0; $i < $footer_widgets_count; $i++){
+	
+		$footer_widgets_index ++;
+	
+		register_sidebar( array(
+			'name'          => __( 'Footer Widget Area ' . $footer_widgets_index, 'klein' ),
+			'id'            => 'bp-klein-footer-' . $footer_widgets_index,
+			'before_widget' => '<aside id="%1$s-footer-'.$footer_widgets_index.'" class="row widget  %2$s">',
+			'after_widget'  => '</aside>',
+			'before_title'  => '<h3 class="widget-title">',
+			'after_title'   => '</h3><div class="widget-clear"></div>',
+		));
+		
+	}
+	
+	// Register Additional Sidebars
+	$sidebars = unserialize( get_option( KLEIN_SIDEBAR_KEY ) ); 
+	
+	if( !empty( $sidebars ) ){ 
+		foreach( $sidebars as $sidebar ){ 
+			if( !empty( $sidebar['klein-sidebar-name'] ) ){ 
+				register_sidebar( array(
+					'name'          => $sidebar['klein-sidebar-name'],
+					'id' 			=> $sidebar['klein-sidebar-id'],
+					'before_widget' => '<aside id="%1$s" class="row widget  %2$s">',
+					'after_widget'  => '</aside>',
+					'before_title'  => '<h3 class="widget-title">',
+					'after_title'   => '</h3><div class="widget-clear"></div>',
+				));
+			}
 		}
 	}
-	*/
+}
 
-	// don't read in parent styles as well
-	remove_action( 'wp_enqueue_scripts', 'klein_scripts', 10 );
+remove_action( 'widgets_init', 'klein_widgets_init' );
+add_action( 'widgets_init', 'gg_widgets_init' );
 
-	// customize read more link
-	//add_filter( 'the_content_more_link', 'gg_modify_read_more_link' );
+add_action( 'load-post.php', 'gg_post_meta_boxes_setup' );
+add_action( 'load-post-new.php', 'gg_post_meta_boxes_setup' );
 
-	// remove sidebar adding facility
-	remove_action( 'wp_ajax_klein_sidebar_add', 'klein_sidebar_add' );
-	remove_action( 'wp_ajax_klein_sidebar_delete', 'klein_sidebar_delete' );
-	remove_action( 'wp_ajax_klein_sidebar_update', 'klein_sidebar_update' );
+function gg_post_meta_boxes_setup() {
 
-	remove_action('admin_menu', 'klein_register_sidebar_settings');
+	/* Add meta boxes on the 'add_meta_boxes' hook. */
+	add_action( 'add_meta_boxes', 'gg_remove_post_meta_boxes', 99 );
+}
 
-	// remove appearance meta box
-	remove_action( 'load-post.php', 'klein_post_meta_boxes_setup' );
-	remove_action( 'load-post-new.php', 'klein_post_meta_boxes_setup' );
+function gg_remove_post_meta_boxes() {
+	// remove appearance meta box on posts
+	remove_meta_box(
+		'klein-appearance-meta-box',
+		'post',
+		'side'
+	);
+}
 
-	/* Save post meta on the 'save_post' hook. */
-	remove_action( 'save_post', 'klein_save_post_class_meta', 10, 2 );
+
+add_filter( 'comment_form_defaults', 'gg_remove_comment_form_allowed_tags' );
+function gg_remove_comment_form_allowed_tags( $defaults ) {
+
+	$defaults['comment_notes_after'] = '';
+	return $defaults;
+
 }
 /*
-function gg_modify_read_more_link() {
-	return '<a class="more-link" href="' . get_permalink() . '"><i class="glyphicon glyphicon-arrow-right"></i></a>';
+add_action( 'bp_member_options_nav', 'gg_users_admin_link' );
+function gg_users_admin_link() {
+	// check if this is a user's own profile page
+	if (bp_loggedin_user_domain() == bp_displayed_user_domain()) : ?>
+	<li id="logout-li" class="generic-button">
+		<a href="<?php echo wp_logout_url( home_url() ) ?>" class="btn">
+			<?php _e('Logout', 'klein') ?>
+			<div class="glyphicon glyphicon-log-out"></div>
+		</a>
+	</li>
+	<li id="admin-personal-li" class="generic-button">
+		<a href="<?php echo admin_url() ?>" class="btn">
+			<?php _e('Admin', 'klein') ?>
+			<div class="glyphicon glyphicon-edit"></div>
+		</a>
+	</li>
+	<?php endif;
 }
 */
-function gg_scripts(){
+add_action( 'bp_member_header_actions', 'gg_member_header_actions' );
+function gg_member_header_actions() {
+	if (bp_loggedin_user_domain() == bp_displayed_user_domain()) : ?>
+	<p>
+		<div id="write-post" class="generic-button">
+			<a href="<?php echo admin_url( 'post-new.php' ) ?>" class="btn">
+				<?php _e('Write', 'klein') ?>
+				<div class="glyphicon glyphicon-edit"></div>
+			</a>
+		</div>
+		<?php _e('what you think', 'klein'); ?>
+	</p>
 
-	global $wp_version;
-		
-	// Global stylesheets
-	wp_enqueue_style( 'gg-bootstrap', get_stylesheet_directory_uri() . '/css/bootstrap.css', array(), KLEIN_VERSION );
-	wp_enqueue_style( 'gg-bootstrap-theme', get_stylesheet_directory_uri() . '/css/bootstrap-theme.css', array(), KLEIN_VERSION );
-	wp_enqueue_style( 'gg-base', get_stylesheet_uri(), array(), KLEIN_VERSION );
-	wp_enqueue_style( 'gg-layout', get_stylesheet_directory_uri() . '/css/layout.css', array(), KLEIN_VERSION );
-	wp_enqueue_style( 'klein-mobile-stylesheet', get_template_directory_uri() . '/css/mobile.css', array( 'klein-layout' ), KLEIN_VERSION );
-	
-	// Magnific Popup
-	wp_enqueue_style( 'klein-magnific-popup', get_template_directory_uri() . '/css/magnific.popup.css', array(), KLEIN_VERSION );
-	
-	// Bx Slider
-	wp_enqueue_style( 'klein-bx-slider', get_template_directory_uri() . '/css/bx-slider.css', array(), KLEIN_VERSION );
-	
-	// WooCommerce Active?
-	if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ){
-	
-		// Enqueque WooCommerce Style 
-		wp_enqueue_style( 'klein-woocommerce', get_template_directory_uri() . '/css/woocommerce.css', array(), KLEIN_VERSION );
-	}
-	
-	// Presets
-	//$preset = ot_get_option( 'base_preset', 'default' );
-	$preset = 'geekgreen';
-	if( 'default' != $preset )
-	{
-		wp_enqueue_style( 'gg-preset-layer', get_stylesheet_directory_uri() . '/css/presets/'.$preset.'.css', array(), KLEIN_VERSION );
-	}
-	
-	// Visual Composer Support
-	if( defined('WPB_VC_VERSION') )
-	{
-		wp_enqueue_style( 'klein-visual-composer-layer', get_template_directory_uri() . '/css/visual-composer.css', array( 'js_composer_front' ), KLEIN_VERSION  );
-	}
-	
-	// Dark layout
-	$is_dark_layout_enable = ot_get_option( 'dark_layout_enable', false );
-		if( is_array( $is_dark_layout_enable ) )
-		{
-			wp_enqueue_style( 'klein-dark-layout', get_template_directory_uri() . '/css/dark.css', array(), KLEIN_VERSION  );
-		}
-	
-	// Smooth Scroll Support
-		// check if smooth scroll is enabled
-		$smooth_scroll_enable = ot_get_option( 'smooth_scroll_enable' );
-			if( $smooth_scroll_enable ){
-				wp_enqueue_script( 'klein-jquery-smoothscroll', get_template_directory_uri() . '/js/jquery.smoothscroll.js', array( 'jquery' ), KLEIN_VERSION, true );
-			}
-			
-	// Respond JS
-	wp_enqueue_script( 'klein-html5-shiv', get_template_directory_uri() . '/js/respond.js', '', KLEIN_VERSION, true );
-	
-	// Modernizer
-	wp_enqueue_script( 'klein-modernizr', get_template_directory_uri() . '/js/modernizr.js', array('jquery'), KLEIN_VERSION, true );
-	
-	// Polyfill on IE (Placeholder)
-	wp_enqueue_script( 'klein-placeholder-polyfill', get_template_directory_uri() . '/js/placeholder-polyfill.js', array('jquery'), KLEIN_VERSION, true );
-
-	// BX Slider
-	wp_enqueue_script( 'klein-bx-slider', get_template_directory_uri() . '/js/bx-slider.js', array( 'jquery' ), KLEIN_VERSION, true );
-	
-	// Magnific Popup
-	wp_enqueue_script( 'klein-magnific-popup', get_template_directory_uri() . '/js/jquery.magnific.popup.js', array( 'jquery' ), KLEIN_VERSION , true );
-	
-	// Tooltip
-	wp_enqueue_script( 'klein-bootstrap-js', get_template_directory_uri() . '/js/bootstrap.js', array( 'jquery' ), KLEIN_VERSION , true );
-	
-	// Template JS
-	wp_enqueue_script( 'klein', get_stylesheet_directory_uri() . '/js/green-geeks.js', array('jquery'), KLEIN_VERSION, true );
-		
-	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) 
-	{
-		wp_enqueue_script( 'comment-reply' );
-	}
-
-	if ( is_singular() && wp_attachment_is_image() ) 
-	{
-		wp_enqueue_script( 'klein-keyboard-image-navigation', get_template_directory_uri() . '/js/keyboard-image-navigation.js', array( 'jquery' ), KLEIN_VERSION );
-	}
-
+	<p>
+		<div id="profile-logout" class="generic-button">
+			<a href="<?php echo wp_logout_url( home_url() ) ?>" class="btn">
+				<?php _e('Logout', 'klein') ?>
+				<div class="glyphicon glyphicon-log-out"></div>
+			</a>
+		</div>
+	</p>
+	<?php endif;
 }
 
-add_action( 'wp_enqueue_scripts', 'gg_scripts' );
+function gg_change_post_label() {
+    global $menu;
+    global $submenu;
+    $menu[5][0] = 'Thought';
+    $submenu['edit.php'][5][0] = 'Thoughts';
+    $submenu['edit.php'][10][0] = 'Add Thought';
+    $submenu['edit.php'][16][0] = 'Tags';
+    echo '';
+}
+function gg_change_post_object() {
+    global $wp_post_types;
+    $labels = &$wp_post_types['post']->labels;
+    $labels->name = 'Thoughts';
+    $labels->singular_name = 'Thought';
+    $labels->add_new = 'Add Thought';
+    $labels->add_new_item = 'Add Thought';
+    $labels->edit_item = 'Edit Thought';
+    $labels->new_item = 'Thought';
+    $labels->view_item = 'View Thought';
+    $labels->search_items = 'Search Thoughts';
+    $labels->not_found = 'No Thoughts found';
+    $labels->not_found_in_trash = 'No Thoughts found in Trash';
+    $labels->all_items = 'All Thoughts';
+    $labels->menu_name = 'Thought';
+    $labels->name_admin_bar = 'Thought';
+}
 
+// allow contributors to upload files
+function gg_allow_contributor_uploads() {
+     $contributor = get_role('contributor');
+     $contributor->add_cap('upload_files');
+}
+
+/** BP Security Check **/
+
+/**
+ * Check if the user's input was correct
+ */
+function gg_security_check_validate() {
+	global $bp;
+
+	$uid = $_POST['gg-security-check-id'];
+	$sum = get_transient( 'gg-security-check_' . $uid );
+
+	$a  = $sum[0];
+	$op = $sum[1];
+	$b  = $sum[2];
+
+	$answer = intval( $_POST['gg-security-check'] );
+
+	/* Calculate the actual answer */
+	if ( 2 == $op ) {
+		$result = $a - $b;
+	} else {
+		$result = $a + $b;
+	}
+
+	/* The submitted answer was incorrect */
+	if ( $result !== $answer ) {
+		$bp->signup->errors['security_check'] = __( 'Sorry, please answer the question again', 'green-geeks' );
+	}
+
+	/* The answer field wasn't filled in */
+	elseif ( empty( $answer ) ) {
+		$bp->signup->errors['security_check'] = __( 'This is a required field', 'green-geeks' );
+	}
+
+	/* Clean up the transient if the answer was correct */
+	else {
+		delete_transient( 'gg-security-check' . $uid );
+	}
+}
+
+add_action( 'bp_signup_validate', 'gg_security_check_validate' );
 
 
 /**
- * Shows entry meta of a post inside the 'loop'
+ * Render the input fields
  */
-if (!function_exists('klein_entry_meta')) {
-function klein_entry_meta(){
-?>
-	<footer class="entry-meta">
-		
-		<?php
-			/* translators: used between list items, there is a space after the comma */
-			$category_list = get_the_category_list( __( ', ', 'klein' ) );
-	
-			/* translators: used between list items, there is a space after the comma */
-			$tag_list = get_the_tag_list( '', __( ', ', 'klein' ) );
-	
-			// always show the date and the author
-			_e( sprintf( '%s / ', klein_posted_on( false ) ), 'klein' );
-			
-			if ( ! klein_categorized_blog() ) {
-				// This blog only has 1 category so we just need to worry about tags in the meta text
-				if ( '' != $tag_list ) {
-					$meta_text = __( 'Tagged %2$s', 'klein' );
-				} else {
-					$meta_text = '';
-				}
-	
+function gg_security_check_field() {
+
+	/* Get a random number between 0 and 10 (inclusive) */
+	$a = mt_rand( 0, 10 );
+	$b = mt_rand( 0, 10 );
+
+	/* Get a random operation */
+	$op = mt_rand( 1, 2 );
+
+	/* Make adjustments to the numbers for subtraction */
+	if ( 2 == $op ) {
+
+		/* Make sure that $a is greater then $b; if not, switch them */
+		if ( $b > $a ) {
+			$_a = $a;     // backup $a
+			$a = $b;      // assign $a (lower number) to $b (higher number)
+			$b = $_a;     // assign $b to the original $a
+			unset( $_a ); // destroy the backup variable
+		}
+
+		/* If the numbers are equal then the result will be zero, which will cause an error */
+		elseif ( $a == $b ) {
+			$a++;
+		}
+	}
+
+	/* Generate a unique ID to save the sum information under */
+	$uid = uniqid();
+
+	/* Save sum information (expiry = 12 hours) */
+	set_transient( 'gg-security-check_' . $uid, array( $a, $op, $b ), 12 * 60 * 60 );
+
+	?>
+	<div id="security-question-section" class="register-section">
+		<h4><?php esc_html_e( 'Prove you\'re a geek', 'gg-security-check' ); ?></h4>
+		<?php do_action( 'bp_security_check_errors' ); ?>
+		<label for="gg-security-check" style="display: inline;">
+			<?php
+
+			/* First number */
+			echo $a;
+
+			/* Print operation as proper HTML entity */
+			if ( 2 == $op ) {
+				echo ' &#8722; '; // subtraction
 			} else {
-				// But this blog has loads of categories so we should probably display them here
-				if ( '' != $tag_list ) {
-					$meta_text = __( 'Posted in %1$s and tagged %2$s', 'klein' );
-				} else {
-					$meta_text = __( 'Posted in %1$s', 'klein' );
-				}
-	
-			} // end check for categories on this blog
-			
-			printf(				
-				$meta_text,
-				$category_list,
-				$tag_list,
-				get_permalink(),
-				the_title_attribute( 'echo=0' )
-			);
+				echo ' &#43; '; // addition
+			}
+
+			/* Second number */
+			echo $b;
+
+			/* Equals symbol */
+			echo ' &#61;';
+
+			?>
+		</label>
+		<input type="hidden" name="gg-security-check-id" value="<?php echo $uid; ?>" />
+		<input type="number" id="gg-security-check" name="gg-security-check" required="required" />
+	</div>
+	<?php
+}
+add_action( 'bp_after_signup_profile_fields', 'gg_security_check_field' );
+
+if (!function_exists('klein_login_register_link')) {?>
+<?php function klein_login_register_link() { ?>
+		<?php 
+			$login_enabled = ot_get_option('enable_login', 'yes');
+			$register_enabled = ot_get_option('enable_register', 'yes');
 		?>
-	
-		<?php edit_post_link( __( 'Edit', 'klein' ), '<span class="edit-link">', '</span>' ); ?>
-	</footer><!-- .entry-meta -->
+		<!-- login -->
+		<?php if ('on' === $login_enabled) { ?>
+			<a data-toggle="modal" id="klein-login-btn" class="btn btn-primary" href="#gg_login_modal" title="<?php $register_enabled == 'on' ? _e( 'Login or join', 'klein' ) : _e( 'Login', 'klein' ); ?>"><i class="glyphicon glyphicon-user"></i></a>
+			<!-- the modal -->
+			<?php add_action( 'wp_footer', 'gg_the_login_modal' ); ?>
+
+		<?php } ?>
+		
+	<?php return; ?>
+<?php } ?>
+<?php }
+
+/**
+ * Log in Modal
+ * @return void
+ */
+if (!function_exists('gg_the_login_modal')) {
+function gg_the_login_modal() {
+	// get registration enabled setting
+	$register_enabled = ot_get_option('enable_register', 'yes');
+?>
+<div class="modal fade" id="gg_login_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+					<span class="glyphicon glyphicon-remove"></span>
+				</button>
+				<h4 class="modal-title">
+					<?php _e( sprintf( 'Login to %s', get_bloginfo( 'name' ) ),'klein' ); ?>
+				</h4>
+			</div>
+			<div class="modal-body">
+				<div class="row">
+					<div class="col-sm-6 social-connect-column">
+						<p><em><?php echo ot_get_option('modal_text', __('Sign in with a social media account.','green-geeks')); ?></em></p>
+						<?php do_action('klein_login_form'); ?>
+					</div>
+					<div class="col-sm-6 login-column">
+						<div id="klein-modal-body">
+							<?php do_action( 'klein_before_login_form_modal_body' ); ?>
+							<?php wp_login_form(); ?>
+							<?php do_action( 'login_form' ); //3rd party applications/plugins support ?>
+							<?php do_action( 'klein_after_login_form_modal_body' ); ?>
+						</div>
+					</div>
+				</div>
+				<?php if ('on' === $register_enabled) : ?>
+				<div class="row">
+					<div class="col-sm-8 registration-column">
+						<h5 class="modal-title"><?php _e( 'Don\'t have an account?', 'green-geeks' ); ?></h5>
+						<p><em><?php _e('Registration is painless and will allow you to interact with other green geeks, create a profile and write articles for the site.', 'green-geeks'); ?></em></p>
+						<p><?php echo str_replace( '<a', '<a id="klein-register-btn" title="'.__('Register','klein').'" class="btn btn-primary" ', wp_register('', '', false)); ?></p>
+					</div>
+				</div>
+				<?php endif; ?>
+				<?php // support 3rd party plugins ?>
+				<div class="clearfix">
+					<?php do_action( 'login_footer' ); ?>
+				</div>
+
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 <?php
 }
 }
 
-/**
- * Prints HTML with meta information for the current post-date/time and author.
- */
-function klein_posted_on( $echo = true ) {
-	
-	global $post;
-	
-	$time_string = '<time class="entry-date published" datetime="%1$s">%2$s</time>';
-	
-	$time_string = sprintf( $time_string,
-		esc_attr( get_the_date( 'c' ) ),
-		esc_html( get_the_date() ),
-		esc_attr( get_the_modified_date( 'c' ) ),
-		esc_html( get_the_modified_date() )
-	);
-	
-	$entry_meta = sprintf( __( '<span class="posted-on">%1$s</span>', 'klein' ),
-		sprintf( '<a href="%1$s" title="%2$s" rel="bookmark">%3$s</a>',
-			esc_url( get_permalink() ),
-			esc_attr( get_the_time() ),
-			$time_string
-		)
-	);
-	
-	if( $echo ){
-		echo $entry_meta;
-	}else{		
-		return $entry_meta;
-	}
-	
-}
-
-/**
- * Displays user info in loop
- */
-function klein_author(){
-	global $post;
+if( !function_exists('klein_login_logo') ){ ?>
+<?php function klein_login_logo() { ?>
+	<?php
+		// get the logo
+		$logo = get_stylesheet_directory_uri() . '/login-logo.png';
 	?>
-	<?php if( function_exists( 'bp_core_fetch_avatar' ) ){ ?>
-			<div class="blog-author-avatar">
-				<a title="<?php _e( 'Posts', 'klein' ); ?>" href="<?php echo get_author_posts_url( get_the_author_meta( 'ID' ) ); ?>">
-					<?php echo bp_core_fetch_avatar( array( 'type' => 'full', 'item_id' => $post->post_author ) ); ?>
-				</a>
-			</div>
-			<div class="blog-author-name center">
-				<a title="<?php _e( 'Posts', 'klein' ); ?>" href="<?php echo get_author_posts_url( get_the_author_meta( 'ID' ) ); ?>">
-					<?php the_author_meta( 'display_name' ); ?>
-				</a>
-			</div>
+    <style type="text/css">
+	
+	 @import url('http://fonts.googleapis.com/css?family=Roboto:400,700,400italic,700italic');
+       	
+       	body.login form .forgetmenot label,
+		body.login label {
+			color: #34495E;
+			font-size: 16px;
+		}
 
-		<?php }else{ ?>
-			<div class="blog-author-avatar no-bp">
-				<a title="<?php _e( 'Posts', 'klein' ); ?>" href="<?php echo get_author_posts_url( get_the_author_meta( 'ID' ) ); ?>">
-					<?php echo get_avatar( $post->post_author, 150 ); ?>
-				</a>
-			</div>
-			<div class="blog-author-name no-bp center">
-				<a title="<?php _e( 'Posts', 'klein' ); ?>" href="<?php echo get_author_posts_url( get_the_author_meta( 'ID' ) ); ?>">
-					<?php echo get_the_author(); ?>
-				</a>
-			</div>
-		<?php } ?>
-	<?php
-}
+		body.login form .forgetmenot label
+		{
+			line-height: 1;
+			padding-top: 9px;
+			font-style: italic;
+			font-weight: 400;
+			display: block;
+		}
 
-if ( ! function_exists( 'gg_comment' ) ) :
+		body.login #login,
+		body.login div#login form {width: 375px; margin: 0 auto;}
+
+		body.login { 
+			background: #081000;
+		}
+		body.login div#login h1 a {
+			background-image: url(<?php echo $logo ?>);
+            padding-bottom: 30px;
+			background-position: center center;
+			background-size: auto;
+			width: 181px;
+			height: 154px;
+		}
+		body.login div#login form {
+			background: #f6ffed;
+			-webkit-box-shadow: none;
+			box-shadow: none;
+			font-family: "Roboto", Arial, sans-serif;
+			border-radius: 4px;
+			-moz-border-radius: 4px;
+			-webkit-border-radius: 4px;
+			box-sizing: border-box;
+			-moz-box-sizing: border-box;
+			-webkit-box-sizing: border-box;
+			padding: 35px 40px 35px 40px;
+			
+		}
+		
+		body.login form .input, 
+		.login input[type="text"] {
+			-webkit-box-shadow: none;
+			box-shadow: none;
+			border-radius: 0;
+			font-family: "Roboto", Arial, sans-serif;
+		}
+
+		body.login input[type="text"],
+		body.login input[type="password"] {
+			padding: 8px 12px;
+			display: inline-block;
+			-webkit-border-radius: 4px;
+			-moz-border-radius: 4px;
+			border-radius: 4px;
+			border: 1px solid #bdc3c7;
+			outline: 0;
+			margin-bottom: 20px;
+			height: 42px;
+			display: block;
+			width: 100%;
+			max-width: 100%;
+			-webkit-transition: border .25s linear,color .25s linear,background-color .25s linear;
+			transition: border .25s linear,color .25s linear,background-color .25s linear;
+			background: #d4ffa9;
+		}
+
+
+		body.login a{
+				color: #d4ffa9;
+		}
+		body.login .message,
+		body.login #login_error{
+
+			-webkit-border-radius: 4px;
+			-moz-border-radius: 4px;
+			border-radius: 4px;
+
+			border: 1px solid #E74C3C;
+			color: #C0392B;
+			
+			background: transparent;
+			padding: 15px 35px;
+			margin-bottom: 35px;
+			box-shadow: none;
+		}
+
+		body.login .message a,
+		body.login #login_error a{
+			color: #E74C3C;
+		}
+
+		body.login .button,
+		body.login div#login form#loginform p.submit input#wp-submit {
+			background: none;
+			background-color: transparent;
+			box-shadow: none;
+			-moz-box-shadow: none;
+			-webkit-box-shadow: none;
+			border: 0;
+
+			/*start*/
+
+			color: #f6ffed;
+			-moz-border-radius: 20px;
+			-webkit-border-radius: 20px;
+			border-radius: 20px;
+
+			background: #438700;
+			display: block;
+			
+			padding: 10px 20px;
+			line-height: 1;
+			height: auto;
+			font-size: 15px;
+		}
+		
+		body.login .button:active,
+		body.login div#login form#loginform p.submit input#wp-submit:active
+		{
+			background-image: none;
+			background-color: #3071a9;
+			border-color: #2d6ca2;
+		}
+		
+		body.login div#login p#backtoblog,
+		body.login div#login p#nav {
+			text-shadow: none;
+			font-style: italic;
+			margin-top: 20px;
+			padding-top: 0;
+			line-height: 1;
+		}
+		 
+		body.login div#login p#backtoblog {
+			text-shadow: none;
+		}
+		body.login div#login p#nav,
+		body.login div#login p#nav a,
+		body.login div#login p#backtoblog a {
+			color: #65cb00 !important;
+			font-size: 16px;
+			text-decoration: none;
+			font-family: "Roboto", Arial, sans-serif;
+		}
+		
+		 body.login #ce-facebook-connect-link a {
+			background: #3B5A9B;
+			padding: 10px 0px;
+			display: block;
+			margin-bottom: 20px;
+			text-align: center;
+			color: #d4ffa9;
+			font-size: 16px;
+			font-weight: bold;
+			text-decoration: none;
+			border-radius: 3px;
+			text-transform: uppercase;
+        }
+		
+		body.login #ce-facebook-connect-link a:active {
+			position: relative;
+			background: #426ABE;
+		}
+    </style>
+<?php } 
+} // end func!klein_login_logo
+
+
+/** TEMPLATE TAGS **/
+
+if ( ! function_exists( 'klein_content_nav' ) ) :
 /**
- * Template for comments and pingbacks.
- *
- * Used as a callback by wp_list_comments() for displaying the comments.
+ * Remove navigation to next/previous posts
  */
-function gg_comment( $comment, $args, $depth = 0 ) {
-
-	$GLOBALS['comment'] = $comment;
-
-	if ( 'pingback' == $comment->comment_type || 'trackback' == $comment->comment_type ) : ?>
-
-	<li id="comment-<?php comment_ID(); ?>" <?php comment_class(); ?>>
-		<div class="comment-body">
-			<?php _e( 'Pingback:', 'klein' ); ?> <?php comment_author_link(); ?> <?php edit_comment_link( __( 'Edit', 'klein' ), '<span class="edit-link">', '</span>' ); ?>
-		</div>
-
-	<?php else : ?>
-
-	<li id="comment-<?php comment_ID(); ?>" <?php comment_class( empty( $args['has_children'] ) ? '' : 'parent' ); ?>>
-		<article id="div-comment-<?php comment_ID(); ?>" class="comment-body">
-			<div class="comment-author">
-				<?php if ( 0 != $args['avatar_size'] ) : ?>
-				<div class="comment-author-avatar">
-					<a title="<?php _e( 'Posts', 'klein' ); ?>" href="<?php echo get_author_posts_url( $comment->user_id ); ?>">
-						<?php if( function_exists( 'bp_core_fetch_avatar' ) ) : ?>
-						<?php echo bp_core_fetch_avatar( array( 'type' => 'full', 'item_id' => $comment->user_id ) ); ?>
-						<?php else : ?>
-						<?php echo get_avatar( $comment, 150 ); ?>
-						<?php endif; ?>
-					</a>
-				</div>
-				<?php endif; ?>
-				<div class="comment-author-name center">
-					<?php printf( '<cite class="fn">%s</cite>', get_comment_author_link() ); ?>
-				</div>
-			</div><!-- .comment-author -->
-			<div class="comment-content">
-				<header class="comment-meta">
-					<div class="comment-metadata">
-						<a href="<?php echo esc_url( get_comment_link( $comment->comment_ID ) ); ?>">
-							<time datetime="<?php comment_time( 'c' ); ?>">
-								<?php printf( _x( '%1$s at %2$s', '1: date, 2: time', 'klein' ), get_comment_date(), get_comment_time() ); ?>
-							</time>
-						</a>
-					</div><!-- .comment-metadata -->
-
-					<?php if ( '0' == $comment->comment_approved ) : ?>
-					<p class="comment-awaiting-moderation"><?php _e( 'Your comment is awaiting moderation.', 'klein' ); ?></p>
-					<?php endif; ?>
-				</header><!-- .comment-meta -->
-				<div class="blog-pad entry-content">
-					<?php comment_text(); ?>
-				</div>
-				<footer class="reply">
-					<?php edit_comment_link( __( 'Edit', 'klein' ), '<span class="edit-link">', '</span>' ); ?>
-					<?php comment_reply_link( array_merge( $args, array( 'add_below' => 'div-comment', 'depth' => $depth, 'max_depth' => $args['max_depth'] ) ) ); ?>
-				</footer><!-- .reply -->
-			</div><!-- .comment-content -->
-			<div class="clear"></div>
-		</article><!-- .comment-body -->
-
-	<?php
-	endif;
+function klein_content_nav( $nav_id ) {
+	return;
 }
-endif; // ends check for gg_comment()
+endif; // klein_content_nav

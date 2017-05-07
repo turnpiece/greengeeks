@@ -229,6 +229,42 @@ if(!class_exists('UB_Help')) {
 		}
 
 
+		/**
+		 * Escapes output of native add_query_arg
+		 * @return string
+		 */
+		public static function add_query_arg(){
+			$args = func_get_args();
+			return esc_url(  call_user_func_array("add_query_arg", $args)  );
+		}
+
+		/**
+		 * Raw escapes output of native add_query_arg
+		 * @return string
+		 */
+		public static function add_query_arg_raw(){
+			$args = func_get_args();
+			return esc_url_raw(  call_user_func_array("add_query_arg", $args)  );
+		}
+
+		/**
+		 * Escapes output of native remove_query_arg
+		 * @return string
+		 */
+		public static function remove_query_arg(){
+			$args = func_get_args();
+			return esc_url(  call_user_func_array("remove_query_arg", $args)  );
+		}
+
+		/**
+		 * Raw escapes output of native remove_query_arg
+		 * @return string
+		 */
+		public static function remove_query_arg_raw(){
+			$args = func_get_args();
+			return esc_url_raw(  call_user_func_array("remove_query_arg", $args)  );
+		}
+
 	}
 
 }

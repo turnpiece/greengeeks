@@ -1,33 +1,32 @@
 <?php
-
 /*
-  Plugin Name: Ultimate Branding
-  Plugin URI: https://premium.wpmudev.org/project/ultimate-branding/
-  Description: A complete white-label and branding solution for multisite. Login images, favicons, remove WordPress links and branding, and much more.
-  Author: WPMU DEV
-  Version: 1.8.0.4
-  Author URI: http://premium.wpmudev.org/
-  Text_domain: ub
-  WDP ID: 9135
+Plugin Name: Ultimate Branding
+Plugin URI: https://premium.wpmudev.org/project/ultimate-branding/
+Description: A complete white-label and branding solution for multisite. Login images, favicons, remove WordPress links and branding, and much more.
+Author: WPMU DEV
+Version: 1.8.2
+Author URI: http://premium.wpmudev.org/
+Text_domain: ub
+WDP ID: 9135
 
-  Copyright 2009-2014 Incsub (http://incsub.com)
+Copyright 2009-2014 Incsub (http://incsub.com)
 
-  Lead Developer - Sam Najian (Incsub)
+Lead Developer - Sam Najian (Incsub)
 
-  Contributors - Ve Bailovity (Incsub), Barry (Incsub), Andrew Billits, Ulrich Sossou, Marko Miljus
+Contributors - Ve Bailovity (Incsub), Barry (Incsub), Andrew Billits, Ulrich Sossou, Marko Miljus
 
-  This program is free software; you can redistribute it and/or modify
-  it under the terms of the GNU General Public License (Version 2 - GPLv2) as published by
-  the Free Software Foundation.
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License (Version 2 - GPLv2) as published by
+the Free Software Foundation.
 
-  This program is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.	See the
-  GNU General Public License for more details.
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.	See the
+GNU General Public License for more details.
 
-  You should have received a copy of the GNU General Public License
-  along with this program; if not, write to the Free Software
-  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA	 02111-1307	 USA
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA	 02111-1307	 USA
  */
 
 

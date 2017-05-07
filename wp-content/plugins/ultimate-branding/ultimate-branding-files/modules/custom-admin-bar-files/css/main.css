@@ -66,9 +66,13 @@
 .parent_admin_bar_prev  .inside  .postbox.ub_admin_bar_submenu .hndle{
     cursor: move;
 }
-.ub_admin_bar_submenu .wdcab_step_delete{
-    margin-top: -4px;
+
+.wp-core-ui .button-secondary.wdcab_step_delete {
+    margin-top: 0;
+}
+.ub_adminbar_is_current_user{
+    color: #008000;
 }
 
 
-/* 87274-1424729189-au */
+/* 87274-1444688386-au */

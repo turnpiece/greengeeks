@@ -62,6 +62,7 @@ class ub_Site_Wide_Text_Change {
 		add_action('admin_init', array(&$this, 'add_admin_header_sitewide'));
 
 		add_filter('gettext', array($this, 'replace_text'), 10, 3);
+		add_filter('gettext_with_context', array($this, 'replace_gettext_with_context'), 10, 4);
 
 		if( defined('SWTC-BELTANDBRACES') ) {
 			add_action('init', array(&$this, 'start_cache'), 1);
@@ -200,7 +201,7 @@ class ub_Site_Wide_Text_Change {
 
 		echo "<tr>";
 		echo "<td valign='top' class='heading'>";
-		echo __('Find this text','sitewidetext');
+		echo __('Find this text','ub');
 		echo "</td>";
 		echo "<td valign='top' class=''>";
 		echo "<input type='text' name='swtble[{$dt}][find]' value='' class='long find' />";
@@ -396,9 +397,18 @@ class ub_Site_Wide_Text_Change {
         }
         return true;
     }
-	/**
-	 * Replace text
-	 **/
+
+
+
+
+    /**
+     * Filters gettext
+     *
+     * @param $transtext
+     * @param $normtext
+     * @param $domain
+     * @return mixed
+     */
 	function replace_text( $transtext, $normtext, $domain ) {
 		$tt = $this->get_translation_ops();
 
@@ -443,6 +453,20 @@ class ub_Site_Wide_Text_Change {
 
 		return $transtext;
 	}
+
+    /**
+     * Filters gettext_with_context
+     *
+     * @param $translations
+     * @param $text
+     * @param $context
+     * @param $domain
+     * @return mixed
+     */
+    function replace_gettext_with_context(  $translations, $text, $context, $domain ){
+        return $this->replace_text( $translations, $text, $domain );
+    }
+
 
 	/**
 	 * Start output buffer
