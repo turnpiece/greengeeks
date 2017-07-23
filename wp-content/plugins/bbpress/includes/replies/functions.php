@@ -390,7 +390,7 @@ function bbp_new_reply_handler( $action = '' ) {
 			if ( bbp_is_topic_trash( $topic_id ) ) {
 
 				// Get pre_trashed_replies for topic
-				$pre_trashed_replies = get_post_meta( $topic_id, '_bbp_pre_trashed_replies', true );
+				$pre_trashed_replies = (array) get_post_meta( $topic_id, '_bbp_pre_trashed_replies', true );
 
 				// Add this reply to the end of the existing replies
 				$pre_trashed_replies[] = $reply_id;
@@ -409,7 +409,7 @@ function bbp_new_reply_handler( $action = '' ) {
 			if ( bbp_is_topic_spam( $topic_id ) ) {
 
 				// Get pre_spammed_replies for topic
-				$pre_spammed_replies = get_post_meta( $topic_id, '_bbp_pre_spammed_replies', true );
+				$pre_spammed_replies = (array) get_post_meta( $topic_id, '_bbp_pre_spammed_replies', true );
 
 				// Add this reply to the end of the existing replies
 				$pre_spammed_replies[] = $reply_id;
@@ -1396,7 +1396,7 @@ function bbp_move_reply_handler( $action = '' ) {
 		bbp_update_reply_to( $child->ID, $parent );
 
 	// Remove reply_to from moved reply
-	delete_post_meta( $move_reply->ID, '_bbp_reply_to' ); 
+	delete_post_meta( $move_reply->ID, '_bbp_reply_to' );
 
 	// It is a new topic and we need to set some default metas to make
 	// the topic display in bbp_has_topics() list
@@ -1994,7 +1994,7 @@ function bbp_display_replies_feed_rss2( $replies_query = array() ) {
 		$title = ' &#187; ' .  __( 'All Replies', 'bbpress' );
 
 	// Display the feed
-	header( 'Content-Type: ' . feed_content_type( 'rss-http' ) . '; charset=' . get_option( 'blog_charset' ), true );
+	header( 'Content-Type: ' . feed_content_type( 'rss2' ) . '; charset=' . get_option( 'blog_charset' ), true );
 	header( 'Status: 200 OK' );
 	echo '<?xml version="1.0" encoding="' . get_option( 'blog_charset' ) . '"?' . '>'; ?>
 
@@ -2221,7 +2221,7 @@ function bbp_list_replies( $args = array() ) {
 
 /**
  * Validate a `reply_to` field for hierarchical replies
- * 
+ *
  * Checks for 2 scenarios:
  * -- The reply to ID is actually a reply
  * -- The reply to ID does not match the current reply

@@ -32,12 +32,10 @@ jq(document).ready( function() {
 	if ( $whats_new.length && bp_get_querystring('r') ) {
 		var $member_nicename = $whats_new.val();
 
-		jq('#whats-new-options').animate({
-			height:'50px'
-		});
+		jq('#whats-new-options').slideDown();
 
 		$whats_new.animate({
-			height:'50px'
+			height:'3.8em'
 		});
 
 		jq.scrollTo( $whats_new, 500, {
@@ -46,19 +44,24 @@ jq(document).ready( function() {
 		} );
 
 		$whats_new.val('').focus().val( $member_nicename );
+	} else {
+		jq('#whats-new-options').hide();
 	}
 
 	/**** Activity Posting ********************************************************/
 
 	/* Textarea focus */
 	$whats_new.focus( function(){
-		jq('#whats-new-options').animate({
-			height:'50px'
+		jq( '#whats-new-options' ).slideDown();
+
+		jq( this ).animate({
+			height:'3.8em'
 		});
-		jq('#whats-new-form textarea').animate({
-			height:'50px'
-		});
+
 		jq('#aw-whats-new-submit').prop('disabled', false);
+
+		jq( this ).parent().addClass( 'active' );
+		jq( '#whats-new-content' ).addClass( 'active' );
 
 		var $whats_new_form = jq('form#whats-new-form'),
 			$activity_all = jq( '#activity-all' );
@@ -81,33 +84,62 @@ jq(document).ready( function() {
 		}
 	});
 
-	/* On blur, shrink if it's empty */
-	$whats_new.blur( function(){
-		if ( document.activeElement !== this ) {
-			if (!this.value.match(/\S+/)) {
-				this.value = '';
-				jq('#whats-new-options').animate({
-					height:'0'
+	/* For the "What's New" form, do the following on focusout. */
+	jq( '#whats-new-form' ).on( 'focusout', function( e ) {
+		var elem = jq( this );
+
+		// Let child hover actions passthrough.
+		// This allows click events to go through without focusout.
+		setTimeout( function () {
+			if ( ! elem.find(':hover').length ) {
+				// Do not slide up if textarea has content.
+				if ( '' !== $whats_new.val() ) {
+					return;
+				}
+
+				$whats_new.animate({
+					height:'2.2em'
 				});
-				jq('form#whats-new-form textarea').animate({
-					height:'20px'
-				});
-				jq('#aw-whats-new-submit').prop('disabled', true);
+
+				jq( '#whats-new-options' ).slideUp();
+
+				jq('#aw-whats-new-submit').prop( 'disabled', true );
+
+				jq( '#whats-new-content' ).removeClass( 'active' );
+				$whats_new.parent().removeClass( 'active' );
 			}
-		}
-	});
+		}, 0 );
+	} );
 
 	/* New posts */
 	jq('#aw-whats-new-submit').on( 'click', function() {
 		var last_date_recorded = 0,
 			button = jq(this),
-			form   = button.closest('form#whats-new-form');
+			form   = button.closest('form#whats-new-form'),
+			inputs = {}, post_data;
 
-		form.children().each( function() {
-			if ( jq.nodeName(this, 'textarea') || jq.nodeName(this, 'input') ) {
+		// Get all inputs and organize them into an object {name: value}
+		jq.each( form.serializeArray(), function( key, input ) {
+			// Only include public extra data
+			if ( '_' !== input.name.substr( 0, 1 ) && 'whats-new' !== input.name.substr( 0, 9 ) ) {
+				if ( ! inputs[ input.name ] ) {
+					inputs[ input.name ] = input.value;
+				} else {
+					// Checkboxes/dropdown list can have multiple selected value
+					if ( ! jq.isArray( inputs[ input.name ] ) ) {
+						inputs[ input.name ] = new Array( inputs[ input.name ], input.value );
+					} else {
+						inputs[ input.name ].push( input.value );
+					}
+				}
+			}
+		} );
+
+		form.find( '*' ).each( function() {
+			if ( jq.nodeName( this, 'textarea' ) || jq.nodeName( this, 'input' ) ) {
 				jq(this).prop( 'disabled', true );
 			}
-		});
+		} );
 
 		/* Remove any errors */
 		jq('div.error').remove();
@@ -142,7 +174,7 @@ jq(document).ready( function() {
 			object = jq('#whats-new-post-object').val();
 		}
 
-		jq.post( ajaxurl, {
+		post_data = jq.extend( {
 			action: 'post_update',
 			'cookie': bp_get_cookies(),
 			'_wpnonce_post_update': jq('#_wpnonce_post_update').val(),
@@ -151,11 +183,11 @@ jq(document).ready( function() {
 			'item_id': item_id,
 			'since': last_date_recorded,
 			'_bp_as_nonce': jq('#_bp_as_nonce').val() || ''
-		},
-		function(response) {
+		}, inputs );
 
-			form.children().each( function() {
-				if ( jq.nodeName(this, 'textarea') || jq.nodeName(this, 'input') ) {
+		jq.post( ajaxurl, post_data, function( response ) {
+			form.find( '*' ).each( function() {
+				if ( jq.nodeName( this, 'textarea' ) || jq.nodeName( this, 'input' ) ) {
 					jq(this).prop( 'disabled', false );
 				}
 			});
@@ -202,19 +234,19 @@ jq(document).ready( function() {
 				jq('li.new-update').hide().slideDown( 300 );
 				jq('li.new-update').removeClass( 'new-update' );
 				jq('#whats-new').val('');
+				form.get(0).reset();
 
 				// reset vars to get newest activities
 				newest_activities = '';
 				activity_last_recorded  = 0;
 			}
 
-			jq('#whats-new-options').animate({
-				height:'0px'
-			});
+			jq('#whats-new-options').slideUp();
 			jq('#whats-new-form textarea').animate({
-				height:'20px'
+				height:'2.2em'
 			});
 			jq('#aw-whats-new-submit').prop('disabled', true).removeClass('loading');
+			jq( '#whats-new-content' ).removeClass( 'active' );
 		});
 
 		return false;
@@ -233,7 +265,8 @@ jq(document).ready( function() {
 
 		/* Reset the page */
 		jq.cookie( 'bp-activity-oldestpage', 1, {
-			path: '/'
+			path: '/',
+			secure: ( 'https:' === window.location.protocol )
 		} );
 
 		/* Activity Stream Tabs */
@@ -275,16 +308,23 @@ jq(document).ready( function() {
 
 		/* Favoriting activity stream items */
 		if ( target.hasClass('fav') || target.hasClass('unfav') ) {
+			/* Bail if a request is in progress */
+			if ( target.hasClass( 'loading' ) ) {
+				return false;
+			}
+
 			type      = target.hasClass('fav') ? 'fav' : 'unfav';
 			parent    = target.closest('.activity-item');
 			parent_id = parent.attr('id').substr( 9, parent.attr('id').length );
+			nonce     = bp_get_query_var( '_wpnonce', target.attr( 'href' ) );
 
 			target.addClass('loading');
 
 			jq.post( ajaxurl, {
 				action: 'activity_mark_' + type,
 				'cookie': bp_get_cookies(),
-				'id': parent_id
+				'id': parent_id,
+				nonce: nonce
 			},
 			function(response) {
 				target.removeClass('loading');
@@ -406,7 +446,8 @@ jq(document).ready( function() {
 
 			if ( null === jq.cookie('bp-activity-oldestpage') ) {
 				jq.cookie('bp-activity-oldestpage', 1, {
-					path: '/'
+					path: '/',
+					secure: ( 'https:' === window.location.protocol )
 				} );
 			}
 
@@ -435,7 +476,8 @@ jq(document).ready( function() {
 			{
 				jq('#buddypress li.load-more').removeClass('loading');
 				jq.cookie( 'bp-activity-oldestpage', oldest_page, {
-					path: '/'
+					path: '/',
+					secure: ( 'https:' === window.location.protocol )
 				} );
 				jq('#buddypress ul.activity-list').append(response.contents);
 
@@ -812,12 +854,13 @@ jq(document).ready( function() {
 		}
 
 		var target = jq(event.target),
-			css_id, object, template;
+			css_id, object, template, search_terms;
 
 		if ( target.attr('type') === 'submit' ) {
 			css_id = jq('.item-list-tabs li.selected').attr('id').split( '-' );
 			object = css_id[0];
 			template = null;
+			search_terms = target.parent().find( '#' + object + '_search' ).val();
 
 			// The Group Members page specifies its own template
 			if ( event.currentTarget.className === 'groups-members-search' ) {
@@ -825,7 +868,7 @@ jq(document).ready( function() {
 				template = 'groups/single/members';
 			}
 
-			bp_filter_request( object, jq.cookie('bp-' + object + '-filter'), jq.cookie('bp-' + object + '-scope') , 'div.' + object, target.parent().children('label').children('input').val(), 1, jq.cookie('bp-' + object + '-extras'), null, template );
+			bp_filter_request( object, jq.cookie('bp-' + object + '-filter'), jq.cookie('bp-' + object + '-scope') , 'div.' + object, search_terms, 1, jq.cookie('bp-' + object + '-extras'), null, template );
 
 			return false;
 		}
@@ -835,6 +878,11 @@ jq(document).ready( function() {
 
 	/* When a navigation tab is clicked - e.g. | All Groups | My Groups | */
 	jq('div.item-list-tabs').on( 'click', function(event) {
+		// If on a directory page with a type filter, add no-ajax class.
+		if ( jq( 'body' ).hasClass( 'type' ) && jq( 'body' ).hasClass( 'directory' ) ) {
+			jq(this).addClass( 'no-ajax' );
+		}
+
 		if ( jq(this).hasClass('no-ajax')  || jq( event.target ).hasClass('no-ajax') )  {
 			return;
 		}
@@ -913,7 +961,7 @@ jq(document).ready( function() {
 		var target = jq(event.target),
 			el,
 			css_id, object, search_terms, pagination_id, template,
-			url_parameters,	page_number,
+			page_number,
 			$gm_search,
 			caller;
 
@@ -938,18 +986,31 @@ jq(document).ready( function() {
 			pagination_id = jq(target).closest('.pagination-links').attr('id');
 			template = null;
 
-			url_parameters = target.attr('href').split( '&' );
-			// The page number is the first parameter.
-			page_number = url_parameters[0].split( '=' );
-			page_number = page_number[1];
-
 			// Search terms
 			if ( jq('div.dir-search input').length ) {
-				search_terms =  jq('.dir-search input').val();
+				search_terms =  jq('.dir-search input');
 
-				if ( ! search_terms && bp_get_querystring('s') ) {
+				if ( ! search_terms.val() && bp_get_querystring( search_terms.attr( 'name' ) ) ) {
 					search_terms = jq('.dir-search input').prop('placeholder');
+				} else {
+					search_terms = search_terms.val();
 				}
+			}
+
+			// Page number
+			if ( jq(target).hasClass('next') || jq(target).hasClass('prev') ) {
+				page_number = jq('.pagination span.current').html();
+			} else {
+				page_number = jq(target).html();
+			}
+
+			// Remove any non-numeric characters from page number text (commas, etc.)
+			page_number = Number( page_number.replace(/\D/g,'') );
+
+			if ( jq(target).hasClass('next') ) {
+				page_number++;
+			} else if ( jq(target).hasClass('prev') ) {
+				page_number--;
 			}
 
 			// The Group Members page has a different selector for
@@ -1430,57 +1491,6 @@ jq(document).ready( function() {
 		}
 	);
 
-	/* Marking private messages as read and unread */
-	jq('#mark_as_read, #mark_as_unread').click(function() {
-		var checkboxes_tosend = '',
-			checkboxes = jq('#message-threads tr td input[type="checkbox"]'),
-			currentClass, newClass, unreadCount, inboxCount, unreadCountDisplay, action,
-			inboxcount, thread_count;
-
-		if ( 'mark_as_unread' === jq(this).attr('id') ) {
-			currentClass = 'read';
-			newClass = 'unread';
-			unreadCount = 1;
-			inboxCount = 0;
-			unreadCountDisplay = 'inline';
-			action = 'messages_markunread';
-		} else {
-			currentClass = 'unread';
-			newClass = 'read';
-			unreadCount = 0;
-			inboxCount = 1;
-			unreadCountDisplay = 'none';
-			action = 'messages_markread';
-		}
-
-		checkboxes.each( function(i) {
-			if(jq(this).is(':checked')) {
-				if ( jq('#m-' + jq(this).attr('value')).hasClass(currentClass) ) {
-					checkboxes_tosend += jq(this).attr('value');
-					jq('#m-' + jq(this).attr('value')).removeClass(currentClass);
-					jq('#m-' + jq(this).attr('value')).addClass(newClass);
-					thread_count = jq('#m-' + jq(this).attr('value') + ' td span.unread-count').html();
-
-					jq('#m-' + jq(this).attr('value') + ' td span.unread-count').html(unreadCount);
-					jq('#m-' + jq(this).attr('value') + ' td span.unread-count').css('display', unreadCountDisplay);
-
-					inboxcount = jq('tr.unread').length;
-
-					jq('#user-messages span').html( inboxcount );
-
-					if ( i !== checkboxes.length - 1 ) {
-						checkboxes_tosend += ',';
-					}
-				}
-			}
-		});
-		jq.post( ajaxurl, {
-			action: action,
-			'thread_ids': checkboxes_tosend
-		});
-		return false;
-	});
-
 	/* Selecting unread and read messages in inbox */
 	jq( 'body.messages #item-body div.messages' ).on( 'change', '#message-type-select', function() {
 		var selection   = this.value,
@@ -1506,55 +1516,6 @@ jq(document).ready( function() {
 		checkboxes.each( function(i) {
 			checkboxes[i].checked = checked_value;
 		});
-	});
-
-	/* Bulk delete messages */
-	jq( 'body.messages #item-body div.messages' ).on( 'click', '.messages-options-nav a', function() {
-		if ( -1 === jq.inArray( this.id, Array( 'delete_sentbox_messages', 'delete_inbox_messages' ) ) ) {
-			return;
-		}
-
-		checkboxes_tosend = '';
-		checkboxes = jq('#message-threads tr td input[type="checkbox"]');
-
-		jq('#message').remove();
-		jq(this).addClass('loading');
-
-		jq(checkboxes).each( function(i) {
-			if( jq(this).is(':checked') ) {
-				checkboxes_tosend += jq(this).attr('value') + ',';
-			}
-		});
-
-		if ( '' === checkboxes_tosend ) {
-			jq(this).removeClass('loading');
-			return false;
-		}
-
-		jq.post( ajaxurl, {
-			action: 'messages_delete',
-			'thread_ids': checkboxes_tosend
-		}, function(response) {
-			if ( response[0] + response[1] === '-1' ) {
-				jq('#message-threads').prepend( response.substr( 2, response.length ) );
-			} else {
-				jq('#message-threads').before( '<div id="message" class="updated"><p>' + response + '</p></div>' );
-
-				jq(checkboxes).each( function(i) {
-					if( jq(this).is(':checked') ) {
-						// We need to uncheck because message is only hidden
-						// Otherwise, AJAX will be fired again with same data
-						jq(this).attr( 'checked', false );
-						jq(this).parent().parent().fadeOut(150);
-					}
-				});
-			}
-
-			jq('#message').hide().slideDown(150);
-			jq('#delete_inbox_messages, #delete_sentbox_messages').removeClass('loading');
-		});
-
-		return false;
 	});
 
 	/* Selecting/Deselecting all messages */
@@ -1684,7 +1645,8 @@ jq(document).ready( function() {
 
 		jq.post( ajaxurl, {
 			action: 'messages_close_notice',
-			'notice_id': jq('.notice').attr('rel').substr( 2, jq('.notice').attr('rel').length )
+			'notice_id': jq('.notice').attr('rel').substr( 2, jq('.notice').attr('rel').length ),
+			nonce: jq( '#close-notice-nonce' ).val()
 		},
 		function(response) {
 			jq('#close-notice').removeClass('loading');
@@ -1711,25 +1673,31 @@ jq(document).ready( function() {
 	/* Clear BP cookies on logout */
 	jq('#wp-admin-bar-logout, a.logout').on( 'click', function() {
 		jq.removeCookie('bp-activity-scope', {
-			path: '/'
+			path: '/',
+			secure: ( 'https:' === window.location.protocol )
 		});
 		jq.removeCookie('bp-activity-filter', {
-			path: '/'
+			path: '/',
+			secure: ( 'https:' === window.location.protocol )
 		});
 		jq.removeCookie('bp-activity-oldestpage', {
-			path: '/'
+			path: '/',
+			secure: ( 'https:' === window.location.protocol )
 		});
 
 		var objects = [ 'members', 'groups', 'blogs', 'forums' ];
 		jq(objects).each( function(i) {
 			jq.removeCookie('bp-' + objects[i] + '-scope', {
-				path: '/'
+				path: '/',
+				secure: ( 'https:' === window.location.protocol )
 			} );
 			jq.removeCookie('bp-' + objects[i] + '-filter', {
-				path: '/'
+				path: '/',
+				secure: ( 'https:' === window.location.protocol )
 			} );
 			jq.removeCookie('bp-' + objects[i] + '-extras', {
-				path: '/'
+				path: '/',
+				secure: ( 'https:' === window.location.protocol )
 			} );
 		});
 	});
@@ -1805,7 +1773,8 @@ jq(document).ready( function() {
 function bp_init_activity() {
 	/* Reset the page */
 	jq.cookie( 'bp-activity-oldestpage', 1, {
-		path: '/'
+		path: '/',
+		secure: ( 'https:' === window.location.protocol )
 	} );
 
 	if ( undefined !== jq.cookie('bp-activity-filter') && jq('#activity-filter-select').length ) {
@@ -1849,13 +1818,16 @@ function bp_filter_request( object, filter, scope, target, search_terms, page, e
 
 	/* Save the settings we want to remain persistent to a cookie */
 	jq.cookie( 'bp-' + object + '-scope', scope, {
-		path: '/'
+		path: '/',
+		secure: ( 'https:' === window.location.protocol )
 	} );
 	jq.cookie( 'bp-' + object + '-filter', filter, {
-		path: '/'
+		path: '/',
+		secure: ( 'https:' === window.location.protocol )
 	} );
 	jq.cookie( 'bp-' + object + '-extras', extras, {
-		path: '/'
+		path: '/',
+		secure: ( 'https:' === window.location.protocol )
 	} );
 
 	/* Set the correct selected nav and filter */
@@ -1911,14 +1883,21 @@ function bp_filter_request( object, filter, scope, target, search_terms, page, e
 /* Activity Loop Requesting */
 function bp_activity_request(scope, filter) {
 	/* Save the type and filter to a session cookie */
-	jq.cookie( 'bp-activity-scope', scope, {
-		path: '/'
-	} );
-	jq.cookie( 'bp-activity-filter', filter, {
-		path: '/'
-	} );
+	if ( null !== scope ) {
+		jq.cookie( 'bp-activity-scope', scope, {
+			path: '/',
+			secure: ( 'https:' === window.location.protocol )
+		} );
+	}
+	if ( null !== filter ) {
+		jq.cookie( 'bp-activity-filter', filter, {
+			path: '/',
+			secure: ( 'https:' === window.location.protocol )
+		} );
+	}
 	jq.cookie( 'bp-activity-oldestpage', 1, {
-		path: '/'
+		path: '/',
+		secure: ( 'https:' === window.location.protocol )
 	} );
 
 	/* Remove selected and loading classes from tabs */
@@ -2026,7 +2005,7 @@ function checkAll() {
  * Deselects any select options or input options for the specified field element.
  *
  * @param {String} container HTML ID of the field
- * @since BuddyPress (1.2.0)
+ * @since 1.2.0
  */
 function clear( container ) {
 	container = document.getElementById( container );
@@ -2073,4 +2052,33 @@ function bp_get_cookies() {
 
 	// returns BP cookies as querystring
 	return encodeURIComponent( jq.param(bpCookies) );
+}
+
+/**
+ * Get a querystring parameter from a URL.
+ *
+ * @param {String} Query string parameter name.
+ * @param {String} URL to parse. Defaults to current URL.
+ */
+function bp_get_query_var( param, url ) {
+	var qs = {};
+
+	// Use current URL if no URL passed.
+	if ( typeof url === 'undefined' ) {
+		url = location.search.substr(1).split('&');
+	} else {
+		url = url.split('?')[1].split('&');
+	}
+
+	// Parse querystring into object props.
+	// http://stackoverflow.com/a/21152762
+	url.forEach(function(item) {
+		qs[item.split("=")[0]] = item.split("=")[1] && decodeURIComponent( item.split("=")[1] );
+	});
+
+	if ( qs.hasOwnProperty( param ) && qs[param] != null ) {
+		return qs[param];
+	} else {
+		return false;
+	}
 }

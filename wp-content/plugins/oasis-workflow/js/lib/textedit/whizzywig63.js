@@ -1,4 +1,5 @@
-﻿var whizzywig_version='Whizzywig 63';
+var whizzywig_version='Whizzywig 63';
+var sel = '';
 //fixed 62 link>new window Chrome bug //link an image //td border hint //insHTML deletes selection in Chrome 
 //fixed 63 IE9 breaks whereAmI()
 //Copyright © 2005-2011 John Goodman - www.unverse.net  *date 110623
@@ -535,7 +536,13 @@ function whereAmI(e){
   rng=sel.createRange();
   papa=mu?e.srcElement:(sel.type == "Control")?rng.item(0):rng.parentElement();
  }else{
-  sel=oW.getSelection();sn=sel.anchorNode;
+  sel=oW.getSelection();
+  
+  // FIXED: if sel is null then controls are not working..!!
+  if(sel == null) {
+      sel = '';
+  }
+        sn=sel.anchorNode;
   papa=mu?e.target:(sn.nodeName == '#text')?sn.parentNode:sn;
  }
  pa=papa;

@@ -26,7 +26,7 @@ function wangguard_init() {
 	if  ((get_site_option ("wangguard-do-not-show-adminbar")==1) && ! defined( 'BP_VERSION' ) ) {
 		remove_action('admin_bar_menu', 'wangguard_add_wp_admin_bar_menus', 100 );
 		wangguard_admin_warnings();
-		}
+	}
 }
 add_action('init', 'wangguard_init');
 function wangguard_welcome_splash(){
@@ -35,17 +35,17 @@ function wangguard_welcome_splash(){
 	if ( defined('WANGGUARD_VERSION') ) $wangguard_act_version = WANGGUARD_VERSION;
 	if ( get_site_option( 'wangguard-option-version' ) == $wangguard_act_version ) {
 		return;
-		}
+	}
 	elseif ( $wuangguard_parent == 'update.php' ) {
-			return;
-			}
+		return;
+	}
 	elseif ( $wuangguard_parent == 'update-core.php' ) {
 		return;
-		}
+	}
 	else {
-		 update_site_option('wangguard-option-version', $wangguard_act_version );
-        if ( !is_multisite() ) { $wangguardredirect = esc_url( admin_url( add_query_arg( array( 'page' => 'wangguard_about' ), 'admin.php' ) ) ); }
-				else { $wangguardredirect =  esc_url( network_admin_url( add_query_arg( array( 'page' => 'wangguard_about' ), 'admin.php' ) ) );}
+		update_site_option('wangguard-option-version', $wangguard_act_version );
+		if ( !is_multisite() ) { $wangguardredirect = esc_url( admin_url( add_query_arg( array( 'page' => 'wangguard_about' ), 'admin.php' ) ) ); }
+		else { $wangguardredirect =  esc_url( network_admin_url( add_query_arg( array( 'page' => 'wangguard_about' ), 'admin.php' ) ) );}
 		wp_redirect( $wangguardredirect ); exit;
 	}
 }
@@ -88,40 +88,40 @@ add_action('admin_init', 'wangguard_admin_init');
 //WangGuard Styles
 add_action( 'admin_enqueue_scripts', 'wangguard_styles_css' );
 function wangguard_styles_css($hook){
-		global $users_Info, $WGDevelopmentPage;
-		wp_register_style(  'wangguardCSS', plugins_url('css/wangguard.css', __FILE__),array(), WANGGUARD_VERSION );
-		wp_enqueue_style( 'wangguardCSS' );
-		if( $users_Info != $hook ) {
-			 return;} else {
-				wp_register_style( 'custom_wp_admin_css_for_wangguard_users_info', plugins_url('css/wangguardcssforusersinfo.css', __FILE__),array(), WANGGUARD_VERSION );
-				wp_enqueue_style( 'custom_wp_admin_css_for_wangguard_users_info');
-			}
+	global $users_Info, $WGDevelopmentPage;
+	wp_register_style(  'wangguardCSS', plugins_url('css/wangguard.css', __FILE__),array(), WANGGUARD_VERSION );
+	wp_enqueue_style( 'wangguardCSS' );
+	if( $users_Info != $hook ) {
+		return;} else {
+		wp_register_style( 'custom_wp_admin_css_for_wangguard_users_info', plugins_url('css/wangguardcssforusersinfo.css', __FILE__),array(), WANGGUARD_VERSION );
+		wp_enqueue_style( 'custom_wp_admin_css_for_wangguard_users_info');
+	}
 }
 add_action( 'admin_enqueue_scripts', 'wangguard_develpment_styles_css' );
 function wangguard_develpment_styles_css($hook){
-		global $WGDevelopmentPage;
-		if( $WGDevelopmentPage != $hook ) {
-			 return;} else {
-				wp_register_style( 'custom_wp_admin_css_for_wangguard_development', plugins_url('css/wangguardcssfordevelopment.css', __FILE__),array(), WANGGUARD_VERSION );
-				wp_enqueue_style( 'custom_wp_admin_css_for_wangguard_development');
-			}
+	global $WGDevelopmentPage;
+	if( $WGDevelopmentPage != $hook ) {
+		return;} else {
+		wp_register_style( 'custom_wp_admin_css_for_wangguard_development', plugins_url('css/wangguardcssfordevelopment.css', __FILE__),array(), WANGGUARD_VERSION );
+		wp_enqueue_style( 'custom_wp_admin_css_for_wangguard_development');
+	}
 }
 add_action( 'admin_enqueue_scripts', 'wangguard_contact_styles_css' );
 function wangguard_contact_styles_css($hook){
-		global $WGContactPage;
-		if( $WGContactPage != $hook ) {
-			 return;} else {
-				wp_register_style( 'custom_wp_admin_css_for_wangguard_contact', plugins_url('css/wangguardcssforcontact.css', __FILE__),array(), WANGGUARD_VERSION );
-				wp_enqueue_style( 'custom_wp_admin_css_for_wangguard_contact');
-			}
+	global $WGContactPage;
+	if( $WGContactPage != $hook ) {
+		return;} else {
+		wp_register_style( 'custom_wp_admin_css_for_wangguard_contact', plugins_url('css/wangguardcssforcontact.css', __FILE__),array(), WANGGUARD_VERSION );
+		wp_enqueue_style( 'custom_wp_admin_css_for_wangguard_contact');
+	}
 }
 add_action( 'admin_enqueue_scripts', 'wangguard_about_styles_css' );
 function wangguard_about_styles_css($hook){
-		global $WGAboutPage, $WGPluginPage, $WGHelpPage, $WGHelpUsPage, $WGCreditsPage, $users_Info, $WGAddonPage;
-		if( ( $WGAboutPage == $hook ) || ( $WGPluginPage == $hook ) || ( $WGHelpPage == $hook ) || ( $WGHelpUsPage == $hook ) || ( $WGCreditsPage == $hook ) || (  $users_Info == $hook ) || ( $WGAddonPage == $hook ) ) {
-			 wp_register_style( 'custom_wp_admin_css_for_about_screen', plugins_url('css/wangguardabout.css', __FILE__),array(),WANGGUARD_VERSION  );
-				wp_enqueue_style( 'custom_wp_admin_css_for_about_screen');
-} else { return; }
+	global $WGAboutPage, $WGPluginPage, $WGHelpPage, $WGHelpUsPage, $WGCreditsPage, $users_Info, $WGAddonPage;
+	if( ( $WGAboutPage == $hook ) || ( $WGPluginPage == $hook ) || ( $WGHelpPage == $hook ) || ( $WGHelpUsPage == $hook ) || ( $WGCreditsPage == $hook ) || (  $users_Info == $hook ) || ( $WGAddonPage == $hook ) ) {
+		wp_register_style( 'custom_wp_admin_css_for_about_screen', plugins_url('css/wangguardabout.css', __FILE__),array(),WANGGUARD_VERSION  );
+		wp_enqueue_style( 'custom_wp_admin_css_for_about_screen');
+	} else { return; }
 }
 function wangguard_install($current_version) {
 	global $wpdb;
@@ -246,37 +246,37 @@ function wangguard_install($current_version) {
 	//Enable BP report button by default
 	$tmp = get_site_option("wangguard-enable-bp-report-btn");
 	if (empty ($tmp))
-	 update_site_option ("wangguard-enable-bp-report-btn", 1);
+		update_site_option ("wangguard-enable-bp-report-btn", 1);
 	//Don't delete users when reporting by default
 	$tmp = get_site_option("wangguard-delete-users-on-report");
 	if (empty ($tmp))
-	 update_site_option ("wangguard-delete-users-on-report", -1);
+		update_site_option ("wangguard-delete-users-on-report", -1);
 	//Verify gmail
 	$tmp = get_site_option("wangguard-verify-gmail");
 	if ($tmp === false)
-	 update_site_option ("wangguard-verify-gmail", 1);
+		update_site_option ("wangguard-verify-gmail", 1);
 	//Do not check client IP addr
 	$tmp = get_site_option("wangguard-do-not-check-client-ip");
 	if ($tmp === false)
-	 update_site_option ("wangguard-do-not-check-client-ip", 0);
+		update_site_option ("wangguard-do-not-check-client-ip", 0);
 	//db version
 	update_site_option("wangguard_db_version", $wangguard_db_version);
 	$tmp = get_site_option("wangguard-add-honeypot");
-		if ($tmp === false)
-	 update_site_option ("wangguard-add-honeypot", 1);
-	}
-register_activation_hook(__FILE__,'wangguard_install');
+	if ($tmp === false)
+		update_site_option ("wangguard-add-honeypot", 1);
+}
+
 //Add the Settings link on the plugins page
 function wangguard_action_links( $links, $file ) {
 	global $wangguard_is_network_admin;
 	$urlFunc = "admin_url";
 	if ($wangguard_is_network_admin && function_exists("network_admin_url"))
 		$urlFunc = "network_admin_url";
-    if ( $file == plugin_basename(__FILE__) )
+	if ( $file == plugin_basename(__FILE__) )
 		$newlink = array('<a href="' . $urlFunc( 'admin.php?page=wangguard_conf' ) . '">'.esc_html(__('Settings', 'wangguard')).'</a>');
 	else
 		$newlink = array();
-    return array_merge($newlink , $links);
+	return array_merge($newlink , $links);
 }
 add_filter('plugin_action_links', 'wangguard_action_links', 10, 2);
 /********************************************************************/
@@ -287,10 +287,10 @@ add_filter('plugin_action_links', 'wangguard_action_links', 10, 2);
 /********************************************************************/
 /** * Returns the client IP*/
 function wangguard_getRemoteIP() {
-if(isset($_SERVER['HTTP_CF_CONNECTING_IP'])) {
-      return $_SERVER['HTTP_CF_CONNECTING_IP'];}
-      else {
-	return $_SERVER['REMOTE_ADDR'];
+	if(isset($_SERVER['HTTP_CF_CONNECTING_IP'])) {
+		return $_SERVER['HTTP_CF_CONNECTING_IP'];}
+	else {
+		return $_SERVER['REMOTE_ADDR'];
 	}
 }
 /**
@@ -316,8 +316,8 @@ function wangguard_getRemoteProxyIP() {
 function wangguard_is_multisite() {
 	if (function_exists('is_multisite')) {
 		return is_multisite();
-			}
-			else {
+	}
+	else {
 		global $wpmu;
 		if ($wpmu == 1)
 			return true;
@@ -368,9 +368,9 @@ function wangguard_report_email($email , $clientIP , $ProxyIP , $isSplogger = fa
 		return;
 	}
 	else if ($valid == 'invalid') {
-		echo "-1";
-		return;
-	}
+			echo "-1";
+			return;
+		}
 	$isSploggerParam = $isSplogger ? "1" : "0";
 	wangguard_http_post("wg=<in><apikey>$wangguard_api_key</apikey><email>".$email."</email><ip>".$clientIP."</ip><proxyip>".$ProxyIP."</proxyip><issplogger>".$isSploggerParam."</issplogger></in>", 'add-email.php');
 }
@@ -383,9 +383,10 @@ function wangguard_report_users($wpusersRs , $scope="email" , $deleteUser = true
 		die();
 	}
 	else if ($valid == 'invalid') {
-		echo "-1";
-		die();
-	}
+			echo "-1";
+			die();
+		}
+
 	if (!$wpusersRs) {
 		return "0";
 	}
@@ -437,7 +438,7 @@ function wangguard_report_users($wpusersRs , $scope="email" , $deleteUser = true
 		}
 	}
 	if (count($usersFlagged))
-		return implode (",", $usersFlagged);
+		return implode(",", $usersFlagged);
 	else
 		return "0";
 }
@@ -450,9 +451,9 @@ function wangguard_whitelist_report($wpusersRs) {
 		die();
 	}
 	else if ($valid == 'invalid') {
-		echo "-1";
-		die();
-	}
+			echo "-1";
+			die();
+		}
 	if (!$wpusersRs) {
 		return "0";
 	}
@@ -468,7 +469,7 @@ function wangguard_whitelist_report($wpusersRs) {
 		}
 	}
 	if (count($usersWhitelist))
-		return implode (",", $usersWhitelist);
+		return implode(",", $usersWhitelist);
 	else
 		return "0";
 }
@@ -481,9 +482,10 @@ function wangguard_rollback_report($wpusersRs) {
 		die();
 	}
 	else if ($valid == 'invalid') {
-		echo "-1";
-		die();
-	}
+			echo "-1";
+			die();
+		}
+
 	if (!$wpusersRs) {
 		return "0";
 	}
@@ -503,7 +505,7 @@ function wangguard_rollback_report($wpusersRs) {
 		}
 	}
 	if (count($usersRolledBack))
-		return implode (",", $usersRolledBack);
+		return implode(",", $usersRolledBack);
 	else
 		return "0";
 }
@@ -538,7 +540,7 @@ function wangguard_verify_user($user_object) {
 	}
 	//Rechecks the user agains WangGuard service
 	$response = wangguard_http_post("wg=<in><apikey>$wangguard_api_key</apikey><email>".$user_object->user_email."</email><ip>".$clientIP."</ip><proxyip>".$ProxyIP."</proxyip></in>", 'query-email.php');
-	$responseArr = XML_unserialize($response);
+	$responseArr = WGG_XML_unserialize($response);
 	if ( is_array($responseArr)) {
 		if (($responseArr['out']['cod'] == '10') || ($responseArr['out']['cod'] == '11')) {
 			$user_check_status = 'reported';
@@ -547,6 +549,9 @@ function wangguard_verify_user($user_object) {
 		else {
 			if ($responseArr['out']['cod'] == '20') {
 				$user_check_status = 'checked';
+			}
+			elseif ($responseArr['out']['cod'] == '30') {
+				$user_check_status = 'not-checked';
 			}
 			else {
 				$user_check_status = 'error:'.$responseArr['out']['cod'];
@@ -583,7 +588,7 @@ function wangguard_verify_email($email , $clientIP , $proxyIP = '') {
 	}
 	//Rechecks the user agains WangGuard service
 	$response = wangguard_http_post("wg=<in><apikey>$wangguard_api_key</apikey><email>".$email."</email><ip>".$clientIP."</ip><proxyip>".$proxyIP."</proxyip></in>", 'query-email.php');
-	$responseArr = XML_unserialize($response);
+	$responseArr = WGG_XML_unserialize($response);
 	if ( is_array($responseArr)) {
 		if (($responseArr['out']['cod'] == '10') || ($responseArr['out']['cod'] == '11')) {
 			$user_check_status = 'reported';
@@ -592,6 +597,9 @@ function wangguard_verify_email($email , $clientIP , $proxyIP = '') {
 		else {
 			if ($responseArr['out']['cod'] == '20') {
 				$user_check_status = 'checked';
+			}
+			elseif ($responseArr['out']['cod'] == '30') {
+				$user_check_status = 'not-checked';
 			}
 			else {
 				$user_check_status = 'error:'.$responseArr['out']['cod'];
@@ -634,30 +642,30 @@ function wangguard_update_option($option , $newvalue) {
 // getmxrr() support for Windows by HM2K <php [spat] hm2k.org>
 function win_getmxrr($hostname, &$mxhosts, &$mxweight=false) {
 	//clean the array
-    $mxhosts = array();
-    if (empty($hostname)) return;
-    $exec='nslookup -type=MX '.escapeshellarg($hostname);
-    @exec($exec, $output);
-    if (empty($output)) return;
-    $i=-1;
-    foreach ($output as $line) {
-        $i++;
-        if (preg_match("/^$hostname\tMX preference = ([0-9]+), mail exchanger = (.+)$/i", $line, $parts)) {
-          $mxweight[$i] = trim($parts[1]);
-          $mxhosts[$i] = trim($parts[2]);
-        }
-        if (preg_match('/responsible mail addr = (.+)$/i', $line, $parts)) {
-          $mxweight[$i] = $i;
-          $mxhosts[$i] = trim($parts[1]);
-        }
-    }
-    return ($i!=-1);
+	$mxhosts = array();
+	if (empty($hostname)) return;
+	$exec='nslookup -type=MX '.escapeshellarg($hostname);
+	@exec($exec, $output);
+	if (empty($output)) return;
+	$i=-1;
+	foreach ($output as $line) {
+		$i++;
+		if (preg_match("/^$hostname\tMX preference = ([0-9]+), mail exchanger = (.+)$/i", $line, $parts)) {
+			$mxweight[$i] = trim($parts[1]);
+			$mxhosts[$i] = trim($parts[2]);
+		}
+		if (preg_match('/responsible mail addr = (.+)$/i', $line, $parts)) {
+			$mxweight[$i] = $i;
+			$mxhosts[$i] = trim($parts[1]);
+		}
+	}
+	return ($i!=-1);
 }
 if (  (!function_exists('getmxrr')) && (strtoupper(substr(PHP_OS, 0, 3)) == 'WIN')  ) {
 	//define alt getmxrr on windows server
-    function getmxrr($hostname, &$mxhosts, &$mxweight=false) {
-        return win_getmxrr($hostname, $mxhosts, $mxweight);
-    }
+	function getmxrr($hostname, &$mxhosts, &$mxweight=false) {
+		return win_getmxrr($hostname, $mxhosts, $mxweight);
+	}
 }
 /********************************************************************/
 /*** HELPER FUNCS ENDS ***/
@@ -677,8 +685,8 @@ function wangguard_verify_key( $key, $ip = null ) {
 	global $wangguard_api_key;
 	if ( empty($key) && $wangguard_api_key )
 		$key = $wangguard_api_key;
-		$response = wangguard_http_post("wg=<in><apikey>$key</apikey></in>", 'verify-key.php' , $ip);
-		$responseArr = XML_unserialize($response);
+	$response = wangguard_http_post("wg=<in><apikey>$key</apikey></in>", 'verify-key.php' , $ip);
+	$responseArr = WGG_XML_unserialize($response);
 	if ( !is_array($responseArr))
 		return 'failed';
 	elseif (@$responseArr['out']['cod'] != '0')
@@ -783,21 +791,21 @@ function wangguard_http_post($request, $op , $ip=null) {
 	$response = '';
 	/*fsock connection*/
 
-	if ( get_site_option("wangguard-no-use-ssl") == 1 ) {
+	if ( ! get_site_option("wangguard-use-ssl") == 1 ) {
 		if( false != ( $fs = @fsockopen($http_host, $wangguard_api_port, $errno, $errstr, 5) ) ) {
-				fwrite($fs, $http_request);
-				while ( !feof($fs) )
-				$response .= fgets($fs, 1100);
-				fclose($fs);
-			}
-		} else {
-			if( false != ( $fs = @fsockopen('ssl://'. $http_host, $wangguard_api_port, $errno, $errstr, 5) ) ) {
 			fwrite($fs, $http_request);
 			while ( !feof($fs) )
 				$response .= fgets($fs, 1100);
-				fclose($fs);
-			}
+			fclose($fs);
 		}
+	} else {
+		if( false != ( $fs = @fsockopen('ssl://'. $http_host, $wangguard_api_port, $errno, $errstr, 5) ) ) {
+			fwrite($fs, $http_request);
+			while ( !feof($fs) )
+				$response .= fgets($fs, 1100);
+			fclose($fs);
+		}
+	}
 	/*fsock connection*/
 	$response = str_replace("\r", "", $response);
 	$response = substr($response, strpos($response, "\n\n")+2);
@@ -818,7 +826,7 @@ function wangguard_admin_warnings() {
 			$urlFunc = "admin_url";
 			if ($wangguard_is_network_admin && function_exists("network_admin_url"))
 				$urlFunc = "network_admin_url";
-				$confURL = $urlFunc("admin.php?page=wangguard_conf");
+			$confURL = $urlFunc("admin.php?page=wangguard_conf");
 			echo "
 			<div id='wangguard-warning' class='updated fade'><p><strong>".__('WangGuard is almost ready.', 'wangguard')."</strong> ".sprintf(__('You must <a href="%1$s">enter your WangGuard API key</a> for it to work.', 'wangguard'), $confURL)."</p></div>";
 		}
@@ -910,14 +918,14 @@ add_action('rightnow_end', 'wangguard_rightnow');
 /********************************************************************/
 function wangguard_page_wangguard_queue_headers($v) {
 	return array(
-			'cb'			=> '<input type="checkbox" />',
-			'username'		=> __( 'Username' ),
-			'wgtype'		=> __( 'Type' , "wangguard" ),
-			'email'			=> __( 'E-mail' ),
-			'wgreported_by' => __( 'Reported by' , 'wangguard' ),
-			'wgreported_on' => __( 'Reported on' , 'wangguard' ),
-			'wgstatus' => __( 'WangGuard Status' , 'wangguard' )
-		);
+		'cb'   => '<input type="checkbox" />',
+		'username'  => __( 'Username' ),
+		'wgtype'  => __( 'Type' , "wangguard" ),
+		'email'   => __( 'E-mail' ),
+		'wgreported_by' => __( 'Reported by' , 'wangguard' ),
+		'wgreported_on' => __( 'Reported on' , 'wangguard' ),
+		'wgstatus' => __( 'WangGuard Status' , 'wangguard' )
+	);
 }
 add_filter("manage_wangguard_page_wangguard_queue_columns", "wangguard_page_wangguard_queue_headers" );
 add_filter("manage_wangguard_page_wangguard_queue-network_columns", "wangguard_page_wangguard_queue_headers" );
@@ -929,24 +937,24 @@ add_filter("manage_wangguard_page_wangguard_queue-network_columns", "wangguard_p
 /********************************************************************/
 function wangguard_page_wangguard_users_headers($v) {
 	$cols = array(
-			'cb'			=> '<input type="checkbox" />',
-			'info'			=> __( 'Info' , 'wangguard' ),
-			'username'		=> __( 'Username' , 'wangguard' ),
-			'name'			=> __( 'Name' , 'wangguard' ),
-			'email'			=> __( 'E-mail' , 'wangguard' ),
-			'user_registered'=> __( 'Signed up on' , 'wangguard' ),
-			'from_ip'=>		__( 'User IP' , 'wangguard' ),
-			'posts'			=> __( 'Posts' , 'wangguard' ),
-			'blogs'			=> __( 'Sites' , 'wangguard' ),
-			'groups'        => __( 'Admin Group' , 'wangguard' ),
-			'wgstatus'		=> __( 'WangGuard Status' , 'wangguard' )
-		);
+		'cb'   => '<input type="checkbox" />',
+		'info'   => __( 'Info' , 'wangguard' ),
+		'username'  => __( 'Username' , 'wangguard' ),
+		'name'   => __( 'Name' , 'wangguard' ),
+		'email'   => __( 'E-mail' , 'wangguard' ),
+		'user_registered'=> __( 'Signed up on' , 'wangguard' ),
+		'from_ip'=>  __( 'User IP' , 'wangguard' ),
+		'posts'   => __( 'Posts' , 'wangguard' ),
+		'blogs'   => __( 'Sites' , 'wangguard' ),
+		'groups'        => __( 'Admin Group' , 'wangguard' ),
+		'wgstatus'  => __( 'WangGuard Status' , 'wangguard' )
+	);
 	if ( ! wangguard_is_multisite() ) {
 		unset($cols['blogs']);
-		}
+	}
 	if ( ! class_exists('BP_Groups_member') ){
-						unset($cols['groups']);
-						}
+		unset($cols['groups']);
+	}
 	return $cols;
 }
 add_filter("manage_wangguard_page_wangguard_users_columns", "wangguard_page_wangguard_users_headers" );
@@ -1003,7 +1011,7 @@ function wangguard_user_custom_columns($dummy , $column_name , $userid , $echo =
 		}
 		$user_object = new WP_User($userid);
 		$Domain = explode("@",$user_object->user_email);
-		$Domain = $Domain[1];
+		$Domain = isset( $Domain[1] ) ? $Domain[1] : '';
 		$deleteUser = get_site_option ("wangguard-delete-users-on-report")=='1';
 		$html .= "<br/><div class=\"row-actions\">";
 		if ( !wangguard_is_admin($user_object) ) {
@@ -1022,7 +1030,7 @@ function wangguard_user_custom_columns($dummy , $column_name , $userid , $echo =
 			echo $html;
 		else
 			return $html;
-   	}
+	}
 	else {
 		return $dummy;
 	}
@@ -1055,11 +1063,11 @@ function wangguard_post_row_actions($actions , $post) {
 function func_wangguard_reg() {
 	// Code
 	if ( ! is_user_logged_in() && ! wangguard_is_multisite() ) {
-	echo "<div>";
-	wp_login_form();
-	$websiteURL = get_site_url();
-	echo "</div>";
-	echo "<div><form name='registerform' action='" . $websiteURL . "/wp-login.php?action=register' method='post'>
+		echo "<div>";
+		wp_login_form();
+		$websiteURL = get_site_url();
+		echo "</div>";
+		echo "<div><form name='registerform' action='" . $websiteURL . "/wp-login.php?action=register' method='post'>
 	<fieldset>
 		<label>Username
 		<input type='text' name='user_login' value='' /></label>
@@ -1070,10 +1078,10 @@ function func_wangguard_reg() {
 	</fieldset>
 </form></div>";
 	} else if ( ! is_user_logged_in() && wangguard_is_multisite() ) {
-				echo "<div>";
-				wp_login_form();
-				echo "</div>";
-	} else {
+			echo "<div>";
+			wp_login_form();
+			echo "</div>";
+		} else {
 		echo "Ya estás identificado";
 	}
 }

@@ -1,3 +1,13 @@
+<?php
+/**
+ * BuddyPress - Members Activate
+ *
+ * @package BuddyPress
+ * @subpackage bp-legacy
+ */
+
+?>
+
 <div id="buddypress">
 
 	<?php
@@ -5,23 +15,26 @@
 	/**
 	 * Fires before the display of the member activation page.
 	 *
-	 * @since BuddyPress (1.1.0)
+	 * @since 1.1.0
 	 */
 	do_action( 'bp_before_activation_page' ); ?>
 
 	<div class="page" id="activate-page">
 
-		<?php
+		<div id="template-notices" role="alert" aria-atomic="true">
+			<?php
 
-		/** This action is documented in bp-templates/bp-legacy/buddypress/activity/index.php */
-		do_action( 'template_notices' ); ?>
+			/** This action is documented in bp-templates/bp-legacy/buddypress/activity/index.php */
+			do_action( 'template_notices' ); ?>
+
+		</div>
 
 		<?php
 
 		/**
 		 * Fires before the display of the member activation page content.
 		 *
-		 * @since BuddyPress (1.1.0)
+		 * @since 1.1.0
 		 */
 		do_action( 'bp_before_activate_content' ); ?>
 
@@ -55,7 +68,7 @@
 		/**
 		 * Fires after the display of the member activation page content.
 		 *
-		 * @since BuddyPress (1.1.0)
+		 * @since 1.1.0
 		 */
 		do_action( 'bp_after_activate_content' ); ?>
 
@@ -66,7 +79,7 @@
 	/**
 	 * Fires after the display of the member activation page.
 	 *
-	 * @since BuddyPress (1.1.0)
+	 * @since 1.1.0
 	 */
 	do_action( 'bp_after_activation_page' ); ?>
 

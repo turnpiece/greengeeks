@@ -54,9 +54,6 @@ add_filter( 'wp_insert_post_data', 'bbp_fix_post_author', 30, 2 );
 // Force comments_status on bbPress post types
 add_filter( 'comments_open', 'bbp_force_comment_status' );
 
-// Add post_parent__in to posts_where
-add_filter( 'posts_where', 'bbp_query_post_parent__in', 10, 2 );
-
 // Remove forums roles from list of all roles
 add_filter( 'editable_roles', 'bbp_filter_blog_editable_roles' );
 
@@ -139,7 +136,6 @@ add_filter( 'bbp_get_user_profile_edit_link', 'stripslashes'     );
 
 // Run filters on reply content
 add_filter( 'bbp_get_reply_content', 'bbp_make_clickable', 4    );
-add_filter( 'bbp_get_reply_content', 'bbp_mention_filter', 5    );
 add_filter( 'bbp_get_reply_content', 'wptexturize',        6    );
 add_filter( 'bbp_get_reply_content', 'convert_chars',      8    );
 add_filter( 'bbp_get_reply_content', 'capital_P_dangit',   10   );
@@ -150,7 +146,6 @@ add_filter( 'bbp_get_reply_content', 'bbp_rel_nofollow',   50   );
 
 // Run filters on topic content
 add_filter( 'bbp_get_topic_content', 'bbp_make_clickable', 4    );
-add_filter( 'bbp_get_topic_content', 'bbp_mention_filter', 5    );
 add_filter( 'bbp_get_topic_content', 'wptexturize',        6    );
 add_filter( 'bbp_get_topic_content', 'convert_chars',      8    );
 add_filter( 'bbp_get_topic_content', 'capital_P_dangit',   10   );
@@ -242,6 +237,12 @@ add_filter( 'bbp_map_meta_caps', 'bbp_map_forum_meta_caps',     10, 4 ); // Foru
 add_filter( 'bbp_map_meta_caps', 'bbp_map_topic_meta_caps',     10, 4 ); // Topics
 add_filter( 'bbp_map_meta_caps', 'bbp_map_reply_meta_caps',     10, 4 ); // Replies
 add_filter( 'bbp_map_meta_caps', 'bbp_map_topic_tag_meta_caps', 10, 4 ); // Topic tags
+
+// Clickables
+add_filter( 'bbp_make_clickable', 'bbp_make_urls_clickable',      2 ); // https://bbpress.org
+add_filter( 'bbp_make_clickable', 'bbp_make_ftps_clickable',      4 ); // ftps://bbpress.org
+add_filter( 'bbp_make_clickable', 'bbp_make_emails_clickable',    6 ); // jjj@bbpress.org
+add_filter( 'bbp_make_clickable', 'bbp_make_mentions_clickable',  8 ); // @jjj
 
 /** Deprecated ****************************************************************/
 

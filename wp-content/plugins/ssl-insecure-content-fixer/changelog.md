@@ -2,6 +2,54 @@
 
 ## Changelog
 
+### 2.4.0, 2017-05-14
+
+* fixed: don't capture content on admin pages when mode is Capture or Capture All
+* added: filter `ssl_insecure_content_disable_capture` for disabling Capture mode on selected pages / scripts
+
+### 2.3.0, 2017-05-01
+
+* added: support for Windows Azure with ARR
+* added: filter `ssl_insecure_content_domain_exclusions` for domains that can be excluded from content cleaning (ignored for enqueued scripts)
+
+### 2.2.3, 2017-02-01
+
+* fixed: breaks Visual Composer back end editing due to a regular expression problem (now you have two!)
+* changed: Capture no longer captures AJAX requests; new mode Capture All introduced to capture AJAX requests too
+* added: prerequisites check, to ensure that plugin can run successfully
+
+### 2.2.2, 2017-01-21
+
+* fixed: make protocol header tests case-insensitive (thanks, [waja](https://github.com/waja)!)
+* added: support for Amazon CloudFront `CloudFront-Forwarded-Proto` header (thanks, [gmazovec](https://github.com/gmazovec)!)
+* added: clean up responsive image srcset links to external images (WordPress already handles local images)
+
+### 2.2.1, 2016-11-19
+
+* fixed: improve accessibility of admin pages
+* removed: update message display forced on multisite; just leave that for WordPress to handle (it does it so well)
+
+### 2.2.0, 2016-09-09
+
+* added: stop WooCommerce cached widgets from http showing on https
+* added: fix Gravity Forms confirmation content
+
+### 2.1.6, 2016-02-02
+
+* fixed: malware warning with GOTMLS vulnerability scanner
+
+### 2.1.5, 2015-12-12
+
+* changed: remove some more clutter from server environment report in tests
+* removed: translations no longer in zip file; now delivered automatically as language packs when required
+
+### 2.1.4, 2015-10-24
+
+* added: French translation (thanks, Houzepha Taheraly!)
+* added: can define `SSLFIX_PLUGIN_NO_HTTPS_DETECT` in wp-config.php to prevent the proxy fix, e.g. to overcome plugin conflicts
+* added: fix inline CSS background image rules, e.g. in Capture level
+* added: indicate whether WordPress HTTPS detection is successful with tick/cross
+
 ### 2.1.3, 2015-10-05
 
 * added: Chinese (simplified) translation (thanks, [漠伦](https://molun.net/)!)
@@ -17,9 +65,9 @@
 
 ### 2.1.0, 2015-07-30
 
-* security fix: restrict access to AJAX test script; don't disclose server environment with system information
+* **SECURITY FIX**: restrict access to AJAX test script; don't disclose server environment with system information
 * changed: always show server environment on test results
-* added: Bulgarian translation (thanks, [Ivan Arnaudov](http://templateinspector.com/)!)
+* added: Bulgarian translation (thanks, [Ivan Arnaudov](https://www.bvionline.eu/)!)
 * added: .htaccess file for AJAX SSL Tests, fixes conflict with some security plugins
 
 ### 2.0.0, 2015-07-26
@@ -29,7 +77,7 @@
 * added: settings page for controlling behaviour
 * added: Simple, Content, Widgets, Capture, and Off modes for fixes
 * added: fix for [WooCommerce + Google Chrome HTTP_HTTPS bug](https://github.com/woothemes/woocommerce/issues/8479) (fixed in WooCommerce v2.3.13)
-* added: load translation (if anyone fancies [supplying some](https://translate.webaware.com.au/projects/ssl-insecure-content-fixer)!)
+* added: load translation (if anyone fancies [supplying some](https://translate.wordpress.org/projects/wp-plugins/ssl-insecure-content-fixer)!)
 
 ### 1.8.0, 2014-02-02
 

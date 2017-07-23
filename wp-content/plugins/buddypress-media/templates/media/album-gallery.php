@@ -1,38 +1,48 @@
-<div class="rtmedia-container">
+<?php
+
+// Generate random number for gallery container
+// This will be useful when multiple gallery shortcodes are used in a single page
+$rand_id = rand( 0, 1000 );
+
+?>
+<div class="rtmedia-container" id="rtmedia_gallery_container_<?php echo $rand_id;?>">
 	<?php
 	do_action( 'rtmedia_before_album_gallery' );
 
 	$title = get_rtmedia_gallery_title();
 	?>
 
-    <div id="rtm-gallery-title-container" class="clearfix">
-        <h2 class="rtm-gallery-title">
+	<div id="rtm-gallery-title-container" class="clearfix">
+		<h2 class="rtm-gallery-title">
 			<?php
 			if ( $title ) {
-				echo $title;
+				echo esc_html( $title );
 			} else {
-				_e( 'Album List', 'buddypress-media' );
+				esc_html_e( 'Album List', 'buddypress-media' );
 			}
 			?>
-        </h2>
+		</h2>
 
-        <div id="rtm-media-options" class="rtm-media-options">
+		<div id="rtm-media-options" class="rtm-media-options">
 			<?php do_action( 'rtmedia_album_gallery_actions' ); ?>
-        </div>
-    </div>
+		</div>
+	</div>
 
 	<?php do_action( 'rtmedia_after_album_gallery_title' ); ?>
 
-    <div id="rtm-media-gallery-uploader" class="rtm-media-gallery-uploader">
+	<div id="rtm-media-gallery-uploader" class="rtm-media-gallery-uploader">
 		<?php rtmedia_uploader( array( 'is_up_shortcode' => false ) ); ?>
-    </div>
+	</div>
 
-	<?php if ( have_rtmedia() ) { ?>
+	<?php
+	do_action( 'rtmedia_after_media_gallery_title' );
+	if ( have_rtmedia() ) { ?>
 
-		<ul class="rtmedia-list rtmedia-album-list clearfix">
+		<!-- addClass 'rtmedia-list-media' for work properly selectbox -->
+		<ul class="rtmedia-list-media rtmedia-list rtmedia-album-list clearfix">
 			<?php while ( have_rtmedia() ) : rtmedia(); ?>
-				<?php include ('album-gallery-item.php'); ?>
-			<?php endwhile; ?>
+					<?php include( 'album-gallery-item.php' ); ?>
+				<?php endwhile; ?>
 		</ul>
 
 		<div class="rtmedia_next_prev rtm-load-more clearfix">
@@ -42,18 +52,19 @@
 
 			$general_options = $rtmedia->options;
 
-			if ( isset( $rtmedia->options[ 'general_display_media' ] ) && $general_options[ 'general_display_media' ] == 'pagination' ) {
-				echo rtmedia_media_pagination();
+			if ( isset( $rtmedia->options['general_display_media'] ) && 'pagination' === $general_options['general_display_media'] ) {
+				rtmedia_media_pagination();
 			} else {
 				$display = '';
 
 				if ( rtmedia_offset() + rtmedia_per_page_media() < rtmedia_count() ) {
-					$display = 'style="display:block;"';
+					$display = 'display:block;';
 				} else {
-					$display = 'style="display:none;"';
+					$display = 'display:none;';
 				}
 				?>
-				<a id="rtMedia-galary-next" <?php echo $display; ?> href="<?php echo rtmedia_pagination_next_link(); ?>"><?php echo __( 'Load More', 'buddypress-media' ); ?></a>
+				<a id="rtMedia-galary-next" style='<?php echo esc_attr( $display ); ?>'
+				   href="<?php echo esc_url( rtmedia_pagination_next_link() ); ?>"><?php esc_html_e( 'Load More', 'buddypress-media' ); ?></a>
 				<?php
 			}
 			?>
@@ -61,30 +72,29 @@
 	<?php } else { ?>
 		<p class="rtmedia-no-media-found">
 			<?php
-			$message = __( "Sorry !! There's no media found for the request !!", 'buddypress-media' );
-
-			echo apply_filters( 'rtmedia_no_media_found_message_filter', $message );
+			apply_filters( 'rtmedia_no_media_found_message_filter', esc_html_e( 'Sorry !! There\'s no media found for the request !!', 'buddypress-media' ) );
 			?>
 		</p>
 	<?php } ?>
 
 	<?php do_action( 'rtmedia_after_album_gallery' ); ?>
+	<?php do_action( 'rtmedia_after_media_gallery' ); ?>
 </div>
 
 <!-- template for single media in gallery -->
 <script id="rtmedia-gallery-item-template" type="text/template">
-    <div class="rtmedia-item-thumbnail">
-    <a href ="media/<%= id %>">
-    <img src="<%= guid %>">
-    </a>
-    </div>
+	<div class="rtmedia-item-thumbnail">
+		<a href="media/<%= id %>">
+			<img src="<%= guid %>">
+		</a>
+	</div>
 
-    <div class="rtmedia-item-title">
-    <h4 title="<%= media_title %>">
-    <a href="media/<%= id %>">
-    <%= media_title %>
-    </a>
-    </h4>
-    </div>
+	<div class="rtmedia-item-title">
+		<h4 title="<%= media_title %>">
+			<a href="media/<%= id %>">
+				<%= media_title %>
+			</a>
+		</h4>
+	</div>
 </script>
 <!-- rtmedia_actions remained in script tag -->

@@ -68,8 +68,16 @@ function sslfix_get_recommended() {
 			$response['recommended'] = 'HTTP_X_FORWARDED_SSL';
 			break;
 
+		case 'HTTP_CLOUDFRONT_FORWARDED_PROTO':
+			$response['recommended'] = 'HTTP_CLOUDFRONT_FORWARDED_PROTO';
+			break;
+
 		case 'HTTP_CF_VISITOR':
 			$response['recommended'] = 'HTTP_CF_VISITOR';
+			break;
+
+		case 'HTTP_X_ARR_SSL':
+			$response['recommended'] = 'HTTP_X_ARR_SSL';
 			break;
 
 		default:
@@ -92,6 +100,8 @@ function sslfix_environment() {
 	// build a list of environment variables to omit, as keys
 	// some are just unnecessary, some might expose sensitive information like script paths
 	$env_blacklist = array_flip(array(
+		'argc',
+		'argv',
 		'AUTH_TYPE',
 		'CONTENT_LENGTH',
 		'CONTENT_TYPE',
@@ -112,6 +122,7 @@ function sslfix_environment() {
 		'HTTP_HOST',
 		'HTTP_ORIGIN',
 		'HTTP_REFERER',
+		'HTTP_X_REQUESTED_WITH',
 		'HTTP_USER_AGENT',
 		'ORIG_PATH_INFO',
 		'PATH',
@@ -173,12 +184,20 @@ function sslfix_get_environment() {
 		$env['detect'] = 'port';
 		$env['ssl'] = true;
 	}
-	elseif (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') {
+	elseif (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && strtolower($_SERVER['HTTP_X_FORWARDED_PROTO']) === 'https') {
 		$env['detect'] = 'HTTP_X_FORWARDED_PROTO';
 		$env['ssl'] = true;
 	}
-	elseif (isset($_SERVER['HTTP_X_FORWARDED_SSL']) && ($_SERVER['HTTP_X_FORWARDED_SSL'] === 'on' || $_SERVER['HTTP_X_FORWARDED_SSL'] === '1')) {
+	elseif (isset($_SERVER['HTTP_X_FORWARDED_SSL']) && (strtolower($_SERVER['HTTP_X_FORWARDED_SSL']) === 'on' || $_SERVER['HTTP_X_FORWARDED_SSL'] === '1')) {
 		$env['detect'] = 'HTTP_X_FORWARDED_SSL';
+		$env['ssl'] = true;
+	}
+	elseif (isset($_SERVER['HTTP_CLOUDFRONT_FORWARDED_PROTO']) && strtolower($_SERVER['HTTP_CLOUDFRONT_FORWARDED_PROTO']) === 'https') {
+		$env['detect'] = 'HTTP_CLOUDFRONT_FORWARDED_PROTO';
+		$env['ssl'] = true;
+	}
+	elseif (!empty($_SERVER['HTTP_X_ARR_SSL'])) {
+		$env['detect'] = 'HTTP_X_ARR_SSL';
 		$env['ssl'] = true;
 	}
 	elseif (isset($_SERVER['HTTP_CF_VISITOR']) && strpos($_SERVER['HTTP_CF_VISITOR'], 'https') !== false) {

@@ -1,17 +1,17 @@
 <?php
 /**
- * BuddyPress Avatars main template
+ * BuddyPress Avatars main template.
  *
  * This template is used to inject the BuddyPress Backbone views
  * dealing with avatars.
- * It's also used to create the common Backbone views
  *
- * @since 2.3
+ * It's also used to create the common Backbone views.
+ *
+ * @since 2.3.0
  *
  * @package BuddyPress
  * @subpackage bp-attachments
  */
-
 
 /**
  * This action is for internal use, please do not use it
@@ -35,10 +35,10 @@ do_action( 'bp_attachments_avatar_check_template' );
 <script id="tmpl-bp-avatar-delete" type="text/html">
 	<# if ( 'user' === data.object ) { #>
 		<p><?php _e( "If you'd like to delete your current profile photo but not upload a new one, please use the delete profile photo button.", 'buddypress' ); ?></p>
-		<p><a class="button edit" id="bp-delete-avatar" href="#" title="<?php esc_attr_e( 'Delete Profile Photo', 'buddypress' ); ?>"><?php esc_html_e( 'Delete My Profile Photo', 'buddypress' ); ?></a></p>
+		<p><a class="button edit" id="bp-delete-avatar" href="#"><?php esc_html_e( 'Delete My Profile Photo', 'buddypress' ); ?></a></p>
 	<# } else if ( 'group' === data.object ) { #>
 		<p><?php _e( "If you'd like to remove the existing group profile photo but not upload a new one, please use the delete group profile photo button.", 'buddypress' ); ?></p>
-		<p><a class="button edit" id="bp-delete-avatar" href="#" title="<?php esc_attr_e( 'Delete Group Profile Photo', 'buddypress' ); ?>"><?php esc_html_e( 'Delete Group Profile Photo', 'buddypress' ); ?></a></p>
+		<p><a class="button edit" id="bp-delete-avatar" href="#"><?php esc_html_e( 'Delete Group Profile Photo', 'buddypress' ); ?></a></p>
 	<# } else { #>
 		<?php do_action( 'bp_attachments_avatar_delete_template' ); ?>
 	<# } #>

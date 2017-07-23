@@ -1,9 +1,15 @@
 <?php
+/**
+ * BuddyPress - Groups
+ *
+ * @package BuddyPress
+ * @subpackage bp-legacy
+ */
 
 /**
  * Fires at the top of the groups directory template file.
  *
- * @since BuddyPress (1.5.0)
+ * @since 1.5.0
  */
 do_action( 'bp_before_directory_groups_page' ); ?>
 
@@ -14,7 +20,7 @@ do_action( 'bp_before_directory_groups_page' ); ?>
 	/**
 	 * Fires before the display of the groups.
 	 *
-	 * @since BuddyPress (1.1.0)
+	 * @since 1.1.0
 	 */
 	do_action( 'bp_before_directory_groups' ); ?>
 
@@ -23,27 +29,39 @@ do_action( 'bp_before_directory_groups_page' ); ?>
 	/**
 	 * Fires before the display of the groups content.
 	 *
-	 * @since BuddyPress (1.1.0)
+	 * @since 1.1.0
 	 */
 	do_action( 'bp_before_directory_groups_content' ); ?>
 
-	<div id="group-dir-search" class="dir-search" role="search">
-		<?php bp_directory_groups_search_form(); ?>
-	</div><!-- #group-dir-search -->
+	<?php /* Backward compatibility for inline search form. Use template part instead. */ ?>
+	<?php if ( has_filter( 'bp_directory_groups_search_form' ) ) : ?>
+
+		<div id="group-dir-search" class="dir-search" role="search">
+			<?php bp_directory_groups_search_form(); ?>
+		</div><!-- #group-dir-search -->
+
+	<?php else: ?>
+
+		<?php bp_get_template_part( 'common/search/dir-search-form' ); ?>
+
+	<?php endif; ?>
 
 	<form action="" method="post" id="groups-directory-form" class="dir-form">
 
-		<?php
+		<div id="template-notices" role="alert" aria-atomic="true">
+			<?php
 
-		/** This action is documented in bp-templates/bp-legacy/buddypress/activity/index.php */
-		do_action( 'template_notices' ); ?>
+			/** This action is documented in bp-templates/bp-legacy/buddypress/activity/index.php */
+			do_action( 'template_notices' ); ?>
 
-		<div class="item-list-tabs" role="navigation">
+		</div>
+
+		<div class="item-list-tabs" aria-label="<?php esc_attr_e( 'Groups directory main navigation', 'buddypress' ); ?>">
 			<ul>
-				<li class="selected" id="groups-all"><a href="<?php bp_groups_directory_permalink(); ?>"><?php printf( __( 'All Groups <span>%s</span>', 'buddypress' ), bp_get_total_group_count() ); ?></a></li>
+				<li class="selected" id="groups-all"><a href="<?php bp_groups_directory_permalink(); ?>"><?php printf( __( 'All Groups %s', 'buddypress' ), '<span>' . bp_get_total_group_count() . '</span>' ); ?></a></li>
 
 				<?php if ( is_user_logged_in() && bp_get_total_group_count_for_user( bp_loggedin_user_id() ) ) : ?>
-					<li id="groups-personal"><a href="<?php echo bp_loggedin_user_domain() . bp_get_groups_slug() . '/my-groups/'; ?>"><?php printf( __( 'My Groups <span>%s</span>', 'buddypress' ), bp_get_total_group_count_for_user( bp_loggedin_user_id() ) ); ?></a></li>
+					<li id="groups-personal"><a href="<?php echo bp_loggedin_user_domain() . bp_get_groups_slug() . '/my-groups/'; ?>"><?php printf( __( 'My Groups %s', 'buddypress' ), '<span>' . bp_get_total_group_count_for_user( bp_loggedin_user_id() ) . '</span>' ); ?></a></li>
 				<?php endif; ?>
 
 				<?php
@@ -51,21 +69,21 @@ do_action( 'bp_before_directory_groups_page' ); ?>
 				/**
 				 * Fires inside the groups directory group filter input.
 				 *
-				 * @since BuddyPress (1.5.0)
+				 * @since 1.5.0
 				 */
 				do_action( 'bp_groups_directory_group_filter' ); ?>
 
 			</ul>
 		</div><!-- .item-list-tabs -->
 
-		<div class="item-list-tabs" id="subnav" role="navigation">
+		<div class="item-list-tabs" id="subnav" aria-label="<?php esc_attr_e( 'Groups directory secondary navigation', 'buddypress' ); ?>" role="navigation">
 			<ul>
 				<?php
 
 				/**
 				 * Fires inside the groups directory group types.
 				 *
-				 * @since BuddyPress (1.2.0)
+				 * @since 1.2.0
 				 */
 				do_action( 'bp_groups_directory_group_types' ); ?>
 
@@ -84,13 +102,18 @@ do_action( 'bp_before_directory_groups_page' ); ?>
 						/**
 						 * Fires inside the groups directory group order options.
 						 *
-						 * @since BuddyPress (1.2.0)
+						 * @since 1.2.0
 						 */
 						do_action( 'bp_groups_directory_order_options' ); ?>
 					</select>
 				</li>
 			</ul>
 		</div>
+
+		<h2 class="bp-screen-reader-text"><?php
+			/* translators: accessibility text */
+			_e( 'Groups directory', 'buddypress' );
+		?></h2>
 
 		<div id="groups-dir-list" class="groups dir-list">
 			<?php bp_get_template_part( 'groups/groups-loop' ); ?>
@@ -99,10 +122,10 @@ do_action( 'bp_before_directory_groups_page' ); ?>
 		<?php
 
 		/**
- 		 * Fires and displays the group content.
- 		 *
- 		 * @since BuddyPress (1.1.0)
- 		 */
+		 * Fires and displays the group content.
+		 *
+		 * @since 1.1.0
+		 */
 		do_action( 'bp_directory_groups_content' ); ?>
 
 		<?php wp_nonce_field( 'directory_groups', '_wpnonce-groups-filter' ); ?>
@@ -110,10 +133,10 @@ do_action( 'bp_before_directory_groups_page' ); ?>
 		<?php
 
 		/**
- 		 * Fires after the display of the groups content.
- 		 *
- 		 * @since BuddyPress (1.1.0)
- 		 */
+		 * Fires after the display of the groups content.
+		 *
+		 * @since 1.1.0
+		 */
 		do_action( 'bp_after_directory_groups_content' ); ?>
 
 	</form><!-- #groups-directory-form -->
@@ -121,10 +144,10 @@ do_action( 'bp_before_directory_groups_page' ); ?>
 	<?php
 
 	/**
- 	 * Fires after the display of the groups.
- 	 *
- 	 * @since BuddyPress (1.1.0)
- 	 */
+	 * Fires after the display of the groups.
+	 *
+	 * @since 1.1.0
+	 */
 	do_action( 'bp_after_directory_groups' ); ?>
 
 </div><!-- #buddypress -->
@@ -134,6 +157,6 @@ do_action( 'bp_before_directory_groups_page' ); ?>
 /**
  * Fires at the bottom of the groups directory template file.
  *
- * @since BuddyPress (1.5.0)
+ * @since 1.5.0
  */
 do_action( 'bp_after_directory_groups_page' );

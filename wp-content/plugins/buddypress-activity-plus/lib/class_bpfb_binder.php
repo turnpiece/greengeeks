@@ -33,16 +33,16 @@ class BpfbBinder {
 		$ret = array();
 
 		list($thumb_w,$thumb_h) = Bpfb_Data::get_thumbnail_size();
-
+		
 		$processed = 0;
 		foreach ($imgs as $img) {
 			$processed++;
 			if (BPFB_IMAGE_LIMIT && $processed > BPFB_IMAGE_LIMIT) break; // Do not even bother to process more.
 			if (preg_match('!^https?:\/\/!i', $img)) { // Just add remote images
-				$ret[] = $img;
+				$ret[] = esc_url($img);
 				continue;
 			}
-
+			
 			$pfx = $bp->loggedin_user->id . '_' . preg_replace('/[^0-9]/', '-', microtime());
 			$tmp_img = realpath(BPFB_TEMP_IMAGE_DIR . $img);
 			$new_img = BPFB_BASE_IMAGE_DIR . "{$pfx}_{$img}";
@@ -52,7 +52,7 @@ class BpfbBinder {
 					if (!is_wp_error($image)) {
 						$thumb_filename  = $image->generate_filename('bpfbt');
 						$image->resize($thumb_w, $thumb_h, false);
-
+						
 						// Alright, now let's rotate if we can
 						if (function_exists('exif_read_data')) {
 							$exif = exif_read_data($new_img); // Okay, we now have the data
@@ -82,7 +82,7 @@ class BpfbBinder {
 	 */
 	public static function resolve_temp_path ($file) {
 		$file = ltrim($file, '/');
-
+		
 		// No subdirs in path, so we can do this quick check too
 		if ($file !== basename($file)) return false;
 
@@ -254,7 +254,7 @@ EOFontIconCSS;
 			else if ($meta_description && $meta_description->content) $text = $meta_description->content;
 			else if ($first_paragraph && $first_paragraph->plaintext) $text = $first_paragraph->plaintext;
 			else $text = $title;
-
+			
 			$images = array_filter($images);
 		} else {
 			$url = '';
@@ -290,8 +290,11 @@ EOFontIconCSS;
 	 */
 	function ajax_preview_remote_image () {
 		header('Content-type: application/json');
-		$data = !empty($_POST['data']) ? esc_url($_POST['data']) : false;
-		echo json_encode($_POST['data']);
+		$data = !empty($_POST['data']) ?
+			(is_array($_POST['data']) ? array_map('esc_url', $_POST['data']) : esc_url($_POST['data']))
+			: false
+		;
+		echo json_encode($data);
 		exit();
 	}
 
@@ -339,8 +342,8 @@ EOFontIconCSS;
 		$bpfb_code = apply_filters('bpfb_code_before_save', $bpfb_code);
 
 		// All done creating tags. Now, save the code
-		$gid = !empty($_POST['group_id']) && is_numeric($_POST['group_id'])
-			? (int)$_POST['group_id']
+		$gid = !empty($_POST['group_id']) && is_numeric($_POST['group_id']) 
+			? (int)$_POST['group_id'] 
 			: false
 		;
 		if ($bpfb_code) {
@@ -380,7 +383,7 @@ EOFontIconCSS;
 
 		global $bp;
 
-		if (
+		$show_condition = (bool)(
 			// Load the scripts on Activity pages
 			(defined('BP_ACTIVITY_SLUG') && bp_is_activity_component())
 			||
@@ -389,7 +392,11 @@ EOFontIconCSS;
 			||
 			// Load the script on Group home page
 			(defined('BP_GROUPS_SLUG') && bp_is_groups_component() && 'home' == $bp->current_action)
-		) {
+			||
+			apply_filters('bpfb_injection_additional_condition', false)
+		);
+
+		if (apply_filters('bpfb_inject_dependencies', $show_condition)) {
 			// Step1: Load JS/CSS requirements
 			add_action('wp_enqueue_scripts', array($this, 'js_load_scripts'));
 			add_action('wp_print_scripts', array($this, 'js_plugin_url'));
@@ -426,7 +433,7 @@ EOFontIconCSS;
 	/**
 	 * Callback for activity images removal
 	 * @param  string $content Shortcode content parsed for images
-	 * @param  BP_Activity_Activity Activity which contains the shortcode - used for privilege check
+	 * @param  BP_Activity_Activity Activity which contains the shortcode - used for privilege check 
 	 * @return bool
 	 */
 	private function _clean_up_content_images ($content, $activity) {
@@ -438,10 +445,10 @@ EOFontIconCSS;
 
 		foreach ($images as $image) {
 			$info = pathinfo(trim($image));
-
+			
 			// Make sure we have the info we need
 			if (empty($info['filename']) || empty($info['extension'])) continue;
-
+			
 			// Make sure we're dealing with the image
 			$ext = strtolower($info['extension']);
 			if (!in_array($ext, self::_get_supported_image_extensions())) continue;
@@ -481,7 +488,7 @@ EOFontIconCSS;
 		add_action('wp_ajax_bpfb_update_activity_contents', array($this, 'ajax_update_activity_contents'));
 
 		do_action('bpfb_add_ajax_hooks');
-
+		
 		// Step 3: Register and process shortcodes
 		BpfbCodec::register();
 

@@ -1,9 +1,15 @@
 <?php
+/**
+ * BuddyPress - Groups Header
+ *
+ * @package BuddyPress
+ * @subpackage bp-legacy
+ */
 
 /**
  * Fires before the display of a group's header.
  *
- * @since BuddyPress (1.2.0)
+ * @since 1.2.0
  */
 do_action( 'bp_before_group_header' );
 
@@ -13,14 +19,14 @@ do_action( 'bp_before_group_header' );
 
 	<?php if ( bp_group_is_visible() ) : ?>
 
-		<h3><?php _e( 'Group Admins', 'buddypress' ); ?></h3>
+		<h2><?php _e( 'Group Admins', 'buddypress' ); ?></h2>
 
 		<?php bp_group_list_admins();
 
 		/**
 		 * Fires after the display of the group's administrators.
 		 *
-		 * @since BuddyPress (1.1.0)
+		 * @since 1.1.0
 		 */
 		do_action( 'bp_after_group_menu_admins' );
 
@@ -29,18 +35,18 @@ do_action( 'bp_before_group_header' );
 			/**
 			 * Fires before the display of the group's moderators, if there are any.
 			 *
-			 * @since BuddyPress (1.1.0)
+			 * @since 1.1.0
 			 */
 			do_action( 'bp_before_group_menu_mods' ); ?>
 
-			<h3><?php _e( 'Group Mods' , 'buddypress' ); ?></h3>
+			<h2><?php _e( 'Group Mods' , 'buddypress' ); ?></h2>
 
 			<?php bp_group_list_mods();
 
 			/**
 			 * Fires after the display of the group's moderators, if there are any.
 			 *
-			 * @since BuddyPress (1.1.0)
+			 * @since 1.1.0
 			 */
 			do_action( 'bp_after_group_menu_mods' );
 
@@ -52,7 +58,7 @@ do_action( 'bp_before_group_header' );
 
 <?php if ( ! bp_disable_group_avatar_uploads() ) : ?>
 	<div id="item-header-avatar">
-		<a href="<?php bp_group_permalink(); ?>" title="<?php bp_group_name(); ?>">
+		<a href="<?php echo esc_url( bp_get_group_permalink() ); ?>" title="<?php echo esc_attr( bp_get_group_name() ); ?>">
 
 			<?php bp_group_avatar(); ?>
 
@@ -62,20 +68,22 @@ do_action( 'bp_before_group_header' );
 
 <div id="item-header-content">
 	<span class="highlight"><?php bp_group_type(); ?></span>
-	<span class="activity"><?php printf( __( 'active %s', 'buddypress' ), bp_get_group_last_active() ); ?></span>
+	<span class="activity" data-livestamp="<?php bp_core_iso8601_date( bp_get_group_last_active( 0, array( 'relative' => false ) ) ); ?>"><?php printf( __( 'active %s', 'buddypress' ), bp_get_group_last_active() ); ?></span>
 
 	<?php
 
 	/**
 	 * Fires before the display of the group's header meta.
 	 *
-	 * @since BuddyPress (1.2.0)
+	 * @since 1.2.0
 	 */
 	do_action( 'bp_before_group_header_meta' ); ?>
 
 	<div id="item-meta">
 
 		<?php bp_group_description(); ?>
+
+		<?php bp_group_type_list(); ?>
 
 		<div id="item-buttons">
 
@@ -84,7 +92,7 @@ do_action( 'bp_before_group_header' );
 			/**
 			 * Fires in the group header actions section.
 			 *
-			 * @since BuddyPress (1.2.6)
+			 * @since 1.2.6
 			 */
 			do_action( 'bp_group_header_actions' ); ?>
 
@@ -95,7 +103,7 @@ do_action( 'bp_before_group_header' );
 		/**
 		 * Fires after the group header actions section.
 		 *
-		 * @since BuddyPress (1.2.0)
+		 * @since 1.2.0
 		 */
 		do_action( 'bp_group_header_meta' ); ?>
 
@@ -107,10 +115,14 @@ do_action( 'bp_before_group_header' );
 /**
  * Fires after the display of a group's header.
  *
- * @since BuddyPress (1.2.0)
+ * @since 1.2.0
  */
-do_action( 'bp_after_group_header' );
+do_action( 'bp_after_group_header' );  ?>
 
-/** This action is documented in bp-templates/bp-legacy/buddypress/activity/index.php */
-do_action( 'template_notices' );
-?>
+<div id="template-notices" role="alert" aria-atomic="true">
+	<?php
+
+	/** This action is documented in bp-templates/bp-legacy/buddypress/activity/index.php */
+	do_action( 'template_notices' ); ?>
+
+</div>

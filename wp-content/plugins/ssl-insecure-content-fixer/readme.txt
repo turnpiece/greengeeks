@@ -2,14 +2,14 @@
 Contributors: webaware
 Plugin Name: SSL Insecure Content Fixer
 Plugin URI: https://ssl.webaware.net.au/
-Author URI: http://webaware.com.au/
-Donate link: http://shop.webaware.com.au/donations/?donation_for=SSL+Insecure+Content+Fixer
+Author URI: https://shop.webaware.com.au/
+Donate link: https://shop.webaware.com.au/donations/?donation_for=SSL+Insecure+Content+Fixer
 Tags: ssl, https, insecure content, partially encrypted, mixed content
-Requires at least: 3.2.1
-Tested up to: 4.3.1
-Stable tag: 2.1.3
+Requires at least: 4.0
+Tested up to: 4.7
+Stable tag: 2.4.0
 License: GPLv2 or later
-License URI: http://www.gnu.org/licenses/gpl-2.0.html
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
 Clean up WordPress website HTTPS insecure content
 
@@ -27,8 +27,17 @@ See the [SSL Insecure Content Fixer website](https://ssl.webaware.net.au/) for m
 
 Many thanks to the generous efforts of our translators:
 
-* Bulgarian (bg_BG) -- [Ivan Arnaudov](http://templateinspector.com/)
-* Chinese simplified (zh_CN) -- [漠伦](https://molun.net/)
+* Bulgarian (bg_BG) -- [the Bulgarian translation team](https://translate.wordpress.org/locale/bg/default/wp-plugins/ssl-insecure-content-fixer)
+* Chinese simplified (zh_CN) -- [the Chinese translation team](https://translate.wordpress.org/locale/zh-cn/default/wp-plugins/ssl-insecure-content-fixer)
+* English (en_CA) -- [the English (Canadian) translation team](https://translate.wordpress.org/locale/en-ca/default/wp-plugins/ssl-insecure-content-fixer)
+* English (en_GB) -- [the English (British) translation team](https://translate.wordpress.org/locale/en-gb/default/wp-plugins/ssl-insecure-content-fixer)
+* Dutch (nl_NL) -- [the Dutch translation team](https://translate.wordpress.org/locale/nl/default/wp-plugins/ssl-insecure-content-fixer)
+* German (de_DE) -- [the German translation team](https://translate.wordpress.org/locale/de/default/wp-plugins/ssl-insecure-content-fixer)
+* French (fr_FR) -- [the French translation team](https://translate.wordpress.org/locale/fr/default/wp-plugins/ssl-insecure-content-fixer)
+* Italian (it_IT) -- [the Italian translation team](https://translate.wordpress.org/locale/it/default/wp-plugins/ssl-insecure-content-fixer)
+* Japanese (ja) -- [the Japanese translation team](https://translate.wordpress.org/locale/ja/default/wp-plugins/ssl-insecure-content-fixer)
+* Russian (ru_RU) -- [the Russian translation team](https://translate.wordpress.org/locale/ru/default/wp-plugins/ssl-insecure-content-fixer)
+* Spanish (es_ES) -- [the Spanish translation team](https://translate.wordpress.org/locale/es/default/wp-plugins/ssl-insecure-content-fixer)
 
 If you'd like to help out by translating this plugin, please [sign up for an account and dig in](https://translate.wordpress.org/projects/wp-plugins/ssl-insecure-content-fixer).
 
@@ -56,15 +65,23 @@ NB: after you open your browser's console, refresh your page so that it tries to
 
 = I get "insecure content" warnings from some of my content =
 
-You are probably loading content (such as images) with a URL that starts with "http:". Take that bit away, but leave the slashes, e.g. `//www.example.com/image.png`; your browser will load the content, using HTTPS when your page uses it.
+You are probably loading content (such as images) with a URL that starts with "http:". Take that bit away, but leave the slashes, e.g. `//www.example.com/image.png`; your browser will load the content, using HTTPS when your page uses it. Better still, replace "http:" with "https:" so that it always uses https to load images, e.g. `https://www.example.com/image.png`.
+
+If your page can be used outside a web browser, e.g. in emails or other non-web documents, then you should always use a protocol and it should probably be "https:" (since you have an SSL certificate). See [Cleaning up content](https://ssl.webaware.net.au/cleaning-up-content/) for more details.
 
 = My website is behind a load balancer or reverse proxy =
 
-If your website is behind a load balancer or other reverse proxy, and WordPress doesn't know when HTTPS is being used, you will need to select the appropriate [HTTPS detection settings](https://ssl.webaware.net.au/https-detection/). See my blog post, [WordPress is_ssl() doesn’t work behind some load balancers](http://snippets.webaware.com.au/snippets/wordpress-is_ssl-doesnt-work-behind-some-load-balancers/), for some details.
+If your website is behind a load balancer or other reverse proxy, and WordPress doesn't know when HTTPS is being used, you will need to select the appropriate [HTTPS detection settings](https://ssl.webaware.net.au/https-detection/). See my blog post, [WordPress is_ssl() doesn’t work behind some load balancers](https://snippets.webaware.com.au/snippets/wordpress-is_ssl-doesnt-work-behind-some-load-balancers/), for some details.
 
 = I get warnings about basic WordPress scripts like jquery.js =
 
 You are probably behind a reverse proxy -- see the FAQ above about load balancers / reverse proxies, and run the SSL Tests from the WordPress admin Tools menu.
+
+= I changed the HTTPS Detection settings and now I can't login =
+
+You probably have a conflict with another plugin that is also trying to fix HTTPS detection. Add this line to your wp-config.php file, above the lines about `ABSPATH`. You can then change this plugin back to default settings before proceeding.
+
+`define('SSLFIX_PLUGIN_NO_HTTPS_DETECT', true);`
 
 = I still get "insecure content" warnings on my secure page =
 
@@ -81,39 +98,15 @@ Great! Tell me which plugin is yours and how to check for your new version, and 
 
 == Upgrade Notice ==
 
-= 2.1.3 =
+= 2.4.0 =
 
-added: Chinese (simplified) translation
+don't capture content on admin pages when mode is Capture or Capture All; added filter for disabling Capture modes
 
 == Changelog ==
 
 The full changelog can be found [on GitHub](https://github.com/webaware/ssl-insecure-content-fixer/blob/master/changelog.md). Recent entries:
 
-### 2.1.3, 2015-10-05
+### 2.4.0, 2017-05-14
 
-* added: Chinese (simplified) translation (thanks, [漠伦](https://molun.net/)!)
-
-### 2.1.2, 2015-09-05
-
-* fixed: HTTPS detection for host 123-reg
-
-### 2.1.1, 2015-08-11
-
-* fixed: HTTPS detection doesn't work unless SSL Tests page was just visited
-* added: show update notice on plugin admin page
-
-### 2.1.0, 2015-07-30
-
-* security fix: restrict access to AJAX test script; don't disclose server environment with system information
-* changed: always show server environment on test results
-* added: Bulgarian translation (thanks, [Ivan Arnaudov](http://templateinspector.com/)!)
-* added: .htaccess file for AJAX SSL Tests, fixes conflict with some security plugins
-
-### 2.0.0, 2015-07-26
-
-* changed: handle media loaded by calling `wp_get_attachment_image()`, `wp_get_attachment_image_src()`, etc. via AJAX
-* changed: in multisite, test tools (and settings) are only available to super admins
-* added: settings page for controlling behaviour
-* added: Simple, Content, Widgets, Capture, and Off modes for fixes
-* added: fix for [WooCommerce + Google Chrome HTTP_HTTPS bug](https://github.com/woothemes/woocommerce/issues/8479) (fixed in WooCommerce v2.3.13)
-* added: load translation (if anyone fancies [supplying some](https://translate.wordpress.org/projects/wp-plugins/ssl-insecure-content-fixer)!)
+* fixed: don't capture content on admin pages when mode is Capture or Capture All
+* added: filter `ssl_insecure_content_disable_capture` for disabling Capture mode on selected pages / scripts

@@ -1,13 +1,24 @@
 <?php
+/**
+ * BuddyPress - Members Single Group Invites
+ *
+ * @package BuddyPress
+ * @subpackage bp-legacy
+ */
 
 /**
  * Fires before the display of member group invites content.
  *
- * @since BuddyPress (1.1.0)
+ * @since 1.1.0
  */
 do_action( 'bp_before_group_invites_content' ); ?>
 
 <?php if ( bp_has_groups( 'type=invites&user_id=' . bp_loggedin_user_id() ) ) : ?>
+
+	<h2 class="bp-screen-reader-text"><?php
+		/* translators: accessibility text */
+		_e( 'Group invitations', 'buddypress' );
+	?></h2>
 
 	<ul id="group-list" class="invites item-list">
 
@@ -31,7 +42,7 @@ do_action( 'bp_before_group_invites_content' ); ?>
 				/**
 				 * Fires inside the display of a member group invite item.
 				 *
-				 * @since BuddyPress (1.1.0)
+				 * @since 1.1.0
 				 */
 				do_action( 'bp_group_invites_item' ); ?>
 
@@ -44,7 +55,7 @@ do_action( 'bp_before_group_invites_content' ); ?>
 					/**
 					 * Fires inside the member group item action markup.
 					 *
-					 * @since BuddyPress (1.1.0)
+					 * @since 1.1.0
 					 */
 					do_action( 'bp_group_invites_item_action' ); ?>
 
@@ -67,6 +78,6 @@ do_action( 'bp_before_group_invites_content' ); ?>
 /**
  * Fires after the display of member group invites content.
  *
- * @since BuddyPress (1.1.0)
+ * @since 1.1.0
  */
 do_action( 'bp_after_group_invites_content' ); ?>

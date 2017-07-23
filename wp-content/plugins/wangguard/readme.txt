@@ -1,15 +1,21 @@
 ﻿=== WangGuard ===
-Contributors: j.conti,maxidirienzo,InTouchSystem
+Contributors: j.conti
+Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=QLLHHFRXDSJZC
 Author URI: http://wangguard.com
-Tags: wangguard, wgg, sploggers, splog, anti-splog, user spam, anti spam users, anti-spam, spam blog, spam blogs, wordpress, buddypress, wpmu, wordpress mu, wordpress multisite, standard WordPress, registration, security, security questions, plugin, sign up, signup, spam, wp-login.php, wp-signup.php, wp-register.php, register, registration, protect, protect registration, block agents, block ip, blog secure, bots, secure blog, secure wordpress, secure wp, website security, wp secure, wp security, block users, block user, block, block emails, block e-mails, block domains, block bots, block bot, bp, captcha, no captcha, recaptcha, unwanted users, block unwanted users, block splog, black hat, blackhat, bbpress, clean, clean database, clean splog, clean users, untrusted, untrusted users, ip, ip information, user admin, user management, advanced user management, ip info, appthemes, user registration spam, users registration spam, user registration spam prevention, users registration spam prevention, woocommerce
-Requires at least: 3.0
-Tested up to: 4.2
-Stable tag: 1.6.2
+Tags: wangguard, wgg, sploggers, splog, anti-splog, user spam, anti spam users, anti-spam, spam blog, spam blogs, wordpress, buddypress, wpmu, wordpress mu, wordpress multisite, standard WordPress, registration, security, security questions, plugin, sign up, signup, spam, wp-login.php, wp-signup.php, wp-register.php, register, registration, protect, protect registration, block agents, block ip, blog secure, bots, secure blog, secure wordpress, secure wp, website security, wp secure, wp security, block users, block user, block, block emails, block e-mails, block domains, block bots, block bot, bp, captcha, no captcha, recaptcha, unwanted users, block unwanted users, block splog, black hat, blackhat, bbpress, clean, clean database, clean splog, clean users, untrusted, untrusted users, ip, ip information, user admin, user management, advanced user management, ip info, appthemes, user registration spam, users registration spam, user registration spam prevention, users registration spam prevention, woocommerce, signup moderation, moderation
+Requires at least: 4.0
+Tested up to: 4.7
+Stable tag: 1.7.3
 License: GPLv2
 
 The most advanced protection against sploggers and spam users registration, is fully WordPress,WordPress MU ,BuddyPress and bbPress 2.0 compatible
 
 == Description ==
+
+I paid (with a great effort) another month of one of the servers. In October 20th, I won't be able to pay the bigger server. I'm making this effort, trusting the success of the Indiegogo campaign. Soon, I will post the campaign link and I hope that all users of WangGuard make a donation no matter how small it is. In other case, I will be forced to close down WangGuard definitely.
+
+Thanks so much to everyone for your support, please spread the word about #SaveWangGuard
+
 
 Our API works over SSL, so all connections are secure connections. This is mandatory for all European websites because you are sending information. We are Europeans, so we respect the law, even the most demanding of all Europe, the Spanish law. Use a service that does not comply with all European laws or send information without encryption, it can mean heavy fines. If you don't want to use secure connection, you can disable it from WangGuard configuration page.
 
@@ -32,7 +38,7 @@ WangGuard works by incorporating an antivirus philosophy.
 
 WangGuard Always will be free for personal use, this means that whenever you have less than 5,000 daily registrations or you make less than $200/month, you never have to pay anything for WangGuard.
 
-Over 133,000,000+ Splogger/unwanted users blocked
+Over 195,000,000+ Splogger/unwanted users blocked
 
 But now, WangGuard is free for every one for limited time.
 
@@ -40,13 +46,7 @@ One time we believe that we've added all the necessary tools, we will begin to c
 
 = Prices =
 
-* From 0 to 5,000 queries day FREE (only personal use. Companies and webmasters making more than $200/month, look next level).
-
-* From 5,001 to 50,000 queries day, 1€/month. (this will be the basic level for Companies and webmasters making more than $200/month).
-
-* From 50,001 to 150,000 queries day, 3€/month.
-
-* +150.000 queries day, contact with us.
+Now, WangGuard is Donateware - Donate Service, so please donate or WangGuard will be shout off
 
 WangGuard already is blocking 99.90% of sploggers and unwanted users.
 
@@ -54,10 +54,8 @@ WangGuard already is blocking 99.90% of sploggers and unwanted users.
 
 [Did you find a bug?](https://github.com/joseconti/WangGuard/issues)
 
-[Do you want to translate WangGuard?](https://github.com/joseconti/WangGuard)
 
 [Have you an Idea for WangGuard?](https://github.com/joseconti/WangGuard/issues)
-
 
 = Advice =
 
@@ -116,12 +114,13 @@ No need to put any kind of filter in the user registration page (eg captcha). Th
 
 
  * Free API key for personal use
- * Free to everyone for a limited time!
+ * 30 days Trial
  * API works over SSL
  * Clean your installation of unwanted users and sploggers.
  * Centralized database of sploggers.
+ * NEW Signup moderation
  * Block users emails by domains.
- * NEW Advanced User Management.
+ * Advanced User Management.
  * Configure from Admin panel
  * Valid HTML
  * I18n language translation support
@@ -134,6 +133,7 @@ No need to put any kind of filter in the user registration page (eg captcha). Th
  * Protect BuddyPress registration page against Web Service from Sploggers, spam-user or unwanted users
  * Protect bbPress 2.0 registration page against Web Service from Sploggers, spam-user or unwanted users
  * Anti-splog Web Service.
+ * Signup Moderation
  * Disable WangGuard menu in WordPress & BuddyPress AdminBar
  * [AppThemes](http://www.appthemes.com/) compatible
  * WooCommerce integration
@@ -311,10 +311,29 @@ Please read [Translating WordPress](http://codex.wordpress.org/Translating_WordP
 
 = Is WangGuard a free service? =
 
-It is free for personal use. If you make more than $200/month with your site or you are a company, you must pay a very small fee ($1/month). Now WangGuard are Free to everyone for a limited time!. Use this time to perform all the tests you want and determine the effectiveness of WangGuard.
+It is free for personal use. If you make more than $200/month with your site or you are a company, you must pay a very small fee ($1/month). You have 30 days trial. Use this time to perform all the tests you want and determine the effectiveness of WangGuard.
 
 
 == Changelog ==
+
+= 1.7.3 - 18 Gen 2017 =
+
+- Fixed a XSS [vulnerability](https://www.pluginvulnerabilities.com/2017/01/17/reflected-cross-site-scripting-xss-vulnerability-in-wangguard/)
+
+= 1.7.2 - 2 Aug 2016 =
+
+- Fixed: A Cross-Site Scripting vulnerability was found in the WangGuard WordPress Plugin. This issue allows an attacker to perform a wide variety of actions, such as stealing Administrators' session tokens, or performing arbitrary actions on their behalf. In order to exploit this issue, the attacker has to lure/force a logged on WordPress Administrator into opening a malicious website. Discovered by Yorick Koster (Summer of Pwnage #2016). All versions prior to 1.7.2 are affected.
+
+= 1.7.1 - 2 Jun 2016 =
+
+- Fixed a check when login page is loaded with signup moderation enabled. This bug cause some problems with some settings.
+
+= 1.7.0 - 24 May 2016 =
+
+- NEW Added Signup moderation
+- NEW Disable WangGuard cron emails
+- Fixed: Problem with BuddyPress and remove users when are reported to WangGuard
+- Fixed minor issues.
 
 = 1.6.2 - 9 Dic 2014 =
 
@@ -323,7 +342,7 @@ It is free for personal use. If you make more than $200/month with your site or 
 
 = 1.6.1.2 - 7 Dic 2014 =
 
-- This version is trying to fix a problem that have 1% of users. The users are always redirected to WangGuard splash screen form a random admin page. This problem was fixing itself within a few hours. This is a path based in a theory, so maybe don't work.
+- This version is trying to fix a problem that have 1% of users. The users are always redirected to WangGuard splash screen form a random admin page. This problem was fixing itself within a few hours. This is a path based in a theory, so maybe it dosen't work.
 
 = 1.6.1.1 - 5 Dic 2014 =
 
@@ -369,7 +388,7 @@ It is free for personal use. If you make more than $200/month with your site or 
 - Added Contact page with us from WordPress admin.
 - Added Add-ons page.
 - Added Third party plugins page.
-- Added ability of deactivate HoneyPot fieds.
+- Added ability of deactivate HoneyPot fields.
 - Added about WangGuard
 - Added Credits page
 - Added Development page (you can now follow WangGuard development)

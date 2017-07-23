@@ -1,5 +1,4 @@
 <?php
-
 /**
  * BuddyPress - Users Header
  *
@@ -14,7 +13,7 @@
 /**
  * Fires before the display of a member's header.
  *
- * @since BuddyPress (1.2.0)
+ * @since 1.2.0
  */
 do_action( 'bp_before_member_header' ); ?>
 
@@ -32,14 +31,14 @@ do_action( 'bp_before_member_header' ); ?>
 		<h2 class="user-nicename">@<?php bp_displayed_user_mentionname(); ?></h2>
 	<?php endif; ?>
 
-	<span class="activity"><?php bp_last_activity( bp_displayed_user_id() ); ?></span>
+	<span class="activity" data-livestamp="<?php bp_core_iso8601_date( bp_get_user_last_activity( bp_displayed_user_id() ) ); ?>"><?php bp_last_activity( bp_displayed_user_id() ); ?></span>
 
 	<?php
 
 	/**
 	 * Fires before the display of the member's header meta.
 	 *
-	 * @since BuddyPress (1.2.0)
+	 * @since 1.2.0
 	 */
 	do_action( 'bp_before_member_header_meta' ); ?>
 
@@ -62,7 +61,7 @@ do_action( 'bp_before_member_header' ); ?>
 			/**
 			 * Fires in the member header actions section.
 			 *
-			 * @since BuddyPress (1.2.6)
+			 * @since 1.2.6
 			 */
 			do_action( 'bp_member_header_actions' ); ?>
 
@@ -76,7 +75,7 @@ do_action( 'bp_before_member_header' ); ?>
 		  * If you'd like to show specific profile fields here use:
 		  * bp_member_profile_data( 'field=About Me' ); -- Pass the name of the field
 		  *
-		  * @since BuddyPress (1.2.0)
+		  * @since 1.2.0
 		  */
 		 do_action( 'bp_profile_header_meta' );
 
@@ -91,11 +90,14 @@ do_action( 'bp_before_member_header' ); ?>
 /**
  * Fires after the display of a member's header.
  *
- * @since BuddyPress (1.2.0)
+ * @since 1.2.0
  */
 do_action( 'bp_after_member_header' ); ?>
 
-<?php
+<div id="template-notices" role="alert" aria-atomic="true">
+	<?php
 
-/** This action is documented in bp-templates/bp-legacy/buddypress/activity/index.php */
-do_action( 'template_notices' ); ?>
+	/** This action is documented in bp-templates/bp-legacy/buddypress/activity/index.php */
+	do_action( 'template_notices' ); ?>
+
+</div>

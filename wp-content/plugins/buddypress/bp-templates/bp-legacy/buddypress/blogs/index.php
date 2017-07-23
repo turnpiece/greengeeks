@@ -1,9 +1,15 @@
 <?php
+/**
+ * BuddyPress - Blogs
+ *
+ * @package BuddyPress
+ * @subpackage bp-legacy
+ */
 
 /**
  * Fires at the top of the blogs directory template file.
  *
- * @since BuddyPress (2.3.0)
+ * @since 2.3.0
  */
 do_action( 'bp_before_directory_blogs_page' ); ?>
 
@@ -12,9 +18,9 @@ do_action( 'bp_before_directory_blogs_page' ); ?>
 	<?php
 
 	/**
-	 * Fires before the display of the blogs
+	 * Fires before the display of the blogs.
 	 *
-	 * @since BuddyPress (1.5.0)
+	 * @since 1.5.0
 	 */
 	do_action( 'bp_before_directory_blogs' ); ?>
 
@@ -23,32 +29,41 @@ do_action( 'bp_before_directory_blogs_page' ); ?>
 	/**
 	 * Fires before the display of the blogs listing content.
 	 *
-	 * @since BuddyPress (1.1.0)
+	 * @since 1.1.0
 	 */
 	do_action( 'bp_before_directory_blogs_content' ); ?>
 
-	<div id="blog-dir-search" class="dir-search" role="search">
-		<?php bp_directory_blogs_search_form(); ?>
-	</div><!-- #blog-dir-search -->
+	<?php /* Backward compatibility for inline search form. Use template part instead. */ ?>
+	<?php if ( has_filter( 'bp_directory_blogs_search_form' ) ) : ?>
+
+		<div id="blog-dir-search" class="dir-search" role="search">
+			<?php bp_directory_blogs_search_form(); ?>
+		</div><!-- #blog-dir-search -->
+
+	<?php else : ?>
+
+		<?php bp_get_template_part( 'common/search/dir-search-form' ); ?>
+
+	<?php endif; ?>
 
 	<?php
 
 	/**
 	 * Fires before the display of the blogs list tabs.
 	 *
-	 * @since BuddyPress (2.3.0)
+	 * @since 2.3.0
 	 */
 	do_action( 'bp_before_directory_blogs_tabs' ); ?>
 
 	<form action="" method="post" id="blogs-directory-form" class="dir-form">
 
-		<div class="item-list-tabs" role="navigation">
+		<div class="item-list-tabs" aria-label="<?php esc_attr_e( 'Sites directory main navigation', 'buddypress' ); ?>" role="navigation">
 			<ul>
-				<li class="selected" id="blogs-all"><a href="<?php bp_root_domain(); ?>/<?php bp_blogs_root_slug(); ?>"><?php printf( __( 'All Sites <span>%s</span>', 'buddypress' ), bp_get_total_blog_count() ); ?></a></li>
+				<li class="selected" id="blogs-all"><a href="<?php bp_root_domain(); ?>/<?php bp_blogs_root_slug(); ?>"><?php printf( __( 'All Sites %s', 'buddypress' ), '<span>' . bp_get_total_blog_count() . '</span>' ); ?></a></li>
 
 				<?php if ( is_user_logged_in() && bp_get_total_blog_count_for_user( bp_loggedin_user_id() ) ) : ?>
 
-					<li id="blogs-personal"><a href="<?php echo bp_loggedin_user_domain() . bp_get_blogs_slug(); ?>"><?php printf( __( 'My Sites <span>%s</span>', 'buddypress' ), bp_get_total_blog_count_for_user( bp_loggedin_user_id() ) ); ?></a></li>
+					<li id="blogs-personal"><a href="<?php echo bp_loggedin_user_domain() . bp_get_blogs_slug(); ?>"><?php printf( __( 'My Sites %s', 'buddypress' ), '<span>' . bp_get_total_blog_count_for_user( bp_loggedin_user_id() ) . '</span>' ); ?></a></li>
 
 				<?php endif; ?>
 
@@ -57,14 +72,14 @@ do_action( 'bp_before_directory_blogs_page' ); ?>
 				/**
 				 * Fires inside the unordered list displaying blog types.
 				 *
-				 * @since BuddyPress (1.2.0)
+				 * @since 1.2.0
 				 */
 				do_action( 'bp_blogs_directory_blog_types' ); ?>
 
 			</ul>
 		</div><!-- .item-list-tabs -->
 
-		<div class="item-list-tabs" id="subnav" role="navigation">
+		<div class="item-list-tabs" id="subnav" aria-label="<?php esc_attr_e( 'Sites directory secondary navigation', 'buddypress' ); ?>" role="navigation">
 			<ul>
 
 				<?php
@@ -72,7 +87,7 @@ do_action( 'bp_before_directory_blogs_page' ); ?>
 				/**
 				 * Fires inside the unordered list displaying blog sub-types.
 				 *
-				 * @since BuddyPress (1.5.0)
+				 * @since 1.5.0
 				 */
 				do_action( 'bp_blogs_directory_blog_sub_types' ); ?>
 
@@ -89,7 +104,7 @@ do_action( 'bp_before_directory_blogs_page' ); ?>
 						/**
 						 * Fires inside the select input listing blogs orderby options.
 						 *
-						 * @since BuddyPress (1.2.0)
+						 * @since 1.2.0
 						 */
 						do_action( 'bp_blogs_directory_order_options' ); ?>
 
@@ -97,6 +112,11 @@ do_action( 'bp_before_directory_blogs_page' ); ?>
 				</li>
 			</ul>
 		</div>
+
+		<h2 class="bp-screen-reader-text"><?php
+			/* translators: accessibility text */
+			_e( 'Sites directory', 'buddypress' );
+		?></h2>
 
 		<div id="blogs-dir-list" class="blogs dir-list">
 
@@ -109,7 +129,7 @@ do_action( 'bp_before_directory_blogs_page' ); ?>
 		/**
 		 * Fires inside and displays the blogs content.
 		 *
-		 * @since BuddyPress (1.1.0)
+		 * @since 1.1.0
 		 */
 		do_action( 'bp_directory_blogs_content' ); ?>
 
@@ -120,7 +140,7 @@ do_action( 'bp_before_directory_blogs_page' ); ?>
 		/**
 		 * Fires after the display of the blogs listing content.
 		 *
-		 * @since BuddyPress (1.1.0)
+		 * @since 1.1.0
 		 */
 		do_action( 'bp_after_directory_blogs_content' ); ?>
 
@@ -131,7 +151,7 @@ do_action( 'bp_before_directory_blogs_page' ); ?>
 	/**
 	 * Fires at the bottom of the blogs directory template file.
 	 *
-	 * @since BuddyPress (1.5.0)
+	 * @since 1.5.0
 	 */
 	do_action( 'bp_after_directory_blogs' ); ?>
 
@@ -142,6 +162,6 @@ do_action( 'bp_before_directory_blogs_page' ); ?>
 /**
  * Fires at the bottom of the blogs directory template file.
  *
- * @since BuddyPress (2.3.0)
+ * @since 2.3.0
  */
 do_action( 'bp_after_directory_blogs_page' );

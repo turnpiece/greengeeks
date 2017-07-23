@@ -1,23 +1,32 @@
 <?php
+/**
+ * BuddyPress - Blogs Create
+ *
+ * @package BuddyPress
+ * @subpackage bp-legacy
+ */
 
 /**
  * Fires at the top of the blog creation template file.
  *
- * @since BuddyPress (1.6.0)
+ * @since 1.6.0
  */
 do_action( 'bp_before_create_blog_content_template' ); ?>
 
-<?php
+<div id="template-notices" role="alert" aria-atomic="true">
+	<?php
 
-/** This action is documented in bp-templates/bp-legacy/buddypress/activity/index.php */
-do_action( 'template_notices' ); ?>
+	/** This action is documented in bp-templates/bp-legacy/buddypress/activity/index.php */
+	do_action( 'template_notices' ); ?>
+
+</div>
 
 <?php
 
 /**
  * Fires before the display of the blog creation form.
  *
- * @since BuddyPress (1.1.0)
+ * @since 1.1.0
  */
 do_action( 'bp_before_create_blog_content' ); ?>
 
@@ -38,7 +47,7 @@ do_action( 'bp_before_create_blog_content' ); ?>
 /**
  * Fires after the display of the blog creation form.
  *
- * @since BuddyPress (1.1.0)
+ * @since 1.1.0
  */
 do_action( 'bp_after_create_blog_content' ); ?>
 
@@ -47,6 +56,6 @@ do_action( 'bp_after_create_blog_content' ); ?>
 /**
  * Fires at the bottom of the blog creation template file.
  *
- * @since BuddyPress (1.6.0)
+ * @since 1.6.0
  */
 do_action( 'bp_after_create_blog_content_template' ); ?>

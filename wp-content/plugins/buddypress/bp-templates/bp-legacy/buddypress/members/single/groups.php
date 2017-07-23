@@ -1,5 +1,4 @@
 <?php
-
 /**
  * BuddyPress - Users Groups
  *
@@ -9,7 +8,7 @@
 
 ?>
 
-<div class="item-list-tabs no-ajax" id="subnav" role="navigation">
+<div class="item-list-tabs no-ajax" id="subnav" aria-label="<?php esc_attr_e( 'Member secondary navigation', 'buddypress' ); ?>" role="navigation">
 	<ul>
 		<?php if ( bp_is_my_profile() ) bp_get_options_nav(); ?>
 
@@ -29,7 +28,7 @@
 					/**
 					 * Fires inside the members group order options select input.
 					 *
-					 * @since BuddyPress (1.2.0)
+					 * @since 1.2.0
 					 */
 					do_action( 'bp_member_group_order_options' ); ?>
 
@@ -51,9 +50,21 @@ switch ( bp_current_action() ) :
 		/**
 		 * Fires before the display of member groups content.
 		 *
-		 * @since BuddyPress (1.2.0)
+		 * @since 1.2.0
 		 */
 		do_action( 'bp_before_member_groups_content' ); ?>
+
+		<?php if ( is_user_logged_in() ) : ?>
+			<h2 class="bp-screen-reader-text"><?php
+				/* translators: accessibility text */
+				_e( 'My groups', 'buddypress' );
+			?></h2>
+		<?php else : ?>
+			<h2 class="bp-screen-reader-text"><?php
+				/* translators: accessibility text */
+				_e( 'Member\'s groups', 'buddypress' );
+			?></h2>
+		<?php endif; ?>
 
 		<div class="groups mygroups">
 
@@ -66,7 +77,7 @@ switch ( bp_current_action() ) :
 		/**
 		 * Fires after the display of member groups content.
 		 *
-		 * @since BuddyPress (1.2.0)
+		 * @since 1.2.0
 		 */
 		do_action( 'bp_after_member_groups_content' );
 		break;

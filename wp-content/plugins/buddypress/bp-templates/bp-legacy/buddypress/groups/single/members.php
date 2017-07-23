@@ -1,3 +1,13 @@
+<?php
+/**
+ * BuddyPress - Groups Members
+ *
+ * @package BuddyPress
+ * @subpackage bp-legacy
+ */
+
+?>
+
 <?php if ( bp_group_has_members( bp_ajax_querystring( 'group_members' ) ) ) : ?>
 
 	<?php
@@ -5,7 +15,7 @@
 	/**
 	 * Fires before the display of the group members content.
 	 *
-	 * @since BuddyPress (1.1.0)
+	 * @since 1.1.0
 	 */
 	do_action( 'bp_before_group_members_content' ); ?>
 
@@ -30,7 +40,7 @@
 	/**
 	 * Fires before the display of the group members list.
 	 *
-	 * @since BuddyPress (1.1.0)
+	 * @since 1.1.0
 	 */
 	do_action( 'bp_before_group_members_list' ); ?>
 
@@ -46,14 +56,14 @@
 				</a>
 
 				<h5><?php bp_group_member_link(); ?></h5>
-				<span class="activity"><?php bp_group_member_joined_since(); ?></span>
+				<span class="activity" data-livestamp="<?php bp_core_iso8601_date( bp_get_group_member_joined_since( array( 'relative' => false ) ) ); ?>"><?php bp_group_member_joined_since(); ?></span>
 
 				<?php
 
 				/**
 				 * Fires inside the listing of an individual group member listing item.
 				 *
-				 * @since BuddyPress (1.1.0)
+				 * @since 1.1.0
 				 */
 				do_action( 'bp_group_members_list_item' ); ?>
 
@@ -68,7 +78,7 @@
 						/**
 						 * Fires inside the action section of an individual group member listing item.
 						 *
-						 * @since BuddyPress (1.1.0)
+						 * @since 1.1.0
 						 */
 						do_action( 'bp_group_members_list_item_action' ); ?>
 
@@ -86,7 +96,7 @@
 	/**
 	 * Fires after the display of the group members list.
 	 *
-	 * @since BuddyPress (1.1.0)
+	 * @since 1.1.0
 	 */
 	do_action( 'bp_after_group_members_list' ); ?>
 
@@ -111,7 +121,7 @@
 	/**
 	 * Fires after the display of the group members content.
 	 *
-	 * @since BuddyPress (1.1.0)
+	 * @since 1.1.0
 	 */
 	do_action( 'bp_after_group_members_content' ); ?>
 

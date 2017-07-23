@@ -1,14 +1,20 @@
 <?php
+/**
+ * BuddyPress - Groups Single Forum Topic.
+ *
+ * @package BuddyPress
+ * @subpackage bp-legacy
+ */
 
 /**
  * Fires at the top of the group forum topic template.
  *
- * @since BuddyPress (1.2.4)
+ * @since 1.2.4
  */
 do_action( 'bp_before_group_forum_topic' ); ?>
 
 <form action="<?php bp_forum_topic_action(); ?>" method="post" id="forum-topic-form" class="standard-form">
-	<div class="item-list-tabs no-ajax" id="subnav" role="navigation">
+	<div class="item-list-tabs no-ajax" id="subnav" aria-label="<?php esc_attr_e( 'Forums secondary navigation', 'buddypress' ); ?>" role="navigation">
 		<ul>
 			<?php if ( is_user_logged_in() ) : ?>
 
@@ -57,7 +63,7 @@ do_action( 'bp_before_group_forum_topic' ); ?>
 		/**
 		 * Fires at the end of the group forum topic meta markup.
 		 *
-		 * @since BuddyPress (1.2.5)
+		 * @since 1.2.5
 		 */
 		do_action( 'bp_group_forum_topic_meta' ); ?>
 
@@ -87,7 +93,7 @@ do_action( 'bp_before_group_forum_topic' ); ?>
 		/**
 		 * Fires before the listing of the group forum topic posts.
 		 *
-		 * @since BuddyPress (1.2.4)
+		 * @since 1.2.4
 		 */
 		do_action( 'bp_before_group_forum_topic_posts' ); ?>
 
@@ -116,7 +122,7 @@ do_action( 'bp_before_group_forum_topic' ); ?>
 						/**
 						 * Fires inside the group forum post meta markup.
 						 *
-						 * @since BuddyPress (1.2.5)
+						 * @since 1.2.5
 						 */
 						do_action( 'bp_group_forum_post_meta' ); ?>
 
@@ -132,7 +138,7 @@ do_action( 'bp_before_group_forum_topic' ); ?>
 		/**
 		 * Fires before the listing of the group forum topic posts.
 		 *
-		 * @since BuddyPress (1.2.4)
+		 * @since 1.2.4
 		 */
 		do_action( 'bp_after_group_forum_topic_posts' ); ?>
 
@@ -174,12 +180,16 @@ do_action( 'bp_before_group_forum_topic' ); ?>
 					/**
 					 * Fires before the display of the group forum new reply section.
 					 *
-					 * @since BuddyPress (1.0.0)
+					 * @since 1.0.0
 					 */
 					do_action( 'groups_forum_new_reply_before' ); ?>
 
 					<h4><?php _e( 'Add a reply:', 'buddypress' ); ?></h4>
 
+					<label for="reply_text" class="bp-screen-reader-text"><?php
+						/* translators: accessibility text */
+						_e( 'Reply', 'buddypress' );
+					?></label>
 					<textarea name="reply_text" id="reply_text"></textarea>
 
 					<div class="submit">
@@ -191,7 +201,7 @@ do_action( 'bp_before_group_forum_topic' ); ?>
 					/**
 					 * Fires after the display of the group forum new reply section.
 					 *
-					 * @since BuddyPress (1.0.0)
+					 * @since 1.0.0
 					 */
 					do_action( 'groups_forum_new_reply_after' ); ?>
 
@@ -217,6 +227,6 @@ do_action( 'bp_before_group_forum_topic' ); ?>
 /**
  * Fires at the end of the group forum topic template.
  *
- * @since BuddyPress (1.2.4)
+ * @since 1.2.4
  */
 do_action( 'bp_after_group_forum_topic' ); ?>

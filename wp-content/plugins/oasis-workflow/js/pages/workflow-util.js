@@ -10,9 +10,10 @@ function add_option_to_select(obj,dt,lbl,vl)
 	/*
 	If only user found then select it
 	*/
+    var selected_opt = '';
 	if(numKeys(dt)==1)
 	{
-		var selected_opt = " selected=selected ";		
+		selected_opt = " selected=selected ";		
 	}
 	
 	
@@ -46,9 +47,7 @@ function add_option_to_select(obj,dt,lbl,vl)
 	{
 		jQuery("#assignee-set-point").click();		
 	}	
-	
 }
-
 
 function numKeys(obj)
 {
@@ -69,7 +68,7 @@ function chk_due_date(id1, dateFormat)
 	}
 	//split into array
 	parsedDate = jQuery.datepicker.parseDate('mm-M dd, yy', d_date.trim());
-	var due_date_mm_dd_yyyy = jQuery.datepicker.formatDate('mm/dd/yy', parsedDate);
+	var due_date_mm_dd_yyyy = jQuery.datepicker.formatDate('mm/dd/yy', parsedDate);	
 	
 	var c_datetime = new Date();
 	var c_d = c_datetime.getDate() ;
@@ -81,4 +80,47 @@ function chk_due_date(id1, dateFormat)
 		return false ;
 	}
 	return true;
+}
+
+/*
+ * function to escape special characters specially when dealing with json data
+ */
+String.prototype.escapeSpecialChars = function() {
+    return this.replace(/\\n/g, "\\n")
+               .replace(/\\'/g, "\\'")
+               .replace(/\\"/g, '\\"')
+               .replace(/\\&/g, "\\&")
+               .replace(/\\r/g, "\\r")
+               .replace(/\\t/g, "\\t")
+               .replace(/\\b/g, "\\b")
+               .replace(/\\f/g, "\\f");
+};
+
+function normalWorkFlowSubmit(submitFunction) {
+	submitFunction();
+}
+
+var jQueryACFValidation = jQuery.noConflict();
+(function(jQuery){
+	owThirdPartyValidation = {
+		run : function (fnParam) {
+			if ( typeof acf !== 'undefined' ) {
+				workflowSubmitWithACF(fnParam);
+			}
+			else {
+				normalWorkFlowSubmit(fnParam);
+			}									
+		}
+	};
+} (jQueryACFValidation));
+
+/**
+ * Unescape HTML entities in Javascript - http://stackoverflow.com/questions/1912501/unescape-html-entities-in-javascript
+ *
+ * @param input
+ * @returns {string|JQuery}
+ */
+function html_decode(input){
+	var doc = new DOMParser().parseFromString(input, "text/html");
+	return doc.documentElement.textContent;
 }

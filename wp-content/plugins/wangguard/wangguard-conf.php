@@ -41,7 +41,7 @@ function wangguard_conf() {
 	} elseif ( isset($_POST['optssave']) ) {
 			$wangguardnewallowemailsploggers = $_POST['wangguard_allow_emails_signup_list'];
 			$wangguardlisttoarrayallowemailsploggers = explode("\n", maybe_serialize(strtolower($wangguardnewallowemailsploggers)));
-			update_site_option('wangguard-no-use-ssl', @$_POST['wangguardnousessl']=='1' ? 1 : 0 );
+			update_site_option('wangguard-use-ssl', @$_POST['wangguardusessl']=='1' ? 1 : 0 );
 			update_site_option('wangguard-expertmode', @$_POST['wangguardexpertmode']=='1' ? 1 : 0 );
 			update_site_option('wangguard-report-posts', @$_POST['wangguardreportposts']=='1' ? 1 : 0 );
 			update_site_option('wangguard-delete-users-on-report', @$_POST['wangguard-delete-users-on-report']=='1' ? 1 : -1 );
@@ -53,6 +53,9 @@ function wangguard_conf() {
 			update_site_option('wangguard-do-not-check-client-ip', @$_POST['wangguard-do-not-check-client-ip']=='1' ? 1 : 0 );
 			update_site_option('wangguard-do-not-show-adminbar', @$_POST['wangguard-do-not-show-adminbar']=='1' ? 1 : 0 );
 			update_site_option('wangguard-add-honeypot', @$_POST['wangguard-add-honeypot']=='1' ? 1 : 0 );
+			update_site_option('wangguard-moderation-is-active', @$_POST['wangguard-moderation-is-active']=='1' ? 1 : 0 );
+			update_site_option('wangguard-moderation-type', @$_POST['wangguard-moderation-type']=='all' ? 'all' : 'splog' );
+			update_site_option('wangguard-sent-email-check', @$_POST['wangguard-sent-email-check']=='1' ? 1 : 0 );
 			update_site_option('wangguard_allow_signup_emails_list', $wangguardlisttoarrayallowemailsploggers);
 			do_action('wangguard_save_setting_option');
 			$selectedTab = 2;
@@ -84,8 +87,8 @@ function wangguard_conf() {
 		'new_key_empty' => array('class' => 'wangguard-info', 'text' => __('Your key has been cleared.', 'wangguard')),
 		'new_key_valid' => array('class' => 'wangguard-info wangguard-success', 'text' => __('Your key has been verified!', 'wangguard')),
 		'new_key_invalid' => array('class' => 'wangguard-info wangguard-error', 'text' => __('The key you entered is invalid. Please double-check it.', 'wangguard')),
-		'new_key_failed' => array('class' => 'wangguard-info wangguard-error', 'text' => __('The key you entered could not be verified because a connection to wangguard.com could not be established. Please check your server configuration.', 'wangguard')),
-		'no_connection' => array('class' => 'wangguard-info wangguard-error', 'text' => __('There was a problem connecting to the WangGuard server. Please check your server configuration.', 'wangguard')),
+		'new_key_failed' => array('class' => 'wangguard-info wangguard-error', 'text' => __('The key you entered could not be verified because a connection to wangguard.com could not be established. Please try to disable secure connection in WangGuard Settings and/or check your server configuration.', 'wangguard')),
+		'no_connection' => array('class' => 'wangguard-info wangguard-error', 'text' => __('There was a problem connecting to the WangGuard server. Please try to disable secure connection in WangGuard Settings and/or check your server configuration.', 'wangguard')),
 		'key_empty' => array('class' => 'wangguard-info', 'text' => sprintf(__('Please enter an API key. (<a href="%s" style="color:#fff">Get your key here.</a>)', 'wangguard'), 'http://wangguard.com/getapikey')),
 		'key_valid' => array('class' => 'wangguard-info wangguard-success', 'text' => __('This key is valid.', 'wangguard')),
 		'key_failed' => array('class' => 'wangguard-info wangguard-error', 'text' => __('The key below was previously validated but a connection to wangguard.com can not be established at this time. Please check your server configuration. Try to deactivate secure connection to WangGuard API. Go to WangGuard Settings and Disable secure connection to WangGuard server using SSL / TLS. After that Save Options, and save the API Key again.', 'wangguard')));
@@ -104,6 +107,7 @@ function wangguard_conf() {
 				<li><a href="#wangguard-conf-apikeys"><?php _e('WangGuard API Key', 'wangguard'); ?></a></li>
 				<li><a href="#wangguard-conf-questions"><?php _e('Security questions', 'wangguard'); ?></a></li>
 				<li><a href="#wangguard-conf-settings"><?php _e('WangGuard settings', 'wangguard'); ?></a></li>
+				<!-- <li><a href="#wangguard-conf-account"><?php _e('My account', 'wangguard'); ?></a></li> -->
 				<li><a href="#wangguard-conf-domains"><?php _e('Blocked domains', 'wangguard'); ?></a></li>
 				<li><a href="#wangguard-conf-conectivity"><?php _e('Server Connectivity', 'wangguard'); ?></a></li>
 			</ul>
@@ -144,8 +148,8 @@ function wangguard_conf() {
 				}
 				foreach ($wgquestRs as $question) {?>
 					<div class="wangguard-question" id="wangguard-question-<?php echo $question->id?>">
-					<?php _e("Question", 'wangguard')?>: <strong><?php echo $question->Question?></strong><br/>
-					<?php _e("Answer", 'wangguard')?>: <strong><?php echo $question->Answer?></strong><br/>
+					<?php _e("Question", 'wangguard')?>: <strong><?php echo esc_js( $question->Question ); ?></strong><br/>
+					<?php _e("Answer", 'wangguard')?>: <strong><?php echo esc_js( $question->Answer ); ?></strong><br/>
 					<?php _e("Replied OK / Wrong", 'wangguard')?>: <strong><?php echo $question->RepliedOK?> / <?php echo $question->RepliedWRONG?></strong><br/>
 					<a href="javascript:void(0)" rel="<?php echo $question->id?>" class="wangguard-delete-question"><?php _e('delete question', 'wangguard')?></a>
 					</div>
@@ -159,6 +163,8 @@ function wangguard_conf() {
 				<div id="wangguardnewquestionerror">
 					<?php _e('Fill in both the question and the answer fields to create a new security question', 'wangguard')?>
 				</div>
+				<?php wp_nonce_field( 'wangguard_ajax_questionadd', 'wangguardnonce' ); ?>
+				<input type="hidden" name="wangguardnonce" >
 				<p class="submit"><input type="button" id="wangguardnewquestionbutton" class="button-primary" name="submit" value="<?php _e('Create question &raquo;', 'wangguard'); ?>" /></p>
 			</div>
 			<!--WANGGUARD SETTINGS-->
@@ -173,8 +179,8 @@ function wangguard_conf() {
 				<form action="" method="post" id="wangguard-settings" style="margin:0px auto 0 auto; ">
 					<h3><?php _e("WangGuard settings", 'wangguard') ?></h3>
 					<p>
-						<input type="checkbox" name="wangguardnousessl" id="wangguardnousessl" value="1" <?php echo get_site_option("wangguard-no-use-ssl")=='1' ? 'checked' : ''?> />
-						<label for="wangguarnodusessl"><?php _e( sprintf("<strong>Disable secure connection to WangGuard server using SSL / TLS.</strong><br/>By default since version 1.6 WangGuard use SSL/TLS. If you live in Canada or Europe, you need it. If your server don't allow secure connection, you will need to deactivate it.  </a>." , $wangguard_edit_prefix . "edit.php"), 'wangguard') ?></label>
+						<input type="checkbox" name="wangguardusessl" id="wangguardusessl" value="1" <?php echo get_site_option("wangguard-use-ssl")=='1' ? 'checked' : ''?> />
+						<label for="wangguardusessl"><?php _e( sprintf("<strong>Enable secure connection to WangGuard server using SSL / TLS.</strong><br/>By default since version 1.7 WangGuard don't use SSL/TLS. If you live in Canada or Europe, you need it. If your server don't allow secure connection, you will need to deactivate it.  </a>." , $wangguard_edit_prefix . "edit.php"), 'wangguard') ?></label>
 					</p>
 					<p>
 						<input type="checkbox" name="wangguardreportposts" id="wangguardreportposts" value="1" <?php echo get_site_option("wangguard-report-posts")=='1' ? 'checked' : ''?> />
@@ -183,6 +189,16 @@ function wangguard_conf() {
 					<p>
 						<input type="checkbox" name="wangguard-delete-users-on-report" id="wangguard-delete-users-on-report" value="1" <?php echo get_site_option("wangguard-delete-users-on-report")=='1' ? 'checked' : ''?> />
 						<label for="wangguard-delete-users-on-report"><?php _e("<strong>Delete users when reporting them to WangGuard.</strong><br/>By checking this option, the users you report as Sploggers will be deleted from your site.", 'wangguard') ?></label>
+					</p>
+					<p>
+						<input type="checkbox" name="wangguard-moderation-is-active" id="wangguard-moderation-is-active" value="1" <?php echo get_site_option("wangguard-moderation-is-active")=='1' ? 'checked' : ''?> />
+						<label for="wangguard-moderation-is-active"><?php _e("<strong>Activate Signup Moderation</strong><br/>By checking this option, Signup Moderation will be active. Select if you want to moderate all signup or only Sploggers detected", 'wangguard') ?></label><br />
+						<input type="radio" name="wangguard-moderation-type" value="sploggers" <?php echo get_site_option("wangguard-moderation-type")=='splog' ? 'checked' : ''?>/> Moderate Detected Sploggers<br />
+						<input type="radio" name="wangguard-moderation-type" value="all" <?php echo get_site_option("wangguard-moderation-type")=='all' ? 'checked' : ''?>/> Moderate All Signups<br />
+					</p>
+					<p>
+						<input type="checkbox" name="wangguard-sent-email-check" id="wangguard-sent-email-check" value="1" <?php echo get_site_option("wangguard-sent-email-check")=='1' ? 'checked' : ''?> />
+						<label for="wangguard-sent-email-check"><?php _e("<strong>Sent WangGuard cronjob report</strong><br/>By checking this option, you will receive a report of WangGuard cronjobs", 'wangguard') ?></label>
 					</p>
 					<?php if (defined('BP_VERSION')) { ?>
 					<p>
@@ -210,14 +226,14 @@ function wangguard_conf() {
 					</p>
 					<p>
 						<input type="checkbox" name="wangguard-add-honeypot" id="wangguard-add-honeypot" value="1" <?php echo get_site_option("wangguard-add-honeypot")=='1' ? 'checked' : ''?> />
-						<label for="wangguard-add-honeypot"><?php _e("<strong>Enable</sytong> honeypot fields (signup trap fields). Some themes has problem with  honeypot fields. If you have some problems with those fields, disable this option", 'wangguard') ?></label>
+						<label for="wangguard-add-honeypot"><?php _e("<strong>Enable</strong> honeypot fields (signup trap fields). Some themes has problem with  honeypot fields. If you have some problems with those fields, disable this option", 'wangguard') ?></label>
 					</p>
 					<?php
 					//verifies if the getmxrr() function is availabe
 					$wangguard_mx_ok = function_exists('getmxrr');?>
 					<p>
 						<input <?php echo (!$wangguard_mx_ok ? "disabled = 'disabled'" : "") ?> type="checkbox" name="wangguard-verify-dns-mx" id="wangguard-verify-dns-mx" value="1" <?php echo $wangguard_mx_ok && get_site_option("wangguard-verify-dns-mx")=='1' ? 'checked' : ''?> />
-						<label for="wangguard-verify-dns-mx"><?php _e("<strong>Check email domains agains the DNS server.</strong><br/>Verifies that an associated Mail eXchange (MX) record exists for the email domain, if the verification fails, the sign up process is stopped. Recommeded for non multi user or BuddyPress WordPress installations. Users may notice a small delay of around 1 or 2 seconds on the sign up process due to the DNS verification.", 'wangguard') ?></label>
+						<label for="wangguard-verify-dns-mx"><?php _e("<strong>Check email domains agains the DNS server.</strong><br/>Verifies that an associated Mail eXchange (MX) record exists for the email domain, if the verification fails, the sign up process is stopped. Recommeded for WordPress non multisite or BuddyPress installations. Users may notice a small delay of around 1 or 2 seconds on the sign up process due to the DNS verification.", 'wangguard') ?></label>
 						<?php if (!$wangguard_mx_ok) {
 							echo "<div>";
 							_e("<strong>Warning:</strong> PHP function <strong>getmxrr()</strong> is not available on your server. Contact your server admin to enable it in order to activate this feature." , "wangguard");
@@ -247,6 +263,7 @@ function wangguard_conf() {
 					</p>
 				</form>
 			</div>
+
 			<!--WANGGUARD BLOCKED DOMAINS-->
 			<div id="wangguard-conf-domains" style="margin: auto;">
 				<div class="wangguard-confico"><img src="<?php echo WP_PLUGIN_URL ?>/wangguard/img/blocked.png" alt="<?php echo htmlentities(__('Blocked domains', 'wangguard')) ?>" /></div>
@@ -258,7 +275,7 @@ function wangguard_conf() {
 				<?php
 				$lang = substr(WPLANG, 0,2);
 				$response = wangguard_http_post("wg=<in><apikey>$wangguard_api_key</apikey><lang>$lang</lang></in>", 'get-domain-list.php');
-				$xml = XML_unserialize($response);
+				$xml = WGG_XML_unserialize($response);
 				if (!is_array($xml)) {
 					?><p><?php _e("There was an error while pulling the domains list from WangGuard, please try again later. If the problem persists please contact WangGuard to report it.", 'wangguard') ?></p><?php
 				}

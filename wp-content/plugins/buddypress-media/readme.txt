@@ -1,18 +1,18 @@
 === rtMedia for WordPress, BuddyPress and bbPress ===
-Contributors: rtcamp, rittesh.patel, sanket.parmar, sagarjadhav, pranalipatel, jignesh.nakrani, pushpak.pop, faishal, desaiuditd, rahul286, JoshuaAbenazer, gagan0123, saurabhshukla, nitun.lanjewar, umesh.nevase, suhasgirgaonkar, neerukoul, hrishiv90, kanakiyajay, jarretc, tobiaskluge, rafaelfunchal, UmeshSingla, mehulkaklotar, tannermirabel, kishores
+Contributors: rtcamp, mangeshp, sanket.parmar, pranalipatel, jignesh.nakrani, manishsongirkar36, kiranpotphode, yahil, 1naveengiri, bhargavbhandari90, raftaar1191, rittesh.patel, sagarjadhav, pushpak.pop, faishal, desaiuditd, rahul286, JoshuaAbenazer, gagan0123, saurabhshukla, nitun.lanjewar, umesh.nevase, suhasgirgaonkar, neerukoul, hrishiv90, kanakiyajay, jarretc, tobiaskluge, rafaelfunchal, UmeshSingla, mehulkaklotar, tannermirabel, kishores, chandrapatel, rahul3883, nomnom99
 Donate link: http://rtcamp.com/donate/
 Tags: BuddyPress, media, multimedia, album, audio, songs, music, video, photo, image, upload, share, MediaElement.js, ffmpeg, kaltura, media-node, rtMedia, WordPress, bbPress, masonry
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
-Requires at least: WordPress 3.6
-Tested up to: 4.3.1
-Stable tag: 3.8.21
+Requires at least: WordPress 4.1
+Tested up to: 4.8
+Stable tag: 4.4.2
 
-Add albums, photo, audio/video encoding, privacy, sharing, front-end uploads & more. All this works on mobile/tablets devices.
+Add albums, photo, audio/video upload, privacy, sharing, front-end uploads & more. All this works on mobile/tablets devices.
 
 == Description ==
 
-rtMedia is the **only** complete media solution for WordPress, BuddyPress and bbPress.
+rtMedia is the **only** complete media solution for WordPress, BuddyPress and bbPress, and is **WordPress.com VIP** compatible.
 
 Built with a mobile-first approach, it works on mobile/tablet devices (like iPhone/iPad, Android).
 
@@ -20,9 +20,7 @@ Built with a mobile-first approach, it works on mobile/tablet devices (like iPho
 
 If you're in a hurry, you can skip the long list of features in subsequent sections and just explore live demos!
 
-* [rtMedia Demo](http://demo.rtcamp.com/rtmedia/?utm_source=readme&utm_medium=plugin&utm_campaign=buddypress-media)
-* [rtMedia with Kaltura Add-on](http://demo.rtcamp.com/rtmedia-kaltura/?utm_source=readme&utm_medium=plugin&utm_campaign=buddypress-media) (Uses Kaltura.com account for video conversion)
-* [rtMedia with FFMPEG Add-on](http://demo.rtcamp.com/rtmedia-ffmpeg/?utm_source=readme&utm_medium=plugin&utm_campaign=buddypress-media) (Uses FFMPEG-based video conversion)
+* [rtMedia Demo](http://demo.rtmedia.io/?utm_source=readme&utm_medium=plugin&utm_campaign=buddypress-media)
 
 = Video Tour =
 
@@ -32,76 +30,75 @@ http://www.youtube.com/watch?v=dJrykKQGDcs
 
 = rtMedia Features =
 
- 1. **[Free Audio/Video conversion](http://rtcamp.com/rtmedia/addons/audio-video-encoding-service/?utm_source####readme&utm_medium####plugin&utm_campaign####buddypress-media "Free Audio/Video Encoding Service")** - rtCamp (company behind rtMedia) has setup dedicated servers to provide free audio/video encoding services for all sites running rtMedia.
- 2. **WordPress Integration** - Display media on WordPress author pages ( eg: http://demo.rtcamp.com/rtmedia/author/admin/media/ )
- 3. **BuddyPress Integration** - Find a new media tab under BuddyPress Profiles & Groups.
- 4. **BuddyPress Activity Stream** - Attach media to activity status updates just like Facebook.
- 5. **Albums** - Organise media into manageable collections. BuddyPress Group albums support collaboration.
- 6. **Responsive** - Album Slideshow (Lightbox), video player, uploads work on mobiles & tablets. Support for swipe guestures.
- 7. **Privacy** - Control who can see media files, albums and BuddyPress activities.
- 8. **Templating system** - Completely customise rtMedia by modifying the template files. Just copy over the template folder to your theme.
- 9. **[Featured Media](http://docs.rtcamp.com/rtmedia/developers/featured-media.html/?utm_source=readme&utm_medium=plugin&utm_campaign=buddypress-media "Featured Media documentation")** - This can be used for facebook-style cover photo on profiles.
- 10. **[rtMedia Uploader](http://docs.rtcamp.com/rtmedia/features/shortcodes/uploader-shortcode/?utm_source=readme&utm_medium=plugin&utm_campaign=buddypress-media "rtMedia Uploader")** - Use `[rtmedia_uploader]` shortcode or `<?php rtmedia_uploader() ?>` template tag, to show drag-n-drop uploader in any WordPress area (post, page, custom-post, etc).
- 11. **[rtMedia Gallery](http://docs.rtcamp.com/rtmedia/features/shortcodes/gallery-shortcode/?utm_source=readme&utm_medium=plugin&utm_campaign=buddypress-media "rtMedia Gallery")** - Display media gallery anywhere on your site using `[rtmedia_gallery]` shortcode or `<?php rtmedia_gallery ?>` template tag.
+ 1. **WordPress Integration** - Display media on WordPress author pages ( eg: http://demo.rtmedia.io/author/admin/media/ )
+ 2. **BuddyPress Integration** - Find a new media tab under BuddyPress Profiles & Groups.
+ 3. **BuddyPress Activity Stream** - Attach media to activity status updates just like Facebook.
+ 4. **Albums** - Organise media into manageable collections. BuddyPress Group albums support collaboration.
+ 5. **Responsive** - Album Slideshow (Lightbox), video player, uploads work on mobiles & tablets. Support for swipe guestures.
+ 6. **Privacy** - Control who can see media files, albums and BuddyPress activities.
+ 7. **Templating system** - Completely customise rtMedia by modifying the template files. Just copy over the template folder to your theme.
+ 8. **[Featured Media](https://rtmedia.io/docs/developers/featured-media/?utm_source=readme&utm_medium=plugin&utm_campaign=buddypress-media "Featured Media documentation")** - This can be used for facebook-style cover photo on profiles.
+ 9. **[rtMedia Uploader](https://rtmedia.io/docs/features/upload/?utm_source=readme&utm_medium=plugin&utm_campaign=buddypress-media "rtMedia Uploader")** - Use `[rtmedia_uploader]` shortcode or `<?php rtmedia_uploader() ?>` template tag, to show drag-n-drop uploader in any WordPress area (post, page, custom-post, etc).
+ 10. **[rtMedia Gallery](https://rtmedia.io/docs/features/gallery/?utm_source=readme&utm_medium=plugin&utm_campaign=buddypress-media "rtMedia Gallery")** - Display media gallery anywhere on your site using `[rtmedia_gallery]` shortcode or `<?php rtmedia_gallery ?>` template tag.
 
 = Audio/Video Conversion =
 
 rtMedia has 3 premium solutions to take care of audio/video conversion.
 
- 1. **[Audio/Video Encoding Service](https://rtcamp.com/rtmedia/addons/audio-video-encoding-service/?utm_source=readme&utm_medium=plugin&utm_campaign=buddypress-media "Audio/Video Encoding Service")** - If free plan is not enough for you, there is monthly subscription service also. Easiest to setup.
- 2. **[FFMPEG-Addon](https://rtcamp.com/products/rtmedia-ffmpeg-addon/?utm_source=readme&utm_medium=plugin&utm_campaign=buddypress-media "rtMedia FFMPEG Addon")** - Requires FFMPEG & Media-Node installed on a VPS/Dedicated server.
- 3. **[Kaltura-Addon](https://rtcamp.com/products/rtmedia-kaltura-add-on/?utm_source=readme&utm_medium=plugin&utm_campaign=buddypress-media "rtMedia Kaltura Addon for Kaltura.com/Kaltura-CE/Kaltura On-Prem version")** - Requires a Kaltura.com account or Kaltura-CE or Kaltura-on-Prem server.
-
-[Comparison of audio/video encoding solutions can be found here.](http://rtcamp.com/rtmedia/addons/compare-encoding-solutions/?utm_source=readme&utm_medium=plugin&utm_campaign=buddypress-media "Comparison of audio/video encoding solutions")
+ 1. **[Audio/Video Transcoding Service](https://wordpress.org/plugins/transcoder/ "Audio/Video Transcoding Service")** - If free plan is not enough for you, there is monthly subscription service also. Easiest to setup.
+ 2. **[FFMPEG-Addon](https://rtmedia.io/products/rtmedia-ffmpeg-addon/?utm_source=readme&utm_medium=plugin&utm_campaign=buddypress-media "rtMedia FFMPEG Addon")** - Requires FFMPEG & Media-Node installed on a VPS/Dedicated server.
+ 3. **[Kaltura-Addon](https://rtmedia.io/products/rtmedia-kaltura-add-on/?utm_source=readme&utm_medium=plugin&utm_campaign=buddypress-media "rtMedia Kaltura Addon for Kaltura.com/Kaltura-CE/Kaltura On-Prem version")** - Requires a Kaltura.com account or Kaltura-CE or Kaltura-on-Prem server.
 
 = rtMedia Premium Addons =
 
- 1. **[Instagram-Effects](https://rtcamp.com/products/rtmedia-instagram/?utm_source=readme&utm_medium=plugin&utm_campaign=buddypress-media "rtMedia Instagram Addon")** - Users can apply Instagram like filters to photos.
- 2. **[Photo-Tagging](https://rtcamp.com/products/rtmedia-photo-tagging/?utm_source=readme&utm_medium=plugin&utm_campaign=buddypress-media "rtMedia Photo-Tagging Addon")** - Users can tag their friends/other users in photos.
- 3. **[Photo-Watermark](https://rtcamp.com/products/rtmedia-photo-watermark/?utm_source=readme&utm_medium=plugin&utm_campaign=buddypress-media "rtMedia Photo Watermark Addon")** - rtMedia Photo Watermark add-on let you watermarked or copyright your uploaded photos.)
- 4. **[Membership](https://rtcamp.com/products/rtmedia-membership/?utm_source=readme&utm_medium=plugin&utm_campaign=buddypress-media "rtMedia Membership")** - It provides membership functionality in your site.
- 5. **[Social-Sync](https://rtcamp.com/products/rtmedia-social-sync/?utm_source=readme&utm_medium=plugin&utm_campaign=buddypress-media "rtMedia Social Sync")** - It allows you to import media from your Facebook account.
- 6. **[myCRED-Points](https://rtcamp.com/products/rtmedia-mycred/?utm_source=readme&utm_medium=plugin&utm_campaign=buddypress-media "rtMedia myCRED")** - It allows you to integrate rtMedia with myCRED and award virtual points for various rtMedia activities, like media upload, likes, deleted, albums creation, playlist, etc.
- 7. **[CubePoints](https://rtcamp.com/products/rtmedia-cubepoints/?utm_source=readme&utm_medium=plugin&utm_campaign=buddypress-media "rtMedia CubePoints")** - It allows you to integrate rtMedia with CubePoints and award virtual points for various rtMedia activities, like upload media, delete media, create albums, playlists, etc.
- 8. **[Playlists](https://rtcamp.com/products/rtmedia-playlists/?utm_source=readme&utm_medium=plugin&utm_campaign=buddypress-media "rtMedia Playlists")** - This plugin is used to create a playlist for uploaded music file with rtMedia.
- 9. **[Favorites](https://rtcamp.com/products/rtmedia-favorites/?utm_source=readme&utm_medium=plugin&utm_campaign=buddypress-media "rtMedia Favorites")** - This plugin allows users to create their own list of favorite media.
- 10. **[Upload-Terms](https://rtcamp.com/products/rtmedia-upload-terms/?utm_source=readme&utm_medium=plugin&utm_campaign=buddypress-media "rtMedia Upload Terms")** - This plugin is useful to set terms of services page on website during user upload media on website.
- 11. **[Moderation](https://rtcamp.com/products/rtmedia-moderation/?utm_source=readme&utm_medium=plugin&utm_campaign=buddypress-media "rtMedia Moderation")** - This plugin is for reporting media if user find offensive.
- 12. **[Custom-Attributes](https://rtcamp.com/products/rtmedia-custom-attributes/?utm_source=readme&utm_medium=plugin&utm_campaign=buddypress-media "rtMedia Custom Attributes")** - This plugin is for categorizing media using attributes defined by site owner when uploading.
- 13. **[Docs-and-Other-files](https://rtcamp.com/products/rtmedia-docs-files/?utm_source=readme&utm_medium=plugin&utm_campaign=buddypress-media "rtMedia Docs and Other files")** - This plugin allows uploading for doc, pdf and other file types such as zip, tar, etc.
- 14. **[Default-Albums](https://rtcamp.com/products/rtmedia-default-albums/?utm_source=readme&utm_medium=plugin&utm_campaign=buddypress-media "rtMedia Default Albums")** - This plugin allows the creation of multiple default albums for rtMedia uploads.
- 15. **[Podcast-Feed](https://rtcamp.com/products/rtmedia-podcast-feed/?utm_source=readme&utm_medium=plugin&utm_campaign=buddypress-media "rtMedia Podcast (RSS and Atom feeds)")** - Read rtMedia uploads from iTunes as well as any RSS feed-reader/podcasting software.
- 16. **[Restrictions](https://rtcamp.com/products/rtmedia-restrictions/?utm_source=readme&utm_medium=plugin&utm_campaign=buddypress-media "rtMedia Restrictions")** - Site admin can set limits in terms of total size & file count.
- 17. **[bbPress-Attachments](https://rtcamp.com/products/rtmedia-bbpress-attachments/?utm_source=readme&utm_medium=plugin&utm_campaign=buddypress-media "rtMedia bbPress Attachments")** - Attach media files to bbPress forum topics and replies.
- 18. **[WordPress-Sitewide-Gallery](https://rtcamp.com/products/rtmedia-wordpress-sitewide-gallery/?utm_source=readme&utm_medium=plugin&utm_campaign=buddypress-media "rtMedia WordPress Sitewide Gallery")** - Site admin can create and upload media into WordPress album.
- 19. **[WordPress-Comment-Attachments](https://rtcamp.com/products/rtmedia-wordpress-comment-attachments/?utm_source=readme&utm_medium=plugin&utm_campaign=buddypress-media "rtMedia WordPress Comment Attachments")** - Allow users to upload a media file in WordPress comment attachment box.
- 20. **[Social-Sharing](https://rtcamp.com/products/rtmedia-social-sharing/?utm_source=readme&utm_medium=plugin&utm_campaign=buddypress-media "rtMedia Social Sharing")** - Share uploaded media on social network sites like Facebook, twitter, linkedin, Google+. This addon integrate with [rtSocial](https://wordpress.org/plugins/rtsocial/?utm_source=readme&utm_medium=plugin&utm_campaign=buddypress-media) plugin.
- 21. **[Sidebar-Widgets](https://rtcamp.com/products/rtmedia-sidebar-widgets/?utm_source=readme&utm_medium=plugin&utm_campaign=buddypress-media "rtMedia Sidebar Widgets")** - This addon provide widgets to upload media and display gallery for rtMedia plugin.
- 22. **[5-Star-Ratings](https://rtcamp.com/products/rtmedia-star-ratings/?utm_source=readme&utm_medium=plugin&utm_campaign=buddypress-media "rtMedia 5 Star Ratings")** - User can rate the media files from 1 to 5 star.
- 23. **[Edit-Mp3-Info-(ID3 Tags)](https://rtcamp.com/products/rtmedia-edit-mp3-info/?utm_source=readme&utm_medium=plugin&utm_campaign=buddypress-media "rtMedia - Edit Mp3 Info (ID3 Tags)")** - Allow user to edit MP3 FIle Audio tags (ID 3 tags).
- 24. **[Sorting](https://rtcamp.com/products/rtmedia-sorting/?utm_source=readme&utm_medium=plugin&utm_campaign=buddypress-media "rtMedia Sorting")** - Sort uploaded media based on file size, ascending/descending title, upload date of media.
- 25. **[Bulk-Edit](https://rtcamp.com/products/rtmedia-bulk-edit/?utm_source=readme&utm_medium=plugin&utm_campaign=buddypress-media "rtMedia Bulk Edit")** - Allow users to move files from one album to another, change attributes, change privacy, delete files in bulk.
- 26. **[BuddyPress-Profile-Picture](https://rtcamp.com/products/rtmedia-buddypress-profile-picture/?utm_source=readme&utm_medium=plugin&utm_campaign=buddypress-media "rtMedia BuddyPress Profile Picture")** - Allow users to set their profile picture from existing uploaded media file.
- 27. **[Album-Cover-Art](https://rtcamp.com/products/rtmedia-album-cover-art/?utm_source=readme&utm_medium=plugin&utm_campaign=buddypress-media "rtMedia Album Cover Art")** - Allow users to set album cover from uploaded image.
- 28. **[Direct-Download-Link](https://rtcamp.com/products/rtmedia-direct-download-link/?utm_source=readme&utm_medium=plugin&utm_campaign=buddypress-media "rtMedia Direct Download Link")** - This addon provide a download button for all the uploaded media.
- 29. **[Upload-by-URL](https://rtcamp.com/products/rtmedia-upload-by-url/?utm_source=readme&utm_medium=plugin&utm_campaign=buddypress-media "rtMedia Upload by URL")** - Allow users to upload media using absolute URL.
- 30. **[Likes](https://rtcamp.com/products/rtmedia-likes/?utm_source=readme&utm_medium=plugin&utm_campaign=buddypress-media "rtMedia Likes")** - This add-on let you know who liked media. User can also see which media file he/she liked under user profile.
- 31. **[Activity-URL-Preview](https://rtcamp.com/products/rtmedia-activity-url-preview/?utm_source=readme&utm_medium=plugin&utm_campaign=buddypress-media "rtMedia Activity URL Preview")** - This addon provides a preview of the URL that is shared and shows up on BuddyPress activity.
- 32. **[View-Counter](https://rtcamp.com/products/rtmedia-view-counter/?utm_source=readme&utm_medium=plugin&utm_campaign=buddypress-media "rtMedia View Counter")** - Enable view count for all the uploaded media.
- 33. **[Shortcode-Generator](https://rtcamp.com/products/rtmedia-shortcode-generator/?utm_source=readme&utm_medium=plugin&utm_campaign=buddypress-media "rtMedia Shortcode Generator")** - The shortcode generator button added in WordPress post and page editor for all the rtMedia shortcodes.
- 34. **[Album-Privacy](https://rtcamp.com/products/rtmedia-album-privacy/?utm_source=readme&utm_medium=plugin&utm_campaign=buddypress-media "rtMedia Album Privacy")** - Set album privacy when user create new albums or edit album.
- 35. **[BuddyPress-Group-Media-Control](https://rtcamp.com/products/rtmedia-buddypress-group-media-control/?utm_source=readme&utm_medium=plugin&utm_campaign=buddypress-media "rtMedia BuddyPress Group Media Control")** - Allow group owner to provide media upload feature for their group.
- 36. **[Set-Custom-Thumbnail-for-Audio/Video](https://rtcamp.com/products/rtmedia-set-custom-thumbnail-for-audiovideo/?utm_source=readme&utm_medium=plugin&utm_campaign=buddypress-media "rtMedia Set Custom Thumbnail for Audio/Video")** - Allow media owner to change the thumbnail of uploaded audio/video files.
+ 1. **[Instagram-Effects](https://rtmedia.io/products/rtmedia-photo-filters/?utm_source=readme&utm_medium=plugin&utm_campaign=buddypress-media "rtMedia Instagram Addon")** - Users can apply Instagram like filters to photos.
+ 2. **[Photo-Tagging](https://rtmedia.io/products/rtmedia-photo-tagging/?utm_source=readme&utm_medium=plugin&utm_campaign=buddypress-media "rtMedia Photo-Tagging Addon")** - Users can tag their friends/other users in photos.
+ 3. **[Photo-Watermark](https://rtmedia.io/products/rtmedia-photo-watermark/?utm_source=readme&utm_medium=plugin&utm_campaign=buddypress-media "rtMedia Photo Watermark Addon")** - rtMedia Photo Watermark add-on let you watermarked or copyright your uploaded photos.)
+ 4. **[Membership](https://rtmedia.io/products/rtmedia-membership/?utm_source=readme&utm_medium=plugin&utm_campaign=buddypress-media "rtMedia Membership")** - It provides membership functionality in your site.
+ 5. **[Social-Sync](https://rtmedia.io/products/rtmedia-social-sync/?utm_source=readme&utm_medium=plugin&utm_campaign=buddypress-media "rtMedia Social Sync")** - It allows you to import media from your Facebook account.
+ 6. **[myCRED-Points](https://rtmedia.io/products/rtmedia-mycred/?utm_source=readme&utm_medium=plugin&utm_campaign=buddypress-media "rtMedia myCRED")** - It allows you to integrate rtMedia with myCRED and award virtual points for various rtMedia activities, like media upload, likes, deleted, albums creation, playlist, etc.
+ 7. **[CubePoints](https://rtmedia.io/products/rtmedia-cubepoints/?utm_source=readme&utm_medium=plugin&utm_campaign=buddypress-media "rtMedia CubePoints")** - It allows you to integrate rtMedia with CubePoints and award virtual points for various rtMedia activities, like upload media, delete media, create albums, playlists, etc.
+ 8. **[Playlists](https://rtmedia.io/products/rtmedia-playlists/?utm_source=readme&utm_medium=plugin&utm_campaign=buddypress-media "rtMedia Playlists")** - This plugin is used to create a playlist for uploaded music file with rtMedia.
+ 9. **[Favorites](https://rtmedia.io/products/rtmedia-favorites/?utm_source=readme&utm_medium=plugin&utm_campaign=buddypress-media "rtMedia Favorites")** - This plugin allows users to create their own list of favorite media.
+ 10. **[Upload-Terms](https://rtmedia.io/products/rtmedia-upload-terms/?utm_source=readme&utm_medium=plugin&utm_campaign=buddypress-media "rtMedia Upload Terms")** - This plugin is useful to set terms of services page on website during user upload media on website.
+ 11. **[Moderation](https://rtmedia.io/products/rtmedia-moderation/?utm_source=readme&utm_medium=plugin&utm_campaign=buddypress-media "rtMedia Moderation")** - This plugin is for reporting media if user find offensive.
+ 12. **[Custom-Attributes](https://rtmedia.io/products/rtmedia-custom-attributes/?utm_source=readme&utm_medium=plugin&utm_campaign=buddypress-media "rtMedia Custom Attributes")** - This plugin is for categorizing media using attributes defined by site owner when uploading.
+ 13. **[Docs-and-Other-files](https://rtmedia.io/products/rtmedia-docs-files/?utm_source=readme&utm_medium=plugin&utm_campaign=buddypress-media "rtMedia Docs and Other files")** - This plugin allows uploading for doc, pdf and other file types such as zip, tar, etc.
+ 14. **[Default-Albums](https://rtmedia.io/products/rtmedia-default-albums/?utm_source=readme&utm_medium=plugin&utm_campaign=buddypress-media "rtMedia Default Albums")** - This plugin allows the creation of multiple default albums for rtMedia uploads.
+ 15. **[Podcast-Feed](https://rtmedia.io/products/rtmedia-podcast-feed/?utm_source=readme&utm_medium=plugin&utm_campaign=buddypress-media "rtMedia Podcast (RSS and Atom feeds)")** - Read rtMedia uploads from iTunes as well as any RSS feed-reader/podcasting software.
+ 16. **[Restrictions](https://rtmedia.io/products/rtmedia-restrictions/?utm_source=readme&utm_medium=plugin&utm_campaign=buddypress-media "rtMedia Restrictions")** - Site admin can set limits in terms of total size & file count.
+ 17. **[bbPress-Attachments](https://rtmedia.io/products/rtmedia-bbpress-attachments/?utm_source=readme&utm_medium=plugin&utm_campaign=buddypress-media "rtMedia bbPress Attachments")** - Attach media files to bbPress forum topics and replies.
+ 18. **[WordPress-Sitewide-Gallery](https://rtmedia.io/products/rtmedia-wordpress-sitewide-gallery/?utm_source=readme&utm_medium=plugin&utm_campaign=buddypress-media "rtMedia WordPress Sitewide Gallery")** - Site admin can create and upload media into WordPress album.
+ 19. **[WordPress-Comment-Attachments](https://rtmedia.io/products/rtmedia-wordpress-comment-attachments/?utm_source=readme&utm_medium=plugin&utm_campaign=buddypress-media "rtMedia WordPress Comment Attachments")** - Allow users to upload a media file in WordPress comment attachment box.
+ 20. **[Social-Sharing](https://rtmedia.io/products/rtmedia-social-sharing/?utm_source=readme&utm_medium=plugin&utm_campaign=buddypress-media "rtMedia Social Sharing")** - Share uploaded media on social network sites like Facebook, twitter, linkedin, Google+. This addon integrate with [rtSocial](https://wordpress.org/plugins/rtsocial/?utm_source=readme&utm_medium=plugin&utm_campaign=buddypress-media) plugin.
+ 21. **[Sidebar-Widgets](https://rtmedia.io/products/rtmedia-sidebar-widgets/?utm_source=readme&utm_medium=plugin&utm_campaign=buddypress-media "rtMedia Sidebar Widgets")** - This addon provide widgets to upload media and display gallery for rtMedia plugin.
+ 22. **[5-Star-Ratings](https://rtmedia.io/products/rtmedia-star-ratings/?utm_source=readme&utm_medium=plugin&utm_campaign=buddypress-media "rtMedia 5 Star Ratings")** - User can rate the media files from 1 to 5 star.
+ 23. **[Edit-Mp3-Info-(ID3 Tags)](https://rtmedia.io/products/rtmedia-edit-mp3-info/?utm_source=readme&utm_medium=plugin&utm_campaign=buddypress-media "rtMedia - Edit Mp3 Info (ID3 Tags)")** - Allow user to edit MP3 FIle Audio tags (ID 3 tags).
+ 24. **[Sorting](https://rtmedia.io/products/rtmedia-sorting/?utm_source=readme&utm_medium=plugin&utm_campaign=buddypress-media "rtMedia Sorting")** - Sort uploaded media based on file size, ascending/descending title, upload date of media.
+ 25. **[Bulk-Edit](https://rtmedia.io/products/rtmedia-bulk-edit/?utm_source=readme&utm_medium=plugin&utm_campaign=buddypress-media "rtMedia Bulk Edit")** - Allow users to move files from one album to another, change attributes, change privacy, delete files in bulk.
+ 26. **[BuddyPress-Profile-Picture](https://rtmedia.io/products/rtmedia-buddypress-profile-picture/?utm_source=readme&utm_medium=plugin&utm_campaign=buddypress-media "rtMedia BuddyPress Profile Picture")** - Allow users to set their profile picture from existing uploaded media file.
+ 27. **[Album-Cover-Art](https://rtmedia.io/products/rtmedia-album-cover-art/?utm_source=readme&utm_medium=plugin&utm_campaign=buddypress-media "rtMedia Album Cover Art")** - Allow users to set album cover from uploaded image.
+ 28. **[Direct-Download-Link](https://rtmedia.io/products/rtmedia-direct-download-link/?utm_source=readme&utm_medium=plugin&utm_campaign=buddypress-media "rtMedia Direct Download Link")** - This addon provide a download button for all the uploaded media.
+ 29. **[Upload-by-URL](https://rtmedia.io/products/rtmedia-upload-by-url/?utm_source=readme&utm_medium=plugin&utm_campaign=buddypress-media "rtMedia Upload by URL")** - Allow users to upload media using absolute URL.
+ 30. **[Likes](https://rtmedia.io/products/rtmedia-likes/?utm_source=readme&utm_medium=plugin&utm_campaign=buddypress-media "rtMedia Likes")** - This add-on let you know who liked media. User can also see which media file he/she liked under user profile.
+ 31. **[Activity-URL-Preview](https://rtmedia.io/products/rtmedia-activity-url-preview/?utm_source=readme&utm_medium=plugin&utm_campaign=buddypress-media "rtMedia Activity URL Preview")** - This addon provides a preview of the URL that is shared and shows up on BuddyPress activity.
+ 32. **[View-Counter](https://rtmedia.io/products/rtmedia-view-counter/?utm_source=readme&utm_medium=plugin&utm_campaign=buddypress-media "rtMedia View Counter")** - Enable view count for all the uploaded media.
+ 33. **[Shortcode-Generator](https://rtmedia.io/products/rtmedia-shortcode-generator/?utm_source=readme&utm_medium=plugin&utm_campaign=buddypress-media "rtMedia Shortcode Generator")** - The shortcode generator button added in WordPress post and page editor for all the rtMedia shortcodes.
+ 34. **[Album-Privacy](https://rtmedia.io/products/rtmedia-album-privacy/?utm_source=readme&utm_medium=plugin&utm_campaign=buddypress-media "rtMedia Album Privacy")** - Set album privacy when user create new albums or edit album.
+ 35. **[BuddyPress-Group-Media-Control](https://rtmedia.io/products/rtmedia-buddypress-group-media-control/?utm_source=readme&utm_medium=plugin&utm_campaign=buddypress-media "rtMedia BuddyPress Group Media Control")** - Allow group owner to provide media upload feature for their group.
+ 36. **[Set-Custom-Thumbnail-for-Audio/Video](https://rtmedia.io/products/rtmedia-set-custom-thumbnail-for-audiovideo/?utm_source=readme&utm_medium=plugin&utm_campaign=buddypress-media "rtMedia Set Custom Thumbnail for Audio/Video")** - Allow media owner to change the thumbnail of uploaded audio/video files.
+ 37. **[rtMedia-SEO](https://rtmedia.io/products/rtmedia-seo/?utm_source=readme&utm_medium=plugin&utm_campaign=buddypress-media "rtMedia SEO")** - Generate XML sitemap of all the public media files uploaded via rtMedia plugin, also compatible with [Yoast-SEO](https://wordpress.org/plugins/wordpress-seo/ "Yoast SEO") plugin if you are already using on your site.
+
 
 = Important Links =
 
-* [Project Homepage](http://rtcamp.com/rtmedia/?utm_source=readme&utm_medium=plugin&utm_campaign=buddypress-media "Visit rtMedia's Project Homepage")
-* [Roadmap](http://rtcamp.com/rtmedia/roadmap/?utm_source=readme&utm_medium=plugin&utm_campaign=buddypress-media "Visit rtMedia's Roadmap page")
-* [Documentation](http://docs.rtcamp.com/rtmedia?utm_source=readme&utm_medium=plugin&utm_campaign=buddypress-media "Visit rtMedia's Documentation page")
-* [FAQ](http://rtcamp.com/rtmedia/faq/?utm_source=readme&utm_medium=plugin&utm_campaign=buddypress-media "Visit rtMedia's FAQ page")
+* [Project Homepage](https://rtmedio.io/?utm_source=readme&utm_medium=plugin&utm_campaign=buddypress-media "Visit rtMedia's Project Homepage")
+* [Roadmap](https://rtmedia.io/roadmap/?utm_source=readme&utm_medium=plugin&utm_campaign=buddypress-media "Visit rtMedia's Roadmap page")
+* [Documentation](https://rtmedia.io/docs/?utm_source=readme&utm_medium=plugin&utm_campaign=buddypress-media "Visit rtMedia's Documentation page")
+* [FAQ](https://rtmedia.io/faq/?utm_source=readme&utm_medium=plugin&utm_campaign=buddypress-media "Visit rtMedia's FAQ page")
 * [Support](http://community.rtcamp.com/c/rtmedia/?utm_source=readme&utm_medium=plugin&utm_campaign=buddypress-media "Visit rtMedia's support page")
-* [GitHub](http://github.com/rtCamp/rtMedia/) - Please mention your wordpress.org username when sending pull requests.
-* [Translations](http://rtcamp.com/translate/projects/rtmedia?utm_source=readme&utm_medium=plugin&utm_campaign=buddypress-media) - Please do NOT use Github for translations. Instead Use [this GlotPress project](http://rtcamp.com/translate/projects/rtmedia?utm_source=readme&utm_medium=plugin&utm_campaign=buddypress-media)
+* [GitHub](https://github.com/rtmediawp/rtMedia/) - Please mention your wordpress.org username when sending pull requests.
+* [Translations](https://rtmedia.io/translate/projects/rtmedia?utm_source=readme&utm_medium=plugin&utm_campaign=buddypress-media) - Please do NOT use Github for translations. Instead Use [this GlotPress project](https://rtmedia.io/translate/projects/rtmedia?utm_source=readme&utm_medium=plugin&utm_campaign=buddypress-media)
 
 == Installation ==
 
@@ -111,13 +108,13 @@ rtMedia has 3 premium solutions to take care of audio/video conversion.
 
 == Frequently Asked Questions ==
 
-Please visit [rtMedia's FAQ page](http://rtcamp.com/rtmedia/faq/?utm_source=readme&utm_medium=plugin&utm_campaign=buddypress-media "Visit rtMedia's FAQ page").
+Please visit [rtMedia's FAQ page](https://rtmedia.io/faq/?utm_source=readme&utm_medium=plugin&utm_campaign=buddypress-media "Visit rtMedia's FAQ page").
 
-Read rtMedia [Documentation](http://rtcamp.com/rtmedia/docs/?utm_source=readme&utm_medium=plugin&utm_campaign=buddypress-media)
+Read rtMedia [Documentation](https://rtmedia.io/docs/?utm_source=readme&utm_medium=plugin&utm_campaign=buddypress-media)
 
 == Screenshots ==
 
-You can also check [rtMedia's Live Demo](http://demo.rtcamp.com/rtmedia/?utm_source=readme&utm_medium=plugin&utm_campaign=buddypress-media "Visit rtMedia's Live Demo") or video below:
+You can also check [rtMedia's Live Demo](http://demo.rtmedia.io/?utm_source=readme&utm_medium=plugin&utm_campaign=buddypress-media "Visit rtMedia's Live Demo") or video below:
 
 http://www.youtube.com/watch?v=dJrykKQGDcs
 
@@ -140,48 +137,369 @@ http://www.youtube.com/watch?v=dJrykKQGDcs
 
 == Changelog ==
 
-= 3.8.21 =
+= 4.4.2 [June 30, 2017] =
+
+* FIXED
+
+ * Broken thumbnails in sidebar widget gallery and sorting gallery shortcode
+
+
+= 4.4.1 [June 29, 2017] =
+
+* ENHANCEMENTS
+
+ * Replaced HTML comments '&lt;!-- --&gt;' with PHP comments '&lt;?php // ?&gt;'
+
+* FIXED
+
+ * Media search issue under album
+ * Gallery reload issue while uploading new media under a single album page
+ * Duplicate "no media found" message under media gallery
+ * Cancel media search button issue under albums tab
+ * PHP notice and warnings
+ * UI for caret under like button
+ * Load more issue for albums tab
+ * Issue editing album when pagination is enabled
+ * UI issue for music player when opened in the lightbox
+
+
+= 4.4 [June 6, 2017] =
+
+* NEW
+
+ * Enabled Masonry Cascading grid layout for BuddyPress Activity feed [Documentation](https://rtmedia.io/docs/features/lightboxes-masonry/#masonry-activity-feed)
+ * Added search functionality in Media Gallery [Documentation](https://rtmedia.io/docs/features/upload-media/#search-media)
+ * Added album description input while creating an album [Documentation](https://rtmedia.io/docs/features/view-media/#album-description)
+
+* ENHANCEMENTS
+
+ * Added media description parameter in JSON API [Documentation](https://rtmedia.io/docs/developers/json-api/#media-upload)
+ * Added: Filter to change the text "Are you sure you want to delete this media?" [Documentation](https://rtmedia.io/docs/developers/hooks/rtmedia_delete_prompt_message/)
+ * Applied Post Update button style once the document is ready instead of window load
+
+* FIXED
+
+ * Audio player display issue in lightbox
+ * Fixed trimming media name issue when it contains a dot in the name
+ * Added missing data in debuginfo file
+ * rtMedia shortcode uploader issue with IOS mobile safari browser
+ * Issue while playing video on IOS safari
+ * White strip-line issue in lightbox
+ * Like button will display in the right sidebar of light box even when media comments are deactivated
+
+
+= 4.3.2 [May 11, 2017] =
+
+* ENHANCEMENTS
+
+ * Added: Filter which allows replacing the text "Like/dislike" with any icon [Documentation](https://rtmedia.io/docs/developers/hooks/rtmedia_like_label_text-rtmedia_like_undo_label_text/)
+
+* FIXED
+
+ * Attach media button issue in comments for IOS devices
+ * Inconsistent name display in the Activity stream
+ * Media attachment button issue under rtMedia comment section
+ * Set as Album Cover button UI issue
+ * rtMedia action button alignment issue on the single media page
+ * Improvise comment media admin settings
+ * JavaScript error while deleting media
+ * Edit media feature when BuddyPress activity stream component is disabled
+ * "What's new" section not getting properly styled on page load [Documentation](https://rtmedia.io/docs/troubleshooting/post-update-upload-media-privacy-buttons-not-appearing/)
+
+= 4.3.1 [Feb 23, 2017] =
+
+* ENHANCEMENTS
+
+ * Remove media titles from media tab
+ * Change text in rtMedia setting for comment media
+ * Added: Filter to change user id while fetching user's album list
+
+* FIXED
+
+ * Pagination and navigation fix in media tab
+ * Warnings when uploading media in activity comment
+ * Privacy for reported media in moderation
+
+= 4.3 [Feb 14, 2017] =
+
+* NEW FEATURES
+
+ * Comment Media - User can upload media in comment box
+
+* ENHANCEMENTS
+
+ * rtMedia settings to unable or disable likes for Media
+ * Attachment upload in rtMedia support form
+ * Added: rtMedia Version Constant
+ * Added: Action to Change rtMedia query before shortcode run
+ * Added: Filter to Change Media menu position in admin bar
+
+* FIXED
+
+ * Bulk delete in Media library Dashboard
+ * Warnings when user click on pagination
+ * rtMedia gallery shortcode pagination
+ * Remove unwanted fields in rtMedia support form
+ * Sorting & Options issue in Media Tab
+ * Comment and Like Privacy issue
+ * Comment and Like for media delete issue in Group
+ * Load More issue on activity and group Tab
+
+= 4.2.1 [Dec 21, 2016] =
+
+* FIXED
+
+ * Security issues pointed out by James Golovich
+ * Direct access of a file
+ * Access rights to modify/update the rtMedia settings
+ * Added validation on custom CSS before saving
+ * Section fluctuation when user drags media into activity box
+ * Audio / Video autoplay in Safari browser
+ * JS error on media comments when activity stream is disabled from the backend
+ * Media upload error when activity stream is disabled from the backend
+ * Invalid license key notice appearing even when all keys are valid
+ * Addon validation checks will happen every six hours (only if addons installed)
+ * Changed plugin's review link to rate on WordPress.org
+
+= 4.2 [Nov 17, 2016] =
+
+* NEW FEATURES
+
+ * Albums will now display media count by default
+ * "@mentions" in comments added to lightbox and single media page
+ * Added "Next" / "Previous" navigation links to single media page
+
+* ENHANCEMENTS
+
+ * rtMedia "Support" tab improvements- Directly attach a screenshot while submitting a support ticket Debug Info can now be easily downloaded as a .txt file
+ * Added: "Show more comments" link in media pop-up (lightbox) and single media page
+ * Added: Action to target area below media comments in lightbox or single media page
+ * Added: Filter to add extra component to comments
+ * Added: Filter to disallow blank text field while uploading media in Activity
+ * Added: Filter to modify "Options" & "Upload" labels in Media Gallery
+
+* FIXED
+
+ * After uploading media, the Upload panel will now collapse
+ * Incorrect pagination text display in Media tab
+ * "posted an update" string not getting translated in Activity feed for posts with attached media. Added translation support for all "rtmedia_update" Activity type
+ * Duplicate activity generation when "Post Update" is clicked multiple times
+ * Singular/plural form of "n people liked this" string
+ * BuddyPress Group Media tab not displaying in Beta version 2.7.2
+ * Media description not saving properly when uploading multiple media
+ * Link to comment in WordPress backend not leading back to comment
+ * Video popup UI for vertical videos
+ * CSS-related responsive video layout issue
+ * Fixed broken "Import media sizes" anchor link in admin notice
+ * Fixed "Activate License" event bug in License tab
+ * Lightbox privacy symbol alignment issue
+
+= 4.1.8 [Oct 05, 2016] =
+* Fix fatal error for older PHP version
+
+= 4.1.7 [Oct 05, 2016] =
+* Change the UI of addons license tab
+* Update the notice messages
+* Check for the valid URL structure for compatibility with multisite
+* Change string UNSET to REMOVE to improve the translation
+* Fix UI/media broken on activity page
+* Fix the scroll bar on the media pop screen
+* Fix save settings button of manage media in group
+
+= 4.1.6 [Sep 26, 2016] =
+* Fix broken UI when image information is edited/updated
+* Fix issue related to media sorting
+* Divide rt-template-functions.php into four files (core functions, actions & filters)
+* Fix playlist settings not getting saved in groups
+* Add filters to alter the image/video URLS in activity
+* Fix bootstrap css selector conflict
+
+= 4.1.5 [Sep 15, 2016] =
+* Fix issue where multiple gallery shortcode not working together
+* Add filter to change 'under' album text
+* Fix issue where media query not reset properly
+
+= 4.1.4 [Sep 13, 2016] =
+* Fix audio player height issue
+* Fix video player fullscreen issue
+* Fix the attachment URL when rtAmazon S3 is disabled
+
+= 4.1.3 [Aug 30, 2016] =
+* Fix audio/video time duration on media thumbnail
+
+= 4.1.2 [Aug 25, 2016] =
+* Update the original audio URL with transcoded audio URL in activity
+
+= 4.1.1 [Aug 24, 2016] =
+* Add backward compatibility
+
+= 4.1 [Aug 24, 2016] =
+* Remove encoding service
+* Introduced new [Transcoder](https://wordpress.org/plugins/transcoder/) plugin
+* Add span tag to remove duplicity of activity content on thumbnail update
+* Fix notice undefined index
+
+= 4.0.7 [Aug 17, 2016] =
+* Fix Media upload using json api
+* Fix media upload not working on Windows Servers
+* Fix view counter not working
+* Update read more media description with scroll
+
+= 4.0.6 [Aug 01, 2016] =
+* Fix read more media description in media popup
+* Fix warning for pagination links
+* Update products page link on Admin Dashboard widget
+
+= 4.0.5 [Jul 25, 2016] =
+* Fix bulk edit not working on delete and move
+* Fix issue more and less click on media description
+* Fix html markup in support tab
+* Make pagination work on opening page-link in new tab
+* Fix hide rtMedia template files notice after click on dismiss
+* Fix for profile pic not changing on uploading photo
+
+= 4.0.4 [Jul 08, 2016] =
+* Backward compability for PHP 5.2
+
+= 4.0.3 [Jul 05, 2016] =
+* Fix filter_input warning for media in group creation
+* Fix warning for video encoding
+* Fix delete activity for like and comment after media delete
+* Fix media uploading issue from activity for multisite
+
+= 4.0.2 [Jun 27, 2016] =
+* Fixed privacy issue in activity for BuddyPress 2.6.0
+* Fixed single activity permalink issue
+
+= 4.0.1 [Jun 23, 2016] =
+* Fixed issue of wpdb prepare statement missing argument
+* Fixed time conversion issue in lightbox
+* Fixed context & context_id for profile media upload
+* Fixed lightbox loading whole site
+* Fixed Keep current tab active when traversing different media type tabs
+* Removed the_content filter and used wpautop function for media description
+
+= 4.0 [Jun 21, 2016] =
+* Removed esc_html causing stripping of html tags in rtMedia featured for WordPress VIP compatibility
+* Fixed BuddyPress nav items in group issue for BuddyPress 2.6 with backward compatibility
+* Fixed check of class_exist for group extension for BuddyPress 2.6 compatibility
+
+= 3.10.9 [Jun 20, 2016] =
+* WordPress VIP compatibility added
+
+= 3.10.8 [Jun 14, 2016] =
+* Fixed database error when deleting comment
+* Changed price for add-ons
+
+= 3.10.7 [May 25, 2016] =
+* Fixed JS issue for tabs in media edit
+* Fixed CSS for twentysixteen theme
+* Code cleanup
+* Updated german language file
+
+= 3.10.6 [May 03, 2016] =
+* Fixed - BuddyPress group privacy now depends on group status (public, private, hidden)
+* Fixed - JS issue for WordPress 4.5
+* Fixed - 404 Error for titles on bbPress templates
+* Fixed - Required changes done for rtmedia.io
+
+= 3.10.5 [Mar 24, 2016] =
+* Code Cleanup
+
+= 3.10.4 [Mar 15, 2016] =
+* Fixed browser title if theme has title-tag support
+* Fixed the video & audio player issue for activity load more
+* Fixed minor bugs
+
+= 3.10.3 [Jan 28, 2016] =
+* Fix issues
+
+= 3.10.2 [Jan 28, 2016] =
+* Fix XSS vulnerability (thanks to [Brajesh](https://profiles.wordpress.org/sbrajesh/))
+* Updated Freemius SDK
+
+= 3.10.1 [Dec 30, 2015] =
+* Set media description before upload feature
+* Update privacy of all attached media on update of activity privacy
+* Update BuddyPress activity query filter for activity privacy
+
+= 3.10 [Dec 22, 2015] =
+* Added update BuddyPress activity privacy feature
+* Added BuddyPress activity for media likes and comments feature
+
+= 3.9.5 [Dec 11, 2015] =
+* Added new filters
+* Update chinese translations
+* Fix rtMedia add-on broken images
+
+= 3.9.4 [Dec 07, 2015] =
+* Fixed media slug issue while deleting media
+* Added new hook in album gallery template
+
+= 3.9.3 [Nov 19, 2015] =
+* Update rtMedia main template
+* Fix undefined function call error
+
+= 3.9.2 [Nov 15, 2015] =
+* Update rtMedia main template
+* Fix undefined JS error
+
+= 3.9.1 [Nov 05, 2015] =
+* Fix encoding service key save issue
+* Added thrive theme under rtMedia 3rd party themes
+* Audio/video player CSS issue fix
+* Fix translation text domain
+* Update chinese translations
+
+= 3.9 [Oct 27, 2015] =
+* BP Notification feature for media likes and comments
+* Upload media from BP activity without activity update text
+* Privacy issue fix
+* Update korean and chinese language files
+* Other bug fixes
+
+= 3.8.21 [Oct 06, 2015] =
 * Rename plugin text domain from 'rtmedia' to 'buddypress-media'
 
-= 3.8.20 =
+= 3.8.20 [Sep 29, 2015] =
 * Fix getid3 related issue
 * Other bug fixes
 
-= 3.8.19 =
+= 3.8.19 [Sep 21, 2015] =
 * Fix getid3 related issue
 * Added new theme: Foodmania
 * New wrapper functions to upload media
 
-= 3.8.18 =
+= 3.8.18 [Sep 17, 2015] =
 * Filter for media action text
 * Updated getid3 lib to latest version
 
-= 3.8.17 =
+= 3.8.17 [Sep 15, 2015] =
 * Fix upload dir filter
 * Fix video max height in lightbox
 * Fix shortcode issue with album uploader
 
-= 3.8.16 =
+= 3.8.16 [Aug 31, 2015] =
 * Update Persian translation and add Finnish translations
 * Add rtMedia SEO add-on
 * Fix encoding service for music files
 * Fix music file thumbnails
 
-= 3.8.15 =
+= 3.8.15 [Aug 18, 2015] =
 * CSS fixes
 * Added new filters and actions
 
-= 3.8.14 =
+= 3.8.14 [Aug 11, 2015] =
 * Enhanced delete media action in media gallery
 * CSS fixes
 * Other bug fixes
 
-= 3.8.13 =
+= 3.8.13 [Aug 05, 2015] =
 * Update links
 * Added support for "og" meta tags for Yoast SEO plugin
 * Update French, Spanish, Persian and German translations
 
-= 3.8.12 =
+= 3.8.12 [Jul 29, 2015] =
 * Updated media gallery actions for BuddyPress groups
 * Updated action messages for single media
 * Updated view count process
@@ -189,33 +507,33 @@ http://www.youtube.com/watch?v=dJrykKQGDcs
 * Fixed bugs in admin settings
 * Bug fixes
 
-= 3.8.11 =
+= 3.8.11 [Jul 22, 2015] =
 * Update album edit template
 * Fix BuddyPress activity content on media edit
 * Autoplay video in lightbox
 
-= 3.8.10 =
+= 3.8.10 [Jul 16, 2015] =
 * Fix BuddyPress comment filter issue
 * Fix plupload max_file_size parameters
 
-= 3.8.9 =
+= 3.8.9 [Jul 09, 2015] =
 * Fix CSS conflict with BuddyPress change profile picture
 
-= 3.8.8 =
+= 3.8.8 [Jul 07, 2015] =
 * Fix media comment ordering
 * Fix login popup
 * Lightbox changes for mobile devices
 * Added privacy option in uploader shortcode
 * Update Dutch and Danish translations
 
-= 3.8.7 =
+= 3.8.7 [Jun 30, 2015] =
 * Update language files
 * Fix CSS conflict with BuddyPress Cover plugin in rtMedia admin settings
 * Update CSS
 * Added new filters
 * Bug fixes
 
-= 3.8.6 =
+= 3.8.6 [Jun 16, 2015] =
 * Fix activity music player width issue
 * Fix view link in WordPress Media Library
 * Fix pagination on pressing enter key
@@ -224,28 +542,28 @@ http://www.youtube.com/watch?v=dJrykKQGDcs
 * Added Privacy link in BuddyPress Settings profile menu
 * CSS bug fixes
 
-= 3.8.5 =
+= 3.8.5 [Jun 08, 2015] =
 * Fix upload URL in activity
 
-= 3.8.4 =
+= 3.8.4 [Jun 03, 2015] =
 * Fix syntax error on Support Page
 
-= 3.8.3 =
+= 3.8.3 [Jun 03, 2015] =
 * Fix encoding service issue
 
-= 3.8.2 =
+= 3.8.2 [Jun 03, 2015] =
 * Updated Spanish, Korean, Portuguese and Danish translations
 * Added Login popup for non logged in user on upload button
 * Added quick edit/delete links on media gallery thumbs
-* Updated [premium add-ons](https://rtcamp.com/blog/rtmedia-pro-splitting-major-change/) content for rtMedia
+* Updated [premium add-ons](https://rtmedia.io/blog/rtmedia-pro-splitting-major-change/) content for rtMedia
 * Bug fixes
 
-= 3.8.1 =
+= 3.8.1 [May 18, 2015] =
 * Fix license page
 * Fix direct media upload in activity
 * Fix BuddyPress group table error on rtMedia update
 
-= 3.8 =
+= 3.8 [May 18, 2015] =
 * Removed ZURB Foundation
 * Removed FontAwesome fonts and instead used WordPress Dashicons
 * Template updates
@@ -899,7 +1217,7 @@ http://www.youtube.com/watch?v=dJrykKQGDcs
 * Refactored code and styling
 
 = 2.6.7 =
-* Fixes modular compatibility with friends component. Thanks to [Cat555](http://rtcamp.com/support/users/cat555/?utm_source=readme&utm_medium=plugin&utm_campaign=buddypress-media) for reporting this.
+* Fixes modular compatibility with friends component. Thanks to [Cat555](http://community.rtcamp.com/users/cat555/?utm_source=readme&utm_medium=plugin&utm_campaign=buddypress-media) for reporting this.
 * Fixes modular compatibility with friends component.
 * Fixes default privacy levels.
 * Minor Admin UI revisions.
@@ -1084,8 +1402,8 @@ http://www.youtube.com/watch?v=dJrykKQGDcs
 
 == Upgrade Notice ==
 
-= 3.8.21 =
-Requires BuddyPress 1.7 or higher, if using BuddyPress. Rename plugin text domain from 'rtmedia' to 'buddypress-media'.
+= 4.4.1 =
+rtMedia 4.4.1, Minor release which fixes issues with Search Media and pagination in the Albums tab.
 
 == Sponsors ==
 
@@ -1096,17 +1414,17 @@ Requires BuddyPress 1.7 or higher, if using BuddyPress. Rename plugin text domai
 
 == Translation ==
 
-rtMedia includes [full translation support](https://rtcamp.com/tutorials/rtmedia-translation/?utm_source=readme&utm_medium=plugin&utm_campaign=buddypress-media). Head over to the [translation project](http://rtcamp.com/translate/projects/rtmedia/?utm_source=readme&utm_medium=plugin&utm_campaign=buddypress-media) to contribute your translations. If you don't see the language of your choice, let us know in the support forum, we'll add it.
+rtMedia includes [full translation support](https://rtmedia.io/docs/translations/?utm_source=readme&utm_medium=plugin&utm_campaign=buddypress-media). Head over to the [translation project](https://rtmedia.io/translate/projects/rtmedia/?utm_source=readme&utm_medium=plugin&utm_campaign=buddypress-media) to contribute your translations. If you don't see the language of your choice, let us know in the support forum, we'll add it.
 
-* [Dutch](https://rtcamp.com/translate/projects/rtmedia/nl/default) translation by [carry2web] (http://profiles.wordpress.org/carry2web)
-* [Italian](https://rtcamp.com/translate/projects/rtmedia/it/default) translation by [Paolo]
-* [Dutch](https://rtcamp.com/translate/projects/rtmedia/nl/default) translation by [rjpj](http://profiles.wordpress.org/rjpj)
-* [Polish](https://rtcamp.com/translate/projects/rtmedia/pl/default) translation by [Polski_Ziom](http://profiles.wordpress.org/polski_ziom)
-* [Spanish](https://rtcamp.com/translate/projects/rtmedia/es/default) translation by [Andrés Felipe](http://profiles.wordpress.org/naturalworldstm/) and [d3ne]
-* [Solvak](https://rtcamp.com/translate/projects/rtmedia/sk/default) translation by [igid26](http://profiles.wordpress.org/igid26)
-* [Italian](https://rtcamp.com/translate/projects/rtmedia/it/default) translation by [Yukiko.Kawa]
-* [Persian](https://rtcamp.com/translate/projects/rtmedia/fa/default) translation by [mahdiar](http://profiles.wordpress.org/mahdiar/)
-* [German](https://rtcamp.com/translate/projects/rtmedia/de/default) translation by [hannes.muc]
+* [Dutch](https://rtmedia.io/translate/projects/rtmedia/nl/default) translation by [carry2web] (http://profiles.wordpress.org/carry2web)
+* [Italian](https://rtmedia.io/translate/projects/rtmedia/it/default) translation by [Paolo]
+* [Dutch](https://rtmedia.io/translate/projects/rtmedia/nl/default) translation by [rjpj](http://profiles.wordpress.org/rjpj)
+* [Polish](https://rtmedia.io/translate/projects/rtmedia/pl/default) translation by [Polski_Ziom](http://profiles.wordpress.org/polski_ziom)
+* [Spanish](https://rtmedia.io/translate/projects/rtmedia/es/default) translation by [Andrés Felipe](http://profiles.wordpress.org/naturalworldstm/) and [d3ne]
+* [Solvak](https://rtmedia.io/translate/projects/rtmedia/sk/default) translation by [igid26](http://profiles.wordpress.org/igid26)
+* [Italian](https://rtmedia.io/translate/projects/rtmedia/it/default) translation by [Yukiko.Kawa]
+* [Persian](https://rtmedia.io/translate/projects/rtmedia/fa/default) translation by [mahdiar](http://profiles.wordpress.org/mahdiar/)
+* [German](https://rtmedia.io/translate/projects/rtmedia/de/default) translation by [hannes.muc]
 
 (**Note**: Credits are given for translations that are at least 50% complete.)
 

@@ -2,11 +2,11 @@
 Contributors: joedolson
 Donate link: http://www.joedolson.com/donate/
 Tags: twitter, microblogging, su.pr, bitly, yourls, redirect, shortener, post, links, social, sharing, media, tweet
-Requires at least: 3.9.8
-Tested up to: 4.3.1
+Requires at least: 4.4
+Tested up to: 4.7
 License: GPLv2 or later
 Text Domain: wp-to-twitter
-Stable tag: 3.1.6
+Stable tag: 3.2.16
 
 Posts a Twitter update when you update your WordPress blog or add a link, with your chosen URL shortening service.
 
@@ -54,21 +54,138 @@ Want to stay up to date on WP to Twitter? [Follow me on Twitter!](https://twitte
 
 = Translations =
 
-Visit the [WP to Twitter translations page](http://translate.joedolson.com/projects/wp-to-twitter) to see how complete these are.
+Visit the [WP to Twitter translation site](https://translate.wordpress.org/projects/wp-plugins/wp-to-twitter/stable) to see how complete the current translations are.
 
-Translations available (in order of completeness):
-English (Australia), Japanese, Dutch, French, Italian, Russian, Danish, Catalan, Portuguese (Brazil), Spanish (Spain), Chinese (Taiwan), German, Romanian, Estonian, Polish, Lithuanian, Ukrainian, Irish, Swedish, Turkish
-
-Translating my plug-ins is always appreciated. Visit <a href="http://translate.joedolson.com">my translations site</a> to start getting your language into shape!
+Translating my plug-ins is always appreciated. Work on WP to Twitter translations at <a href="https://translate.wordpress.org/projects/wp-plugins/wp-to-twitter">the WordPress translation site</a>! You'll need a WordPress.org account to contribute!
 
 == Changelog ==
 
-= Future =
+= 3.2.17 =
 
-* Use apply_filters( 'wpt_tweet_sentence', $tweet, $post_ID ) to pass custom taxonomy Tweet formats - Pending WordPress support for taxonomy meta.
-* Add regex filter to detect URLs typed into Tweet fields for counting/shortening purposes. [todo]
-* 4.2 added compat function for mb_substr; drop mine when I drop support for 4.1
-* WP to Twitter timing bug with images?
+* Function name change in primary function. 
+* Early exit in wpt-feed
+* Fix icon in metabox headings
+* Misc. minor design tweaks
+
+= 3.2.16 =
+
+* Bug fix: missing check to verify array caused AJAX error
+
+= 3.2.15 =
+
+* Bug fix: "Tweet Now" button threw error if selecting main site account [Pro]
+* New action executed when posting to Twitter
+* New debugging point in media retrieval
+
+= 3.2.14 =
+
+* Bug fix: activation status of licenses in WP Tweets Pro misreported in support data
+* Removed longurl.org expander since the service has been shut down.
+* Exclude uploaded media URLs from character counting (WP Tweets Pro)
+* Feature: Support adding custom templates for specific taxonomy terms (WP Tweets Pro)
+
+= 3.2.13 =
+
+* Bug fix: help/config should not be queried if user has not yet authenticated.
+
+= 3.2.12 =
+
+* Bug fix: call help/config to check t.co URL lengths and make sure length used is current value
+* Parse URLs in text and send to URL shortener before Tweeting.
+* Test for WordPress 4.6
+
+= 3.2.11 =
+
+* Two new filters in post meta box
+* Add option to set your own Goo.gl API key for improved shortener reliability
+* Removed my fallback functions for mb_substr and mb_strlen & support for WordPress 4.1
+* Fixed a broken URL
+* Updated sales copy
+
+= 3.2.10 =
+
+* Bug fix: extra closing `p` tag in widget output.
+* Feature: pattern for getting arbitrary author meta: {{meta_field}}
+* Minor security fix: ignored wpnonce verification if nonce not provided in settings admin.
+
+= 3.2.9 =
+
+* Bug fix: extra is_admin call in Freemius implementation
+* Feature: 'Tweet Now' & dynamic scheduling recognizes currently selected users & upload media status (Pro)
+
+= 3.2.8 =
+
+* Bug fix: Stray debugging email in curl processing.
+
+= 3.2.7 =
+
+* Feature: prevent Duplicate Posts plug-in from copying WP to Twitter meta data
+* Feature: add curl fallback in case WP_http doesn't function correctly.
+* Feature: support for image alt attributes in widget
+* Feature: support for selective refresh in customizer
+* Feature: improved error messages from Twitter
+* Change: added Freemius service back to plug-in
+* Bug fix: disconnect Twitter account in user accounts (PRO)
+
+= 3.2.6 =
+
+* Bug fix: wrap Twitter follow button in div to prevent obscure Blink rendering bug.
+* Bug fix: obscure bug saving incorrect short URL when saving draft
+
+= 3.2.5 =
+
+* Bug fix: added prefix to is_valid_url (function used by some other plug-ins)
+* Bug fix: undismissable promotion for WP Tweets PRO
+* Minor style changes
+
+= 3.2.4 =
+
+* Bug fix: functionalized uninstall, but placed in file only imported while WPT active.
+
+= 3.2.3 =
+
+* Remove Freemius integration due to excessive API load.
+
+= 3.2.2 =
+
+* Only call Freemius integration in admin.
+
+= 3.2.1 =
+
+* Bug fix: uninstall issue with Freemius
+* Bug fix: extraneous function call with Freemius
+* More style streamlining
+
+= 3.2.0 =
+
+* Bug fix: if user without permissions to edit WP to Twitter meta updated profiles, Twitter profile data was deleted.
+* Bug fix: PHP notices (2) in Twitter search widget
+* Bug fix: no notice to update settings when setting new URL shortener.
+* Bug fix: permissions tabs non functional if custom role name had a space
+* Bug fix: remove notice thrown when rate limiting is run on a Tweet not associated with a post
+* Bug fix: remove notice thrown when no error defined by custom shortener.
+* Design update in metabox panel
+* Misc. design & text updates
+* Ability to add new URL shorteners via filters ('wpt_shorten_link', 'wpt_shortener_settings', 'wpt_choose_shortener')
+* Remove ability to set YOURLS as a local resource in new installs
+* Added filter to disable storing URLs in post meta
+* Deprecate more old jd_ prefixed functions
+* Change admin page URL to match Pro version.
+* Remove dependency on is_plugin_active()
+* Added opt-in usage tracking via Freemius.com
+
+= 3.1.9 =
+
+* CSS update in Twitter feed for new iframe generated follow button
+* Include target URL in information deleted when a post's Tweet History cleared
+* Minor design changes
+* Updated manual
+* Updated text
+
+= 3.1.8 =
+
+* Bug fix: Add support for calendar picker in WP Tweets Pro
+* New filter on random delay value
 
 = 3.1.7 =
 
@@ -211,7 +328,7 @@ Right here: [WP to Twitter FAQ](http://www.joedolson.com/wp-to-twitter/support-2
 
 = How can I help you make WP to Twitter a better plug-in? =
 
-Writing and maintaining a plug-in is a lot of work. You can help me by providing detailed support requests (which saves me time), or by providing financial support, either via my [plug-in donations page](https://www.joedolson.com/donate/) or by [upgrading to WP Tweets Pro](https://www.joedolson.com/wp-tweets-pro/). Believe me, your donation really makes a difference!
+Writing and maintaining a plug-in is a lot of work. You can help me by providing detailed support requests (which saves me time), or by providing financial support, either via my [plug-in donations page](https://www.joedolson.com/donate/) or by [upgrading to WP Tweets Pro](http://www.wptweetspro.com/wp-tweets-pro). Believe me, your donation really makes a difference!
 
 == Screenshots ==
 
@@ -224,4 +341,4 @@ Writing and maintaining a plug-in is a lot of work. You can help me by providing
 
 == Upgrade Notice ==
 
-* 3.1.6 - Rewritten Tweet truncating functions; minor bug fixes.
+* 3.2.10: Minor security fix; recommend updating immediately. 

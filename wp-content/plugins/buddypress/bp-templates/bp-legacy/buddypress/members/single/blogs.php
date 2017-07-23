@@ -1,5 +1,4 @@
 <?php
-
 /**
  * BuddyPress - Users Blogs
  *
@@ -9,7 +8,7 @@
 
 ?>
 
-<div class="item-list-tabs" id="subnav" role="navigation">
+<div class="item-list-tabs" id="subnav" aria-label="<?php esc_attr_e( 'Member secondary navigation', 'buddypress' ); ?>" role="navigation">
 	<ul>
 
 		<?php bp_get_options_nav(); ?>
@@ -27,7 +26,7 @@
 				/**
 				 * Fires inside the members blogs order options select input.
 				 *
-				 * @since BuddyPress (1.2.0)
+				 * @since 1.2.0
 				 */
 				do_action( 'bp_member_blog_order_options' ); ?>
 
@@ -45,7 +44,7 @@ switch ( bp_current_action() ) :
 		/**
 		 * Fires before the display of member blogs content.
 		 *
-		 * @since BuddyPress (1.2.0)
+		 * @since 1.2.0
 		 */
 		do_action( 'bp_before_member_blogs_content' ); ?>
 
@@ -60,7 +59,7 @@ switch ( bp_current_action() ) :
 		/**
 		 * Fires after the display of member blogs content.
 		 *
-		 * @since BuddyPress (1.2.0)
+		 * @since 1.2.0
 		 */
 		do_action( 'bp_after_member_blogs_content' );
 		break;

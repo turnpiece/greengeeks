@@ -1,9 +1,9 @@
 === Oasis Workflow ===
 Contributors: nuggetsol
-Tags: workflow, work flow, review, assignment, publish, inbox, workflow history, audit,versioning, auto submit, approval workflow, editorial workflow, notifications, oasis workflow, editorial, revisions, document revision, version control, collaboration, document management, revision scheduling, duplication, clone, revise, revise article
-Requires at least: 3.6
-Tested up to: 4.3
-Stable tag: 1.6
+Tags: workflow, work flow, review, assignment, publish, inbox, workflow history, audit, versioning, edit flow, newsroom, custom post status, journalism, auto submit, approval workflow, editorial workflow, notifications, oasis workflow, editorial, revisions, document revision, version control, collaboration, document management, revision scheduling, duplication, clone, revise, revise article
+Requires at least: 4.4
+Tested up to: 4.7.4
+Stable tag: 2.7
 
 Automate your WordPress Editorial Workflow with Oasis Workflow. Simple, intuitive drag and drop workflow builder to streamline your editorial process.
 
@@ -17,35 +17,39 @@ Oasis Workflow is a powerful feature rich plugin designed to automate any editor
 * Publish - represents the actual "publish" task.
 
 **Visual Work flow Designer**
- - Configure your work flow using the easy drag and drop designer interface. See screen shots for more detail.
+ - Configure your workflow using our easy drag and drop designer interface. See screen shots for more detail.
 
 **Role-Based routing definitions allow you to assign tasks dynamically**
  - By using role-based routing, you can ensure that your process moves forward as quickly as possible without sacrificing accountability.
 
 **Inbox**
  - Users can view their current assignments and sign off their tasks once it's completed.
+ 
+**Custom Statuses**
+ - Define custom statuses for your editorial workflow. With custom statuses you can define your own post statuses and assign it to the success or failure path of the workflow.
 
 **Process history lets users retrace their steps**
- - For auditing purposes a record is maintained of all posts that are routed through a workflow process. The process history also captures the comments added by the user when they signed off the particular task.
+ - For auditing purposes a record is created every time an article is routed through a workflow process. The process history also captures the comments added by the user during task sign off.
 
 **Reassign - How to pass the buck?**
- - What if you have been assigned a workflow task, but you feel you are not the appropriate person to complete it? No worry, you can assign the task to another person. 
+ - What if you have been assigned a workflow task, but you feel you are not the appropriate person to complete it? No worry, you can use the re-assign feature to pass the task to another person. 
 
 **Due Date and Email reminders** help you to publish your articles on time.
 
 **Out of the box workflow**
-- To get you started, the plugin comes with an out of the box workflow. You can also modify the workflow to suit your needs. 
+- To get you started, the plugin comes with an out of the box workflow. You can modify the workflow to suit your needs. 
 
 **If you are looking for additional functionality, check out our "Pro" version - Oasis Workflow Pro: https://www.oasisworkflow.com/pricing-purchase**
-**It comes with some additional features like,** 
+**It comes with additional features like,** 
 
 * Multiple Workflows - Allows you to create multiple workflows.
-* Copy Workflow and Copy Steps - Allows you to quickly create workflows by using the copy workflow/copy step functionality.
-* [Auto Submit](http://www.oasisworkflow.com/auto-submit-to-workflow) - Allows you to automatically submit to workflow(s) with certain conditions.
-* [Revise published content and add Workflow Support to revised content](http://www.oasisworkflow.com/workflow-support-for-updating-published-content) - Use workflow to edit your published content while keeping the published article online.
+* [Auto Submit](https://www.oasisworkflow.com/documentation/working-with-workflows/auto-submit-to-workflow) - Allows you to automatically submit to workflow(s) with certain conditions.
+* [Revise published content and add workflow support to revised content](https://www.oasisworkflow.com/documentation/working-with-workflows/revise-published-content) - Use workflow to edit your published content while keeping the published article online.
+* And add-ons, like "Editorial Contextual Comments", "Teams", "Front End shortcodes", "Groups"
 * And much more.. 
 
-More details for each feature, screenshots and documentation can be found on [our website](http://www.oasisworkflow.com/).
+If you want to try out the "Pro" features, send us a message at [Request a Demo Site](https://www.oasisworkflow.com/request-a-demo-site) and we will setup a demo site for you to try out the "Pro" features. As a bonus, we will also add our add-ons to the demo site. 
+More details for each feature, screenshots and documentation can be found on [our website](https://www.oasisworkflow.com/).
 
 = Supported languages =
 * English
@@ -53,19 +57,23 @@ More details for each feature, screenshots and documentation can be found on [ou
 * French
 * Italian
 * Swedish
+* Ukrainian
+* Russian
  
 = Translators =
 * French (fr_FR) - [Baptiste Rieg](http://www.batrieg.com)
 * Italian (it_IT) - [Martino Stenta](https://profiles.wordpress.org/molokom)
 * Swedish (sv_SE) - Norbert Kustra
+* Ukrainian (uk) - Andy Prokopchuk
 
-If you need help setting up the roles, we recommend the [User Role Editor plugin](http://wordpress.org/extend/plugins/user-role-editor/ "User Role Editor plugin").
+If you need help setting up the roles, we recommend [Capability Manager Enhanced plugin](https://wordpress.org/plugins/capability-manager-enhanced/ "Capability Manager Enhanced plugin") OR [User Role Editor plugin](http://wordpress.org/extend/plugins/user-role-editor/ "User Role Editor plugin").
+Oasis Workflow adds a few custom capabilities to manage your workflows. Check out [Oasis Workflow Custom Capabilities](https://www.oasisworkflow.com/documentation/working-with-workflows/oasis-workflow-custom-capabilities-explained)
 
 = Videos to help you get started with Oasis Workflow =
 
-Editing the Out of the box workflow (applicable to both the "free" and "pro" version)
+Creating and Editing a workflow (applicable to "Pro" version, however the same editing process can be used for "free" version)
 
-[youtube https://www.youtube.com/watch?v=TLWrjTvsTRs]
+[youtube https://www.youtube.com/watch?v=JbJJQMMnf5U]
 
 How it works? Understand the process (applicable to both the "free" and "pro" version)
 
@@ -74,10 +82,6 @@ How it works? Understand the process (applicable to both the "free" and "pro" ve
 Modify a workflow which has posts/pages currently in progress (applicable to both the "free" and "pro" version)
 
 [youtube https://www.youtube.com/watch?v=mJ2hPsSBGcE]
-
-Creating and Editing a workflow (applicable to "Pro" version only)
-
-[youtube https://www.youtube.com/watch?v=PKHJN_X--Vs]
 
 How to manage published content via workflow - revise published content (applicable to "Pro" version only)
 
@@ -92,20 +96,117 @@ How to manage published content via workflow - revise published content (applica
 
 == Frequently Asked Questions ==
 
-For [Frequently Asked Questions](http://oasisworkflow.com/faq) plus documentation, plugin help, go [here](http://oasisworkflow.com)
+For [Frequently Asked Questions](https://www.oasisworkflow.com/faq) plus documentation, plugin help, go [here](https://www.oasisworkflow.com)
 
 == Screenshots ==
 
-1. Visual Work flow designer
-2. More examples.. of the workflow designer
-3. Even more examples.. of the workflow designer
+1. Visual Work flow designer - 2 step review process
+2. Workflow example - Simple 1 step review process
+3. More examples.. of the workflow designer
 4. Role-based routing
-5. Inbox
-6. Sign off
-7. Process history
+5. Inbox - all you care about are the tasks assigned to you.
+6. Sign off - complete the tasks by signing off and move the article to the next step.
+7. Process history lets users retrace their steps
+8. Custom statuses
 
 
 == Changelog ==
+
+= Version 2.7 =
+* Fixed issue related to broken permalink during the sign off process.
+* Sanitized user input on the settings page to fix security issue.
+* Fixed CSS for "submit to workflow", "sign-off" and "reassign" popup.
+* Fixed code warnings when displaying workflow submission report.
+* Fixed display of custom status on the post edit page.
+
+= Version 2.6 =
+* Fixed issue with Jetpack Publicize not getting invoked when task is signed off from the Inbox page.
+* Fixed issue with slug/permalink - modified permalink was getting updated with the original one when signing off the task.
+* Fixed issue with "Submit to Workflow" redirect not honoring the original URL.
+* Fixed issue with duplicate post publish notifications for new post as well as revised post updates.
+* Fixed XSS vulnerability for request parameters on the history page.
+
+= Version 2.5 =
+* Added a wrapper class for datepicker UI class, so that it doesn't clash with other plugins.
+* Redirect to post list page after submit to workflow.
+* Fixed status drop down showing "hello" as a option on bulk edit.
+* Fixed status drop down not showing custom post statuses.
+* Fixed issue with sign off popup not closing in certain cases.
+* Fixed issue with due date validator for non-english languages.
+* Made it compatible to WordPress 4.7.
+
+= Version 2.4 =
+* Added task count on the workflow dashboard widget for quick access to the inbox.
+* Added month and year drop down to the date picker for easy navigation.
+* Fixed issue with post status not getting updated on submit to workflow.
+* Fixed issue with blank publish date.
+* Removed logic to hide/show "Save" button when the post is being updated by a user outside the workflow.
+
+= Version 2.3 =
+* Changed the Oasis Workflow system related meta keys to start with underscore, so that they are not visible on the UI.
+* Added support for Multi-role users.
+* Moved "Review Settings" from Workflow Settings page to the "Review" process. This will help to have much better control on the review process.
+* Added a filter for get_users_in_step as owf_get_users_in_step()
+* Added configuration to show/hide the publish date.
+* Performance improvements - We got rid of multiple AJAX calls, so you should see actions like "Submit to Workflow", "Sign off" to perform better.
+* Fixed - Show out of of the box statuses on the post edit page.
+* Fixed - When "Save Draft" is clicked, the post was getting published.
+* Fixed "assign to all" logic to cover a corner case which was causing none of the users to get the assignment.
+* Fixed issue with sign off popup not working with certain versions of IE.
+* Fixed issue with capability check for custom post types.
+
+= Version 2.2 =
+* WE RECOMMEND TAKING A DATABASE BACKUP BEFORE UPGRADING TO THIS VERSION *
+* Enhancement - Major Upgrade - Post Status transition moved from "Step Info" to "Connection Info". This will allow for better flexibility in defining post status transitions when moving from one step to the next.
+* Enhancement - Allow Post Status change on "Submit to Workflow".
+* New Feature - Major change - You can now pre-assign users along with roles during the workflow definition.
+* New Feature - Assignee selection on the Workflow Step is changed to a more user friendly drop down using select2.js.
+* New Feature - Workflow Summary Dashboard Widget.
+* New Feature - Task Priority. You can now assign priority (low, normal, high, urgent) to workflow task during sign off.
+* New Feature - Added placeholder for Post Author to the assignment and reminder emails.
+* New Feature - Multi-user reassign. If assigned to multiple users for assignment and/or publish process, "Claim" will be shown to those users.
+* New Feature - View Workflow description on mouse over of the workflow title.
+* When a user is deleted, if there are tasks assigned to the user, the plugin will either delete the user's tasks OR abort the workflow whichever is appropriate.
+* Display custom categories - The category field on the inbox page and %category% placeholder will display custom categories too.
+* Combined Workflow and Step name into one field on the Inbox page.
+* Fixed issue with duplicate nonces creating unnecessary long urls and causing 414 errors in some cases.
+* Fixed issue with role ids having spaces.
+* Fixed issue with assignment and reminder emails in some cases not working due to line breaks not being parsed correctly.
+* Fixed issue with custom post statuses not showing up on "edit" post.
+* To read more about the above changes check out - https://www.oasisworkflow.com/oasis-workflow-free-v2-2-released
+
+
+= Version 2.1 =
+* Fixed fatal issue with uninstall caused due to undefined function.
+* Removed commented out code and cleaned up JS.
+* Fixed PHP warnings on the history page.
+* Added Ukranian translation. Thanks to Andy Prokopchuk.
+
+= Version 2.0 =
+* WE RECOMMEND TAKING A DATABASE BACKUP BEFORE UPGRADING TO THIS VERSION *
+* Major upgrade - refactored the entire code base for better maintenance.
+* New Feature - Custom Statuses.
+* New Feature - Assign to all. A way to assign to all the users in a given role for a given step. This will hide the user selection on the sign off process and instead assign to all the users in that role.
+* Introducing custom capabilities. Find more at - https://www.oasisworkflow.com/documentation/oasis-workflow-custom-capabilities-explained
+* Performance improvement - Tweaked SQL queries to increase the performance for Posts Lists page and in general other page loads.
+* Added "review settings" - to allow all, one OR more than 50% users to sign off before moving to the next step.
+
+
+= Version 1.9 =
+* Fixed duplicate Post Author appearing in the list of available users.
+* Added edit_others_posts and edit_others_pages to the author role by default.
+
+= Version 1.8 =
+* Compatibility with WordPress 4.4
+* Added support for Advanced Custom Fields (ACF) plugin to invoke ACF validation before "Submit to Workflow" and/or "Sign off".
+* Added Javascript hooks to invoke custom functionality before displaying the "Submit to Workflow" and/or "Sign off" popup.
+* Changed background color for inbox items which are past due date.
+
+= Version 1.7 =
+* End date on the workflows is not required any more. If not specified it will be considered to be valid for ever.
+* Merged Workflows and Workflow Admin into one menu option called "Workflows".
+* Added Reports - to view current assignments and to view what is/is not in the workflow.
+* Added "delete workflow" to delete any unwanted revisions.
 
 = Version 1.6 =
 * WE RECOMMEND TAKING A DATABASE BACKUP BEFORE UPGRADING TO THIS VERSION *

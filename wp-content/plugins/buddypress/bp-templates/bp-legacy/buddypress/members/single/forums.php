@@ -1,5 +1,4 @@
 <?php
-
 /**
  * BuddyPress - Users Forums
  *
@@ -9,7 +8,7 @@
 
 ?>
 
-<div class="item-list-tabs no-ajax" id="subnav" role="navigation">
+<div class="item-list-tabs no-ajax" id="subnav" aria-label="<?php esc_attr_e( 'Member secondary navigation', 'buddypress' ); ?>" role="navigation">
 	<ul>
 		<?php bp_get_options_nav(); ?>
 
@@ -26,7 +25,7 @@
 				/**
 				 * Fires inside the members forums order options select input.
 				 *
-				 * @since BuddyPress (1.2.0)
+				 * @since 1.2.0
 				 */
 				do_action( 'bp_forums_directory_order_options' ); ?>
 
@@ -45,7 +44,7 @@ else :
 	/**
 	 * Fires before the display of member forums content.
 	 *
-	 * @since BuddyPress (1.5.0)
+	 * @since 1.5.0
 	 */
 	do_action( 'bp_before_member_forums_content' ); ?>
 
@@ -60,7 +59,7 @@ else :
 	/**
 	 * Fires after the display of member forums content.
 	 *
-	 * @since BuddyPress (1.5.0)
+	 * @since 1.5.0
 	 */
 	do_action( 'bp_after_member_forums_content' ); ?>
 
