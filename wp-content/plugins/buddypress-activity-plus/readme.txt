@@ -3,37 +3,24 @@ Contributors: WPMUDEV
 Tags: BuddyPress, Activity, Activity Stream, BuddyPress Activity, Wall, Embed, Media, Youtube, Photos, Facebook, Social Network, Social Networking, Embed Video, Embed Link, Upload Photo, Upload Photos, Share Media, Sharing Media, Social Network Wall, Social Media
 Requires at least: 3.1
 Tested up to: 4.7
-Stable tag: 1.6.4
+Stable tag: 1.6.5
 
-Add buttons to the BuddyPress activity feed that make it super easy to share images, videos, and links from around the web.
+BuddyPress Activity Plus allows for embedding of oEmbed videos and media in your activities.
 
 == Description ==
 
-<strong>BuddyPress Activity Plus</strong> adds Facebook-style content sharing buttons to the BuddyPress activity feed so users can quickly share articles, videos, and images with others.
+BuddyPress Embed Activity gives your social network all the features and ease of Facebook when it comes to uploading and sharing media!
 
 [youtube https://www.youtube.com/watch?v=57qUenN1DOM]
 
-Paste in a link and BuddyPress Activity Plus will automatically pull content snippets for fast sharing.  Preview and edit content before posting, add your own commentary and auto-pull titles, descriptions, and thumbnails.
+The plugin adds 3 new buttons to your BuddyPress activity stream.  Enabling you to attach photos, videos, and even share web links with everyone on your network!
 
- ★★★★★ <br>
- “This plugin is fantastic! It is really a utility plugin for BuddyPress. Thanks for this masterpiece.” - <a href="https://profiles.wordpress.org/barniseun">Barnabas</a>
-
-<a href="https://premium.wpmudev.org/project/media-embeds-for-buddypress-activity/">BuddyPress Activity Plus by WPMU DEV is 100% free</a> – no restrictions, no limitations, no advertisements – the exact plugin we offer our members.
-
-<blockquote>
-<h4>Give your BuddyPress activity feed superpowers with features that include:</h4>
-<ul>
-<li>3 included button styles</li>
-<li>Simple customization guide for adding custom styles</li>
-<li>Button alignment controls</li>
-<li>Set default video embed size</li>
-<li>Choose default thumbnail size</li>
-<li>Use a link to pull title, description, and thumbnail into activity feed</li>
-<li>Only keep images in your directory that are being used with clean up images</li>
-</ul>
-</blockquote>
-Make it faster and easier than ever to post and share content from around the web on your BuddyPress network with BuddyPress Activity Plus by WPMU DEV. Download it completely free today.
- 
+Here's the quick overview of this plugin's features:
+ * Upload a photo (or multiple) directly from your computer to the activity stream
+ * Embed a video from popular sites such as youtube and vimeo by copying the link
+ * Embed a link to any site - the site title and description will automatically be pulled in
+ * Embedding a link also allows you to choose a thumbnail image from a list of images on the site's homepage
+ * Works perfectly with any theme based on the BuddyPress Default theme
 
 == Installation ==
 = To Install: =
@@ -54,12 +41,18 @@ We provide comprehensive and guaranteed support on the <a href='http://premium.w
 
 == Screenshots ==
 
-1. Add buttons that make it easier to share content from your BuddyPress activity feed
-2. Auto add content with a link and quickly preview and edit before publishing 
-3. Set button style and alignment options
-4. Set default configuration options
+1. Embed Activity Window
+2. Photos and websites are easily embedded
+3. Image galleries right in the activity stream
+4. Video in your activity stream
 
 == Changelog ==
+
+= 1.6.5 =
+- Fix: override default WP user agent in GET requests
+- Fix: better HTTP error handling
+- Fix: compat with BP Reshare
+- Fix: custom moderation to avoid issues with thumbnails
 
 = 1.6.4 =
 - Fix for preview URL escaping issue.
@@ -131,3 +124,6 @@ BuddyPress v1.5 compatibility update.
 
 = 1.0 =
 Initial Release
+
+
+87274-1500844189-au

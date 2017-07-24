@@ -413,7 +413,7 @@ if( !isset( $post_type['rewrite']['ep_mask'] ) ) {
 							}
 						}
 						if ( ! isset( $checked ) ) {
-							echo '<span class="description"><strong>' . __('This custom post type does not use any Custom Fields', $this->text_domain) . '</strong></span><br />';	 	 	 	 		   		 	
+							echo '<span class="description"><strong>' . __('This custom post type does not use any Custom Fields', $this->text_domain) . '</strong></span><br />';
 						}
 						?>
 					</td>

@@ -71,7 +71,7 @@ class Bpfb_Admin {
 			? (int)$raw['cleanup_images']
 			: false
 		;
-		
+
 		update_option('bpfb', $raw);
 		wp_safe_redirect(add_query_arg(array('updated' => true)));
 	}
@@ -87,7 +87,7 @@ class Bpfb_Admin {
 	<?php screen_icon('buddypress'); ?>
 	<h2><?php echo get_admin_page_title(); ?></h2>
 	<form action="" method="POST">
-		
+
 		<fieldset class="appearance section">
 			<legend><?php _e('Appearance', 'bpfb'); ?></legend>
 
@@ -128,10 +128,10 @@ class Bpfb_Admin {
 			</fieldset>
 		</fieldset>
 
-		
+
 		<fieldset class="functional section">
 			<legend><?php _e('Functional', 'bpfb'); ?></legend>
-			
+
 			<fieldset class="oembed option">
 				<legend><?php _e('oEmbed', 'bpfb'); ?></legend>
 				<?php if (defined('BPFB_THUMBNAIL_IMAGE_SIZE')) { ?>

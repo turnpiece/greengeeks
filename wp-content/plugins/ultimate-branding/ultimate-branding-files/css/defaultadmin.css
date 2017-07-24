@@ -1,5 +1,25 @@
 /* @override http://dev.site/wp-content/plugins/ultimate-branding/ultimate-branding-files/css/defaultadmin.css?ver=1 */
 
+.toplevel_page_branding #poststuff form div.postbox .hndle {
+    cursor: default;
+}
+
+.simple-option-reset-section a {
+    color: #888;
+    text-decoration: none;
+}
+.simple-option-reset-section a:hover {
+    color: #0073aa;
+}
+
+.toplevel_page_branding .postbox .inside.description {
+    padding: 0 3em;
+}
+
+.toplevel_page_branding .postbox .inside.description ul {
+    list-style: inherit;
+}
+
 #poststuff form div.postbox div.inside h3 {
     background: none;
     background-image: none;
@@ -97,8 +117,65 @@ li.link_row h4{
     margin-bottom:10px;
 }
 #wp_login_image{
-    width: 32%;
+    max-width: 32%;
+}
+#wp_login_image_width,
+#wp_login_image_height{
+    width: 60px;
+}
+
+/**
+ * options
+ */
+.postbox .simple-option-media .image-reset.disabled {
+    display: none;
+}
+.postbox .simple-option-media .image-reset {
+    display: inline-block;
+    margin-right: 80px;
+    text-decoration: none;
+    vertical-align: bottom;
+}
+.simple-option-media .image-preview {
+    max-height: 100px;
+}
+.simple-option div.ui-slider {
+    margin: 10px 0;
+    max-width: 150px;
+}
+.simple-option-number .ui-slider span.ui-slider-handle {
+    background-color: #0073aa;
+}
+.simple-option-checkbox .switch-button-background.checked {
+    background-color: #085;
+}
+.simple-option-checkbox .switch-button-label {
+    text-transform: uppercase;
+}
+.simple-option-textarea textarea {
+    min-height: 20em;
+}
+
+.ub-deprecated-module,
+.ub-module-error,
+.ub-module-info {
+    padding: 1px 12px;
+    background: #fff;
+    border-left: 4px solid #fff;
+    -webkit-box-shadow: 0 1px 1px 0 rgba( 0, 0, 0, 0.1 );
+    box-shadow: 0 1px 1px 0 rgba( 0, 0, 0, 0.1 );
+
+    border-left: 4px solid #dc3232;
+    margin: 5px 0 15px;
+}
+.ub-deprecated-module p {
+    margin: .5em 0;
+    padding: 2px;
+    line-height: 1.5em;
+}
+.ub-module-info {
+    border-left-color: #14568a;
 }
 
 
-/* 87274-1444688386-au */
+/* 87274-1500844195-au */

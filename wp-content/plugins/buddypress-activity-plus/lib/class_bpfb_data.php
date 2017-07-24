@@ -1,7 +1,7 @@
 <?php
 
 class Bpfb_Data_Container {
-	
+
 	private $_data;
 
 	public function __construct () {
@@ -66,7 +66,7 @@ class Bpfb_Data {
 
 	public static function get_strict ($option, $fallback=false) {
 		if (!self::$_instance) self::_spawn_instance();
-		return self::$_instance->get_strict($option, $fallback);	
+		return self::$_instance->get_strict($option, $fallback);
 	}
 
 	public static function get_thumbnail_size ($strict=false) {

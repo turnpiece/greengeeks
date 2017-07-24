@@ -5,6 +5,23 @@ Change Log:
 ----------------------------------------------------------------------
 ----------------------------------------------------------------------
 
+1.5.3 - 4/20/2016
+----------------------------------------------------------------------
+- Fix: Footer overlaying video list page content on short screens
+
+1.5.2 - 11/11/2015
+----------------------------------------------------------------------
+- Fix: Exclude multisite only videos from group shortcode output
+- Fix: Hide hidden videos in group shortcodes
+- New: Style messy Hide Videos list into columns
+- New: Show list of included video names next to group shortcode docs
+- New: Use Masonry to make the videos page look neat and clean
+- Fix: Fixed and documented hooks and sample code to add custom videos to video page
+
+1.5.1 - 10/19/2015
+----------------------------------------------------------------------
+- Fix: Update and clean up video names to match the site
+
 1.5 - 1/23/2015
 ----------------------------------------------------------------------
 - New: Hooks added for being able to add custom videos to the page
@@ -120,4 +137,4 @@ Change Log:
 - Initial Release
 
 
-87274-1431198211-ai
+87274-1500844200-au

@@ -3,7 +3,7 @@
 Plugin Name: BuddyPress Activity Plus
 Plugin URI: http://premium.wpmudev.org/project/media-embeds-for-buddypress-activity
 Description: A Facebook-style media sharing improvement for the activity box.
-Version: 1.6.4
+Version: 1.6.5
 Author: WPMU DEV
 Author URI: http://premium.wpmudev.org
 WDP ID: 232
@@ -108,7 +108,7 @@ function bpfb_plugin_init () {
 		require_once(BPFB_PLUGIN_BASE_DIR . '/lib/bpfb_group_documents.php');
 	}
 	if (is_admin()) {
-		if (file_exists(BPFB_PLUGIN_BASE_DIR . '/lib/external/wpmudev-dash-notification.php')) {
+		if (file_exists(BPFB_PLUGIN_BASE_DIR . '/lib/external/dash/wpmudev-dash-notification.php')) {
 			global $wpmudev_notices;
 			if (!is_array($wpmudev_notices)) $wpmudev_notices = array();
 			$wpmudev_notices[] = array(
@@ -118,7 +118,7 @@ function bpfb_plugin_init () {
 					'settings_page_bpfb-settings',
 				),
 			);
-			require_once BPFB_PLUGIN_BASE_DIR . '/lib/external/wpmudev-dash-notification.php';
+			require_once BPFB_PLUGIN_BASE_DIR . '/lib/external/dash/wpmudev-dash-notification.php';
 		}
 		require_once BPFB_PLUGIN_BASE_DIR . '/lib/class_bpfb_admin_pages.php';
 		Bpfb_Admin::serve();

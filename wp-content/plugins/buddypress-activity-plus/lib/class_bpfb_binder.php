@@ -33,7 +33,7 @@ class BpfbBinder {
 		$ret = array();
 
 		list($thumb_w,$thumb_h) = Bpfb_Data::get_thumbnail_size();
-		
+
 		$processed = 0;
 		foreach ($imgs as $img) {
 			$processed++;
@@ -42,7 +42,7 @@ class BpfbBinder {
 				$ret[] = esc_url($img);
 				continue;
 			}
-			
+
 			$pfx = $bp->loggedin_user->id . '_' . preg_replace('/[^0-9]/', '-', microtime());
 			$tmp_img = realpath(BPFB_TEMP_IMAGE_DIR . $img);
 			$new_img = BPFB_BASE_IMAGE_DIR . "{$pfx}_{$img}";
@@ -52,7 +52,7 @@ class BpfbBinder {
 					if (!is_wp_error($image)) {
 						$thumb_filename  = $image->generate_filename('bpfbt');
 						$image->resize($thumb_w, $thumb_h, false);
-						
+
 						// Alright, now let's rotate if we can
 						if (function_exists('exif_read_data')) {
 							$exif = exif_read_data($new_img); // Okay, we now have the data
@@ -82,7 +82,7 @@ class BpfbBinder {
 	 */
 	public static function resolve_temp_path ($file) {
 		$file = ltrim($file, '/');
-		
+
 		// No subdirs in path, so we can do this quick check too
 		if ($file !== basename($file)) return false;
 
@@ -115,8 +115,14 @@ class BpfbBinder {
 	 * @access private
 	 */
 	function get_page_contents ($url) {
-		$response = wp_remote_get($url);
+		$response = wp_remote_get($url, array(
+			'user-agent' => 'BuddyPress Activity Plus', // Some sites will block default WP UA
+		));
 		if (is_wp_error($response)) return false;
+
+		$status = wp_remote_retrieve_response_code($response);
+		if (200 !== (int)$status) return false;
+
 		return $response['body'];
 	}
 
@@ -254,7 +260,7 @@ EOFontIconCSS;
 			else if ($meta_description && $meta_description->content) $text = $meta_description->content;
 			else if ($first_paragraph && $first_paragraph->plaintext) $text = $first_paragraph->plaintext;
 			else $text = $title;
-			
+
 			$images = array_filter($images);
 		} else {
 			$url = '';
@@ -332,6 +338,8 @@ EOFontIconCSS;
 					$_POST['data']['bpfb_link_body'],
 					$_POST['data']['bpfb_link_image']
 				);
+
+				add_filter( 'bp_bypass_check_for_moderation', array( $this, 'bp_activity_link_moderation_custom'), 10, 4 );
 			}
 			if (!empty($_POST['data']['bpfb_photos'])) {
 				$images = $this->move_images($_POST['data']['bpfb_photos']);
@@ -342,8 +350,8 @@ EOFontIconCSS;
 		$bpfb_code = apply_filters('bpfb_code_before_save', $bpfb_code);
 
 		// All done creating tags. Now, save the code
-		$gid = !empty($_POST['group_id']) && is_numeric($_POST['group_id']) 
-			? (int)$_POST['group_id'] 
+		$gid = !empty($_POST['group_id']) && is_numeric($_POST['group_id'])
+			? (int)$_POST['group_id']
 			: false
 		;
 		if ($bpfb_code) {
@@ -415,6 +423,9 @@ EOFontIconCSS;
 		if (!is_user_logged_in()) return false;
 		if (empty($args['id'])) return false;
 
+		// Compatibility with BP Reshare
+		if ($args['type'] == 'reshare_update') return false;
+
 		$activity = new BP_Activity_Activity($args['id']);
 		if (!is_object($activity) || empty($activity->content)) return false;
 
@@ -433,7 +444,7 @@ EOFontIconCSS;
 	/**
 	 * Callback for activity images removal
 	 * @param  string $content Shortcode content parsed for images
-	 * @param  BP_Activity_Activity Activity which contains the shortcode - used for privilege check 
+	 * @param  BP_Activity_Activity Activity which contains the shortcode - used for privilege check
 	 * @return bool
 	 */
 	private function _clean_up_content_images ($content, $activity) {
@@ -445,10 +456,10 @@ EOFontIconCSS;
 
 		foreach ($images as $image) {
 			$info = pathinfo(trim($image));
-			
+
 			// Make sure we have the info we need
 			if (empty($info['filename']) || empty($info['extension'])) continue;
-			
+
 			// Make sure we're dealing with the image
 			$ext = strtolower($info['extension']);
 			if (!in_array($ext, self::_get_supported_image_extensions())) continue;
@@ -488,12 +499,116 @@ EOFontIconCSS;
 		add_action('wp_ajax_bpfb_update_activity_contents', array($this, 'ajax_update_activity_contents'));
 
 		do_action('bpfb_add_ajax_hooks');
-		
+
 		// Step 3: Register and process shortcodes
 		BpfbCodec::register();
 
 		if (Bpfb_Data::get('cleanup_images')) {
 			add_action('bp_before_activity_delete', array($this, 'remove_activity_images'));
 		}
+	}
+
+	/**
+	 * Bypass default wp moderation to tweak link count in post content.
+	 */
+	function bp_activity_link_moderation_custom( $bypass, $user_id, $title, $content ){
+		// Define local variable(s)
+		$_post     = array();
+		$match_out = '';
+
+		/** User Data *************************************************************/
+
+		if ( ! empty( $user_id ) ) {
+
+			// Get author data
+			$user = get_userdata( $user_id );
+
+			// If data exists, map it
+			if ( ! empty( $user ) ) {
+				$_post['author'] = $user->display_name;
+				$_post['email']  = $user->user_email;
+				$_post['url']    = $user->user_url;
+			}
+		}
+
+		// Current user IP and user agent
+		$_post['user_ip'] = bp_core_current_user_ip();
+		$_post['user_ua'] = bp_core_current_user_ua();
+
+		// Post title and content
+		$_post['title']   = $title;
+		$_post['content'] = $content;
+
+		/** Max Links *************************************************************/
+
+		$max_links = get_option( 'comment_max_links' );
+		if ( ! empty( $max_links ) ) {
+
+			$temp_content = str_replace(array("image='http", "image=\"http"), "", $content );
+			// How many links?
+			$num_links = preg_match_all( '/(http|ftp|https):\/\//i', $temp_content, $match_out );
+
+			// Allow for bumping the max to include the user's URL
+			if ( ! empty( $_post['url'] ) ) {
+
+				/**
+				 * Filters the maximum amount of links allowed to include the user's URL.
+				 *
+				 * @since 1.6.0
+				 *
+				 * @param string $num_links How many links found.
+				 * @param string $value     User's url.
+				 */
+				$num_links = apply_filters( 'comment_max_links_url', $num_links, $_post['url'] );
+			}
+
+			// Das ist zu viele links!
+			if ( $num_links >= $max_links ) {
+				return false;
+			}
+		}
+
+		/** Blacklist *************************************************************/
+
+		// Get the moderation keys
+		$blacklist = trim( get_option( 'moderation_keys' ) );
+
+		// Bail if blacklist is empty
+		if ( ! empty( $blacklist ) ) {
+
+			// Get words separated by new lines
+			$words = explode( "\n", $blacklist );
+
+			// Loop through words
+			foreach ( (array) $words as $word ) {
+
+				// Trim the whitespace from the word
+				$word = trim( $word );
+
+				// Skip empty lines
+				if ( empty( $word ) ) {
+					continue;
+				}
+
+				// Do some escaping magic so that '#' chars in the
+				// spam words don't break things:
+				$word    = preg_quote( $word, '#' );
+				$pattern = "#$word#i";
+
+				// Loop through post data
+				foreach ( $_post as $post_data ) {
+
+					// Check each user data for current word
+					if ( preg_match( $pattern, $post_data ) ) {
+
+						// Post does not pass
+						return false;
+					}
+				}
+			}
+		}
+
+		// Check passed successfully
+		return true;
 	}
 }
