@@ -409,3 +409,8 @@ blockquote p {
   background: #cbff66;
   color: #438700;
 }
+
+#register-page legend,
+#register-page ul li {
+  font-size: 0.95em;
+}
