@@ -62,6 +62,12 @@ a:hover, a:focus,
   text-decoration: underline;
 }
 
+.container {
+    padding-left: 0;
+    padding-right: 0;
+    max-width: 95%;
+}
+
 /* Buttons
 ---------------- */
 .add_to_cart_button, 
