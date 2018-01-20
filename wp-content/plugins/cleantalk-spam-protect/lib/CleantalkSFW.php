@@ -1,9 +1,13 @@
 <?php
 
 /*
-*	CleanTalk SpamFireWall base class
-*	Version 1.3
-*	Compatible only with Wordpress.
+ * CleanTalk SpamFireWall base class
+ * Compatible only with Wordpress.
+ * Version 1.5-wp
+ * author Cleantalk team (welcome@cleantalk.org)
+ * copyright (C) 2014 CleanTalk team (http://cleantalk.org)
+ * license GNU/GPL: http://www.gnu.org/copyleft/gpl.html
+ * see https://github.com/CleanTalk/php-antispam
 */
 
 class CleantalkSFW
@@ -50,37 +54,22 @@ class CleantalkSFW
 	
 	
 	/*
-	*	Getting IP function
-	*	Version 1.1
-	*	Compatible with any CMS
+	*	Getting arrays of IP (REMOTE_ADDR, X-Forwarded-For, sfw_test_ip)
+	* 
+	*	reutrns array
 	*/
 	public function cleantalk_get_real_ip(){
 		
 		$result=Array();
-		if(function_exists('apache_request_headers')){
-			$headers = apache_request_headers();
-			$headers['X-Forwarded-For'] = isset($headers['X-Forwarded-For']) ? $headers['X-Forwarded-For'] : null;
-			$headers['HTTP_X_FORWARDED_FOR'] = isset($headers['HTTP_X_FORWARDED_FOR']) ? $headers['HTTP_X_FORWARDED_FOR'] : null;
-			$headers['REMOTE_ADDR'] = $_SERVER['REMOTE_ADDR'];
-			$sfw_test_ip = isset($_GET['sfw_test_ip']) ? $_GET['sfw_test_ip'] : null;
-		}else{
-			$headers = $_SERVER;
-			$headers['REMOTE_ADDR'] = $_SERVER['REMOTE_ADDR'];
-			$headers['X-Forwarded-For'] = isset($headers['X-Forwarded-For']) ? $headers['X-Forwarded-For'] : null;
-			$headers['HTTP_X_FORWARDED_FOR'] = isset($headers['HTTP_X_FORWARDED_FOR']) ? $headers['HTTP_X_FORWARDED_FOR'] : null;
-			$sfw_test_ip = isset($_GET['sfw_test_ip']) ? $_GET['sfw_test_ip'] : null;
-		}
+		$headers = function_exists('apache_request_headers')
+			? apache_request_headers()
+			: self::apache_request_headers();
 		
-		if( $headers['X-Forwarded-For'] ){
+		$headers['REMOTE_ADDR'] = $_SERVER['REMOTE_ADDR'];
+		$sfw_test_ip = isset($_GET['sfw_test_ip']) ? $_GET['sfw_test_ip'] : null;
+		
+		if( isset($headers['X-Forwarded-For']) ){
 			$the_ip = explode(",", trim($headers['X-Forwarded-For']));
-			$the_ip = trim($the_ip[0]);
-			$result[] = $the_ip;
-			$this->ip_str_array[]=$the_ip;
-			$this->ip_array[]=sprintf("%u", ip2long($the_ip));
-		}
-		
-		if( $headers['HTTP_X_FORWARDED_FOR'] ){
-			$the_ip = explode(",", trim($headers['HTTP_X_FORWARDED_FOR']));
 			$the_ip = trim($the_ip[0]);
 			$result[] = $the_ip;
 			$this->ip_str_array[]=$the_ip;
@@ -102,9 +91,7 @@ class CleantalkSFW
 	}
 	
 	/*
-	*	Getting IP function
-	*	Version 1.1
-	*	Compatible with any CMS
+	*	Checks IP via Database
 	*/
 	public function check_ip(){		
 		
@@ -117,7 +104,7 @@ class CleantalkSFW
 			$this->unversal_query($query);
 			$this->unversal_fetch();
 			
-			$curr_ip = long2ip($this->ip_array[$i]);
+			$curr_ip = long2ip(intval($this->ip_array[$i]));
 			
 			if($this->db_result_data['cnt']){
 				$this->result = true;
@@ -129,9 +116,7 @@ class CleantalkSFW
 	}
 		
 	/*
-	*	Add entries to SFW log
-	*	Version 1.1
-	*	Compatible with any CMS
+	*	Add entry to SFW log
 	*/
 	public function sfw_update_logs($ip, $result){
 		
@@ -158,14 +143,13 @@ class CleantalkSFW
 	}
 	
 	/*
-	*	Updates SFW local base
-	*	Version 1.1
-	*	Compatible only with phpBB 3.1
+	* Updates SFW local base
+	* 
+	* return mixed true || array('error' => true, 'error_string' => STRING)
 	*/
 	public function sfw_update($ct_key){
 		
 		$result = self::get_2sBlacklistsDb($ct_key);
-		$result = self::checkRequestResult($result);
 		
 		if(empty($result['error'])){
 			
@@ -195,9 +179,9 @@ class CleantalkSFW
 	}
 	
 	/*
-	*	Sends and wipe SFW log
-	*	Version 1.1
-	*	Compatible only with phpBB 3.1
+	* Sends and wipe SFW log
+	* 
+	* returns mixed true || array('error' => true, 'error_string' => STRING)
 	*/
 	public function send_logs($ct_key){
 		
@@ -217,7 +201,7 @@ class CleantalkSFW
 			
 			//Sending the request
 			$result = self::sfwLogs($ct_key, $data);
-			$result = self::checkRequestResult($result);			
+			
 			//Checking answer and deleting all lines from the table
 			if(empty($result['error'])){
 				if($result['rows'] == count($data)){
@@ -234,9 +218,9 @@ class CleantalkSFW
 	}
 	
 	/*
-	*	Shows DIE page
-	*	Version 1.1
-	*	Compatible with any CMS
+	* Shows DIE page
+	* 
+	* Stops script executing
 	*/	
 	public function sfw_die($api_key, $cookie_prefix = '', $cookie_domain = ''){
 		
@@ -252,7 +236,7 @@ class CleantalkSFW
 		$sfw_die_page = str_replace('{SFW_DIE_NOTICE_IP}',              __('SpamFireWall is activated for your IP ', 'cleantalk'), $sfw_die_page);
 		$sfw_die_page = str_replace('{SFW_DIE_MAKE_SURE_JS_ENABLED}',   __('To continue working with web site, please make sure that you have enabled JavaScript.', 'cleantalk'), $sfw_die_page);
 		$sfw_die_page = str_replace('{SFW_DIE_CLICK_TO_PASS}',          __('Please click bellow to pass protection,', 'cleantalk'), $sfw_die_page);
-		$sfw_die_page = str_replace('{SFW_DIE_YOU_WILL_BE_REDIRECTED}', __('Or you will be automatically redirected to the requested page after 3 seconds.', 'cleantalk'), $sfw_die_page);
+		$sfw_die_page = str_replace('{SFW_DIE_YOU_WILL_BE_REDIRECTED}', sprintf(__('Or you will be automatically redirected to the requested page after %d seconds.', 'cleantalk'), 1), $sfw_die_page);
 		$sfw_die_page = str_replace('{CLEANTALK_TITLE}',                __('Antispam by CleanTalk', 'cleantalk'), $sfw_die_page);
 		
 		// Service info
@@ -278,8 +262,12 @@ class CleantalkSFW
 		
 	}
 	
-	
-	static public function sfwLogs($api_key, $data){
+	/*
+	* Wrapper for sfw_logs API method
+	* 
+	* returns mixed STRING || array('error' => true, 'error_string' => STRING)
+	*/
+	static public function sfwLogs($api_key, $data, $do_check = true){
 		$url='https://api.cleantalk.org';
 		$request = array(
 			'auth_key' => $api_key,
@@ -289,16 +277,26 @@ class CleantalkSFW
 			'timestamp' => time()
 		);
 		$result = self::sendRawRequest($url, $request);
+		$result = $do_check ? self::checkRequestResult($result, 'sfw_logs') : $result;
+		
 		return $result;
 	}
 	
-	static public function get_2sBlacklistsDb($api_key){
+	/*
+	* Wrapper for 2s_blacklists_db API method
+	* 
+	* returns mixed STRING || array('error' => true, 'error_string' => STRING)
+	*/
+	static public function get_2sBlacklistsDb($api_key, $do_check = true){
 		$url='https://api.cleantalk.org';
 		$request = array(
 			'auth_key' => $api_key,
 			'method_name' => '2s_blacklists_db'
 		);
+		
 		$result = self::sendRawRequest($url, $request);
+		$result = $do_check ? self::checkRequestResult($result, '2s_blacklists_db') : $result;
+		
 		return $result;
 	}
 	
@@ -363,9 +361,10 @@ class CleantalkSFW
 	 *
 	 * @param string request_method
 	 * @param string result
-	 * @return mixed (array || false)
+	 * @return mixed (array || array('error' => true, 'error_string' => STRING))
 	 */
-	static public function checkRequestResult($result, $method_name = false){
+	static public function checkRequestResult($result, $method_name = null)
+	{
 		
 		// Errors handling
 		// Bad connection
@@ -406,9 +405,31 @@ class CleantalkSFW
 		
 		/* Other methods */
 		if(isset($result['data']) && is_array($result['data'])){
-			$result = $result['data'];
+			return $result['data'];
 		}
-				
-		return $result;
+	}
+	
+	/* 
+	 * If Apache web server is missing then making
+	 * Patch for apache_request_headers() 
+	 */
+	static function apache_request_headers(){
+		
+		$headers = array();	
+		foreach($_SERVER as $key => $val){
+			if(preg_match('/\AHTTP_/', $key)){
+				$server_key = preg_replace('/\AHTTP_/', '', $key);
+				$key_parts = explode('_', $server_key);
+				if(count($key_parts) > 0 and strlen($server_key) > 2){
+					foreach($key_parts as $part_index => $part){
+						$key_parts[$part_index] = function_exists('mb_strtolower') ? mb_strtolower($part) : strtolower($part);
+						$key_parts[$part_index][0] = strtoupper($key_parts[$part_index][0]);					
+					}
+					$server_key = implode('-', $key_parts);
+				}
+				$headers[$server_key] = $val;
+			}
+		}
+		return $headers;
 	}
 }

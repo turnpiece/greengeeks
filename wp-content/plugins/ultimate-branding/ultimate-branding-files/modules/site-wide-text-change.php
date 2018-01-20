@@ -22,7 +22,6 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 // Un comment for full belt and braces replacements, warning:
 // 1. TEST TEST TEST
 // define( 'SWTC-BELTANDBRACES', 'yes' );
-require_once( 'site-wide-text-change-files/sitewidetextincludes/classes/functions.php' );
 /**
  * Plugin main class
  **/
@@ -59,13 +58,8 @@ class ub_Site_Wide_Text_Change {
 		 */
         add_filter( 'ultimate_branding_export_data', array( $this, 'export' ) );
         add_action( 'ultimatebranding_settings_textchange_after_title', array( $this, 'add_new_button' ) );
-	}
-	/**
-	 * PHP 4 constructor
-	 **/
-	function ub_Site_Wide_Text_Change() {
-		$this->__construct();
-	}
+    }
+
 	/**
 	 * Show admin warning
 	 **/
@@ -346,8 +340,9 @@ class ub_Site_Wide_Text_Change {
 	function replace_text( $transtext, $normtext, $domain ) {
 		$tt = $this->get_translation_ops();
 		$admin_front = true;
-		if( !is_array( $tt ) )
-			return $transtext;
+		if( !is_array( $tt ) ) {
+            return $transtext;
+        }
 		$toprocess = array();
 		if( isset( $tt['domain-' . $domain]['find'] ) && isset( $tt['domain-']['find'] ) ){
 			$toprocess =  (array) $tt['domain-' . $domain]['find'] + (array) $tt['domain-']['find'];
@@ -440,7 +435,9 @@ class ub_Site_Wide_Text_Change {
 			"*",
 			"$",
 			"€",
-			"£"
+            "£",
+            '$',
+            '%',
 		), array(
 			"\?",
 			"\!",
@@ -448,6 +445,8 @@ class ub_Site_Wide_Text_Change {
 			"\$",
 			"\€",
 			"\£",
+            '\$',
+            '\%',
 		), $string );
 		return $string;
 	}

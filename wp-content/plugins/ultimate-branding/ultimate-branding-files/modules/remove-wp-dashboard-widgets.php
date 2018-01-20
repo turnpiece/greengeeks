@@ -37,12 +37,12 @@ if ( ! class_exists( 'ub_rwpwidgets' ) ) {
 		}
 
 		public function process_save( $status ) {
-
 			$active = array();
-
-			foreach ( (array) $_POST['active'] as $key => $value ) {
-				if ( ! isset( $active[ $value ] ) ) {
-					$active[ $value ] = $value;
+			if ( isset( $_POST['active'] ) ) {
+				foreach ( (array) $_POST['active'] as $key => $value ) {
+					if ( ! isset( $active[ $value ] ) ) {
+						$active[ $value ] = $value;
+					}
 				}
 			}
 			ub_update_option( 'rwp_active_dashboard_widgets', $active );
@@ -94,7 +94,7 @@ foreach ( $available_widgets as $key => $title ) {
 		}
 
 		public function remove_wp_dashboard_widgets() {
-			global $wp_meta_boxes, $wp_registered_widgets, $wp_registered_widget_controls, $wp_dashboard_control_callbacks;	 				   	  		  	
+			global $wp_meta_boxes, $wp_registered_widgets, $wp_registered_widget_controls, $wp_dashboard_control_callbacks;
 			/* Detect active widgets and save the array (only possible from the dashboard page) */
 			$detected_widgets = array();
 

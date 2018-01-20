@@ -1,7 +1,7 @@
 /*Subsite favicons*/
 #wpadminbar .quicklinks li .blavatar{
-    width: 16px;
-    height: 16px;
+    max-width: 16px;
+    max-height: 16px;
     padding-right: 5px;
     padding-top: 5px;
 }
@@ -17,7 +17,7 @@
 .ub_site_favicons .column-favicon .ub_favicons_text_li{
     width: 80%;
 }
-.ub_site_favicons .column-favicon .ub_favicons_text_li  input{	 				   	  		  	
+.ub_site_favicons .column-favicon .ub_favicons_text_li  input{
     width: 85%;
 }
 .ub_site_favicons .column-favicon .ub_favicons_fav{
@@ -42,4 +42,4 @@
 }
 
 
-/* 87274-1500844195-au */
+/* 87274-1516473910-au */

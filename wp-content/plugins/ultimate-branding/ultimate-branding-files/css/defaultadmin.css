@@ -20,6 +20,10 @@
     list-style: inherit;
 }
 
+#poststuff form div.postbox div.inside p.description {
+    max-width: 500px;
+}
+
 #poststuff form div.postbox div.inside h3 {
     background: none;
     background-image: none;
@@ -146,6 +150,10 @@ li.link_row h4{
 .simple-option-number .ui-slider span.ui-slider-handle {
     background-color: #0073aa;
 }
+div#limit .simple-option-number .ui-slider.small-text {
+    width: 100px;
+}
+
 .simple-option-checkbox .switch-button-background.checked {
     background-color: #085;
 }
@@ -176,6 +184,16 @@ li.link_row h4{
 .ub-module-info {
     border-left-color: #14568a;
 }
+.tab-login-screen .theme-browser .theme:hover {
+    cursor: inherit;
+}
+.wrap.ultimate-branding .nav-tab-wrapper {
+    clear: both;
+}
+.simple-option-select2 select {
+    min-width: 300px;
+    width: 40%;
+}
 
 
-/* 87274-1500844195-au */
+/* 87274-1516473910-au */

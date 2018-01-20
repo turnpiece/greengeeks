@@ -55,9 +55,9 @@ class OW_Process_Flow {
 
       add_action( 'redirect_post_location', array( $this, 'redirect_after_signoff' ) );
       add_action( 'owf_submit_to_workflow', array( $this, 'redirect_after_workflow_submit' ), 10, 2 );
-
+    
    }
-
+  
    /**
     * AJAX function - executed on step change during "submit to workflow".
     *
@@ -1058,7 +1058,8 @@ class OW_Process_Flow {
 
    public function redirect_after_signoff( $url ) {
       if ( isset( $_POST[ 'hi_oasiswf_redirect' ] ) && $_POST[ 'hi_oasiswf_redirect' ] == 'step' ) {
-         wp_redirect( admin_url( 'admin.php?page=oasiswf-inbox' ) );
+         $link = admin_url( 'admin.php?page=oasiswf-inbox' );
+         wp_redirect( $link );
          die();
       }
       return $url;
@@ -1904,7 +1905,12 @@ class OW_Process_Flow {
       $ow_history_service = new OW_History_Service();
 
       $current_tasks = $ow_history_service->get_action_history_by_status( 'assignment', $post_id );
-      $current_tasks = count( $current_tasks );
+      if ($current_tasks != null) {
+         $current_tasks = count( $current_tasks );
+      } else {
+         $current_tasks = 0;
+      }
+
 
       // we need to check the post status, even though we have a similar check in the filter.
       // this allows us to move forward in the code if the filter is defined and not applicable to our case.
@@ -2303,7 +2309,8 @@ class OW_Process_Flow {
           'assign_actor_id' => $user_id,
           'post_id' => $post_id,
           'from_id' => '0',
-          'create_datetime' => $post->post_date
+          'create_datetime' => $post->post_date,
+          'history_meta'    => null
       );
       $action_history_table = OW_Utility::instance()->get_action_history_table_name();
       $new_action_history_id = OW_Utility::instance()->insert_to_table( $action_history_table, $submit_data );  // insert record in history table for workflow submit
@@ -2314,7 +2321,8 @@ class OW_Process_Flow {
           'step_id' => $step_id,
           'post_id' => $post_id,
           'from_id' => $new_action_history_id,
-          'create_datetime' => current_time( 'mysql' )
+          'create_datetime' => current_time( 'mysql' ),
+          'history_meta'    => null
       );
       if ( ! empty( $due_date ) ) {
          $assignment_data[ "due_date" ] = OW_Utility::instance()->format_date_for_db_wp_default( $due_date );
@@ -2774,11 +2782,12 @@ class OW_Process_Flow {
          }
 
          $review_data = array(
-             "review_status" => $step_decision,
-             "next_assign_actors" => json_encode( $next_assign_actors ),
-             "step_id" => $step_id, // represents success/failure step id
-             "comments" => json_encode( $comments ),
-             "update_datetime" => current_time( 'mysql' )
+             "review_status"        => $step_decision,
+             "next_assign_actors"   => json_encode( $next_assign_actors ),
+             "step_id"              => $step_id, // represents success/failure step id
+             "comments"             => json_encode( $comments ),
+             "history_meta"         => null,
+             "update_datetime"      => current_time( 'mysql' )
          );
 
          if ( ! empty( $workflow_signoff_data[ 'due_date' ] ) ) {
@@ -2792,12 +2801,13 @@ class OW_Process_Flow {
          $new_action_history_id = $this->review_step_procedure( $history_id, $history_details->step_id );
       } else { // the current step is either an assignment or publish step, so no review decision check required
          $data = array(
-             'action_status' => "assignment",
-             'comment' => json_encode( $comments ),
-             'step_id' => $step_id,
-             'post_id' => $post_id,
-             'from_id' => $history_id,
-             'create_datetime' => current_time( 'mysql' )
+             'action_status'     => "assignment",
+             'comment'           => json_encode( $comments ),
+             'step_id'           => $step_id,
+             'post_id'           => $post_id,
+             'from_id'           => $history_id,
+             'history_meta'      => null,
+             'create_datetime'   => current_time( 'mysql' )
          );
 
          if ( ! empty( $workflow_signoff_data[ 'due_date' ] ) ) {
@@ -3432,7 +3442,7 @@ class OW_Process_Flow {
          $link = admin_url() . "edit.php";
       } else {
          $link = admin_url() . "edit.php?post_type=" . $post_type;
-      }
+      }      
       wp_redirect( $link );
       exit();
    }

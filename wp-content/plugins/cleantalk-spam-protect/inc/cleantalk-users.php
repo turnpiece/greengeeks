@@ -1,4 +1,5 @@
 <?php
+
 add_action('admin_menu', 'ct_add_users_menu');
 add_action( 'wp_ajax_ajax_check_users', 'ct_ajax_check_users' );
 add_action( 'wp_ajax_ajax_info_users', 'ct_ajax_info_users' );
@@ -11,7 +12,7 @@ add_action( 'wp_ajax_ajax_ct_get_csv_file', 'ct_usercheck_get_csv_file' );
 
 function ct_add_users_menu(){
 	if(current_user_can('activate_plugins'))
-		add_users_page( __("Check for spam", 'cleantalk'), __("Check for spam", 'cleantalk'), 'read', 'ct_check_users', 'ct_show_users_page');
+		add_users_page( __("Check for spam", 'cleantalk'), __("Find spam users", 'cleantalk'), 'read', 'ct_check_users', 'ct_show_users_page');
 }
 
 function ct_show_users_page(){
@@ -30,28 +31,48 @@ function ct_show_users_page(){
 	
 ?>
 	<div class="wrap">
-		<h2><?php echo $ct_plugin_name; ?></h2><br />
+		<h2><img src="<?php echo plugin_dir_url(__FILE__) ?>/images/logo_color.png" /> <?php echo $ct_plugin_name; ?></h2><br />
 		
-		<!-- AJAX error message --> 
+	<!-- AJAX error message --> 
 		<div id="ct_error_message" style="display:none">
-			<h3 style="text-align: center;width:90%;">
+			<h3>
 				<?php _e("Ajax error. Process will be automatically restarted in 3 seconds. Status: ", 'cleantalk'); ?><span id="cleantalk_ajax_error"></span> (<span id="cleantalk_js_func"></span>)
 			</h3>
-			<h4 style="text-align:center;width:90%;">Please, check for JavaScript errors in your dashboard and and repair it.</h4>
+			<h4>Please, check for JavaScript errors in your dashboard and and repair it.</h4>
 		</div>
 		
-		<!-- Deleting message --> 
+	<!-- Deleting message --> 
 		<div id="ct_deleting_message" style="display:none">
 			<?php _e("Please wait for a while. CleanTalk is deleting spam users. Users left: ", 'cleantalk'); ?> <span id="cleantalk_users_left">
             <?php echo $cnt_spam1;?>
             </span>
 		</div>
 				
-		<!-- Main info --> 
-		<h3 id="ct_checking_users_status" style="text-align:center;width:90%;"><?php echo ct_ajax_info_users(true); ?></h3>
+	<!-- Main info --> 
+		<h3 id="ct_checking_status"><?php echo ct_ajax_info_users(true); ?></h3>
+		
+	<!-- Check options -->
+		<div class="ct_to_hide" id="ct_check_params_wrapper">
+			<button class="button ct_check_params_elem" id="ct_check_spam_button"><?php _e("Start check", 'cleantalk'); ?></button>
+			<?php if(!empty($_COOKIE['ct_paused_users_check'])) { ?><button class="button ct_check_params_elem" id="ct_proceed_check_button"><?php _e("Continue check", 'cleantalk'); ?></button><?php } ?>
+			<p class="ct_check_params_desc"><?php _e("The plugin will check all comments against blacklists database and show you senders that have spam activity on other websites.", 'cleantalk'); ?></p>
+			<br />
+			<div class="ct_check_params_elem ct_check_params_elem_sub">
+				<input id="ct_accurate_check" type="checkbox" value="1" /><b><label for="ct_accurate_check"><?php _e("Accurate check", 'cleantalk'); ?></b></label>
+			</div>
+			<p class="ct_check_params_desc"><?php _e("Allows to use comment's dates to perform more accurate check. Could seriously slow down the check.", 'cleantalk'); ?></p>
+			<br />
+			<div class="ct_check_params_elem ct_check_params_elem_sub">
+				<input id="ct_allow_date_range" type="checkbox" value="1" /><label for="ct_allow_date_range"><b><?php _e("Specify date range", 'cleantalk'); ?></b></label>
+			</div>
+			<div class="ct_check_params_desc">
+				<input class="ct_date" type="text" id="ct_date_range_from" value="<?php echo isset($_GET['from']) ? $_GET['from'] : ''; ?>" disabled readonly />
+				<input class="ct_date" type="text" id="ct_date_range_till" value="<?php echo isset($_GET['till']) ? $_GET['till'] : ''; ?>" disabled readonly />
+			</div>
+		</div>
 		
 		<!-- Cooling notice --> 
-		<h3 id="ct_cooling_notice" style="text-align:center;width:90%;"></h3>
+		<h3 id="ct_cooling_notice"></h3>
 		
 		<!-- Preloader and working message --> 
 		<div id="ct_preloader">
@@ -61,10 +82,15 @@ function ct_show_users_page(){
 			<?php _e("Please wait for a while. CleanTalk is checking all users via blacklist database at cleantalk.org. You will have option to delete found spam users after plugin finish.", 'cleantalk'); ?>
 		</div>
 		
+		<!-- Pause button -->
+		<button class="button" id="ct_pause">Pause check</button>
+		
 		<?php
+		
 			// Pagination			
 			$page = !empty($_GET['spam_page']) ? intval($_GET['spam_page']) : 1;
 			$on_page = 20;
+			
 			$args_spam = array(
 				'meta_query' => array(
 					Array(
@@ -82,7 +108,7 @@ function ct_show_users_page(){
 			
 				$pages = ceil(intval($cnt_spam1)/$on_page);
 				if($pages && $pages != 1){
-					echo "<div class='pagination'>"
+					echo "<div class='ct_to_hide pagination'>"
 							."<b>Pages:</b>"
 							."<ul class='pagination'>";
 								for($i = 1; $i <= $pages; $i++){
@@ -96,7 +122,7 @@ function ct_show_users_page(){
 					echo "</div>";
 				}
 		?>
-				<table class="widefat fixed comments" id="ct_check_users_table">
+				<table class="ct_to_hide widefat fixed comments" id="ct_check_users_table">
 					<thead>
 						<th scope="col" id="cb" class="manage-column column-cb check-column">
 							<label class="screen-reader-text" for="cb-select-all-1">Select All</label>
@@ -155,8 +181,6 @@ function ct_show_users_page(){
 											echo "No IP adress";
 									echo "</td>";
 							?>
-									
-									
 									<td class="comment column-comment">
 										<div class="submitted-on">
 											<?php print $c_spam[$i]->data->display_name; ?>
@@ -190,7 +214,7 @@ function ct_show_users_page(){
 				<?php
 					// Pagination
 					if($pages && $pages != 1){
-						echo "<div class='pagination'>"
+						echo "<div class='ct_to_hide pagination'>"
 								."<b>Pages:</b>"
 								."<ul class='pagination'>";
 									for($i = 1; $i <= $pages; $i++){
@@ -204,30 +228,16 @@ function ct_show_users_page(){
 						echo "</div>";
 					}
 				?>			
-				<div id="ct_tools_buttons" style="margin-top: 10px;">
+				<div class="ct_to_hide" id="ct_tools_buttons" style="margin-top: 10px;">
 					<button class="button" id="ct_delete_all_users"><?php _e('Delete all users from list', 'cleantalk'); ?></button> 
 					<button class="button" id="ct_delete_checked_users"><?php _e('Delete selected', 'cleantalk'); ?></button>
 					<button class="button" id="ct_get_csv_file"><?php _e('Download results in CSV', 'cleantalk'); ?></button>
 				</div>
 				<?php
 			}
-			echo $_SERVER['REMOTE_ADDR']=='127.0.0.1' ? '<br /><button class="button" id="ct_insert_users">'. __('Insert accounts', 'cleantalk'). '</button><br />' : '';
-			?>
-		<br />
-		<br />
-        <table>
-            <tr>
-                <td>
-		            <button class="button" id="ct_check_users_button"><?php _e("Check for spam", 'cleantalk'); ?></button>
-                </td>
-                <td style="padding-left: 2em;">
-					<div id="ct_info_message" class="wrap">
-						<?php _e("The plugin will check all users against blacklists database and show you senders that have spam activity on other websites. Just click 'Find spam users' to start.", 'cleantalk'); ?>
-					</div>
-                </td>
-            </tr>
-        </table>
-		<?php
+			echo $_SERVER['REMOTE_ADDR']=='127.0.0.1' ? '<br /><button class=" ct_to_hide button" id="ct_insert_users">'. __('Insert accounts', 'cleantalk'). ' (100)</button> ' : '';
+			echo $_SERVER['REMOTE_ADDR']=='127.0.0.1' ?       '<button class="ct_to_hide button" id="ct_delete_users">'. __('Delete accounts', 'cleantalk'). ' (110)</button><br />' : '';
+			
 			if($cnt_spam1 > 0)
 				echo "<div id='ct_search_info'>"
 						."<br />"
@@ -244,26 +254,31 @@ function ct_show_users_page(){
 
 function ct_ajax_check_users(){
 	
-	global $ct_options,$ct_ip_penalty_days;
-
 	check_ajax_referer('ct_secret_nonce', 'security');
 	
+	global $ct_options,$ct_ip_penalty_days;
+
 	$ct_options = ct_get_options();
     
     $skip_roles = array(
         'administrator'
     );
 
-	$args_unchecked = array(
+	$params = array(
+		// 'fields' => array(
+			// 'ID',
+			// 'user_login',
+			// 'user_email',
+			// 'user_registered',
+		// ),
 		'meta_query' => array(
+			'relation' => 'AND',
 			array(
 				'key' => 'ct_checked',
-				'value' => '1',
 				'compare' => 'NOT EXISTS'
 			),
 			array(
 				'key' => 'ct_bad',
-				'value' => '1',
 				'compare' => 'NOT EXISTS'
 			),
 		),
@@ -271,7 +286,21 @@ function ct_ajax_check_users(){
 		'order' => 'ASC',
 		'number' => 100
 	);
-	$u = get_users($args_unchecked);
+	
+	if(isset($_POST['from'], $_POST['till'])){
+		
+		$from_date = date('Y-m-d', intval(strtotime($_POST['from'])));
+		$till_date = date('Y-m-d', intval(strtotime($_POST['till'])));
+
+		$params['date_query'] = array(
+			'column'   => 'user_registered',
+			'after'     => $from_date,
+			'before'    => $till_date,
+			'inclusive' => true,						
+		);
+	}
+	
+	$u = get_users( $params );
 	
 	$check_result = array(
 		'end' => 0,
@@ -283,17 +312,21 @@ function ct_ajax_check_users(){
 	
     if(count($u) > 0){
 		
-		foreach($u as $user_index => $user){
-			
-			if(!isset($curr_date))
-				$curr_date = (substr($user->data->user_registered, 0, 10) ? substr($user->data->user_registered, 0, 10) : '');
-
-			if(substr($user->data->user_registered, 0, 10) != $curr_date)
-				unset($u[$user_index]);
-
-		}
-		unset($user_index, $user);
+		if(!empty($_POST['accurate_check'])){
+			// Leaving users only with first comment's date. Unsetting others.
+			foreach($u as $user_index => $user){
 				
+				if(!isset($curr_date))
+					$curr_date = (substr($user->data->user_registered, 0, 10) ? substr($user->data->user_registered, 0, 10) : '');
+
+				if(substr($user->data->user_registered, 0, 10) != $curr_date)
+					unset($u[$user_index]);
+
+			}
+			unset($user_index, $user);
+		}
+		
+		// Checking comments IP/Email. Gathering $data for check.
 		$data=Array();
 		for($i=0; $i < count($u); $i++){
 			
@@ -312,23 +345,24 @@ function ct_ajax_check_users(){
 				$check_result['bad']++;
 				update_user_meta($u[$i]->ID,'ct_bad','1',true);
 				unset($u[$i]);
-				$u = array_values($u);
 			}else{
 				if(!empty($curr_ip))
 					$data[] = $curr_ip;
 				if(!empty($curr_email))
 					$data[] = $curr_email;
+				// Patch for empty IP/Email
 				$u[$i]->data->user_ip    = empty($curr_ip)    ? 'none' : $curr_ip;				
 			    $u[$i]->data->user_email = empty($curr_email) ? 'none' : $curr_email;
 			}
 		}
 		
+		// Recombining after checking and unsettting
+		$u = array_values($u);
+		
 		// Drop if data empty and there's no users to check
 		if(count($data) == 0){
-			
 			if($_POST['unchecked'] === 0)
 				$check_result['end'] = 1;
-
 			print json_encode($check_result);
 			die();
 		}
@@ -339,8 +373,11 @@ function ct_ajax_check_users(){
         $request['method_name'] = 'spam_check_cms'; 
         $request['auth_key'] = $ct_options['apikey'];
         $request['data'] = $data;
-		$request['date'] = $curr_date;
+		if(!empty($_POST['accurate_check']))
+			$request['date'] = $curr_date;
+		
         $url='https://api.cleantalk.org';
+		
         if(!function_exists('sendRawRequest'))
             require_once('cleantalk.class.php');
 		
@@ -422,32 +459,59 @@ function ct_ajax_info_users($direct_call = false)
 {
     if (!$direct_call)
 	    check_ajax_referer( 'ct_secret_nonce', 'security' );
+	
+	// Checking dates value
+	if(isset($_POST['from'], $_POST['till'])){
+		
+		$from_date = date('Y-m-d', intval(strtotime($_POST['from'])));
+		$till_date = date('Y-m-d', intval(strtotime($_POST['till'])));
+	}
 
-	global $wpdb;
+	// Total users
+	$params = array(
+		'fields' => 'ID',
+		'count'=>true,
+	);
+	if(isset($from_date, $till_date)) $params['date_query'] = array('column' => 'user_registered', 'after' => $from_date, 'before' => $till_date, 'inclusive' => true);
+	$tmp = new WP_User_Query($params);
+	$cnt = $tmp->get_total();
 
-	// All users
-	$r=$wpdb->get_results("
-		SELECT 
-			COUNT(ID) AS cnt
-			FROM $wpdb->users
-	");
-	$cnt = $r[0]->cnt;
+	// Checked users
+	$params = array(
+		'fields' => 'ID',
+		'meta_key' => 'ct_checked',
+		'count_total' => true,
+	);
+	if(isset($from_date, $till_date)) $params['date_query'] = array('column' => 'user_registered', 'after' => $from_date, 'before' => $till_date, 'inclusive' => true);
+	$tmp = new WP_User_Query($params);
+	$cnt_checked = $tmp->get_total();
 	
-	// Checked
-	$r=$wpdb->get_results("select distinct count($wpdb->users.ID) as cnt from $wpdb->users inner join $wpdb->usermeta on $wpdb->users.ID=$wpdb->usermeta.user_id where $wpdb->usermeta.meta_key='ct_checked' or $wpdb->usermeta.meta_key='ct_hash';");
-	$cnt_checked = $r[0]->cnt;
+	// Spam users
+	$params = array(
+		'fields' => 'ID',
+		'meta_key' => 'ct_marked_as_spam',
+		'count_total' => true,
+	);
+	if(isset($from_date, $till_date)) $params['date_query'] = array('column' => 'user_registered', 'after' => $from_date, 'before' => $till_date, 'inclusive' => true);
+	$tmp = new WP_User_Query($params);
+	$cnt_spam = $tmp->get_total();
 	
-	//Spam
-	$r=$wpdb->get_results("select distinct count($wpdb->users.ID) as cnt from $wpdb->users inner join $wpdb->usermeta on $wpdb->users.ID=$wpdb->usermeta.user_id where $wpdb->usermeta.meta_key='ct_marked_as_spam';", ARRAY_A);
-	$cnt_spam = $r[0]['cnt'];
-	
-	//Bad
-	$r=$wpdb->get_results("select distinct count($wpdb->users.ID) as cnt from $wpdb->users inner join $wpdb->usermeta on $wpdb->users.ID=$wpdb->usermeta.user_id where $wpdb->usermeta.meta_key='ct_bad';", ARRAY_A);
-	$cnt_bad = $r[0]['cnt'];
+	// Bad users (without IP and Email)
+	$params = array(
+		'fields' => 'ID',
+		'meta_key' => 'ct_bad',
+		'count_total' => true,
+	);
+	if(isset($from_date, $till_date)) $params['date_query'] = array('column' => 'user_registered', 'after' => $from_date, 'before' => $till_date, 'inclusive' => true);
+	$tmp = new WP_User_Query($params);
+	$cnt_bad = $tmp->get_total();
 	
 	$return = array(
 		'message' => '',
-		'total' => $cnt
+		'total' => $cnt,
+		'spam' => $cnt_spam,
+		'checked' => $cnt_checked,
+		'bad' => $cnt_bad,
 	);
 	
 	$return['message'] .= sprintf (__("Total users %s, checked %s, found %s spam users and %s bad users (without IP or email)", 'cleantalk'), $cnt, $cnt_checked, $cnt_spam, $cnt_bad);
@@ -471,22 +535,26 @@ function ct_ajax_info_users($direct_call = false)
 function ct_ajax_insert_users()
 {
 	check_ajax_referer( 'ct_secret_nonce', 'security' );
-	global $wpdb;
 	
-	$to_insert = 20;
-	
-	/* DELETION
-	$users = get_users(array('search' => '*user_*', 'search_columns' => array('login', 'nicename')));
-	$inserted = 0;
-	$amount_to_delete = 0;
-	foreach($users as $user){
-		if($inserted >= $amount_to_delete)
-			break;
-		if(wp_delete_user($user->ID))
-			$inserted++;
+	//* DELETION
+	if(!empty($_POST['delete'])){
+		$users = get_users(array('search' => '*user_*', 'search_columns' => array('login', 'nicename')));
+		$deleted = 0;
+		$amount_to_delete = 15;
+		foreach($users as $user){
+			if($deleted >= $amount_to_delete)
+				break;
+			if(wp_delete_user($user->ID))
+				$deleted++;
+		}
+		 print "$deleted";
+		die();
 	}
 	//*/
 	
+	//* INSERTION
+	global $wpdb;
+	$to_insert = 10;
 	$result = $wpdb->get_results("SELECT network FROM `".$wpdb->base_prefix."cleantalk_sfw` LIMIT $to_insert;", ARRAY_A);
 	
 	if($result){
@@ -520,6 +588,7 @@ function ct_ajax_insert_users()
 	}else{
 		$inserted = '0';
 	}
+	//*/
 
     print "$inserted";
 	die();
@@ -548,7 +617,7 @@ function ct_ajax_delete_all_users()
 		'meta_key' => 'ct_marked_as_spam',
 		'meta_value' => '1',
 		'fields' => array('ID'),
-		'number' => 10
+		'number' => 50
 	);
 	$users = get_users($args);
 	

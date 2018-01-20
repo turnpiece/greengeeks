@@ -15,7 +15,7 @@
  */
 
 // Render the page header section.
-$page_title = __( 'System Info', 'wpmudev' );	 	 	 	 	 		    	
+$page_title = __( 'System Info', 'wpmudev' );
 $page_title .= sprintf(
 	' <a href="%s" class="wpmudui-btn is-ghost">%s</a>',
 	$urls->support_url,

@@ -448,11 +448,11 @@ class OW_History_Service {
     */
    public function get_action_history_by_status( $action_status, $post_id ) {
       global $wpdb;
+      $action_histories = array();
       if ( ! empty( $post_id ) ) {
          // sanitize the data
          $action_status = sanitize_text_field( $action_status );
-         $post_id = intval( sanitize_text_field( $post_id ) );
-         $action_histories = array();
+         $post_id = intval( sanitize_text_field( $post_id ) );         
          $results = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM " . OW_Utility::instance()->get_action_history_table_name() . " WHERE action_status = %s AND post_id = %d ORDER BY create_datetime DESC", $action_status, $post_id ) );
          foreach ( $results as $result ) {
             $action_history = $this->get_action_history_from_result_set( $result );
@@ -460,7 +460,7 @@ class OW_History_Service {
          }
          return $action_histories;
       }
-      return null;
+      return $action_histories;
    }
 
    /**

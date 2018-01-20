@@ -8,6 +8,7 @@ if ( ! class_exists( 'UltimateBrandingPublic' ) ) {
 		// The modules in the public class are only those that need to be loaded on the public side of the site as well
 		var $modules = array(
 			'login-image.php' => 'login-image/login-image.php',
+			'image-upload-size.php' => 'image-upload-size.php',
 			'custom-admin-bar.php' => 'custom-admin-bar/custom-admin-bar.php',
 			'custom-email-from.php' => 'custom-email-from/custom-email-from.php',
 			'global-footer-content.php' => 'global-footer-content/global-footer-content.php',
@@ -21,18 +22,18 @@ if ( ! class_exists( 'UltimateBrandingPublic' ) ) {
 			'ultimate-color-schemes.php' => 'ultimate-color-schemes.php',
 			'signup-password.php' => '/signup-password/signup-password.php',
 			'custom-ms-register-emails.php' => 'custom-ms-register-emails.php',
+			'admin-bar-logo.php' => 'admin-bar-logo.php',
+			'maintenance/maintenance.php' => 'maintenance/maintenance.php',
+			'htmlemail.php' => 'htmlemail.php',
 		);
 
 		var $plugin_msg = array();
 
 		function __construct() {
+			ub_set_ub_version();
 			global $ub_version;
 			$this->build = $ub_version;
 			add_action( 'plugins_loaded', array( $this, 'load_modules' ) );
-		}
-
-		function UltimateBrandingPublic() {
-			$this->__construct();
 		}
 
 		/**

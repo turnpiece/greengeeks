@@ -46,6 +46,7 @@ class UB_Admin_Bar {
 		add_action( 'admin_enqueue_scripts', array( $this, 'enque_general_scripts' ) );
 		add_action( 'init', array( $this, 'try_to_show_admin_bar' ) );
 		add_filter( 'ultimate_branding_export_data', array( $this, 'export' ) );
+		add_action( 'ultimate_branding_import', array( $this, 'import' ) );
 	}
 
 	public function try_to_show_admin_bar() {
@@ -205,10 +206,8 @@ class UB_Admin_Bar {
 			}
 			ub_update_option( self::OPTION_KEY, $saved_ids );
 		}
-
 		return ! in_array( false, $result );
 	}
-
 
 	/**
 	 * Inserts new menu
@@ -269,24 +268,24 @@ class UB_Admin_Bar {
 	 *
 	 * @return array UB_Admin_Bar_Menu|bool false
 	 */
-    public static  function menus() {
-        global $wpdb;
-        $ids = maybe_unserialize( ub_get_option( self::OPTION_KEY ) );
-        $menus = array();
-        if ( $ids ) {
-            foreach ( $ids as $id => $data ) {
-                if ( ! is_array( $data ) ) {
-                    $id = $data;
-                }
-                $composite_id = self::_get_menu_composite_id( $id );
-                if ( $m = ub_get_option( $composite_id )  ) {
-                    $m = maybe_unserialize( $m );
-                    $menus[]  = new UB_Admin_Bar_Menu( $id , $m );
-                }
-            }
-        }
-        return $menus;
-    }
+	public static  function menus() {
+		global $wpdb;
+		$ids = maybe_unserialize( ub_get_option( self::OPTION_KEY ) );
+		$menus = array();
+		if ( $ids ) {
+			foreach ( $ids as $id => $data ) {
+				if ( ! is_array( $data ) ) {
+					$id = $data;
+				}
+				$composite_id = self::_get_menu_composite_id( $id );
+				if ( $m = ub_get_option( $composite_id )  ) {
+					$m = maybe_unserialize( $m );
+					$menus[]  = new UB_Admin_Bar_Menu( $id , $m );
+				}
+			}
+		}
+		return $menus;
+	}
 
 	/**
 	 * Returns menus style
@@ -533,6 +532,9 @@ UBSTYLE;
 		if ( is_array( $menus ) && ! empty( $menus ) ) {
 			foreach ( $menus as $menu ) {
 				$menu_roles = isset( $menu->menu->menu_roles ) ? $menu->menu->menu_roles : array();
+				if ( ! is_array( $menu_roles ) ) {
+					$menu_roles = array();
+				}
 				if (
 					( is_user_logged_in() && self::user_has_access( $menu_roles, true ) )
 					||
@@ -582,6 +584,16 @@ UBSTYLE;
 		if ( version_compare( $version, '3.3', '>=' ) ) {
 			global $wp_admin_bar;
 			$wproles = ub_get_option( 'wdcab' );
+
+			/**
+			 * sanitize
+			 */
+			if ( ! isset( $wproles['wp_menu_roles'] ) || ! is_array( $wproles['wp_menu_roles'] ) ) {
+				$wproles['wp_menu_roles'] = array();
+			}
+			if ( ! isset( $wproles['disabled_menus'] ) || ! is_array( $wproles['disabled_menus'] ) ) {
+				$wproles['disabled_menus'] = array();
+			}
 
 			$hide_from_subscriber = count( $current_user->roles ) === 0 && isset( $wproles['wp_menu_roles'] ) && in_array( 'subscriber', (array) $wproles['wp_menu_roles'] );
 			if (
@@ -644,6 +656,12 @@ UBSTYLE;
 	 * Enqueues general scripts
 	 */
 	public function enque_general_scripts() {
+		/**
+		 * Avoid to load when we do not need it.
+		 */
+		if ( ! is_admin() && 1 !== (int) UB_Admin_Bar_Forms::get_option( 'show_toolbar_for_non_logged' ) ) {
+			return;
+		}
 		global $ub_version;
 		wp_enqueue_style( 'ub_adminbar_general_styles',  ub_files_url( 'modules/custom-admin-bar-files/css/general.css' ), array(), $ub_version );
 	}
@@ -658,6 +676,12 @@ UBSTYLE;
 	 * @access public
 	 */
 	function print_style_tag() {
+		if ( ! is_user_logged_in() ) {
+			$show = (int) UB_Admin_Bar_Forms::get_option( 'show_toolbar_for_non_logged' );
+			if ( 1 !== $show ) {
+				return;
+			}
+		}
 ?>
         <style type="text/css" id="custom-admin-bar-css">
             <?php echo self::styles();?>
@@ -685,6 +709,26 @@ UBSTYLE;
 			$data['modules'][ self::OPTION_KEY ][ $menu_id ] = ub_get_option( $id );
 		}
 		return $data;
+	}
+
+	/**
+	 * Handle custom import.
+	 *
+	 * @since 1.9.2
+	 *
+	 * @param array $data Import array.
+	 */
+	public function import( $data ) {
+		if ( isset( $data['ub_admin_bar_menus'] ) && is_array( $data['ub_admin_bar_menus'] ) ) {
+			$menus = $data['ub_admin_bar_menus'];
+			$ub_admin_bar_menus = array();
+			foreach ( $menus as $id => $menu ) {
+				$key = sprintf( 'ub_admin_bar_menu_%d', $id );
+				ub_update_option( $key, $menu );
+				$ub_admin_bar_menus[] = $id;
+			}
+			ub_update_option( 'ub_admin_bar_menus', $ub_admin_bar_menus );
+		}
 	}
 }
 

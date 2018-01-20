@@ -3,7 +3,7 @@
   Plugin Name: Oasis Workflow
   Plugin URI: http://www.oasisworkflow.com
   Description: Automate your WordPress Editorial Workflow with Oasis Workflow.
-  Version: 2.7
+  Version: 2.9
   Author: Nugget Solutions Inc.
   Author URI: http://www.nuggetsolutions.com
   Text Domain: oasisworkflow
@@ -26,8 +26,8 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 */
 
-define( 'OASISWF_VERSION', '2.7' );
-define( 'OASISWF_DB_VERSION', '2.7' );
+define( 'OASISWF_VERSION', '2.9' );
+define( 'OASISWF_DB_VERSION', '2.9' );
 define( 'OASISWF_PATH', plugin_dir_path( __FILE__ ) ); //use for include files to other files
 define( 'OASISWF_ROOT', dirname( __FILE__ ) );
 define( 'OASISWF_FILE_PATH', OASISWF_ROOT . '/' . basename( __FILE__ ) );
@@ -290,6 +290,7 @@ class OW_Plugin_Init {
          $this->upgrade_database_20();
 			$this->upgrade_database_22();
          $this->upgrade_database_23();
+         $this->upgrade_database_29();
 		} else if ($pluginOptions['version'] == "1.4") {
 			$this->upgrade_database_15();
 			$this->upgrade_database_16();
@@ -298,6 +299,7 @@ class OW_Plugin_Init {
          $this->upgrade_database_20();
 			$this->upgrade_database_22();
          $this->upgrade_database_23();
+         $this->upgrade_database_29();
 		} else if ($pluginOptions['version'] == "1.5") {
 			$this->upgrade_database_16();
 			$this->upgrade_database_17();
@@ -305,43 +307,55 @@ class OW_Plugin_Init {
          $this->upgrade_database_20();
 			$this->upgrade_database_22();
          $this->upgrade_database_23();
+         $this->upgrade_database_29();
 		} else if ( $pluginOptions['version'] == "1.6" ) {
 			$this->upgrade_database_17();
 			$this->upgrade_database_19();
          $this->upgrade_database_20();
 			$this->upgrade_database_22();
          $this->upgrade_database_23();
+         $this->upgrade_database_29();
 		} else if ( $pluginOptions['version'] == "1.7" ) {
 			$this->upgrade_database_19();
          $this->upgrade_database_20();
 			$this->upgrade_database_22();
          $this->upgrade_database_23();
+         $this->upgrade_database_29();
 		} else if ( $pluginOptions['version'] == "1.8" ) {
 			$this->upgrade_database_19();
          $this->upgrade_database_20();
 			$this->upgrade_database_22();
          $this->upgrade_database_23();
+         $this->upgrade_database_29();
 		} else if( $pluginOptions['version'] == "1.9" ) {
          $this->upgrade_database_20();
 			$this->upgrade_database_22();
          $this->upgrade_database_23();
+         $this->upgrade_database_29();
       } else if( $pluginOptions['version'] == '2.0' ) {
          $this->upgrade_database_22();
          $this->upgrade_database_23();
+         $this->upgrade_database_29();
       } else if( $pluginOptions['version'] == '2.1' ) {
 			$this->upgrade_database_22();
          $this->upgrade_database_23();
+         $this->upgrade_database_29();
 		} else if( $pluginOptions['version'] == '2.2' ) {
 			$this->upgrade_database_23();
+         $this->upgrade_database_29();
 		} else if( $pluginOptions['version'] == '2.3' ) {
-			// nothing to update
+			$this->upgrade_database_29();
 		} else if( $pluginOptions['version'] == '2.4' ) {
-			// nothing to update
+			$this->upgrade_database_29();
 		} else if( $pluginOptions['version'] == '2.5' ) {
-			// nothing to update
+			$this->upgrade_database_29();
 		} else if( $pluginOptions['version'] == '2.6' ) {
-			// nothing to update
-		}
+			$this->upgrade_database_29();
+		} else if( $pluginOptions['version'] == '2.7' ) {
+			$this->upgrade_database_29();
+		} else if( $pluginOptions['version'] == '2.8' ) {
+			$this->upgrade_database_29();
+		} 
 
 		// update the version value
 		$oasiswf_info=array(
@@ -1043,6 +1057,44 @@ class OW_Plugin_Init {
 			update_option( "oasiswf_workflow_completed_post_count", $workflow_completed_post );
 		}
    }
+   
+   
+   
+   private function upgrade_database_29() {
+		global $wpdb;
+
+		// look through each of the blogs and upgrade the DB
+		if (function_exists('is_multisite') && is_multisite())
+		{
+			//Get all blog ids; foreach them and call the uninstall procedure on each of them
+			$blog_ids = $wpdb->get_col("SELECT blog_id FROM {$wpdb->base_prefix}blogs");
+
+			//Get all blog ids; foreach them and call the install procedure on each of them if the plugin table is found
+			foreach ( $blog_ids as $blog_id )
+			{
+				switch_to_blog( $blog_id );
+				if( $wpdb->query( "SHOW TABLES FROM ".$wpdb->dbname." LIKE '".$wpdb->prefix."fc_%'" ) )
+				{
+					$this->upgrade_helper_29();
+				}
+				restore_current_blog();
+			}
+		}
+
+		$this->upgrade_helper_29();
+   }
+   
+    private function upgrade_helper_29() {
+       global $wpdb;
+
+		//fc_action_history table  - add history_meta field
+		$table_name = OW_Utility::instance()->get_action_history_table_name();
+		$wpdb->query( "ALTER TABLE {$table_name} ADD history_meta longtext" );
+
+		//fc_action table  - add history_meta field
+		$table_name = OW_Utility::instance()->get_action_table_name();
+		$wpdb->query( "ALTER TABLE {$table_name} ADD history_meta longtext" );
+    }
 
    public function load_css_and_js_files() {
 		add_action( 'admin_print_styles', array( $this, 'add_css_files' ) );
@@ -1751,6 +1803,7 @@ class OW_Plugin_Init {
 			post_id int(11) NOT NULL,
 			from_id int(11) NOT NULL,
 			due_date date DEFAULT NULL,
+         history_meta longtext DEFAULT NULL,
 			reminder_date date DEFAULT NULL,
 			reminder_date_after date DEFAULT NULL,
 			create_datetime datetime NOT NULL,
@@ -1771,6 +1824,7 @@ class OW_Plugin_Init {
 			comments mediumtext,
 			due_date date DEFAULT NULL,
 			action_history_id int(11) NOT NULL,
+         history_meta longtext DEFAULT NULL,
 			update_datetime datetime NOT NULL,
 			PRIMARY KEY (ID)
 			){$charset_collate};";
@@ -1997,6 +2051,7 @@ class OW_Plugin_Init {
          /**
           * enqueue status dropdown js
           * @since 2.1
+          *
           */
          wp_register_script( 'owf-post-statuses', OASISWF_URL . 'js/pages/ow-status-dropdown.js', array( 'jquery' ), OASISWF_VERSION );
          wp_enqueue_script( 'owf-post-statuses' );

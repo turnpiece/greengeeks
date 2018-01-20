@@ -9,7 +9,7 @@ if ( isset( $_GET['ct_add_taxonomy'] ) ) {
 }
 elseif ( isset ( $_GET['ct_edit_taxonomy'] ) ) {
 	$action = 'edit';
-	$taxonomy = $this->taxonomies[$_GET['ct_edit_taxonomy']]['args'];
+	$taxonomy = $this->taxonomies[$_GET['ct_edit_taxonomy']]['args'];	 	 	 	 		   		 	
 	$taxonomy['taxonomy'] = $_GET['ct_edit_taxonomy'];
 }
 

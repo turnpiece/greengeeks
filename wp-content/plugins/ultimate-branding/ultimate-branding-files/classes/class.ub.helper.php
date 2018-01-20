@@ -23,9 +23,37 @@ if ( ! class_exists( 'ub_helper' ) ) {
 		protected $options;
 		protected $data = null;
 		protected $option_name;
+		protected $url;
+		protected $build;
+		protected $tab_name;
+
+		/**
+		 * Module name
+		 *
+		 * @since 1.9.4
+		 */
+		protected $module = 'ub_helper';
 
 		public function __construct() {
+			if ( empty( $this->build ) ) {
+				global $ub_version;
+				$this->build = $ub_version;
+			}
+			if ( is_admin() ) {
+				global $uba;
+				$params = array(
+					'page' => 'branding',
+				);
+				if ( is_a( $uba, 'UltimateBrandingAdmin' ) ) {
+					$params['tab'] = $uba->get_current_tab();
+				}
+				$this->url = add_query_arg(
+					$params,
+					is_network_admin() ? network_admin_url( 'admin.php' ) : admin_url( 'admin.php' )
+				);
+			}
 			add_filter( 'ultimate_branding_options_names', array( $this, 'add_option_name' ) );
+			add_filter( 'ultimate_branding_get_option_name', array( $this, 'get_module_option_name' ), 10, 2 );
 		}
 
 		public function add_option_name( $options ) {
@@ -35,11 +63,16 @@ if ( ! class_exists( 'ub_helper' ) ) {
 			return $options;
 		}
 
-		protected function get_value( $section, $name = null ) {
+		/**
+		 * @since 1.9.1 added parameter $default
+		 *
+		 * @param mixed $default default value return if we do not have any.
+		 */
+		protected function get_value( $section, $name = null, $default = null ) {
 			$this->set_data();
 			$value = $this->data;
 			if ( empty( $value ) ) {
-				return null;
+				return $default;
 			}
 			if ( isset( $value[ $section ] ) ) {
 				if ( empty( $name ) ) {
@@ -52,13 +85,14 @@ if ( ! class_exists( 'ub_helper' ) ) {
 					return $value[ $section ][ $name ];
 				}
 			}
-			return null;
+			return $default;
 		}
 
 		public function admin_options_page() {
 			$this->set_options();
 			$this->set_data();
 			$simple_options = new simple_options();
+			do_action( 'ub_helper_admin_options_page_before_options', $this->option_name );
 			echo $simple_options->build_options( $this->options, $this->data );
 		}
 
@@ -101,11 +135,106 @@ if ( ! class_exists( 'ub_helper' ) ) {
 							} else {
 								$value[ $section_key ][ $key ] = 'off';
 							}
+							break;
+							/**
+							 * save extra data if field is a wp_editor
+							 */
+						case 'wp_editor':
+							$value[ $section_key ][ $key.'_meta' ] = do_shortcode( $value[ $section_key ][ $key ] );
+							break;
 					}
 				}
 			}
 			ub_update_option( $this->option_name , $value );
 			return true;
+		}
+
+		/**
+		 * get base url
+		 *
+		 * @since 1.8.9
+		 */
+		protected function get_base_url() {
+			$url = '';
+			if ( ! is_admin() ) {
+				return $url;
+			}
+			$screen = get_current_screen();
+			if ( ! is_object( $screen ) ) {
+				return $url;
+			}
+			$args = array(
+				'page' => $screen->parent_base,
+			);
+			if ( isset( $_REQUEST['tab'] ) ) {
+				$args['tab'] = $_REQUEST['tab'];
+			}
+			if ( is_network_admin() ) {
+				$url = add_query_arg( $args, network_admin_url( 'admin.php' ) );
+			} else {
+				$url = add_query_arg( $args, admin_url( 'admin.php' ) );
+			}
+			return $url;
+		}
+
+		/**
+		 * Admin notice wrapper
+		 *
+		 * @since 1.8.9
+		 */
+		protected function notice( $message, $class = 'info' ) {
+			$allowed = array( 'error', 'warning', 'success', 'info' );
+			if ( in_array( $class, $allowed ) ) {
+				$class = 'notice-'.$class;
+			} else {
+				$class = '';
+			}
+			printf(
+				'<div class="notice %s"><p>%s</p></div>',
+				esc_attr( $class ),
+				$message
+			);
+		}
+
+		/**
+		 * Handle filter for option name, it should be overwrite by module
+		 * method.
+		 *
+		 * @since 1.9.2
+		 */
+		public function get_module_option_name( $option_name, $module ) {
+			return $option_name;
+		}
+
+		/**
+		 * Remove "Save Changes" button from page.
+		 *
+		 * @since 1.9.2
+		 */
+		public function disable_save() {
+			add_filter( 'ultimatebranding_settings_panel_show_submit', '__return_false' );
+		}
+
+		/**
+		 * get nonce action
+		 *
+		 * @since 1.9.4
+		 *
+		 * @param string $name nonce name
+		 * @param integer $user_id User ID.
+		 * @return nonce action name
+		 */
+		protected function get_nonce_action_name( $name = 'default', $user_id = 0 ) {
+			if ( 0 === $user_id ) {
+				$user_id = get_current_user_id();
+			}
+			$nonce_action = sprintf(
+				'%s_%s_%d',
+				__CLASS__,
+				$name,
+				$user_id
+			);
+			return $nonce_action;
 		}
 	}
 }

@@ -2,14 +2,19 @@
 Contributors: nuggetsol
 Tags: workflow, work flow, review, assignment, publish, inbox, workflow history, audit, versioning, edit flow, newsroom, custom post status, journalism, auto submit, approval workflow, editorial workflow, notifications, oasis workflow, editorial, revisions, document revision, version control, collaboration, document management, revision scheduling, duplication, clone, revise, revise article
 Requires at least: 4.4
-Tested up to: 4.7.4
-Stable tag: 2.7
+Tested up to: 4.9.1
+Stable tag: 2.9
 
 Automate your WordPress Editorial Workflow with Oasis Workflow. Simple, intuitive drag and drop workflow builder to streamline your editorial process.
 
 == Description ==
 
-Oasis Workflow is a powerful feature rich plugin designed to automate any editorial workflow process using a simple, intuitive graphical user interface (GUI).
+Oasis Workflow is a powerful feature rich plugin designed to automate any editorial workflow process using a simple, intuitive drag and drop interface.
+
+= Typical users/audience for Oasis Workflow =
+* WordPress sites with multiple authors who are looking to manage their content review and publication process more efficiently.
+* Industries like healthcare, law firms, financial firms, universities, CPA firms, non-profits, news outlets and blogs, which publish articles regularly and need a formal review process.
+* Industries with strict auditing requirements where they need to track who made the change, when was the change made and what was changed.
 
 = The plugin provides three simple process/task templates: =
 * Assignment - represents task related to content generation.
@@ -111,6 +116,12 @@ For [Frequently Asked Questions](https://www.oasisworkflow.com/faq) plus documen
 
 
 == Changelog ==
+
+= Version 2.9 =
+* Fixed warnings when installed with PHP 7.x.
+
+= Version 2.8 =
+* Made it compatible to WordPress 4.8.
 
 = Version 2.7 =
 * Fixed issue related to broken permalink during the sign off process.

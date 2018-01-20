@@ -61,6 +61,9 @@ function ct_run_update_actions($current_version, $new_version){
 			CleantalkCron::addTask('send_sfw_logs',        'ct_sfw_send_logs',         3600,  time()+1800); // New
 			CleantalkCron::addTask('get_brief_data',       'cleantalk_get_brief_data', 86400, time()+3500);
 		}
+		if($current_version[1] <= 73){
+			CleantalkCron::removeTask('send_daily_request');
+		}
 	}
 	
 	return true;

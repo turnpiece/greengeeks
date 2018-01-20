@@ -301,10 +301,28 @@ class RTMedia {
 	}
 
 	function custom_style_for_activity_image_size() {
+
+		// Get width from rtMedia settings.
+		$width  = ( isset( $this->options['defaultSizes_photo_medium_width'] ) ) ? $this->options['defaultSizes_photo_medium_width'] : '0';
+		// Get height from rtMedia settings.
+		$height = ( isset( $this->options['defaultSizes_photo_medium_height'] ) ) ? $this->options['defaultSizes_photo_medium_height'] : '0';
+
+		$media_height = $height . 'px';
+		$media_width  = $width . 'px';
+
+		// If height or width given zero, then show it's original height or with.
+		if ( '0' === $height ) {
+			$media_height = 'auto';
+		}
+
+		if ( '0' === $width ) {
+			$media_width = 'auto';
+		}
+
 		?>
 		.rtmedia-activity-container .media-type-photo .rtmedia-item-thumbnail {
-		max-width: <?php echo esc_attr( $this->options['defaultSizes_photo_medium_width'] ); ?>px;
-		max-height: <?php echo esc_attr( $this->options['defaultSizes_photo_medium_height'] ); ?>px;
+		max-width: <?php echo esc_attr( $media_width ); ?>;
+		max-height: <?php echo esc_attr( $media_height ); ?>;
 		overflow: hidden;
 		}
 
@@ -324,18 +342,34 @@ class RTMedia {
 	}
 
 	function custom_style_for_gallery_image_size() {
+		// Get width from rtMedia settings.
+		$width  = ( isset( $this->options['defaultSizes_photo_thumbnail_width'] ) ) ? $this->options['defaultSizes_photo_thumbnail_width'] : '0';
+		// Get height from rtMedia settings.
+		$height = ( isset( $this->options['defaultSizes_photo_thumbnail_height'] ) ) ? $this->options['defaultSizes_photo_thumbnail_height'] : '0';
+
+		$media_height = $height . 'px';
+		$media_width  = $width . 'px';
+
+		// If height or width given zero, then show it's original height or with.
+		if ( '0' === $height ) {
+			$media_height = 'auto';
+		}
+
+		if ( '0' === $width ) {
+			$media_width = 'auto';
+		}
 		?>
 		.rtmedia-container ul.rtmedia-list li.rtmedia-list-item div.rtmedia-item-thumbnail {
-		width: <?php echo esc_attr( $this->options['defaultSizes_photo_thumbnail_width'] ); ?>px;
-		height: <?php echo esc_attr( $this->options['defaultSizes_photo_thumbnail_height'] ); ?>px;
-		line-height: <?php echo esc_attr( $this->options['defaultSizes_photo_thumbnail_height'] ); ?>px;
+		width: <?php echo esc_attr( $media_width ); ?>;
+		height: <?php echo esc_attr( $media_height ); ?>;
+		line-height: <?php echo esc_attr( $media_height ); ?>;
 		}
 		.rtmedia-container ul.rtmedia-list li.rtmedia-list-item div.rtmedia-item-thumbnail img {
-		max-width: <?php echo esc_attr( $this->options['defaultSizes_photo_thumbnail_width'] ); ?>px;
-		max-height: <?php echo esc_attr( $this->options['defaultSizes_photo_thumbnail_height'] ); ?>px;
+		max-width: <?php echo esc_attr( $media_width ); ?>;
+		max-height: <?php echo esc_attr( $media_height ); ?>;
 		}
 		.rtmedia-container .rtmedia-list  .rtmedia-list-item {
-		width: <?php echo intval( $this->options['defaultSizes_photo_thumbnail_width'] ); ?>px;
+		width: <?php echo $media_width; ?>;
 		}
 		<?php
 	}
@@ -956,14 +990,11 @@ class RTMedia {
 
 	function enqueue_scripts_styles() {
 		global $rtmedia;
-		if ( wp_script_is( 'wp-mediaelement', 'registered' ) ) {
-			wp_enqueue_style( 'wp-mediaelement' );
-			wp_enqueue_script( 'wp-mediaelement' );
-		} else {
-			wp_enqueue_script( 'wp-mediaelement', RTMEDIA_URL . 'lib/media-element/mediaelement-and-player.min.js', '', RTMEDIA_VERSION );
-			wp_enqueue_style( 'wp-mediaelement', RTMEDIA_URL . 'lib/media-element/mediaelementplayer.min.css', '', RTMEDIA_VERSION );
-			wp_enqueue_script( 'wp-mediaelement-start', RTMEDIA_URL . 'lib/media-element/wp-mediaelement.js', 'wp-mediaelement', RTMEDIA_VERSION, true );
-		}
+
+		wp_enqueue_script( 'rt-mediaelement', RTMEDIA_URL . 'lib/media-element/mediaelement-and-player.min.js', '', RTMEDIA_VERSION );
+		wp_enqueue_style( 'rt-mediaelement', RTMEDIA_URL . 'lib/media-element/mediaelementplayer-legacy.min.css', '', RTMEDIA_VERSION );
+		wp_enqueue_style( 'rt-mediaelement-wp', RTMEDIA_URL . 'lib/media-element/wp-mediaelement.min.css', '', RTMEDIA_VERSION );
+		wp_enqueue_script( 'rt-mediaelement-wp', RTMEDIA_URL . 'lib/media-element/wp-mediaelement.min.js', 'rt-mediaelement', RTMEDIA_VERSION, true );
 
 		// Dashicons: Needs if not loaded by WP
 		wp_enqueue_style( 'dashicons' );
@@ -978,20 +1009,20 @@ class RTMedia {
 		if ( '' === $suffix ) {
 			wp_enqueue_script( 'rtmedia-magnific-popup', RTMEDIA_URL . 'app/assets/js/vendors/magnific-popup.js', array(
 				'jquery',
-				'wp-mediaelement',
+				'rt-mediaelement-wp',
 			), RTMEDIA_VERSION );
 			wp_enqueue_script( 'rtmedia-admin-tabs', RTMEDIA_URL . 'app/assets/admin/js/vendors/tabs.js', array(
 				'jquery',
-				'wp-mediaelement',
+				'rt-mediaelement-wp',
 			), RTMEDIA_VERSION );
 			wp_enqueue_script( 'rtmedia-main', RTMEDIA_URL . 'app/assets/js/rtMedia.js', array(
 				'jquery',
-				'wp-mediaelement',
+				'rt-mediaelement-wp',
 			), RTMEDIA_VERSION );
 		} else {
 			wp_enqueue_script( 'rtmedia-main', RTMEDIA_URL . 'app/assets/js/rtmedia.min.js', array(
 				'jquery',
-				'wp-mediaelement',
+				'rt-mediaelement-wp',
 			), RTMEDIA_VERSION );
 		}
 
@@ -1156,16 +1187,7 @@ class RTMedia {
 
 		/* rtMedia fot comment media script localize*/
 		$request_uri = rtm_get_server_var( 'REQUEST_URI', 'FILTER_SANITIZE_URL' );
-		$url          = trailingslashit( $request_uri );
-		$rtmedia_slug = '/' . RTMEDIA_MEDIA_SLUG;
-		// check position of media slug from end of the URL
-		if ( strrpos( $url, $rtmedia_slug ) !== false ) {
-			// split the url upto the last occurance of media slug
-			$url_upload = substr( $url, 0, strrpos( $url, $rtmedia_slug ) );
-			$url        = trailingslashit( $url_upload ) . 'upload/';
-		} else {
-			$url = trailingslashit( $url ) . 'upload/';
-		}
+		$url         = rtmedia_get_upload_url( $request_uri );
 
 		$params = array(
 			'url'                 => $url,
@@ -1362,7 +1384,7 @@ function get_rtmedia_permalink( $id ) {
 	// Adding filter to get permalink for current blog
 	add_filter( 'bp_get_root_domain', 'rtmedia_get_current_blog_url' );
 
-	if ( ! isset( $media[0]->context ) ) {
+	if ( is_object( $media[0] ) && ! isset( $media[0]->context ) ) {
 		if ( function_exists( 'bp_get_groups_root_slug' ) && isset( $rtmedia_query->query ) && isset( $rtmedia_query->query['context'] ) && 'group' === $rtmedia_query->query['context'] ) {
 			$parent_link = get_rtmedia_group_link( $rtmedia_query->query['context_id'] );
 		} else {

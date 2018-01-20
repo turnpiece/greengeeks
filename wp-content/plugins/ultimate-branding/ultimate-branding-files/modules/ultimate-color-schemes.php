@@ -32,13 +32,8 @@ if ( ! class_exists( 'Ultimate_Color_Schemes' ) ) {
 
 	class Ultimate_Color_Schemes {
 
-		var $version = '1.0';
 		var $name = 'Color Schemes';
 		var $dir_name = 'ultimate-color-schemes';
-
-		function WP_Constructor() {
-			$this->__construct();
-		}
 
 		function __construct() {
 			$this->name = __( 'Color Schemes', 'ub' );
@@ -73,9 +68,7 @@ if ( ! class_exists( 'Ultimate_Color_Schemes' ) ) {
 
 		function force_admin_scheme_color( $result, $option, $user ) {
 			global $_wp_admin_css_colors;
-
 			$force_color = ub_get_option( 'ucs_force_color_scheme', false );
-
 			if ( $force_color && $force_color !== 'false' ) {
 				return $force_color;
 			} else {
@@ -121,11 +114,10 @@ if ( ! class_exists( 'Ultimate_Color_Schemes' ) ) {
 		}
 
 		function admin_header_actions() {
-			global $wp_version;
-
 			wp_enqueue_style( 'wp-color-picker' );
 			wp_enqueue_script( 'wp-color-picker' );
-			wp_enqueue_script( 'ucs-admin', plugins_url( '/' . $this->dir_name . '-files/js/admin.js', __FILE__ ), array( 'wp-color-picker' ), false, true );
+			global $ub_version;
+			wp_enqueue_script( 'ucs-admin', plugins_url( '/' . $this->dir_name . '-files/js/admin.js', __FILE__ ), array( 'wp-color-picker' ), $ub_version, true );
 		}
 
 		function process() {
@@ -138,14 +130,13 @@ if ( ! class_exists( 'Ultimate_Color_Schemes' ) ) {
 					}
 				}
 				wp_redirect( 'admin.php?page=branding&tab=ultimate-color-schemes' );
-			} elseif ( isset( $_POST['ucs_color_scheme_name'] ) ) {
+			} else {
 				foreach ( $_POST as $key => $value ) {
 					if ( preg_match( '/^ucs_/', $key ) ) {
 						ub_update_option( $key, $value );
 					}
 				}
 			}
-
 			return true;
 		}
 
@@ -411,32 +402,44 @@ if ( ! class_exists( 'Ultimate_Color_Schemes' ) ) {
 			return $colors;
 		}
 
-		function manage_output() {
-			global $wpdb, $current_site, $page;
+		public function manage_output() {
+			echo '<div class="wrap nosubsub ultimate-colors meta-box-sortables">';
+			if ( isset( $_REQUEST['edit'] ) ) {
+				$this->manage_output_edit_color();
+			} else {
+					include_once( plugin_dir_path( __FILE__ ) . '/' . $this->dir_name . '-files/global-options.php' );
+			}
+			echo '</div>';
+		}
 
+		/**
+		 * Edit custom color scheme
+		 *
+		 * @since 1.9.4
+		 */
+		public function manage_output_edit_color() {
+			$color_scheme_name = ub_get_option( 'ucs_color_scheme_name', 'Ultimate' );
+			$simple_options = new simple_options();
+			$boxes = $simple_options->get_boxes();
 			$colors = $this->colors();
-
 			$page = $_GET['page'];
-
-			if ( isset( $_GET['error'] ) ) {
-				echo '<div id="message" class="error fade"><p>' . __( 'There was an error during the saving operation, please try again.', 'ub' ) . '</p></div>'; } elseif ( isset( $_GET['updated'] ) ) {
-				echo '<div id="message" class="updated fade"><p>' . __( 'Changes saved.', 'ub' ) . '</p></div>'; }
 ?>
-            <div class='wrap nosubsub'>
-                <div class="icon32" id="icon-themes"><br /></div>
-
-                <?php include_once( plugin_dir_path( __FILE__ ) . '/' . $this->dir_name . '-files/global-options.php' ); ?>
-
-                <p class='description'><?php printf( __( 'Here you can customize "%s" color scheme which use can set within your <a href="%s">user profile page</a>', 'ub' ), ub_get_option( 'ucs_color_scheme_name', 'Ultimate' ), get_edit_user_link( get_current_user_id() ) ); ?></p>
-
-                <h2><?php _e( 'Color Scheme Name', 'ub' ); ?></h2>
-                <div class="postbox">
+                <p class='description'><?php printf( __( 'Here you can customize "%s" color scheme which use can set within your <a href="%s">user profile page</a>', 'ub' ), esc_html( $color_scheme_name ), get_edit_user_link( get_current_user_id() ) ); ?></p>
+<?php
+				$id = 'color-scheme-name';
+?>
+    <div class="postbox <?php esc_attr_e( isset( $boxes[ $id ] )? $boxes[ $id ]:'' ); ?>" id="<?php esc_attr_e( $id ); ?>">
+                    <button type="button" class="handlediv button-link" aria-expanded="true">
+                    <span class="screen-reader-text"><?php printf( __( 'Toggle panel: %s', 'ub' ), __( 'Color Scheme Name', 'ub' ) ); ?>'</span>
+                        <span class="toggle-indicator" aria-hidden="true"></span>
+                    </button>
+                    <h2 class="hndle"><?php _e( 'Color Scheme Name', 'ub' ); ?></h2>
                     <div class="inside">
                         <table class="form-table">
                             <tbody>
                                 <tr valign="top">
                                     <th scope="row"><label for="ucs_color_scheme_name"><?php _e( 'Name', 'ub' ); ?></label></th>
-                                    <td><input type="text" value="<?php esc_attr_e( ub_get_option( 'ucs_color_scheme_name', 'Ultimate' ) ); ?>" name="ucs_color_scheme_name" /></td>
+                                    <td><input type="text" value="<?php echo esc_attr( $color_scheme_name ); ?>" name="ucs_color_scheme_name" /></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -445,12 +448,17 @@ if ( ! class_exists( 'Ultimate_Color_Schemes' ) ) {
 
 <?php
 foreach ( $colors as $color_section => $color_array ) {
+	$id = sanitize_title( $color_section );
 ?>
-	<h2><?php echo $color_section; ?></h2>
-	<div class="postbox">
-		<div class="inside">
-			<table class="form-table">
-				<tbody>
+<div class="postbox <?php esc_attr_e( isset( $boxes[ $id ] )? $boxes[ $id ]:'' ); ?>" id="<?php esc_attr_e( $id ); ?>">
+<button type="button" class="handlediv button-link" aria-expanded="true">
+<span class="screen-reader-text"><?php printf( __( 'Toggle panel: %s', 'ub' ), $color_section ); ?>'</span>
+<span class="toggle-indicator" aria-hidden="true"></span>
+</button>
+<h2 class="hndle"><?php echo $color_section; ?></h2>
+<div class="inside">
+<table class="form-table">
+<tbody>
 <?php
 foreach ( $color_array as $property => $value ) {
 ?>
@@ -458,17 +466,15 @@ foreach ( $color_array as $property => $value ) {
 						<th scope="row"><label for="<?php esc_attr_e( $property ); ?>"><?php esc_attr_e( $color_array[ $property ]['title'] ); ?></label></th>
 						<td><input type="text" value="<?php esc_attr_e( $color_array[ $property ]['value'] ); ?>" class="ultimate-color-field" name="<?php echo esc_attr_e( $property ); ?>" /></td>
 					<?php } ?>
-				</tbody>
-			</table>
-		</div>
-	</div>
+</tbody>
+</table>
+</div>
+</div>
 <?php
 }
 				wp_nonce_field( 'ultimatebranding_settings_ultimate_color_schemes' );
 ?>
                 <p class='description'><a href='<?php echo wp_nonce_url( 'admin.php?page=' . $page . '&amp;tab=ultimate-color-schemes&amp;reset=yes&amp;action=process', 'ultimatebranding_settings_ultimate_color_schemes' ) ?>'><?php _e( 'Reset Scheme Colors', 'ub' ) ?></a></p>
-            </div>
-
 <?php
 		}
 

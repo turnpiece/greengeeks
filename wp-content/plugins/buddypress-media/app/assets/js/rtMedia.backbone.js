@@ -83,13 +83,14 @@ jQuery( function( $ ) {
 					url = window.location.pathname.substr( 0, window.location.pathname.lastIndexOf( 'pg/' ) );
 				}
 			}
-			if ( ! upload_sync && nextpage > 1 ) {
+			if ( ! upload_sync && nextpage >= 1 ) {
 				if ( url.substr( url.length - 1 ) != '/' ) {
 					url += '/';
 				}
 
 				url += 'pg/' + nextpage + '/';
 			}
+			
 			return url;
 		},
 		getNext: function( page, el, element) {
@@ -345,6 +346,7 @@ jQuery( function( $ ) {
 
 				var page_base_url = $( '#' + current_gallery_id + ' .rtmedia-page-no .rtmedia-page-link' ).data( 'page-base-url' );
 				var href = page_base_url + nextpage;
+				
 				change_rtBrowserAddressUrl( href, '' );
 
 				galleryObj.getNext( nextpage, $( this ).parents( '.rtmedia_gallery_wrapper' ), $( this ).parents( '.rtm-pagination' ) );
@@ -386,14 +388,10 @@ jQuery( function( $ ) {
 				page_base_url = $( this ).data( 'page-base-url' );
 				href = page_base_url + nextpage;
 				}
-				if ( $( this ).data( 'page-type' ) == 'num' ) {
-					galleryObj.getNext( nextpage, $( this ).parents( '.rtmedia_gallery_wrapper' ), $( this ).parents( '.rtm-pagination' ) );
-				} else {
-					galleryObj.getNext( nextpage, $( this ).parents( '.rtmedia_gallery_wrapper' ), $( this ).parents( '.rtm-pagination' ) );
-			}
 
+			var media_search_input = $( '#media_search_input' );
 			if( check_condition( 'search' ) ) {
-				if ( '' !== $( '#media_search_input' ).val() ) {
+				if ( media_search_input.length > 0 && '' !== media_search_input.val() ) {
 					var search_val = check_url( 'search' );
 					href += '?search=' + search_val;
 
@@ -405,11 +403,7 @@ jQuery( function( $ ) {
 			}
 
 			change_rtBrowserAddressUrl( href, '' );
-			if ( $( this ).data( 'page-type' ) == 'num' ) {
-				galleryObj.getNext( nextpage, $( this ).parent().parent().parent().parent().parent(), $( this ).parent().parent() );
-			} else {
-				galleryObj.getNext( nextpage, $( this ).parent().parent().parent().parent().parent(), $( this ).parent().parent() );
-			}
+			galleryObj.getNext( nextpage, $( this ).closest( '.rtmedia-container' ).parent(), $( this ).closest( '.rtm-pagination' ) );
 		} );
 
 		$( document ).on( 'submit', 'form#media_search_form', function( e ) {
@@ -456,6 +450,7 @@ jQuery( function( $ ) {
 				remove_href =  href.substring( remove_index );
 				href = href.replace( remove_href, '' );
 			}
+
 			change_rtBrowserAddressUrl( href, '' );
 			galleryObj.getNext( nextpage, $( this ).parent().parent().parent().parent().parent());
 			$( '#media_search_remove' ).hide();
@@ -959,6 +954,17 @@ jQuery( document ).ready( function( $ ) {
 			$( '#rtmedia-whts-new-upload-container > div' ).css( 'top', '0' );
 			$( '#rtmedia-whts-new-upload-container > div' ).css( 'left', '0' );
 
+			/**
+			 * NOTE: Do not change.
+			 * ISSUE: BuddyPress activity upload issue with Microsoft Edge
+			 * GL: 132 [ http://git.rtcamp.com/rtmedia/rtMedia/issues/132 ]
+			 * Reason: Trigger event not working for hidden element in Microsoft Edge browser
+			 * Condition to check current browser.
+			 */
+			if ( /Edge/.test( navigator.userAgent ) ) {
+				jQuery( this ).closest( '.rtm-upload-button-wrapper' ).find( 'input[type=file]' ).click();
+			}
+
 			//Enable 'post update' button when media get select
 			$( '#aw-whats-new-submit' ).prop( 'disabled', false );
 		} );
@@ -1347,7 +1353,9 @@ jQuery( document ).ready( function( $ ) {
 						//$("#div-attache-rtmedia").hide();
 						apply_rtMagnificPopup( jQuery( '.rtmedia-list-media, .rtmedia-activity-container ul.rtmedia-list, #bp-media-list,.widget-item-listing,.bp-media-sc-list, li.media.album_updated ul,ul.bp-media-list-media, li.activity-item div.activity-content div.activity-inner div.bp_media_content' ) );
 						jQuery( 'ul.activity-list li.rtmedia_update:first-child .wp-audio-shortcode, ul.activity-list li.rtmedia_update:first-child .wp-video-shortcode' ).mediaelementplayer( {
-							// If the <video width> is not specified, this is the default
+							// This is required to work with new MediaElement version.
+                                                        classPrefix: 'mejs-',
+                                                        // If the <video width> is not specified, this is the default
 							defaultVideoWidth: 480,
 							// If the <video height> is not specified, this is the default
 							defaultVideoHeight: 270
@@ -1655,7 +1663,7 @@ function rtmedia_selected_file_list( plupload, file, uploader, error, comment_me
 	rtmedia_plupload_file += '</div>';
 	rtmedia_plupload_file += '</div>';
 	rtmedia_plupload_file += '<div class="plupload_file_size">';
-	rtmedia_plupload_file += plupload.formatSize( file.size );
+	rtmedia_plupload_file += plupload.formatSize( file.size ).toUpperCase();
 	rtmedia_plupload_file += '</div>';
 	rtmedia_plupload_file += '<div class="plupload_file_fields">';
 	rtmedia_plupload_file += '</div>';
@@ -1781,7 +1789,9 @@ jQuery(document).ready(function($) {
 
 function rtmedia_reset_video_and_audio(){
 	jQuery( 'ul.activity-list li.activity-item div.rtmedia-item-thumbnail > audio.wp-audio-shortcode, ul.activity-list li.activity-item div.rtmedia-item-thumbnail > video.wp-video-shortcode' ).mediaelementplayer( {
-		// If the <video width> is not specified, this is the default
+		// This is required to work with new MediaElement version.
+                classPrefix: 'mejs-',
+                // If the <video width> is not specified, this is the default
 		defaultVideoWidth: 480,
 		// If the <video height> is not specified, this is the default
 		defaultVideoHeight: 270
@@ -1815,7 +1825,9 @@ function rtmedia_single_page_popup_close(){
 
 function rtmedia_reset_video_and_audio_for_popup(){
 	jQuery( '.rtm-lightbox-container .rtmedia-comments-container ul.rtm-comment-list li.rtmedia-comment div.rtmedia-item-thumbnail > audio.wp-audio-shortcode, .rtm-lightbox-container .rtmedia-comments-container ul.rtm-comment-list li.rtmedia-comment div.rtmedia-item-thumbnail > video.wp-video-shortcode' ).mediaelementplayer( {
-		// If the <video width> is not specified, this is the default
+		// This is required to work with new MediaElement version.
+                classPrefix: 'mejs-',
+                // If the <video width> is not specified, this is the default
 		defaultVideoWidth: 200,
 		// If the <video height> is not specified, this is the default
 		defaultVideoHeight: 200

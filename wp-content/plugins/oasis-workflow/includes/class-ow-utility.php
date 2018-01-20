@@ -123,8 +123,10 @@ class OW_Utility {
     */
    public function get_date_int( $date = null, $date_separator = "-" ) {
       $date = ( $date ) ? $date : current_time( 'mysql', 0 );
-      $arr = explode( $date_separator, $date );
-      return $arr[0] * 10000 + $arr[1] * 100 + $arr[2] * 1;
+      $date_split = explode( $date_separator, $date );
+      $date_time_split = preg_split('/[\s]+/', $date_split[2] );
+      $date_int = $date_split[0] * 10000 + $date_split[1] * 100 + $date_time_split[0] * 1;
+      return $date_int;
    }
 
    /**

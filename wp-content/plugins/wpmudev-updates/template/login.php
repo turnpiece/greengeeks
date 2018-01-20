@@ -36,7 +36,7 @@ if ( isset( $_GET['api_error'] ) ) {
 	if ( 1 == $_GET['api_error'] || 'auth' == $_GET['api_error'] ) { //invalid creds
 
 		$errors[] = sprintf(
-			'<i class="wpmudui-fi wpmudui-fi-circle-warning"></i> %s <a class="wpmud-link" href="%s" target="_blank">%s</a>',
+			'<i aria-hidden="true" class="wpmudui-fi wpmudui-fi-circle-warning"></i> %s <a class="wpmud-link" href="%s" target="_blank">%s</a>',
 			__( 'Invalid Username or Password. Please try again.', 'wpmudev' ),
 			$reset_url,
 			__( 'Forgot your password?', 'wpmudev' )
@@ -88,7 +88,7 @@ if ( isset( $_GET['api_error'] ) ) {
 
 	} else { //this in case we add new error types in the future
 
-		$errors[] = __( 'Unknown error. Please update the WPMU DEV Dashboard plugin and try again.', 'wpmudev' );
+		$errors[] = __( 'Unknown error. Please update the WPMU DEV Dashboard plugin and try again.', 'wpmudev' );	 	 	 	 	 		    	
 
 	}
 } elseif ( $connection_error ) {

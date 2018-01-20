@@ -2,10 +2,10 @@
 Contributors: OneAll.com, ClaudeSchlesser
 Tags: social login, social networks, login, register, comment, social network login, buddypress, facebook, google, openid, twitter, linkedin, instagram, pinterest, instagram, vkontakte, github, steam, dribbble, twitch.tv
 Requires at least: 3.0
-Tested up to: 4.8
-Stable tag: 5.3
+Tested up to: 4.9
+Stable tag: 5.4.0
 
-Social Login allows your users to comment, register and login with 30+ Social Networks like Twitter, Facebook, Paypal, LinkedIn, Instagram, OpenID, VKontakte, Google, Pinterest ... 
+Social Login allows your users to comment, register and login with 35+ Social Networks like Twitter, Facebook, Paypal, LinkedIn, Instagram, OpenID, VKontakte, Google, Pinterest ... 
 
 == Description ==
 
@@ -32,10 +32,11 @@ You can easily configure which social accounts to enable/disable for login and o
 * In your sidebar
 * With a shortcode
 
-**30+ Social Networks**
+**35+ Social Networks**
 * Amazon
 * Battle.net
 * Blogger
+* Discord 
 * Disqus
 * Dribbble
 * Facebook
@@ -43,24 +44,30 @@ You can easily configure which social accounts to enable/disable for login and o
 * Github.com
 * Google
 * Instagram
+* Line
 * LinkedIn
 * LiveJournal
 * Mail.ru
+* Meetup
 * Odnoklassniki
 * OpenID
 * PayPal
 * Pinterest
 * PixelPin 
 * Reddit
-* Skyrock.com		
+* Skyrock.com
+* SoundCloud		
 * StackExchange
 * Steam
+* Tumblr
 * Twitch.tv
 * Twitter
 * Vimeo
 * VKontakte
+* Weibo
 * Windows Live
 * WordPress.com
+* XING
 * Yahoo
 * YouTube
 
@@ -136,6 +143,15 @@ http://docs.oneall.com/plugins/guide/social-login-wordpress/
 5. **Login** - Login formular with small buttons (Social Network Buttons are included)
 
 == Changelog ==
+
+= 5.4.0 =
+* Social Network "Discord" added
+* Social Network "Line" added
+* Social Network "Meetup" added
+* Social Network "SoundCloud" added
+* Social Network "Tumblr" added
+* Social Network "Weibo" added
+* Social Network "XING" added
 
 = 5.3 =
 * New icon set added

@@ -2,6 +2,11 @@
     float: right;
     font-size: 0.9em;
 }
+.admin-panel-tips .apt-content:after {
+    content: "";
+    display: block;
+    clear: both;
+}
 
 
-/* 87274-1500844195-au */
+/* 87274-1516473910-au */
