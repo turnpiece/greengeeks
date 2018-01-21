@@ -1,0 +1,202 @@
+# Translation of Stable (latest release) in German
+# This file is distributed under the same license as the Stable (latest release) package.
+msgid ""
+msgstr ""
+"PO-Revision-Date: 2016-05-18 14:37:09+0000\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: GlotPress/2.1.0-alpha\n"
+"Project-Id-Version: Stable (latest release)\n"
+
+#: lib/class_bpfb_admin_pages.php:159
+msgid "Height"
+msgstr "Höhe"
+
+#: lib/class_bpfb_admin_pages.php:143 lib/class_bpfb_admin_pages.php:155
+msgid "Width"
+msgstr "Breite"
+
+#: lib/class_bpfb_binder.php:176
+msgid "Cancel"
+msgstr "Abbrechen"
+
+#: lib/class_bpfb_binder.php:211 lib/class_bpfb_binder.php:228
+msgid "Processing..."
+msgstr "Verarbeite..."
+
+#: lib/class_bpfb_admin_pages.php:174
+msgid "Save"
+msgstr "Speichern"
+
+#. Author of the plugin/theme
+msgid "WPMU DEV"
+msgstr "WPMU DEV"
+
+#: lib/class_bpfb_admin_pages.php:126
+msgid "Right"
+msgstr "Rechts"
+
+#: lib/class_bpfb_admin_pages.php:122
+msgid "Left"
+msgstr "Links"
+
+#: lib/class_bpfb_admin_pages.php:164
+msgid "Misc"
+msgstr "Diverses"
+
+#: lib/class_bpfb_admin_pages.php:101
+msgid "Theme"
+msgstr "Theme"
+
+#: lib/class_bpfb_binder.php:177
+msgid "Preview"
+msgstr "Vorschau"
+
+#: lib/class_bpfb_binder.php:179
+msgid "Upload a file"
+msgstr "Datei hochladen"
+
+#: lib/class_bpfb_binder.php:182
+msgid "Paste video URL here"
+msgstr "Video URL hier einfügen"
+
+#: lib/class_bpfb_binder.php:183
+msgid "Paste link here"
+msgstr "Link hier einfügen"
+
+#: lib/class_bpfb_binder.php:180
+msgid "Choose thumbnail"
+msgstr "Thumbnail auswählen"
+
+#: lib/class_bpfb_binder.php:181
+msgid "No thumbnail"
+msgstr "Kein Thumbnail vorhanden"
+
+#: lib/class_bpfb_binder.php:184
+msgid "You tried to add too many images, only %d will be posted."
+msgstr "Du hast versucht zu viele Bilder hinzuzufügen, es werden nur %d geposted."
+
+#: lib/class_bpfb_binder.php:175
+msgid "Add"
+msgstr "Hinzufügen"
+
+#: lib/class_bpfb_binder.php:173
+msgid "Add links"
+msgstr "Links hinzufügen"
+
+#: lib/class_bpfb_binder.php:174
+msgid "Add link"
+msgstr "Link hinzufügen"
+
+#: lib/class_bpfb_binder.php:178
+msgid "Drop files here to upload"
+msgstr "Dateien für Upload hierher ziehen"
+
+#: lib/bpfb_group_documents.php:48
+msgid "Add documents"
+msgstr "Dokumente hinzufügen"
+
+#: lib/bpfb_group_documents.php:49
+msgid "Please select a group to upload to"
+msgstr "Bitte wähle eine Gruppe für den Upload aus"
+
+#: lib/class_bpfb_admin_pages.php:110
+msgid "New"
+msgstr "Neu"
+
+#: lib/bpfb_group_documents.php:201
+msgid "%s uploaded new file(s): %s to %s"
+msgstr "%s neue hochgeladene Datei(en): %s  %s"
+
+#: lib/class_bpfb_admin_pages.php:119
+msgid "Alignment"
+msgstr "Ausrichtung"
+
+#: lib/class_bpfb_admin_pages.php:33
+msgid "Activity Plus"
+msgstr "Activity Plus"
+
+#. #-#-#-#-#  tmp-buddypress-activity-plus.pot (BuddyPress Activity Plus 1.6.3)
+#.  #-#-#-#-#
+#. Plugin Name of the plugin/theme
+#: lib/class_bpfb_admin_pages.php:32
+msgid "BuddyPress Activity Plus"
+msgstr "BuddyPress Activity Plus"
+
+#: bpfb.php:50
+msgid "There was an issue determining where BuddyPress Activity Plus plugin is installed. Please reinstall."
+msgstr "Es ist ein Fehler mit der Installation von BuddyPress Activity Plus aufgetreten. Bitte erneut installieren."
+
+#: lib/class_bpfb_admin_pages.php:148
+msgid "Image thumbnails"
+msgstr "Bild Thumbnail"
+
+#: lib/class_bpfb_admin_pages.php:167
+msgid "Clean up images?"
+msgstr "Bilder aufräumen?"
+
+#: lib/class_bpfb_binder.php:168
+msgid "Add photos"
+msgstr "Fotos hinzufügen"
+
+#: lib/class_bpfb_binder.php:169
+msgid "Add image URL"
+msgstr "Foto URL hinzufügen"
+
+#: lib/class_bpfb_binder.php:170
+msgid "Add another image URL"
+msgstr "Weitere Bild URL hinzufügen"
+
+#: lib/class_bpfb_binder.php:171
+msgid "Add videos"
+msgstr "Videos hinzufügen"
+
+#: lib/class_bpfb_binder.php:172
+msgid "Add video"
+msgstr "Video hinzufügen"
+
+#. Plugin URI of the plugin/theme
+msgid "http://premium.wpmudev.org/project/media-embeds-for-buddypress-activity"
+msgstr "http://premium.wpmudev.org/project/media-embeds-for-buddypress-activity"
+
+#. Description of the plugin/theme
+msgid "A Facebook-style media sharing improvement for the activity box."
+msgstr "Eine Erweiterung um Medien-Elemente im Facebook-Stil zu Posts hinzuzufügen."
+
+#. Author URI of the plugin/theme
+msgid "http://premium.wpmudev.org"
+msgstr "http://premium.wpmudev.org"
+
+#: lib/class_bpfb_binder.php:210 lib/class_bpfb_binder.php:227
+msgid "There has been an error processing your request"
+msgstr "Beim Verarbeiten deiner Anfrage trat ein Fehler auf"
+
+#: lib/class_bpfb_admin_pages.php:151
+msgid "Your thumbnail dimensions will be dictated by the <code>BPFB_THUMBNAIL_IMAGE_SIZE</code> define value (%s). Remove this define to enable these options."
+msgstr "Deine Thumbnail Abmessungen werden vom in <code>BPFB_THUMBNAIL_IMAGE_SIZE</code> definierte Wert (%s) vorgegeben. Entferne dies um diese Option zu aktivieren."
+
+#: lib/class_bpfb_admin_pages.php:139
+msgid "Your oEmbed dimensions will be dictated by the <code>BPFB_OEMBED_WIDTH</code> define value (%s). Remove this define to enable this option."
+msgstr "Deine oEmbed Abmessungen werden vom in <code>BPFB_OEMBED_WIDTH</code> definierten Wert (%s) vorgegeben. Entferne dies um diese Option zu aktivieren."
+
+#: lib/class_bpfb_admin_pages.php:136
+msgid "oEmbed"
+msgstr "oEmbed"
+
+#: lib/class_bpfb_admin_pages.php:133
+msgid "Functional"
+msgstr "Funktional"
+
+#: lib/class_bpfb_admin_pages.php:105
+msgid "Default (legacy)"
+msgstr "Standard (legacy)"
+
+#: lib/class_bpfb_admin_pages.php:115
+msgid "Round"
+msgstr "Rund"
+
+#: lib/class_bpfb_admin_pages.php:92
+msgid "Appearance"
+msgstr "Aussehen"

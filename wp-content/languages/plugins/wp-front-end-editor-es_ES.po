@@ -1,0 +1,167 @@
+# Translation of Stable (latest release) in Spanish (Spain)
+# This file is distributed under the same license as the Stable (latest release) package.
+msgid ""
+msgstr ""
+"PO-Revision-Date: 2016-08-26 23:28:22+0000\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: GlotPress/2.1.0-alpha\n"
+"Project-Id-Version: Stable (latest release)\n"
+
+#: class-fee.php:126
+msgid "You are not allowed to edit this item."
+msgstr "No tienes permisos para modificar este elemento."
+
+#: class-fee.php:204
+msgid "Publish"
+msgstr "Publicar"
+
+#: class-fee.php:205
+msgid "Saved"
+msgstr "Guardado"
+
+#: class-fee.php:206
+msgid "Saving..."
+msgstr "Guardando…"
+
+#: class-fee.php:207
+msgid "Error"
+msgstr "Error"
+
+#: class-fee.php:242
+msgid "Enter title here"
+msgstr "Introduce el título aquí"
+
+#: class-wp-rest-post-autosave-controller.php:57
+msgid "Sorry, you cannot view autosaves of this post."
+msgstr "Lo siento, no puedes ver los autoguardados de esta entrada."
+
+#: class-wp-rest-post-autosave-controller.php:73
+msgid "Invalid post id."
+msgstr "ID de entrada no válido."
+
+#: class-wp-rest-post-autosave-controller.php:80
+msgid "No autosave exists for this post for the current user."
+msgstr "No existe ningún autoguardado de esta entrada para el usuario actual."
+
+#: class-wp-rest-post-autosave-controller.php:227
+msgid "Invalid author id."
+msgstr "ID de autor no válido."
+
+#: class-wp-rest-post-autosave-controller.php:238
+msgid "A post can not be sticky and have a password."
+msgstr "Una entrada no puede estar fija y tener contraseña."
+
+#: class-wp-rest-post-autosave-controller.php:242
+msgid "A sticky post can not be password protected."
+msgstr "Una entrada fija no puede estar protegida por contraseña."
+
+#: class-wp-rest-post-autosave-controller.php:311
+msgid "Title"
+msgstr "Título"
+
+#: class-wp-rest-post-autosave-controller.php:312
+msgid "Content"
+msgstr "Contenido"
+
+#: class-wp-rest-post-autosave-controller.php:313
+msgid "Excerpt"
+msgstr "Extracto"
+
+#: class-wp-rest-post-autosave-controller.php:338
+msgid "Title for the object, as it exists in the database."
+msgstr "Título del objeto, si existe en la base de datos."
+
+#: class-wp-rest-post-autosave-controller.php:346
+msgid "Content for the object, as it exists in the database."
+msgstr "Contenido del objeto, si existe en la base de datos."
+
+#: class-wp-rest-post-autosave-controller.php:354
+msgid "Excerpt for the object, as it exists in the database."
+msgstr "Extracto del objeto, si existe en la base de datos."
+
+#. #-#-#-#-#  tmp-wp-front-end-editor.pot (Front-end Editor 2.2.1)  #-#-#-#-#
+#. Plugin Name of the plugin/theme
+#: class-fee.php:35 class-fee.php:57 class-fee.php:65 class-fee.php:74
+msgid "Front-end Editor"
+msgstr "Editor en portada"
+
+#. Plugin URI of the plugin/theme
+msgid "https://wordpress.org/plugins/wp-front-end-editor/"
+msgstr "https://es.wordpress.org/plugins/wp-front-end-editor/"
+
+#. Description of the plugin/theme
+msgid "A simple way to write with WordPress."
+msgstr "Un modo sencillo de escribir con WordPress."
+
+#. Author of the plugin/theme
+msgid "Ella Iseulde Van Dorpe"
+msgstr "Ella Iseulde Van Dorpe"
+
+#. Author URI of the plugin/theme
+msgid "https://iseulde.com"
+msgstr "https://iseulde.com"
+
+#. translators: 1: This plugin 2: WordPress version
+#: class-fee.php:34
+msgid "%1$s requires WordPress version %2$s."
+msgstr "%1$s requiere la versión %2$s de WordPress."
+
+#. translators: 1: This plugin 2: REST API version
+#: class-fee.php:56
+msgid "%1$s requires WP REST API version %2$s."
+msgstr "%1$s requiere la versión %2$s de la WP REST API."
+
+#: class-fee.php:59
+msgid "Update"
+msgstr "Actualizar"
+
+#. translators: %s: This plugin
+#: class-fee.php:64
+msgid "%s requires WP REST API to be active."
+msgstr "%s requiere que la WP REST API esté activa."
+
+#: class-fee.php:66
+msgid "Activate"
+msgstr "Activar"
+
+#. translators: %s: This plugin
+#: class-fee.php:73
+msgid "%s requires WP REST API."
+msgstr "%s requiere la WP REST API."
+
+#. translators: %s: Plugin name
+#: class-fee.php:77
+msgid "Install %s now"
+msgstr "Instalar %s ahora"
+
+#: class-fee.php:208
+msgid "Paragraph"
+msgstr "Párrafo"
+
+#: class-fee.php:209
+msgid "Heading 2"
+msgstr "Encabezado 2"
+
+#: class-fee.php:210
+msgid "Heading 3"
+msgstr "Encabezado 3"
+
+#: class-fee.php:211
+msgid "Heading 4"
+msgstr "Encabezado 4"
+
+#: class-fee.php:212
+msgid "Heading 5"
+msgstr "Encabezado 5"
+
+#: class-fee.php:213
+msgid "Heading 6"
+msgstr "Encabezado 6"
+
+#: class-fee.php:214
+msgctxt "HTML tag"
+msgid "Preformatted"
+msgstr "Preformateado"

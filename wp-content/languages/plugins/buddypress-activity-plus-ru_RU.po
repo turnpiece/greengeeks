@@ -1,0 +1,207 @@
+# Translation of Plugins - BuddyPress Activity Plus - Stable (latest release) in Russian
+# This file is distributed under the same license as the Plugins - BuddyPress Activity Plus - Stable (latest release) package.
+msgid ""
+msgstr ""
+"PO-Revision-Date: 2017-12-18 14:46:35+0000\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Generator: GlotPress/2.4.0-alpha\n"
+"Language: ru\n"
+"Project-Id-Version: Plugins - BuddyPress Activity Plus - Stable (latest release)\n"
+
+#. Author URI of the plugin/theme
+msgid "http://premium.wpmudev.org"
+msgstr "http://premium.wpmudev.org"
+
+#. Author of the plugin/theme
+msgid "WPMU DEV"
+msgstr "WPMU DEV"
+
+#. Description of the plugin/theme
+msgid "A Facebook-style media sharing improvement for the activity box."
+msgstr "Улучшение совместного использования мультимедиа в Facebook для окна активности."
+
+#. Plugin URI of the plugin/theme
+msgid "http://premium.wpmudev.org/project/media-embeds-for-buddypress-activity"
+msgstr "http://premium.wpmudev.org/project/media-embeds-for-buddypress-activity"
+
+#: lib/class_bpfb_binder.php:211 lib/class_bpfb_binder.php:228
+msgid "Processing..."
+msgstr "Обработка ..."
+
+#: lib/class_bpfb_binder.php:210 lib/class_bpfb_binder.php:227
+msgid "There has been an error processing your request"
+msgstr "Произошла ошибка при обработке вашего запроса"
+
+#: lib/class_bpfb_binder.php:184
+msgid "You tried to add too many images, only %d will be posted."
+msgstr "Вы пытались добавить слишком много изображений, только %d будут опубликованы."
+
+#: lib/class_bpfb_binder.php:183
+msgid "Paste link here"
+msgstr "Вставить ссылку здесь"
+
+#: lib/class_bpfb_binder.php:182
+msgid "Paste video URL here"
+msgstr "Вставить видео URL здесь"
+
+#: lib/class_bpfb_binder.php:181
+msgid "No thumbnail"
+msgstr "Нет эскиза"
+
+#: lib/class_bpfb_binder.php:180
+msgid "Choose thumbnail"
+msgstr "Выберите миниатюру"
+
+#: lib/class_bpfb_binder.php:179
+msgid "Upload a file"
+msgstr "Загрузить файл"
+
+#: lib/class_bpfb_binder.php:178
+msgid "Drop files here to upload"
+msgstr "Отбросьте файлы здесь, чтобы загрузить"
+
+#: lib/class_bpfb_binder.php:177
+msgid "Preview"
+msgstr "предварительный просмотр"
+
+#: lib/class_bpfb_binder.php:176
+msgid "Cancel"
+msgstr "Отмена"
+
+#: lib/class_bpfb_binder.php:175
+msgid "Add"
+msgstr "Добавить"
+
+#: lib/class_bpfb_binder.php:174
+msgid "Add link"
+msgstr "Добавить ссылку"
+
+#: lib/class_bpfb_binder.php:173
+msgid "Add links"
+msgstr "Добавить ссылки"
+
+#: lib/class_bpfb_binder.php:172
+msgid "Add video"
+msgstr "Добавить видео"
+
+#: lib/class_bpfb_binder.php:171
+msgid "Add videos"
+msgstr "Добавить видео ролики"
+
+#: lib/class_bpfb_binder.php:170
+msgid "Add another image URL"
+msgstr "Добавить еще ссылку на изображение"
+
+#: lib/class_bpfb_binder.php:169
+msgid "Add image URL"
+msgstr "Добавить ссылку на изображение"
+
+#: lib/class_bpfb_binder.php:168
+msgid "Add photos"
+msgstr "Добавить фото"
+
+#: lib/class_bpfb_admin_pages.php:174
+msgid "Save"
+msgstr "Сохранить"
+
+#: lib/class_bpfb_admin_pages.php:167
+msgid "Clean up images?"
+msgstr "Очистить изображения?"
+
+#: lib/class_bpfb_admin_pages.php:164
+msgid "Misc"
+msgstr "Разное"
+
+#: lib/class_bpfb_admin_pages.php:159
+msgid "Height"
+msgstr "Высота"
+
+#: lib/class_bpfb_admin_pages.php:151
+msgid "Your thumbnail dimensions will be dictated by the <code>BPFB_THUMBNAIL_IMAGE_SIZE</code> define value (%s). Remove this define to enable these options."
+msgstr "Размеры миниатюр определяются <code>BPFB_THUMBNAIL_IMAGE_SIZE</code> значением (%s), уберите это определение чтобы включить эти настройки"
+
+#: lib/class_bpfb_admin_pages.php:148
+msgid "Image thumbnails"
+msgstr "Миниатюры"
+
+#: lib/class_bpfb_admin_pages.php:143 lib/class_bpfb_admin_pages.php:155
+msgid "Width"
+msgstr "Ширина"
+
+#: lib/class_bpfb_admin_pages.php:139
+msgid "Your oEmbed dimensions will be dictated by the <code>BPFB_OEMBED_WIDTH</code> define value (%s). Remove this define to enable this option."
+msgstr "Размеры объектов oEmbed установлены в <code>BPFB_OEMBED_WIDTH</code> (%s), уберите это определение чтобы включить настройку."
+
+#: lib/class_bpfb_admin_pages.php:136
+msgid "oEmbed"
+msgstr "oEmbed"
+
+#: lib/class_bpfb_admin_pages.php:133
+msgid "Functional"
+msgstr "Функционал"
+
+#: lib/class_bpfb_admin_pages.php:126
+msgid "Right"
+msgstr "Справа"
+
+#: lib/class_bpfb_admin_pages.php:122
+msgid "Left"
+msgstr "Слева"
+
+#: lib/class_bpfb_admin_pages.php:119
+msgid "Alignment"
+msgstr "Выравнивание"
+
+#: lib/class_bpfb_admin_pages.php:115
+msgid "Round"
+msgstr "Круглый"
+
+#: lib/class_bpfb_admin_pages.php:110
+msgid "New"
+msgstr "Новый"
+
+#: lib/class_bpfb_admin_pages.php:105
+msgid "Default (legacy)"
+msgstr "По умолчанию (наследуемое)"
+
+#: lib/class_bpfb_admin_pages.php:101
+msgid "Theme"
+msgstr "Тема"
+
+#: lib/class_bpfb_admin_pages.php:96
+msgid "Your BuddyPress theme incorporates Activity Plus style overrides. Respecting the selection you make in the &quot;Appearance&quot; section is entirely up to your theme."
+msgstr "Ваша тема BuddyPress включает переопределение стиля Activity Plus. Уважение к Вашим настройкам в &quot;Внешнем виде&quot; целиком зависит от темы."
+
+#: lib/class_bpfb_admin_pages.php:92
+msgid "Appearance"
+msgstr "Внешний вид"
+
+#: lib/class_bpfb_admin_pages.php:33
+msgid "Activity Plus"
+msgstr "Activity Plus"
+
+#. #-#-#-#-#  tmp-buddypress-activity-plus.pot (BuddyPress Activity Plus 1.6.3)
+#.  #-#-#-#-#
+#. Plugin Name of the plugin/theme
+#: lib/class_bpfb_admin_pages.php:32
+msgid "BuddyPress Activity Plus"
+msgstr "BuddyPress Activity Plus"
+
+#: lib/bpfb_group_documents.php:201
+msgid "%s uploaded new file(s): %s to %s"
+msgstr "%s загружает новые файлы: %s в %s"
+
+#: lib/bpfb_group_documents.php:49
+msgid "Please select a group to upload to"
+msgstr "Выберите группу для загрузки"
+
+#: lib/bpfb_group_documents.php:48
+msgid "Add documents"
+msgstr "Добавить документы"
+
+#: bpfb.php:50
+msgid "There was an issue determining where BuddyPress Activity Plus plugin is installed. Please reinstall."
+msgstr "Возникла проблема с определением где был установлен BuddyPress Activity Plus. Переустановите плагин"
