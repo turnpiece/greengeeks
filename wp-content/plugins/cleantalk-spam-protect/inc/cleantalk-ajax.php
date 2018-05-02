@@ -148,10 +148,10 @@ function ct_validate_email_ajaxlogin($email=null, $is_ajax=true){
 	
 	if(class_exists('AjaxLogin')&&isset($_POST['action'])&&$_POST['action']=='validate_email'){
 		
-		$checkjs = js_test('ct_checkjs', $_POST, true);
+		$checkjs = apbct_js_test('ct_checkjs', $_POST, true);
 	    $sender_info['post_checkjs_passed'] = $checkjs;
 		if ($checkjs === null){
-			$checkjs = js_test('ct_checkjs', $_COOKIE, true);
+			$checkjs = apbct_js_test('ct_checkjs', $_COOKIE, true);
 			$sender_info['cookie_checkjs_passed'] = $checkjs;
 		}
 		
@@ -199,10 +199,10 @@ function ct_user_register_ajaxlogin($user_id)
 	if(class_exists('AjaxLogin')&&isset($_POST['action'])&&$_POST['action']=='register_submit')
 	{
 	    
-		$checkjs = js_test('ct_checkjs', $_POST, true);
+		$checkjs = apbct_js_test('ct_checkjs', $_POST, true);
 	    $sender_info['post_checkjs_passed'] = $checkjs;
 		if ($checkjs === null){
-			$checkjs = js_test('ct_checkjs', $_COOKIE, true);
+			$checkjs = apbct_js_test('ct_checkjs', $_COOKIE, true);
 			$sender_info['cookie_checkjs_passed'] = $checkjs;
 		}
 		
@@ -248,7 +248,7 @@ function ct_mc4wp_ajax_hook( array $errors )
 function ct_ajax_hook($message_obj = false, $additional = false)
 {	
 	require_once(CLEANTALK_PLUGIN_DIR . 'inc/cleantalk-public.php');
-	global $ct_agent_version, $ct_checkjs_register_form, $bp, $ct_signup_done, $ct_negative_comment, $ct_options, $ct_data, $current_user;
+	global $ct_checkjs_register_form, $bp, $ct_signup_done, $ct_negative_comment, $ct_options, $ct_data, $current_user;
 
 	$ct_options = ct_get_options();
     $ct_data = ct_get_data();
@@ -283,7 +283,7 @@ function ct_ajax_hook($message_obj = false, $additional = false)
         'the_champ_user_auth',  // Super Socializer 
     );
 	
-	$checkjs = js_test('ct_checkjs', $_COOKIE, true);
+	$checkjs = apbct_js_test('ct_checkjs', $_COOKIE, true);
     if ($checkjs && // Spammers usually fail the JS test
         (isset($_POST['action']) && in_array($_POST['action'], $skip_post))
 	) {
@@ -341,291 +341,322 @@ function ct_ajax_hook($message_obj = false, $additional = false)
     if($subject != '') {
         $message['subject'] = $subject;
     }
+    
+    // Skip submission if no data found
+    if ($sender_email === ''|| !$contact_form)
+        return false;
 	
-	if($sender_email != null)
-	{	    		
-		$base_call_result = apbct_base_call(
-			array(
-				'message'         => $message,
-				'sender_email'    => $sender_email,
-				'sender_nickname' => $sender_nickname,
-				'sender_info'     => array('post_checkjs_passed' => $checkjs),
-				'post_info'       => array('comment_type' => 'feedback_ajax'),
-				'checkjs'         => $checkjs,
-			)
-		);
-		$ct_result = $base_call_result['ct_result'];
-		
-		if ($ct_result->allow == 0)
-		{
-			if(isset($_POST['action']) && $_POST['action']=='wpuf_submit_register'){
-				$result=Array('success'=>false,'error'=>$ct_result->comment);
-				@header( 'Content-Type: application/json; charset=' . get_option( 'blog_charset' ) );
-				print json_encode($result);
-				die();
-			}
-			else if(isset($_POST['action']) && $_POST['action']=='mymail_form_submit')
-			{
-				$result=Array('success'=>false,'html'=>$ct_result->comment);
-				@header( 'Content-Type: application/json; charset=' . get_option( 'blog_charset' ) );
-				print json_encode($result);
-				die();
-			}
-			else if(isset($_POST['action'], $_POST['task']) && $_POST['action'] == 'wysija_ajax' && $_POST['task'] != 'send_preview' && $_POST['task'] != 'send_test_mail')
-			{
-				$result=Array('result'=>false,'msgs'=>Array('updated'=>Array($ct_result->comment)));
-				//@header( 'Content-Type: application/json; charset=' . get_option( 'blog_charset' ) );
-				print $_GET['callback'].'('.json_encode($result).');';
-				die();
-			}
-			else if(isset($_POST['action']) && $_POST['action']=='cs_registration_validation')
-			{
-				$result=Array("type"=>"error","message"=>$ct_result->comment);
-				print json_encode($result);
-				die();
-			}
-			else if(isset($_POST['action']) && ($_POST['action']=='request_appointment' || $_POST['action']=='send_message'))
-			{
-				print $ct_result->comment;
-				die();
-			}
-			else if(isset($_POST['action']) && $_POST['action']=='zn_do_login')
-			{
-				print '<div id="login_error">'.$ct_result->comment.'</div>';
-				die();
-			}
-			else if(isset($_POST['action']) && $_POST['action']=='vfb_submit')
-			{
-				$result=Array('result'=>false,'message'=>$ct_result->comment);
-				@header( 'Content-Type: application/json; charset=' . get_option( 'blog_charset' ) );
-				print json_encode($result);
-				die();
-			}
-			else if(isset($_POST['action']) && $_POST['action']== 'cscf-submitform')
-			{
-				$message_obj['akismet_result'] = 'true';
-				$result = array(
-					'sent' => false,
-					'valid' => 1,
-					'errorlist' => array('confirm-email'=>$ct_result->comment)
-				);
-				$result = json_encode($result);
-				echo $result;
-				return $message_obj;
-			}
-			else if(isset($_POST['action']) && $_POST['action']=='woocommerce_checkout')
-			{
-				print $ct_result->comment;
-				die();
-			}
-			else if(isset($_POST['action']) && $_POST['action']=='frm_entries_create')
-			{
-				$result=Array('112'=>$ct_result->comment);
-				print json_encode($result);
-				die();
-			}
-			else if(isset($_POST['cma-action']) &&  $_POST['cma-action']=='add')
-			{
-				$result=Array('success'=>0, 'thread_id'=>null,'messages'=>Array($ct_result->comment));
-				print json_encode($result);
-				die();
-			}
-			else if(isset($_POST['action']) && $_POST['action']=='td_mod_register')
-			{
-				print json_encode(array('register', 0, $ct_result->comment));
-				die();
-			}
-			else if(isset($_POST['action']) && $_POST['action']=='tmpl_ajax_check_user_email')
-			{
-				print "17,email";
-				die();
-			}
-			else if(isset($_POST['action']) && ($_POST['action']=='tevolution_submit_from_preview' || $_POST['action']=='submit_form_recaptcha_validation'))
-			{
-				print $ct_result->comment;
-				die();
-			}
-			else if(isset($_POST['action']) && $_POST['action']=='ninja_forms_ajax_submit')
-			{
-				print '{"form_id":'.$_POST['_form_id'].',"errors":false,"success":{"success_msg-Success":"'.$ct_result->comment.'"}}';
-				die();
-			}
-			else if(isset($_POST['action']) && $_POST['action']=='nf_ajax_submit')
-			{
-				$nf_data = json_decode($_POST['formData'], true);
-				// print '{data:{{"form_id":'.$nf_data['id'].',"errors":false,"success":{"success_msg-Success":"'.$ct_result->comment.'"}}}}'; \\Old version
-				print '{"data":{"form_id":"'.$nf_data['id'].'","settings":{},"extra":[],"fields":{},"processed_actions":[],"actions":{"success_message": "<font style=\"color: red\">'.$ct_result->comment.'</font><br><br>"}},"errors":[],"debug":[]}';				
-				die();
-			}
-			
-            // WooWaitList
-            // http://codecanyon.net/item/woowaitlist-woocommerce-back-in-stock-notifier/7103373
-			else if(isset($_POST['action']) && $_POST['action']=='wew_save_to_db_callback')
-			{
-                $result = array();
-                $result['error'] = 1;
-			    $result['message'] = $ct_result->comment;
-                $result['code'] = 5; // Unused code number in WooWaitlist
-				print json_encode($result);
-				die();
-			}
-			// UserPro
-			else if(isset($_POST['action'], $_POST['template']) && $_POST['action']=='userpro_process_form' && $_POST['template']=='register')
-			{
-				foreach($_POST as $key => $value){
-					$output[$key]=$value;
-				}unset($key, $value);
-				$output['template'] = $ct_result->comment;
-				$output=json_encode($output);
-				print_r($output);
-				die;
-			}
-			// Quick event manager
-            else if(isset($_POST['action']) && $_POST['action']=='qem_validate_form'){
-				$errors[] = 'registration_forbidden';
-				$result = Array(
- 					'success' => 'false',
- 					'errors' => $errors,
- 					'title' => $ct_result->comment
- 				);
- 				print json_encode($result);
- 				die();
- 			}
-			// Quick Contact Form
-			elseif(isset($_POST['action']) && $_POST['action'] == 'qcf_validate_form')
-			{
-				$result = Array(
-					'blurb' => "<h1>".$ct_result->comment."</h1>",
-					'display' => "Oops, got a few problems here",
- 					'errors' => array(
-						0 => array(
-							error => 'error',
-							name => 'name'
-						),
-					),
- 					'success' => 'false',
- 				);
- 				print json_encode($result);
-				die();
-			}
-			// Usernoise Contact Form
-			elseif(isset($_POST['title'], $_POST['email'], $_POST['type'], $_POST['ct_checkjs']))
-			{
-				return array($ct_result->comment);
-				die();
-			}
-			// amoForms
-			elseif(isset($_POST['action']) && $_POST['action'] == 'amoforms_submit')
-			{
-				$result = Array(
-					'result' => true,
-					'type' => "html",
- 					'value' => "<h1 style='font-size: 25px; color: red;'>".$ct_result->comment."</h1>",
-					'fast' => false
- 				);
-				print json_encode($result);
-				die();
-			}
-			// MailChimp for Wordpress Premium
-			elseif(!empty($_POST['_mc4wp_form_id']))
-			{
-				return 'ct_mc4wp_response';
-			}
-			// QAEngine Theme answers
-			elseif ( !empty($message_obj) && isset($message_obj['post_type'], $message_obj['author'], $message_obj['post_content']) ){
-				return new WP_Error('Spam comment', $ct_result->comment);
-			}
-			//Convertplug. Strpos because action value dynamically changes and depends on mailing service 
-			elseif (isset($_POST['action']) && strpos($_POST['action'], '_add_subscriber') !== false){
-				$result = Array(
-					'action' => "message",
-					'detailed_msg' => "",
- 					'email_status' => false,
- 					'message' => "<h1 style='font-size: 25px; color: red;'>".$ct_result->comment."</h1>",
- 					'status' => "error",
-					'url' => "none"
- 				);
-				print json_encode($result);
-				die();
-			}
-			// Ultimate Form Builder
-			elseif (isset($_POST['action']) && $_POST['action'] == 'ufbl_front_form_action'){
-				$result = Array(
-					'error_keys' => array(),
-					'error_flag' => 1,
- 					'response_message' => $ct_result->comment
- 				);
-				print json_encode($result);
-				die();
-			}
-			// Smart Forms
-			elseif (isset($_POST['action']) && $_POST['action'] == 'rednao_smart_forms_save_form_values'){
-				$result = Array(
-					'message' => $ct_result->comment,
-					'refreshCaptcha' => 'n',
- 					'success' => 'n'
- 				);
-				print json_encode($result);
-				die();
-			}
-			//cFormsII
-			elseif(isset($_POST['action']) && $_POST['action'] == 'submitcform')
-			{
-				header('Content-Type: application/json');	
-				$result = Array(
- 					'no' => "",	
- 					'result' => "failure",				
-					'html' =>$ct_result->comment,
-					'hide' => false,
- 					'redirection' => null
-
- 				);
-				print json_encode($result);
-				die();
-			}
-			//Contact Form by Web-Settler
-			elseif(isset($_POST['smFieldData']))
-			{
-				$result = Array(
-					'signal' => true,
-					'code' => 0,
-					'thanksMsg' => $ct_result->comment,
-					'errors' => array(),
-					'isMsg' => true,
-					'redirectUrl' => null
- 				);
-				print json_encode($result);
-				die();
-			}
-			//Reviewer
-			elseif(isset($_POST['action']) && $_POST['action'] == 'rwp_ajax_action_rating')
-			{
-				$result = Array(
-					'success' => false,
-					'data' => array(0=>$ct_result->comment)
- 				);
-				print json_encode($result);
-				die();
-			}
-			// CouponXXL Theme
-			elseif(isset($_POST['_wp_http_referer'], $_POST['register_field'], $_POST['action']) && strpos($_POST['_wp_http_referer'],'/register/account') !== false && $_POST['action'] == 'register'){
-				$result = array(
-					'message' => '<div class="alert alert-error">'.$ct_result->comment.'</div>',
-				);
-				die(json_encode($result));
-			}
-            else
-			{
-				print $ct_result->comment;
-				die();
-			}
+	 // Mailpoet fix
+    if (isset($message['wysijaData'], $message['wysijaplugin'], $message['task'], $message['controller']) && $message['wysijaplugin'] == 'wysija-newsletters' && $message['controller'] == 'campaigns')
+        return false;
+	
+	// WP Foto Vote Fix
+	if (!empty($_FILES)){
+		foreach($message as $key => $value){
+			if(strpos($key, 'oje') !== false)
+				return; 
+		} unset($key ,$value);
+	}
+	
+	//Ninja Forms xml fix
+	if (isset($_POST['action']) && $_POST['action'] === 'nf_ajax_submit'){
+		foreach ($message as $key => $value){
+			if (strpos($value, '<xml>') !== false)
+				unset($message[$key]);
 		}
-		//Allow == 1
-		else{
-			//QAEngine Theme answers
-			if ( !empty($message_obj) && isset($message_obj['post_type'], $message_obj['author'], $message_obj['post_content']) ){
-				return $message_obj;
-			}
+	}
+	
+	$base_call_result = apbct_base_call(
+		array(
+			'message'         => $message,
+			'sender_email'    => $sender_email,
+			'sender_nickname' => $sender_nickname,
+			'sender_info'     => array('post_checkjs_passed' => $checkjs),
+			'post_info'       => array('comment_type' => 'feedback_ajax'),
+			'checkjs'         => $checkjs,
+		)
+	);
+	$ct_result = $base_call_result['ct_result'];
+	
+	if ($ct_result->allow == 0)
+	{
+		if(isset($_POST['action']) && $_POST['action']=='wpuf_submit_register'){
+			$result=Array('success'=>false,'error'=>$ct_result->comment);
+			@header( 'Content-Type: application/json; charset=' . get_option( 'blog_charset' ) );
+			print json_encode($result);
+			die();
+		}
+		else if(isset($_POST['action']) && $_POST['action']=='mymail_form_submit')
+		{
+			$result=Array('success'=>false,'html'=>$ct_result->comment);
+			@header( 'Content-Type: application/json; charset=' . get_option( 'blog_charset' ) );
+			print json_encode($result);
+			die();
+		}
+		else if(isset($_POST['action'], $_POST['task']) && $_POST['action'] == 'wysija_ajax' && $_POST['task'] != 'send_preview' && $_POST['task'] != 'send_test_mail')
+		{
+			$result=Array('result'=>false,'msgs'=>Array('updated'=>Array($ct_result->comment)));
+			//@header( 'Content-Type: application/json; charset=' . get_option( 'blog_charset' ) );
+			print $_GET['callback'].'('.json_encode($result).');';
+			die();
+		}
+		else if(isset($_POST['action']) && $_POST['action']=='cs_registration_validation')
+		{
+			$result=Array("type"=>"error","message"=>$ct_result->comment);
+			print json_encode($result);
+			die();
+		}
+		else if(isset($_POST['action']) && ($_POST['action']=='request_appointment' || $_POST['action']=='send_message'))
+		{
+			print $ct_result->comment;
+			die();
+		}
+		else if(isset($_POST['action']) && $_POST['action']=='zn_do_login')
+		{
+			print '<div id="login_error">'.$ct_result->comment.'</div>';
+			die();
+		}
+		else if(isset($_POST['action']) && $_POST['action']=='vfb_submit')
+		{
+			$result=Array('result'=>false,'message'=>$ct_result->comment);
+			@header( 'Content-Type: application/json; charset=' . get_option( 'blog_charset' ) );
+			print json_encode($result);
+			die();
+		}
+		else if(isset($_POST['action']) && $_POST['action']== 'cscf-submitform')
+		{
+			$message_obj['akismet_result'] = 'true';
+			$result = array(
+				'sent' => false,
+				'valid' => 1,
+				'errorlist' => array('confirm-email'=>$ct_result->comment)
+			);
+			$result = json_encode($result);
+			echo $result;
+			return $message_obj;
+		}
+		else if(isset($_POST['action']) && $_POST['action']=='woocommerce_checkout')
+		{
+			print $ct_result->comment;
+			die();
+		}
+		else if(isset($_POST['action']) && $_POST['action']=='frm_entries_create')
+		{
+			$result=Array('112'=>$ct_result->comment);
+			print json_encode($result);
+			die();
+		}
+		else if(isset($_POST['cma-action']) &&  $_POST['cma-action']=='add')
+		{
+			$result=Array('success'=>0, 'thread_id'=>null,'messages'=>Array($ct_result->comment));
+			print json_encode($result);
+			die();
+		}
+		else if(isset($_POST['action']) && $_POST['action']=='td_mod_register')
+		{
+			print json_encode(array('register', 0, $ct_result->comment));
+			die();
+		}
+		else if(isset($_POST['action']) && $_POST['action']=='tmpl_ajax_check_user_email')
+		{
+			print "17,email";
+			die();
+		}
+		else if(isset($_POST['action']) && ($_POST['action']=='tevolution_submit_from_preview' || $_POST['action']=='submit_form_recaptcha_validation'))
+		{
+			print $ct_result->comment;
+			die();
+		}
+		else if(isset($_POST['action']) && $_POST['action']=='ninja_forms_ajax_submit')
+		{
+			print '{"form_id":'.$_POST['_form_id'].',"errors":false,"success":{"success_msg-Success":"'.$ct_result->comment.'"}}';
+			die();
+		}
+		else if(isset($_POST['action']) && $_POST['action']=='nf_ajax_submit')
+		{
+			$nf_data = json_decode($_POST['formData'], true);
+			// print '{data:{{"form_id":'.$nf_data['id'].',"errors":false,"success":{"success_msg-Success":"'.$ct_result->comment.'"}}}}'; \\Old version
+			print '{"data":{"form_id":"'.$nf_data['id'].'","settings":{},"extra":[],"fields":{},"processed_actions":[],"actions":{"success_message": "<font style=\"color: red\">'.$ct_result->comment.'</font><br><br>"}},"errors":[],"debug":[]}';				
+			die();
+		}
+		
+		// WooWaitList
+		// http://codecanyon.net/item/woowaitlist-woocommerce-back-in-stock-notifier/7103373
+		else if(isset($_POST['action']) && $_POST['action']=='wew_save_to_db_callback')
+		{
+			$result = array();
+			$result['error'] = 1;
+			$result['message'] = $ct_result->comment;
+			$result['code'] = 5; // Unused code number in WooWaitlist
+			print json_encode($result);
+			die();
+		}
+		// UserPro
+		else if(isset($_POST['action'], $_POST['template']) && $_POST['action']=='userpro_process_form' && $_POST['template']=='register')
+		{
+			foreach($_POST as $key => $value){
+				$output[$key]=$value;
+			}unset($key, $value);
+			$output['template'] = $ct_result->comment;
+			$output=json_encode($output);
+			print_r($output);
+			die;
+		}
+		// Quick event manager
+		else if(isset($_POST['action']) && $_POST['action']=='qem_validate_form'){
+			$errors[] = 'registration_forbidden';
+			$result = Array(
+				'success' => 'false',
+				'errors' => $errors,
+				'title' => $ct_result->comment
+			);
+			print json_encode($result);
+			die();
+		}
+		// Quick Contact Form
+		elseif(isset($_POST['action']) && $_POST['action'] == 'qcf_validate_form')
+		{
+			$result = Array(
+				'blurb' => "<h1>".$ct_result->comment."</h1>",
+				'display' => "Oops, got a few problems here",
+				'errors' => array(
+					0 => array(
+						error => 'error',
+						name => 'name'
+					),
+				),
+				'success' => 'false',
+			);
+			print json_encode($result);
+			die();
+		}
+		// Usernoise Contact Form
+		elseif(isset($_POST['title'], $_POST['email'], $_POST['type'], $_POST['ct_checkjs']))
+		{
+			return array($ct_result->comment);
+			die();
+		}
+		// amoForms
+		elseif(isset($_POST['action']) && $_POST['action'] == 'amoforms_submit')
+		{
+			$result = Array(
+				'result' => true,
+				'type' => "html",
+				'value' => "<h1 style='font-size: 25px; color: red;'>".$ct_result->comment."</h1>",
+				'fast' => false
+			);
+			print json_encode($result);
+			die();
+		}
+		// MailChimp for Wordpress Premium
+		elseif(!empty($_POST['_mc4wp_form_id']))
+		{
+			return 'ct_mc4wp_response';
+		}
+		// QAEngine Theme answers
+		elseif ( !empty($message_obj) && isset($message_obj['post_type'], $message_obj['author'], $message_obj['post_content']) ){
+			return new WP_Error('Spam comment', $ct_result->comment);
+		}
+		//Convertplug. Strpos because action value dynamically changes and depends on mailing service 
+		elseif (isset($_POST['action']) && strpos($_POST['action'], '_add_subscriber') !== false){
+			$result = Array(
+				'action' => "message",
+				'detailed_msg' => "",
+				'email_status' => false,
+				'message' => "<h1 style='font-size: 25px; color: red;'>".$ct_result->comment."</h1>",
+				'status' => "error",
+				'url' => "none"
+			);
+			print json_encode($result);
+			die();
+		}
+		// Ultimate Form Builder
+		elseif (isset($_POST['action']) && $_POST['action'] == 'ufbl_front_form_action'){
+			$result = Array(
+				'error_keys' => array(),
+				'error_flag' => 1,
+				'response_message' => $ct_result->comment
+			);
+			print json_encode($result);
+			die();
+		}
+		// Smart Forms
+		elseif (isset($_POST['action']) && $_POST['action'] == 'rednao_smart_forms_save_form_values'){
+			$result = Array(
+				'message' => $ct_result->comment,
+				'refreshCaptcha' => 'n',
+				'success' => 'n'
+			);
+			print json_encode($result);
+			die();
+		}
+		//cFormsII
+		elseif(isset($_POST['action']) && $_POST['action'] == 'submitcform')
+		{
+			header('Content-Type: application/json');	
+			$result = Array(
+				'no' => "",	
+				'result' => "failure",				
+				'html' =>$ct_result->comment,
+				'hide' => false,
+				'redirection' => null
+
+			);
+			print json_encode($result);
+			die();
+		}
+		//Contact Form by Web-Settler
+		elseif(isset($_POST['smFieldData']))
+		{
+			$result = Array(
+				'signal' => true,
+				'code' => 0,
+				'thanksMsg' => $ct_result->comment,
+				'errors' => array(),
+				'isMsg' => true,
+				'redirectUrl' => null
+			);
+			print json_encode($result);
+			die();
+		}
+		//Reviewer
+		elseif(isset($_POST['action']) && $_POST['action'] == 'rwp_ajax_action_rating')
+		{
+			$result = Array(
+				'success' => false,
+				'data' => array(0=>$ct_result->comment)
+			);
+			print json_encode($result);
+			die();
+		}
+		// CouponXXL Theme
+		elseif(isset($_POST['_wp_http_referer'], $_POST['register_field'], $_POST['action']) && strpos($_POST['_wp_http_referer'],'/register/account') !== false && $_POST['action'] == 'register'){
+			$result = array(
+				'message' => '<div class="alert alert-error">'.$ct_result->comment.'</div>',
+			);
+			die(json_encode($result));
+		}
+		//ConvertPro
+		elseif(isset($_POST['action']) && $_POST['action']='cp_v2_notify_admin' || $_POST['action']=='cpro_notify_via_email')
+		{
+			$result = Array(
+				'success' => false,
+				'data' => array('error'=>$ct_result->comment,'style_slug'=>'convertprot-form'),
+			);
+			print json_encode($result);
+			die();
+		}		
+		else
+		{
+			print $ct_result->comment;
+			die();
+		}
+	}
+	//Allow == 1
+	else{
+		//QAEngine Theme answers
+		if ( !empty($message_obj) && isset($message_obj['post_type'], $message_obj['author'], $message_obj['post_content']) ){
+			return $message_obj;
 		}
 	}
 }

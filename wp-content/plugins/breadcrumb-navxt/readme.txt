@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=FD5XE
 Tags: breadcrumb, breadcrumbs, trail, navigation, menu, widget
 Requires at least: 4.7
 Tested up to: 4.9
-Stable tag: 6.0.3
+Stable tag: 6.0.4
 Requires PHP: 5.3
 License: GPLv2 or later
 Adds breadcrumb navigation showing the visitor's path to their current location.
@@ -33,12 +33,9 @@ Breadcrumb NavXT 5.1.1 and older require PHP5.2
 Breadcrumb NavXT now supports WordPress.org language packs. Want to translate Breadcrumb NavXT? Visit [Breadcrumb NavXT's WordPress.org translation project](https://translate.wordpress.org/projects/wp-plugins/breadcrumb-navxt/).
 
 == Installation ==
-Open the appropriate file for your theme (typically header.php). This can be done within WordPress’ administration panel through Presentation > Theme Editor or through your favorite text editor. Place the following code where you want the breadcrumb trail to appear.
-`if(function_exists('bcn_display'))
-    {
-        bcn_display();
-    }`
-Save the file (upload if applicable). Now you should have a breadcrumb trail on your WordPress powered site. To customize the breadcrumb trail you may edit the default values for the options in the administrative interface. This is located in your administration panel under Settings > Breadcrumb NavXT. See the [Calling the Breadcrumb Trail](http://mtekk.us/archives/guides/calling-the-breadcrumb-trail "Read more on calling the breadcrumb trail") article for more information on calling the breadcrumb trail.
+Breadcrumb NavXT can be installed from within WordPress’ administration panel. After installing and activating the plugin, to get breadcrumb trails to display either use the included widget, or call the breadcrumb trail in your theme (or child theme). See the [Calling the Breadcrumb Trail](http://mtekk.us/archives/guides/calling-the-breadcrumb-trail "Read more on calling the breadcrumb trail") article for more information on calling the breadcrumb trail.
+
+To customize the breadcrumb trail you may edit the default values for the options in the administrative interface. This is located in your administration panel under Settings > Breadcrumb NavXT.
 
 Please visit [Breadcrumb NavXT's Documentation](http://mtekk.us/code/breadcrumb-navxt/breadcrumb-navxt-doc/ "Go to Breadcrumb NavXT's Documentation.") page for more information.
 
@@ -51,6 +48,13 @@ Please visit [Breadcrumb NavXT's Documentation](http://mtekk.us/code/breadcrumb-
 6. A screenshot of the Settings Import/Export/Reset form under the Help menu
 
 == Changelog ==
+
+= 6.0.4 =
+Release date: January, 26th 2018
+
+* Behavior change: Added auto migration of post type hierarchy settings to `bcn_display*()` functions.
+* Bug fix: Fixed issue where a PHP notice would be generated on the page for posts when the blog breadcrumb display option is set to false.
+* Bug fix: Fixed issue where a PHP notice would be generated on archive pages where attachments were included in the `wp_query` results.
 
 = 6.0.3 =
 Release date: January, 1st 2018

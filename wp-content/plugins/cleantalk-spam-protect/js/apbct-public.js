@@ -56,7 +56,7 @@ var ctFunctionMouseMove = function output(event){
 		
 		ctMouseDataCounter++;
 		ctMouseEventTimerFlag = false;
-		if(ctMouseDataCounter >= 100){
+		if(ctMouseDataCounter >= 50){
 			ctMouseStopData();
 		}
 	}
@@ -83,28 +83,35 @@ apbct_attach_event_handler(window, "keydown", ctFunctionFirstKey);
 function apbct_ready(){
 	ctSetCookieSec("apbct_visible_fields", 0);
 	ctSetCookieSec("apbct_visible_fields_count", 0);
-	for(var i=0; i < document.forms.length; i++){
-		var form = document.forms[i];
-		form.onsubmit = function(){
-			var apbct_vf = {apbct_visible_fields: ""};
-			for(var j=0, elem_count=form.elements.length; j < form.elements.length; j++){
-				var elem = form.elements[j];
-				if( getComputedStyle(elem).display    == "none" ||
-					getComputedStyle(elem).visibility == "hidden" ||
-					getComputedStyle(elem).width      == "0" ||
-					getComputedStyle(elem).heigth     == "0" ||
-					getComputedStyle(elem).opacity    == "0" ||
-					elem.getAttribute("type")         == "hidden" ||
-					elem.getAttribute("type")         == "submit"
-				){
-					elem_count--;
-				}else{
-					apbct_vf.apbct_visible_fields += elem.getAttribute("name") + (j+1 == form.elements.length ? "" : " ");
+	setTimeout(function(){
+		for(var i = 0; i < document.forms.length; i++){
+			var form = document.forms[i];
+			form.onsubmit_prev = form.onsubmit;
+			form.onsubmit = function(event){
+				this.visible_fields = '';
+				this.visible_fields_count = this.elements.length;
+				for(var j = 0; j < this.elements.length; j++){
+					var elem = this.elements[j];
+					if( getComputedStyle(elem).display    == "none" ||
+						getComputedStyle(elem).visibility == "hidden" ||
+						getComputedStyle(elem).width      == "0" ||
+						getComputedStyle(elem).heigth     == "0" ||
+						getComputedStyle(elem).opacity    == "0" ||
+						elem.getAttribute("type")         == "hidden" ||
+						elem.getAttribute("type")         == "submit"
+					){
+						this.visible_fields_count--;
+					}else{
+						this.visible_fields += (this.visible_fields == "" ? "" : " ") + elem.getAttribute("name");
+					}
+				}
+				ctSetCookieSec("apbct_visible_fields", this.visible_fields);
+				ctSetCookieSec("apbct_visible_fields_count", this.visible_fields_count);
+				if(this.onsubmit_prev instanceof Function){
+					this.onsubmit_prev.call(this, event);
 				}
 			}
-			ctSetCookieSec("apbct_visible_fields", JSON.stringify(apbct_vf));
-			ctSetCookieSec("apbct_visible_fields_count", elem_count);
 		}
-	}
+	}, 1000);
 }
 apbct_attach_event_handler(window, "DOMContentLoaded", apbct_ready);

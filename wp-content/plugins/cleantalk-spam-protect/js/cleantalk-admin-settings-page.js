@@ -18,9 +18,9 @@ jQuery(document).ready(function(){
 		}
 	});
 		
-	if(cleantalk_good_key)
+	if(cleantalk_good_key || ctSettingsPage.ip_license)
 	{
-		if(cleantalk_testing_failed !== true)
+		if(cleantalk_testing_failed !== true || ctSettingsPage.ip_license)
 			jQuery('.form-table').first().find('tr').hide();
 				
 		banner_html="<div id='ct_stats_banner'>"+cleantalk_blocked_message;
@@ -49,6 +49,9 @@ jQuery(document).ready(function(){
 			jQuery('.form-table').first().find('tr').eq(1).show();
 		}
 	});
+	
+	// Adding subtitle
+	jQuery("#ct_stats_banner").prev().after('<h4 style="color: gray; position: relative; margin: 0; top: -15px;">'+ctSettingsPage.ct_subtitle+'</h4>');
 	
 	ct_adv_settings=jQuery('#cleantalk_registrations_test1').parent().parent().parent().parent();
 	ct_adv_settings.hide();

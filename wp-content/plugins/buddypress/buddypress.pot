@@ -1,17 +1,17 @@
-# Copyright (C) 2017 The BuddyPress Community
+# Copyright (C) 2018 The BuddyPress Community
 # This file is distributed under the GPLv2 or later (license.txt).
 msgid ""
 msgstr ""
-"Project-Id-Version: BuddyPress 2.9.2\n"
+"Project-Id-Version: BuddyPress 2.9.4\n"
 "Report-Msgid-Bugs-To: https://buddypress.trac.wordpress.org\n"
-"POT-Creation-Date: 2017-11-02 15:45:40+00:00\n"
+"POT-Creation-Date: 2018-04-03 17:19:58+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2017-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2018-MO-DA HO:MI+ZONE\n"
 "Last-Translator: JOHN JAMES JACOBY <jjj@buddypress.org>\n"
 "Language-Team: ENGLISH <jjj@buddypress.org>\n"
-"X-Generator: grunt-wp-i18n1.0.1\n"
+"X-Generator: grunt-wp-i18n1.0.2\n"
 
 #: bp-activity/bp-activity-actions.php:150
 msgid "Activity deleted successfully"
@@ -26,7 +26,7 @@ msgid "The activity item has been marked as spam and is no longer visible."
 msgstr ""
 
 #: bp-activity/bp-activity-actions.php:292
-#: bp-templates/bp-legacy/buddypress-functions.php:932
+#: bp-templates/bp-legacy/buddypress-functions.php:935
 msgid "Please enter some content to post."
 msgstr ""
 
@@ -39,7 +39,7 @@ msgid "There was an error when posting your update. Please try again."
 msgstr ""
 
 #: bp-activity/bp-activity-actions.php:365
-#: bp-templates/bp-legacy/buddypress-functions.php:1025
+#: bp-templates/bp-legacy/buddypress-functions.php:1028
 msgid "Please do not leave the comment area blank."
 msgstr ""
 
@@ -339,7 +339,7 @@ msgstr ""
 
 #: bp-activity/bp-activity-admin.php:765
 #: bp-activity/classes/class-bp-activity-list-table.php:599
-#: bp-forums/bp-forums-template.php:2781
+#: bp-forums/bp-forums-template.php:2783
 #: bp-groups/classes/class-bp-groups-list-table.php:527
 msgid "Edit"
 msgstr ""
@@ -521,7 +521,7 @@ msgid "%s posted a new activity comment"
 msgstr ""
 
 #: bp-activity/bp-activity-functions.php:2584
-#: bp-templates/bp-legacy/buddypress-functions.php:1022
+#: bp-templates/bp-legacy/buddypress-functions.php:1025
 msgid "There was an error posting your reply. Please try again."
 msgstr ""
 
@@ -638,7 +638,7 @@ msgstr[1] ""
 #: bp-blogs/classes/class-bp-blogs-component.php:294
 #: bp-core/deprecated/2.1.php:459 bp-forums/bp-forums-loader.php:263
 #: bp-forums/bp-forums-template.php:893 bp-forums/bp-forums-template.php:1224
-#: bp-forums/bp-forums-template.php:2611
+#: bp-forums/bp-forums-template.php:2613
 #: bp-friends/classes/class-bp-friends-component.php:269
 #: bp-groups/bp-groups-template.php:1635 bp-groups/bp-groups-template.php:1667
 #: bp-groups/bp-groups-template.php:2434 bp-groups/bp-groups-template.php:2450
@@ -685,7 +685,7 @@ msgid ""
 msgstr ""
 
 #: bp-activity/bp-activity-template.php:2640
-#: bp-core/bp-core-attachments.php:724 bp-forums/bp-forums-template.php:2782
+#: bp-core/bp-core-attachments.php:724 bp-forums/bp-forums-template.php:2784
 #: bp-groups/classes/class-bp-groups-component.php:694
 #: bp-groups/classes/class-bp-groups-list-table.php:371
 #: bp-groups/classes/class-bp-groups-list-table.php:530
@@ -1071,7 +1071,7 @@ msgid "%s's Recent Comments"
 msgstr ""
 
 #: bp-blogs/bp-blogs-template.php:1315 bp-core/deprecated/1.5.php:426
-#: bp-forums/bp-forums-template.php:2925 bp-groups/bp-groups-template.php:5282
+#: bp-forums/bp-forums-template.php:2927 bp-groups/bp-groups-template.php:5282
 #: bp-members/bp-members-template.php:1273
 #: bp-messages/bp-messages-template.php:859
 #: bp-templates/bp-legacy/buddypress/common/search/dir-search-form.php:14
@@ -1337,8 +1337,8 @@ msgstr ""
 #: bp-core/admin/bp-core-admin-functions.php:495
 msgid ""
 "<a "
-"href=\"https://codex.buddypress.org/getting-started/configure-components/\">"
-"Managing Components</a>"
+"href=\"https://codex.buddypress.org/getting-started/configure-components/\""
+">Managing Components</a>"
 msgstr ""
 
 #: bp-core/admin/bp-core-admin-functions.php:513
@@ -3531,7 +3531,7 @@ msgid "New Topic"
 msgstr ""
 
 #: bp-forums/bp-forums-template.php:930 bp-forums/bp-forums-template.php:1111
-#: bp-forums/bp-forums-template.php:2646
+#: bp-forums/bp-forums-template.php:2648
 #: bp-messages/bp-messages-template.php:1703
 #: bp-messages/bp-messages-template.php:1959
 #: bp-messages/classes/class-bp-messages-thread.php:861
@@ -3586,15 +3586,61 @@ msgid_plural "Viewing %1$s - %2$s of %3$s topics"
 msgstr[0] ""
 msgstr[1] ""
 
-#: bp-forums/bp-forums-template.php:2867
+#: bp-forums/bp-forums-template.php:2869
 msgid "Viewing 1 post"
 msgstr ""
 
-#: bp-forums/bp-forums-template.php:2869
+#: bp-forums/bp-forums-template.php:2871
 msgid "Viewing %1$s - %2$s of %3$s post"
 msgid_plural "Viewing %1$s - %2$s of %3$s posts"
 msgstr[0] ""
 msgstr[1] ""
+
+#: bp-forums/class.backpress-taxonomy.php:226
+#: bp-forums/class.backpress-taxonomy.php:299
+#: bp-forums/class.backpress-taxonomy.php:408
+#: bp-forums/class.backpress-taxonomy.php:586
+#: bp-forums/class.backpress-taxonomy.php:1171
+#: bp-forums/class.backpress-taxonomy.php:1405
+#: bp-forums/class.bb-taxonomy.php:48 bp-forums/class.bb-taxonomy.php:151
+#: bp-forums/class.bb-taxonomy.php:275
+msgid "Invalid Taxonomy"
+msgstr ""
+
+#: bp-forums/class.backpress-taxonomy.php:294
+msgid "Empty Term"
+msgstr ""
+
+#: bp-forums/class.backpress-taxonomy.php:1305
+#: bp-forums/class.backpress-taxonomy.php:1554
+msgid "Invalid taxonomy"
+msgstr ""
+
+#: bp-forums/class.backpress-taxonomy.php:1308
+msgid "Invalid term ID"
+msgstr ""
+
+#: bp-forums/class.backpress-taxonomy.php:1311
+#: bp-forums/class.backpress-taxonomy.php:1577
+msgid "A name is required for this term"
+msgstr ""
+
+#: bp-forums/class.backpress-taxonomy.php:1342
+#: bp-forums/class.backpress-taxonomy.php:1349
+msgid "Could not insert term into the database"
+msgstr ""
+
+#: bp-forums/class.backpress-taxonomy.php:1605
+msgid "The slug &#8220;%s&#8221; is already in use by another term"
+msgstr ""
+
+#: bp-forums/class.backpress-taxonomy.php:2047
+msgid "Invalid object ID"
+msgstr ""
+
+#: bp-forums/class.bb-taxonomy.php:272
+msgid "Invalid User ID"
+msgstr ""
 
 #: bp-forums/deprecated/1.6.php:30 bp-forums/deprecated/1.6.php:130
 msgid "Configure bbPress"
@@ -3801,7 +3847,7 @@ msgid "You already have a pending friendship request with this user"
 msgstr ""
 
 #: bp-friends/bp-friends-actions.php:80
-#: bp-templates/bp-legacy/buddypress-functions.php:1400
+#: bp-templates/bp-legacy/buddypress-functions.php:1403
 msgid "Friendship could not be canceled."
 msgstr ""
 
@@ -3918,7 +3964,7 @@ msgid "%d friends"
 msgstr ""
 
 #: bp-friends/bp-friends-template.php:371
-#: bp-templates/bp-legacy/buddypress-functions.php:1412
+#: bp-templates/bp-legacy/buddypress-functions.php:1415
 msgid "Cancel Friendship Request"
 msgstr ""
 
@@ -3931,8 +3977,8 @@ msgid "Cancel Friendship"
 msgstr ""
 
 #: bp-friends/bp-friends-template.php:419
-#: bp-templates/bp-legacy/buddypress-functions.php:1402
-#: bp-templates/bp-legacy/buddypress-functions.php:1420
+#: bp-templates/bp-legacy/buddypress-functions.php:1405
+#: bp-templates/bp-legacy/buddypress-functions.php:1423
 msgid "Add Friend"
 msgstr ""
 
@@ -4868,13 +4914,13 @@ msgid ""
 msgstr ""
 
 #: bp-groups/bp-groups-template.php:3498
-#: bp-templates/bp-legacy/buddypress-functions.php:1501
-#: bp-templates/bp-legacy/buddypress-functions.php:1514
+#: bp-templates/bp-legacy/buddypress-functions.php:1504
+#: bp-templates/bp-legacy/buddypress-functions.php:1517
 msgid "Leave Group"
 msgstr ""
 
 #: bp-groups/bp-groups-template.php:3519
-#: bp-templates/bp-legacy/buddypress-functions.php:1535
+#: bp-templates/bp-legacy/buddypress-functions.php:1538
 msgid "Join Group"
 msgstr ""
 
@@ -4883,12 +4929,12 @@ msgid "Accept Invitation"
 msgstr ""
 
 #: bp-groups/bp-groups-template.php:3552
-#: bp-templates/bp-legacy/buddypress-functions.php:1524
+#: bp-templates/bp-legacy/buddypress-functions.php:1527
 msgid "Request Sent"
 msgstr ""
 
 #: bp-groups/bp-groups-template.php:3567
-#: bp-templates/bp-legacy/buddypress-functions.php:1537
+#: bp-templates/bp-legacy/buddypress-functions.php:1540
 msgid "Request Membership"
 msgstr ""
 
@@ -5042,7 +5088,7 @@ msgstr ""
 msgid "No groups matched the current filter."
 msgstr ""
 
-#: bp-groups/classes/class-bp-group-extension.php:858
+#: bp-groups/classes/class-bp-group-extension.php:864
 msgid "You do not have access to this content."
 msgstr ""
 
@@ -5231,110 +5277,110 @@ msgstr ""
 msgid "Delete Account"
 msgstr ""
 
-#: bp-members/bp-members-functions.php:1206
+#: bp-members/bp-members-functions.php:1208
 msgid ""
 "User last_activity data is no longer stored in usermeta. Use "
 "bp_get_user_last_activity() instead."
 msgstr ""
 
-#: bp-members/bp-members-functions.php:1236
+#: bp-members/bp-members-functions.php:1243
 msgid ""
 "User last_activity data is no longer stored in usermeta. Use "
 "bp_update_user_last_activity() instead."
 msgstr ""
 
-#: bp-members/bp-members-functions.php:1451
-#: bp-members/bp-members-functions.php:2499
+#: bp-members/bp-members-functions.php:1458
+#: bp-members/bp-members-functions.php:2506
 msgid "<strong>ERROR</strong>: Your account has been marked as a spammer."
 msgstr ""
 
-#: bp-members/bp-members-functions.php:1672
+#: bp-members/bp-members-functions.php:1679
 msgid "Please check your email address."
 msgstr ""
 
-#: bp-members/bp-members-functions.php:1676
-#: bp-members/bp-members-functions.php:1680
+#: bp-members/bp-members-functions.php:1683
+#: bp-members/bp-members-functions.php:1687
 msgid "Sorry, that email address is not allowed!"
 msgstr ""
 
-#: bp-members/bp-members-functions.php:1684
+#: bp-members/bp-members-functions.php:1691
 msgid "Sorry, that email address is already used!"
 msgstr ""
 
-#: bp-members/bp-members-functions.php:1724
+#: bp-members/bp-members-functions.php:1731
 msgid "Please enter a username"
 msgstr ""
 
-#: bp-members/bp-members-functions.php:1730
+#: bp-members/bp-members-functions.php:1737
 msgid "That username is not allowed"
 msgstr ""
 
-#: bp-members/bp-members-functions.php:1735
+#: bp-members/bp-members-functions.php:1742
 msgid "Usernames can contain only letters, numbers, ., -, and @"
 msgstr ""
 
-#: bp-members/bp-members-functions.php:1740
+#: bp-members/bp-members-functions.php:1747
 msgid "Username must be at least 4 characters"
 msgstr ""
 
-#: bp-members/bp-members-functions.php:1745
+#: bp-members/bp-members-functions.php:1752
 msgid "Sorry, usernames may not contain the character \"_\"!"
 msgstr ""
 
-#: bp-members/bp-members-functions.php:1752
+#: bp-members/bp-members-functions.php:1759
 msgid "Sorry, usernames must have letters too!"
 msgstr ""
 
-#: bp-members/bp-members-functions.php:1764
+#: bp-members/bp-members-functions.php:1771
 msgid "Sorry, that username already exists!"
 msgstr ""
 
-#: bp-members/bp-members-functions.php:1978
-#: bp-members/bp-members-functions.php:2005
+#: bp-members/bp-members-functions.php:1985
+#: bp-members/bp-members-functions.php:2012
 msgid "Invalid activation key."
 msgstr ""
 
-#: bp-members/bp-members-functions.php:1985
+#: bp-members/bp-members-functions.php:1992
 msgid "The user is already active."
 msgstr ""
 
-#: bp-members/bp-members-functions.php:1987
+#: bp-members/bp-members-functions.php:1994
 msgid "The site is already active."
 msgstr ""
 
-#: bp-members/bp-members-functions.php:2020
+#: bp-members/bp-members-functions.php:2027
 msgid "Could not create user"
 msgstr ""
 
-#: bp-members/bp-members-functions.php:2034
+#: bp-members/bp-members-functions.php:2041
 msgid "That username is already activated."
 msgstr ""
 
-#: bp-members/bp-members-functions.php:2362
+#: bp-members/bp-members-functions.php:2369
 msgid ""
 "If you have not received an email yet, <a href=\"%s\">click here to resend "
 "it</a>."
 msgstr ""
 
-#: bp-members/bp-members-functions.php:2364
+#: bp-members/bp-members-functions.php:2371
 msgid ""
 "<strong>ERROR</strong>: Your account has not been activated. Check your "
 "email for the activation link."
 msgstr ""
 
-#: bp-members/bp-members-functions.php:2395
+#: bp-members/bp-members-functions.php:2402
 msgid "<strong>ERROR</strong>: Your account has already been activated."
 msgstr ""
 
-#: bp-members/bp-members-functions.php:2397
+#: bp-members/bp-members-functions.php:2404
 msgid "Activation email resent! Please check your inbox or spam folder."
 msgstr ""
 
-#: bp-members/bp-members-functions.php:2586
+#: bp-members/bp-members-functions.php:2593
 msgid "Member type already exists."
 msgstr ""
 
-#: bp-members/bp-members-functions.php:2609
+#: bp-members/bp-members-functions.php:2616
 msgid "You may not register a member type with this name."
 msgstr ""
 
@@ -5350,7 +5396,7 @@ msgstr ""
 msgid "This is a required field"
 msgstr ""
 
-#: bp-members/bp-members-screens.php:358
+#: bp-members/bp-members-screens.php:355
 msgid "Your account is now active!"
 msgstr ""
 
@@ -6366,15 +6412,15 @@ msgstr ""
 
 #: bp-templates/bp-legacy/buddypress/activity/entry.php:75
 #: bp-templates/bp-legacy/buddypress-functions.php:297
-#: bp-templates/bp-legacy/buddypress-functions.php:1220
-#: bp-templates/bp-legacy/buddypress-functions.php:1248
+#: bp-templates/bp-legacy/buddypress-functions.php:1223
+#: bp-templates/bp-legacy/buddypress-functions.php:1251
 msgid "Favorite"
 msgstr ""
 
 #: bp-templates/bp-legacy/buddypress/activity/entry.php:79
 #: bp-templates/bp-legacy/buddypress-functions.php:300
-#: bp-templates/bp-legacy/buddypress-functions.php:1218
-#: bp-templates/bp-legacy/buddypress-functions.php:1250
+#: bp-templates/bp-legacy/buddypress-functions.php:1221
+#: bp-templates/bp-legacy/buddypress-functions.php:1253
 msgid "Remove Favorite"
 msgstr ""
 
@@ -6848,7 +6894,7 @@ msgstr ""
 
 #: bp-templates/bp-legacy/buddypress/groups/create.php:397
 #: bp-templates/bp-legacy/buddypress/groups/single/invites-loop.php:74
-#: bp-templates/bp-legacy/buddypress-functions.php:1350
+#: bp-templates/bp-legacy/buddypress-functions.php:1353
 msgid "Remove Invite"
 msgstr ""
 
@@ -7606,59 +7652,59 @@ msgid ""
 "be lost."
 msgstr ""
 
-#: bp-templates/bp-legacy/buddypress-functions.php:968
+#: bp-templates/bp-legacy/buddypress-functions.php:971
 msgid "There was a problem posting your update. Please try again."
 msgstr ""
 
-#: bp-templates/bp-legacy/buddypress-functions.php:1102
-#: bp-templates/bp-legacy/buddypress-functions.php:1142
+#: bp-templates/bp-legacy/buddypress-functions.php:1105
+#: bp-templates/bp-legacy/buddypress-functions.php:1145
 msgid "There was a problem when deleting. Please try again."
 msgstr ""
 
-#: bp-templates/bp-legacy/buddypress-functions.php:1354
+#: bp-templates/bp-legacy/buddypress-functions.php:1357
 msgid ""
 "%s has previously requested to join this group. Sending an invitation will "
 "automatically add the member to the group."
 msgstr ""
 
-#: bp-templates/bp-legacy/buddypress-functions.php:1410
+#: bp-templates/bp-legacy/buddypress-functions.php:1413
 msgid " Friendship could not be requested."
 msgstr ""
 
-#: bp-templates/bp-legacy/buddypress-functions.php:1422
+#: bp-templates/bp-legacy/buddypress-functions.php:1425
 msgid "Friendship request could not be cancelled."
 msgstr ""
 
-#: bp-templates/bp-legacy/buddypress-functions.php:1427
+#: bp-templates/bp-legacy/buddypress-functions.php:1430
 msgid "Request Pending"
 msgstr ""
 
-#: bp-templates/bp-legacy/buddypress-functions.php:1448
+#: bp-templates/bp-legacy/buddypress-functions.php:1451
 msgid "There was a problem accepting that request. Please try again."
 msgstr ""
 
-#: bp-templates/bp-legacy/buddypress-functions.php:1468
+#: bp-templates/bp-legacy/buddypress-functions.php:1471
 msgid "There was a problem rejecting that request. Please try again."
 msgstr ""
 
-#: bp-templates/bp-legacy/buddypress-functions.php:1499
+#: bp-templates/bp-legacy/buddypress-functions.php:1502
 msgid "Error joining group"
 msgstr ""
 
-#: bp-templates/bp-legacy/buddypress-functions.php:1512
-#: bp-templates/bp-legacy/buddypress-functions.php:1522
+#: bp-templates/bp-legacy/buddypress-functions.php:1515
+#: bp-templates/bp-legacy/buddypress-functions.php:1525
 msgid "Error requesting membership"
 msgstr ""
 
-#: bp-templates/bp-legacy/buddypress-functions.php:1533
+#: bp-templates/bp-legacy/buddypress-functions.php:1536
 msgid "Error leaving group"
 msgstr ""
 
-#: bp-templates/bp-legacy/buddypress-functions.php:1559
+#: bp-templates/bp-legacy/buddypress-functions.php:1562
 msgid "There was a problem closing the notice."
 msgstr ""
 
-#: bp-templates/bp-legacy/buddypress-functions.php:1626
+#: bp-templates/bp-legacy/buddypress-functions.php:1629
 msgid "There was a problem sending that reply. Please try again."
 msgstr ""
 
@@ -8369,7 +8415,7 @@ msgctxt "buddypress tools intro"
 msgid "Use the %s to repair these relationships."
 msgstr ""
 
-#: bp-core/bp-core-customizer-email.php:33 bp-core/bp-core-filters.php:1134
+#: bp-core/bp-core-customizer-email.php:33 bp-core/bp-core-filters.php:1135
 msgctxt "screen heading"
 msgid "BuddyPress Emails"
 msgstr ""

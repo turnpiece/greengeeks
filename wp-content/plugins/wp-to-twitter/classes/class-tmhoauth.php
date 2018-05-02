@@ -1,7 +1,19 @@
 <?php
-
 /**
- * tmhOAuth
+ * TmhOAuth
+ *
+ * @category OAuth
+ * @package  WP to Twitter
+ * @author   Joe Dolson
+ * @license  GPLv2 or later
+ * @link     https://www.joedolson.com/wp-to-twitter/
+ */
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+/**
+ * OAuth / tmhOAuth
  *
  * An OAuth 1.0A library written in PHP.
  * The library supports file uploading using multipart/form as well as general
@@ -9,18 +21,24 @@
  *
  * @author themattharris
  * @version 0.7.5
+ * @link https://github.com/themattharris/tmhOAuth
  *
  * 20 February 2013
  */
-class tmhOAuth {
+class TmhOAuth {
 	const VERSION = '0.7.5';
 
+	/**
+	 * The response from Twitter.
+	 *
+	 * @var $response
+	 */
 	var $response = array();
 
 	/**
-	 * Creates a new tmhOAuth object
+	 * Creates a new TmhOAuth object
 	 *
-	 * @param string $config , the configuration to use for this request
+	 * @param array $config , the configuration to use for this request.
 	 *
 	 * @return void
 	 */
@@ -30,13 +48,13 @@ class tmhOAuth {
 		$this->auto_fixed_time = false;
 		$this->buffer          = null;
 
-		// default configuration options
+		// default configuration options.
 		$this->config = array_merge(
 			array(
-				// leave 'user_agent' blank for default, otherwise set this to
-				// something that clearly identifies your app
+				// leave 'user_agent' blank for default, otherwise set this to.
+				// something that clearly identifies your app.
 				'user_agent'                 => '',
-				// default timezone for requests
+				// default timezone for requests.
 				'timezone'                   => 'UTC',
 				'use_ssl'                    => true,
 				'host'                       => 'api.twitter.com',
@@ -46,41 +64,38 @@ class tmhOAuth {
 				'user_secret'                => '',
 				'force_nonce'                => false,
 				'nonce'                      => false,
-				// used for checking signatures. leave as false for auto
+				// used for checking signatures. leave as false for auto.
 				'force_timestamp'            => false,
 				'timestamp'                  => false,
-				// used for checking signatures. leave as false for auto
-
-				// oauth signing variables that are not dynamic
+				// used for checking signatures. leave as false for auto.
+				// oauth signing variables that are not dynamic.
 				'oauth_version'              => '1.0',
 				'oauth_signature_method'     => 'HMAC-SHA1',
-				// you probably don't want to change any of these curl values
+				// you probably don't want to change any of these curl values.
 				'curl_connecttimeout'        => 30,
 				'curl_timeout'               => 10,
 				// for security this should always be set to 2.
 				'curl_ssl_verifyhost'        => 2,
 				// for security this should always be set to true.
 				'curl_ssl_verifypeer'        => true,
-				// you can get the latest cacert.pem from here http://curl.haxx.se/ca/cacert.pem
+				// you can get the latest cacert.pem from here http://curl.haxx.se/ca/cacert.pem.
 				'curl_cainfo'                => dirname( __FILE__ ) . DIRECTORY_SEPARATOR . 'cacert.pem',
 				'curl_capath'                => dirname( __FILE__ ),
 				'curl_followlocation'        => false,
-				// whether to follow redirects or not
-
-				// support for proxy servers
+				// whether to follow redirects or not.
+				// support for proxy servers.
 				'curl_proxy'                 => false,
-				// really you don't want to use this if you are using streaming
+				// really you don't want to use this if you are using streaming.
 				'curl_proxyuserpwd'          => false,
-				// format username:password for proxy, if required
+				// format username:password for proxy, if required.
 				'curl_encoding'              => '',
-				// leave blank for all supported formats, else use gzip, deflate, identity
-
-				// streaming API
+				// leave blank for all supported formats, else use gzip, deflate, identity.
+				// streaming API.
 				'is_streaming'               => false,
 				'streaming_eol'              => "\r\n",
 				'streaming_metrics_interval' => 60,
 				// header or querystring. You should always use header!
-				// this is just to help me debug other developers implementations
+				// this is just to help me debug other developers implementations.
 				'as_header'                  => true,
 				'debug'                      => false,
 			),
@@ -116,13 +131,13 @@ class tmhOAuth {
 	 * Generates a random OAuth nonce.
 	 * If 'force_nonce' is true a nonce is not generated and the value in the configuration will be retained.
 	 *
-	 * @param string $length how many characters the nonce should be before MD5 hashing. default 12
-	 * @param string $include_time whether to include time at the beginning of the nonce. default true
+	 * @param string $length how many characters the nonce should be before MD5 hashing. default 12.
+	 * @param string $include_time whether to include time at the beginning of the nonce. default true.
 	 *
 	 * @return void value is stored to the config array class variable
 	 */
 	private function create_nonce( $length = 12, $include_time = true ) {
-		if ( $this->config['force_nonce'] == false ) {
+		if ( false == $this->config['force_nonce'] ) {
 			$sequence = array_merge( range( 0, 9 ), range( 'A', 'Z' ), range( 'a', 'z' ) );
 			$length   = $length > count( $sequence ) ? count( $sequence ) : $length;
 			shuffle( $sequence );
@@ -139,21 +154,21 @@ class tmhOAuth {
 	 * @return void value is stored to the config array class variable
 	 */
 	private function create_timestamp() {
-		$this->config['timestamp'] = ( $this->config['force_timestamp'] == false ? time() : $this->config['timestamp'] );
+		$this->config['timestamp'] = ( false == $this->config['force_timestamp'] ? time() : $this->config['timestamp'] );
 	}
 
 	/**
 	 * Encodes the string or array passed in a way compatible with OAuth.
 	 * If an array is passed each array value will will be encoded.
 	 *
-	 * @param mixed $data the scalar or array to encode
+	 * @param mixed $data the scalar or array to encode.
 	 *
 	 * @return $data encoded in a way compatible with OAuth
 	 */
 	private function safe_encode( $data ) {
 		if ( is_array( $data ) ) {
 			return array_map( array( $this, 'safe_encode' ), $data );
-		} else if ( is_scalar( $data ) ) {
+		} elseif ( is_scalar( $data ) ) {
 			return str_ireplace(
 				array( '+', '%7E' ),
 				array( ' ', '~' ),
@@ -168,14 +183,14 @@ class tmhOAuth {
 	 * Decodes the string or array from it's URL encoded form
 	 * If an array is passed each array value will will be decoded.
 	 *
-	 * @param mixed $data the scalar or array to decode
+	 * @param mixed $data the scalar or array to decode.
 	 *
 	 * @return string $data decoded from the URL encoded form
 	 */
 	private function safe_decode( $data ) {
 		if ( is_array( $data ) ) {
 			return array_map( array( $this, 'safe_decode' ), $data );
-		} else if ( is_scalar( $data ) ) {
+		} elseif ( is_scalar( $data ) ) {
 			return rawurldecode( $data );
 		} else {
 			return '';
@@ -196,12 +211,12 @@ class tmhOAuth {
 			'oauth_signature_method' => $this->config['oauth_signature_method'],
 		);
 
-		// include the user token if it exists
+		// include the user token if it exists.
 		if ( $this->config['user_token'] ) {
 			$defaults['oauth_token'] = $this->config['user_token'];
 		}
 
-		// safely encode
+		// safely encode.
 		foreach ( $defaults as $k => $v ) {
 			$_defaults[ $this->safe_encode( $k ) ] = $this->safe_encode( $v );
 		}
@@ -212,7 +227,7 @@ class tmhOAuth {
 	/**
 	 * Extracts and decodes OAuth parameters from the passed string
 	 *
-	 * @param string $body the response body from an OAuth flow method
+	 * @param string $body the response body from an OAuth flow method.
 	 *
 	 * @return array the response body safely decoded to an array of key => values
 	 */
@@ -233,7 +248,7 @@ class tmhOAuth {
 	 * Prepares the HTTP method for use in the base string by converting it to
 	 * uppercase.
 	 *
-	 * @param string $method an HTTP method such as GET or POST
+	 * @param string $method an HTTP method such as GET or POST.
 	 *
 	 * @return void value is stored to the class variable 'method'
 	 */
@@ -247,7 +262,7 @@ class tmhOAuth {
 	 *
 	 * Ref: 3.4.1.2
 	 *
-	 * @param string $url the request URL
+	 * @param string $url the request URL.
 	 *
 	 * @return void value is stored to the class variable 'url'
 	 */
@@ -259,17 +274,17 @@ class tmhOAuth {
 		$host   = $parts['host'];
 		$path   = isset( $parts['path'] ) ? $parts['path'] : false;
 
-		$port or $port = ( $scheme == 'https' ) ? '443' : '80';
+		if ( ! $port ) {
+			$port = ( 'https' == $scheme ) ? '443' : '80';
+		}
 
-		if ( ( $scheme == 'https' && $port != '443' )
-		     || ( $scheme == 'http' && $port != '80' )
-		) {
+		if ( ( 'https' == $scheme && '443' != $port ) || ( 'http' == $scheme && '80' != $port ) ) {
 			$host = "$host:$port";
 		}
 
-		// the scheme and host MUST be lowercase
+		// the scheme and host MUST be lowercase.
 		$this->url = strtolower( "$scheme://$host" );
-		// but not the path
+		// but not the path.
 		$this->url .= $path;
 	}
 
@@ -278,31 +293,31 @@ class tmhOAuth {
 	 * Multipart parameters are ignored as they are not defined in the specification,
 	 * all other types of parameter are encoded for compatibility with OAuth.
 	 *
-	 * @param array $params the parameters for the request
+	 * @param array $params the parameters for the request.
 	 *
 	 * @return void prepared values are stored in the class variable 'signing_params'
 	 */
 	private function prepare_params( $params ) {
-		// do not encode multipart parameters, leave them alone
+		// do not encode multipart parameters, leave them alone.
 		if ( $this->config['multipart'] ) {
 			$this->request_params = $params;
 			$params               = array();
 		}
 
-		// signing parameters are request parameters + OAuth default parameters
+		// signing parameters are request parameters + OAuth default parameters.
 		$this->signing_params = array_merge( $this->get_defaults(), (array) $params );
 
-		// Remove oauth_signature if present
-		// Ref: Spec: 9.1.1 ("The oauth_signature parameter MUST be excluded.")
+		// Remove oauth_signature if present.
+		// Ref: Spec: 9.1.1 ("The oauth_signature parameter MUST be excluded.").
 		if ( isset( $this->signing_params['oauth_signature'] ) ) {
 			unset( $this->signing_params['oauth_signature'] );
 		}
 
 		// Parameters are sorted by name, using lexicographical byte value ordering.
-		// Ref: Spec: 9.1.1 (1)
+		// Ref: Spec: 9.1.1 (1).
 		uksort( $this->signing_params, 'strcmp' );
 
-		// encode. Also sort the signed parameters from the POST parameters
+		// encode. Also sort the signed parameters from the POST parameters.
 		foreach ( $this->signing_params as $k => $v ) {
 			$k = $this->safe_encode( $k );
 
@@ -315,7 +330,7 @@ class tmhOAuth {
 			$kv[]                  = "{$k}={$v}";
 		}
 
-		// auth params = the default oauth params which are present in our collection of signing params
+		// auth params = the default oauth params which are present in our collection of signing params.
 		$this->auth_params = array_intersect_key( $this->get_defaults(), $_signing_params );
 		if ( isset( $_signing_params['oauth_callback'] ) ) {
 			$this->auth_params['oauth_callback'] = $_signing_params['oauth_callback'];
@@ -327,12 +342,12 @@ class tmhOAuth {
 			unset( $_signing_params['oauth_verifier'] );
 		}
 
-		// request_params is already set if we're doing multipart, if not we need to set them now
+		// request_params is already set if we're doing multipart, if not we need to set them now.
 		if ( ! $this->config['multipart'] ) {
 			$this->request_params = array_diff_key( $_signing_params, $this->get_defaults() );
 		}
 
-		// create the parameter part of the base string
+		// create the parameter part of the base string.
 		$this->signing_params = implode( '&', $kv );
 	}
 
@@ -354,9 +369,9 @@ class tmhOAuth {
 	private function prepare_base_string() {
 		$url = $this->url;
 
-		# if the host header is set we need to rewrite the basestring to use
-		# that, instead of the request host. otherwise the signature won't match
-		# on the server side
+		// if the host header is set we need to rewrite the basestring to use.
+		// that, instead of the request host. otherwise the signature won't match.
+		// on the server .
 		if ( ! empty( $this->custom_headers['Host'] ) ) {
 			$url = str_ireplace(
 				$this->config['host'],
@@ -368,7 +383,7 @@ class tmhOAuth {
 		$base              = array(
 			$this->method,
 			$url,
-			$this->signing_params
+			$this->signing_params,
 		);
 		$this->base_string = implode( '&', $this->safe_encode( $base ) );
 	}
@@ -399,9 +414,9 @@ class tmhOAuth {
 	 * Signs the request and adds the OAuth signature. This runs all the request
 	 * parameter preparation methods.
 	 *
-	 * @param string $method the HTTP method being used. e.g. POST, GET, HEAD etc
-	 * @param string $url the request URL without query string parameters
-	 * @param array $params the request parameters as an array of key=value pairs
+	 * @param string $method the HTTP method being used. e.g. POST, GET, HEAD etc.
+	 * @param string $url the request URL without query string parameters.
+	 * @param array  $params the request parameters as an array of key=value pairs.
 	 * @param string $useauth whether to use authentication when making the request.
 	 *
 	 * @return void
@@ -411,7 +426,7 @@ class tmhOAuth {
 		$this->prepare_url( $url );
 		$this->prepare_params( $params );
 
-		// we don't sign anything is we're not using auth
+		// we don't sign anything is we're not using auth.
 		if ( $useauth ) {
 			$this->prepare_base_string();
 			$this->prepare_signing_key();
@@ -420,7 +435,9 @@ class tmhOAuth {
 				base64_encode(
 					hash_hmac(
 						'sha1', $this->base_string, $this->signing_key, true
-					) ) );
+					)
+				)
+			);
 
 			$this->prepare_auth_header();
 		}
@@ -430,17 +447,17 @@ class tmhOAuth {
 	 * Make an HTTP request using this library. This method doesn't return anything.
 	 * Instead the response should be inspected directly.
 	 *
-	 * @param string $method the HTTP method being used. e.g. POST, GET, HEAD etc
-	 * @param string $url the request URL without query string parameters
-	 * @param array $params the request parameters as an array of key=value pairs. Default empty array
-	 * @param string $useauth whether to use authentication when making the request. Default true
-	 * @param string $multipart whether this request contains multipart data. Default false
-	 * @param array $headers any custom headers to send with the request. Default empty array
+	 * @param string $method the HTTP method being used. e.g. POST, GET, HEAD etc.
+	 * @param string $url the request URL without query string parameters.
+	 * @param array  $params the request parameters as an array of key=value pairs. Default empty array.
+	 * @param string $useauth whether to use authentication when making the request. Default true.
+	 * @param string $multipart whether this request contains multipart data. Default false.
+	 * @param array  $headers any custom headers to send with the request. Default empty array.
 	 *
 	 * @return int the http response code for the request. 0 is returned if a connection could not be made
 	 */
 	public function request( $method, $url, $params = array(), $useauth = true, $multipart = false, $headers = array() ) {
-		// reset the request headers (we don't want to reuse them)
+		// reset the request headers (we don't want to reuse them).
 		$this->headers        = array();
 		$this->custom_headers = $headers;
 
@@ -462,15 +479,14 @@ class tmhOAuth {
 	 * Make a long poll HTTP request using this library. This method is
 	 * different to the other request methods as it isn't supposed to disconnect
 	 *
-	 * Using this method expects a callback which will receive the streaming
-	 * responses.
+	 * Using this method expects a callback which will receive the streaming responses.
 	 *
-	 * @param string $method the HTTP method being used. e.g. POST, GET, HEAD etc
-	 * @param string $url the request URL without query string parameters
-	 * @param array $params the request parameters as an array of key=value pairs
+	 * @param string $method the HTTP method being used. e.g. POST, GET, HEAD etc.
+	 * @param string $url the request URL without query string parameters.
+	 * @param array  $params the request parameters as an array of key=value pairs.
 	 * @param string $callback the callback function to stream the buffer to.
 	 *
-	 * @return void
+	 * @return mixed false or void
 	 */
 	public function streaming_request( $method, $url, $params = array(), $callback = '' ) {
 		if ( ! empty( $callback ) ) {
@@ -513,8 +529,8 @@ class tmhOAuth {
 	/**
 	 * Utility function to create the request URL in the requested format
 	 *
-	 * @param string $request the API method without extension
-	 * @param string $format the format of the response. Default json. Set to an empty string to exclude the format
+	 * @param string $request the API method without extension.
+	 * @param string $format the format of the response. Default json. Set to an empty string to exclude the format.
 	 *
 	 * @return string the concatenation of the host, API version, API method and format
 	 */
@@ -522,7 +538,7 @@ class tmhOAuth {
 		$format = strlen( $format ) > 0 ? ".$format" : '';
 		$proto  = $this->config['use_ssl'] ? 'https:/' : 'http:/';
 
-		// backwards compatibility with v0.1
+		// backwards compatibility with v0.1.
 		if ( isset( $this->config['v'] ) ) {
 			$this->config['host'] = $this->config['host'] . '/' . $this->config['v'];
 		}
@@ -537,19 +553,19 @@ class tmhOAuth {
 		return implode( '/', array(
 			$proto,
 			$this->config['host'],
-			$request . $format
+			$request . $format,
 		) );
 	}
 
 	/**
 	 * Public access to the private safe decode/encode methods
 	 *
-	 * @param string $text the text to transform
-	 * @param string $mode the transformation mode. either encode or decode
+	 * @param string $text the text to transform.
+	 * @param string $mode the transformation mode. either encode or decode.
 	 *
 	 * @return string $text transformed by the given $mode
 	 */
-	public function transformText( $text, $mode = 'encode' ) {
+	public function transform_text( $text, $mode = 'encode' ) {
 		return $this->{"safe_$mode"}( $text );
 	}
 
@@ -557,12 +573,12 @@ class tmhOAuth {
 	 * Utility function to parse the returned curl headers and store them in the
 	 * class array variable.
 	 *
-	 * @param object $ch curl handle
-	 * @param string $header the response headers
+	 * @param object $ch curl handle.
+	 * @param string $header the response headers.
 	 *
 	 * @return string the length of the header
 	 */
-	private function curlHeader( $ch, $header ) {
+	private function curl_header( $ch, $header ) {
 		$this->response['raw'] .= $header;
 
 		list( $key, $value ) = array_pad( explode( ':', $header, 2 ), 2, null );
@@ -589,14 +605,14 @@ class tmhOAuth {
 	 *
 	 * This function calls the previously defined streaming callback method.
 	 *
-	 * @param object $ch curl handle
-	 * @param string $data the current curl buffer
+	 * @param object $ch curl handle.
+	 * @param string $data the current curl buffer.
 	 *
 	 * @return int the length of the data string processed in this function
 	 */
-	private function curlWrite( $ch, $data ) {
+	private function curl_write( $ch, $data ) {
 		$l = strlen( $data );
-		if ( strpos( $data, $this->config['streaming_eol'] ) === false ) {
+		if ( false === strpos( $data, $this->config['streaming_eol'] ) ) {
 			$this->buffer .= $data;
 
 			return $l;
@@ -631,23 +647,23 @@ class tmhOAuth {
 	 * Makes a curl request. Takes no parameters as all should have been prepared
 	 * by the request method
 	 *
-	 * the response data is stored in the class variable 'response'
+	 * The response data is stored in the class variable 'response'
 	 *
 	 * @return int the http response code for the request. 0 is returned if a connection could not be made
 	 */
 	private function curlit() {
 		$this->response['raw'] = '';
 
-		// method handling
+		// method handling.
 		switch ( $this->method ) {
 			case 'POST':
 				break;
 			default:
-				// GET, DELETE request so convert the parameters to a querystring
+				// GET, DELETE request so convert the parameters to a querystring.
 				if ( ! empty( $this->request_params ) ) {
 					foreach ( $this->request_params as $k => $v ) {
 						// Multipart params haven't been encoded yet.
-						// Not sure why you would do a multipart GET but anyway, here's the support for it
+						// Not sure why you would do a multipart GET but anyway, here's the support for it.
 						if ( $this->config['multipart'] ) {
 							$params[] = $this->safe_encode( $k ) . '=' . $this->safe_encode( $v );
 						} else {
@@ -661,7 +677,7 @@ class tmhOAuth {
 				break;
 		}
 
-		// configure curl
+		// configure curl.
 		$c = curl_init();
 		curl_setopt_array( $c, array(
 			CURLOPT_USERAGENT      => $this->config['user_agent'],
@@ -674,29 +690,29 @@ class tmhOAuth {
 			CURLOPT_PROXY          => $this->config['curl_proxy'],
 			CURLOPT_ENCODING       => $this->config['curl_encoding'],
 			CURLOPT_URL            => $this->url,
-			// process the headers
-			CURLOPT_HEADERFUNCTION => array( $this, 'curlHeader' ),
+			// process the headers.
+			CURLOPT_HEADERFUNCTION => array( $this, 'curl_header' ),
 			CURLOPT_HEADER         => false,
 			CURLINFO_HEADER_OUT    => true,
 		) );
 
-		if ( $this->config['curl_cainfo'] !== false ) {
+		if ( false !== $this->config['curl_cainfo'] ) {
 			curl_setopt( $c, CURLOPT_CAINFO, $this->config['curl_cainfo'] );
 		}
 
-		if ( $this->config['curl_capath'] !== false ) {
+		if ( false !== $this->config['curl_capath'] ) {
 			curl_setopt( $c, CURLOPT_CAPATH, $this->config['curl_capath'] );
 		}
 
-		if ( $this->config['curl_proxyuserpwd'] !== false ) {
+		if ( false !== $this->config['curl_proxyuserpwd'] ) {
 			curl_setopt( $c, CURLOPT_PROXYUSERPWD, $this->config['curl_proxyuserpwd'] );
 		}
 
 		if ( $this->config['is_streaming'] ) {
-			// process the body
+			// process the body.
 			$this->response['content-length'] = 0;
 			curl_setopt( $c, CURLOPT_TIMEOUT, 0 );
-			curl_setopt( $c, CURLOPT_WRITEFUNCTION, array( $this, 'curlWrite' ) );
+			curl_setopt( $c, CURLOPT_WRITEFUNCTION, array( $this, 'curl_write' ) );
 		}
 
 		switch ( $this->method ) {
@@ -711,7 +727,7 @@ class tmhOAuth {
 		}
 
 		if ( ! empty( $this->request_params ) ) {
-			// if not doing multipart we need to implode the parameters
+			// if not doing multipart we need to implode the parameters.
 			if ( ! $this->config['multipart'] ) {
 				foreach ( $this->request_params as $k => $v ) {
 					$ps[] = "{$k}={$v}";
@@ -731,8 +747,8 @@ class tmhOAuth {
 		if ( isset( $this->config['prevent_request'] ) && ( true == $this->config['prevent_request'] ) ) {
 			return 0;
 		}
-		
-		// do it!
+
+		// Run the curl command.
 		$response = curl_exec( $c );
 		$code     = curl_getinfo( $c, CURLINFO_HTTP_CODE );
 		$info     = curl_getinfo( $c );
@@ -740,7 +756,7 @@ class tmhOAuth {
 		$errno    = curl_errno( $c );
 		curl_close( $c );
 
-		// store the response
+		// store the response.
 		$this->response['code']     = $code;
 		$this->response['response'] = $response;
 		$this->response['info']     = $info;

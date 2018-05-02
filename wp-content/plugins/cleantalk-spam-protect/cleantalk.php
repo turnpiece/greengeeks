@@ -2,20 +2,22 @@
 /*
   Plugin Name: Anti-Spam by CleanTalk
   Plugin URI: http://cleantalk.org
-  Description: Max power, all-in-one, no Captcha, premium anti-spam plugin. No comment spam, no registration spam, no contact spam, protects any WordPress forms. Formerly Anti-Spam by CleanTalk. 
-  Version: 5.85
+  Description: Max power, all-in-one, no Captcha, premium anti-spam plugin. No comment spam, no registration spam, no contact spam, protects any WordPress forms.
+  Version: 5.95
   Author: СleanTalk <welcome@cleantalk.org>
   Author URI: http://cleantalk.org
 */
 
-$cleantalk_plugin_version='5.85';
-$ct_agent_version = 'wordpress-585';
 $cleantalk_executed = false;
 
-define('APBCT_VERSION', '5.85');
-define('APBCT_AGENT',   'wordpress-585');
+define('APBCT_VERSION', '5.95');
+define('APBCT_AGENT',   'wordpress-595');
 
 define('CLEANTALK_REMOTE_CALL_SLEEP', 10); // Minimum time between remote call
+define('APBCT_CASERT_PATH', file_exists(ABSPATH . WPINC . '/certificates/ca-bundle.crt') 
+	? ABSPATH . WPINC . '/certificates/ca-bundle.crt'
+	: ''
+); // SSL SERTTIFICATE PATH
 
 if(!defined('CLEANTALK_PLUGIN_DIR')){
 	
@@ -23,11 +25,15 @@ if(!defined('CLEANTALK_PLUGIN_DIR')){
 	
     define('CLEANTALK_PLUGIN_DIR', plugin_dir_path(__FILE__));
     
-    require_once( CLEANTALK_PLUGIN_DIR . 'inc/cleantalk-common.php');
+	require_once( CLEANTALK_PLUGIN_DIR . 'lib/cleantalk-php-patch.php'); // Pathces fpr different functions which not exists
+	require_once( CLEANTALK_PLUGIN_DIR . 'lib/CleantalkHelper.php');     // Helper class. Different useful functions
+	require_once( CLEANTALK_PLUGIN_DIR . 'lib/Cleantalk.php');           // Main class for request
+	require_once( CLEANTALK_PLUGIN_DIR . 'lib/CleantalkRequest.php');    // Holds request data
+	require_once( CLEANTALK_PLUGIN_DIR . 'lib/CleantalkResponse.php');   // Holds response data
+	require_once( CLEANTALK_PLUGIN_DIR . 'lib/CleantalkCron.php');       // Cron handling
     require_once( CLEANTALK_PLUGIN_DIR . 'inc/cleantalk-widget.php');
-	require_once( CLEANTALK_PLUGIN_DIR . 'lib/CleantalkCron.php');
-	require_once( CLEANTALK_PLUGIN_DIR . 'lib/CleantalkHelper.php');
-		
+    require_once( CLEANTALK_PLUGIN_DIR . 'inc/cleantalk-common.php');
+	
     $ct_options=ct_get_options();
     $ct_data=ct_get_data();	
 	
@@ -67,45 +73,62 @@ if(!defined('CLEANTALK_PLUGIN_DIR')){
 		
 	}
 	
-    if(isset($_SERVER['REQUEST_URI']) && stripos($_SERVER['REQUEST_URI'],'admin-ajax.php')!==false && sizeof($_POST)>0 && isset($_GET['action']) && $_GET['action']=='ninja_forms_ajax_submit')
+    if(isset($_SERVER['REQUEST_URI']) && stripos($_SERVER['REQUEST_URI'],'admin-ajax.php') !== false && sizeof($_POST) > 0 && isset($_GET['action']) && $_GET['action']=='ninja_forms_ajax_submit')
     	$_POST['action']='ninja_forms_ajax_submit';
     
-	// Remote calls		
-	if(isset($_GET['spbc_remote_call_token'], $_GET['spbc_remote_call_action'], $_GET['plugin_name']) && ($_GET['plugin_name'] == 'antispam' || $_GET['plugin_name'] == 'anti-spam')){
+	//*/ REMOTE CALLS
+	if(isset($_GET['spbc_remote_call_token'], $_GET['spbc_remote_call_action'], $_GET['plugin_name']) && in_array($_GET['plugin_name'], array('antispam','anti-spam'))){
+		
+		// Comparing with cleantalk's IP
+		$spbc_remote_ip = CleantalkHelper::ip_get(array('real'), false);
+		
+		if(!empty($spbc_remote_ip)){
+			
+			$resolved = gethostbyaddr($spbc_remote_ip);
 				
-		if(isset($ct_data['last_remote_call']) && time() - $ct_data['last_remote_call'] < CLEANTALK_REMOTE_CALL_SLEEP){
-			echo "FAIL TOO_MANY_ATTEMPTS";
-			die();
-		}else{
-			$ct_data['last_remote_call'] = time();
-			update_option('cleantalk_data', $ct_data);
-		}	
-		
-		$spbc_remote_call_token = md5($ct_options['apikey']);
-		
-		if($_GET['spbc_remote_call_token'] == $spbc_remote_call_token){
+			if($resolved !== false){
+				
+				if(preg_match('/cleantalk\.org$/', $resolved) === 1 || $resolved === 'back'){
+					
+					if(!isset($ct_data['last_remote_call']) || (isset($ct_data['last_remote_call']) && time() - $ct_data['last_remote_call'] > CLEANTALK_REMOTE_CALL_SLEEP)){
 						
-			if($_GET['spbc_remote_call_action'] == 'close_renew_banner'){
-				$ct_data['show_ct_notice_trial'] = 0;
-				$ct_data['show_ct_notice_renew'] = 0;
-				update_option('cleantalk_data', $ct_data);
-				CleantalkCron::updateTask('check_account_status', 'ct_account_status_check',  86400);
-				echo "OK";
-				die();
-			}elseif($_GET['spbc_remote_call_action'] == 'sfw_update'){
-				$rc_result = ct_sfw_update();
-				echo $rc_result === true ? 'OK' : 'FAIL '.$rc_result;
-				die();
-			}elseif($_GET['spbc_remote_call_action'] == 'sfw_send_logs'){
-				$rc_result = ct_sfw_send_logs();
-				echo $rc_result === true ? 'OK' : 'FAIL '.$rc_result;
-				die();
-			}
-		}else{
-			echo "FAIL WRONG_TOKEN";
-			die();
-		}
+						$ct_data['last_remote_call'] = time();
+						update_option('cleantalk_data', $ct_data);
+						
+						if(strtolower($_GET['spbc_remote_call_token']) == md5($ct_options['apikey'])){
+							
+							// Close renew banner
+							if($_GET['spbc_remote_call_action'] == 'close_renew_banner'){
+								$ct_data['show_ct_notice_trial'] = 0;
+								$ct_data['show_ct_notice_renew'] = 0;
+								update_option('cleantalk_data', $ct_data);
+								CleantalkCron::updateTask('check_account_status', 'ct_account_status_check',  86400);
+								die('OK');
+							// SFW update
+							}elseif($_GET['spbc_remote_call_action'] == 'sfw_update'){
+								$result = ct_sfw_update();
+								die(empty($result['error']) ? 'OK' : 'FAIL '.json_encode(array('error' => $result['error_string'])));
+							// SFW send logs
+							}elseif($_GET['spbc_remote_call_action'] == 'sfw_send_logs'){
+								$rc_result = ct_sfw_send_logs();
+								die(empty($result['error']) ? 'OK' : 'FAIL '.json_encode(array('error' => $result['error_string'])));
+							// Update plugin
+							}elseif($_GET['spbc_remote_call_action'] == 'update_plugin'){
+								add_action('template_redirect', 'apbct_update', 1);
+							}else
+								die('FAIL '.json_encode(array('error' => 'UNKNOWN_ACTION')));
+						}else
+							die('FAIL '.json_encode(array('error' => 'WRONG_TOKEN')));
+					}else
+						die('FAIL '.json_encode(array('error' => 'TOO_MANY_ATTEMPTS')));
+				}else
+					die('FAIL '.json_encode(array('error' => 'WRONG_IP')));
+			}else
+				die('FAIL '.json_encode(array('error' => 'COULDNT_RESOLVE_IP')));
+		}else
+			die('FAIL '.json_encode(array('error' => 'COULDNT_RECONIZE_IP')));
 	}
+	//*/ END OF REMOTE CALLS
 	
 	// SFW start
 	$value = (isset($ct_options['spam_firewall']) ? intval($ct_options['spam_firewall']) : 0);    
@@ -146,9 +169,9 @@ if(!defined('CLEANTALK_PLUGIN_DIR')){
 		
 	   	$is_sfw_check = true;
 		$sfw = new CleantalkSFW();
-		$sfw_ip = $sfw->cleantalk_get_real_ip();		
-
-		foreach($sfw_ip as $ct_cur_ip){
+		$sfw->ip_array = CleantalkSFW::ip_get();
+		
+		foreach($sfw->ip_array as $ct_cur_ip){
 	    	if(isset($_COOKIE['ct_sfw_pass_key']) && $_COOKIE['ct_sfw_pass_key'] == md5($ct_cur_ip.$ct_options['apikey'])){
 				$is_sfw_check=false;
 	    		if(isset($_COOKIE['ct_sfw_passed'])){
@@ -194,6 +217,9 @@ if(!defined('CLEANTALK_PLUGIN_DIR')){
     // http://codex.wordpress.org/Function_Reference/register_activation_hook
     register_activation_hook( __FILE__, 'apbct_activation' );
     register_deactivation_hook( __FILE__, 'apbct_deactivation' );
+	
+	// Async loading for JavaScript
+	add_filter('script_loader_tag', 'apbct_add_async_attribute', 10, 3);
 	
     // Redirect admin to plugin settings.
     if(!defined('WP_ALLOW_MULTISITE') || defined('WP_ALLOW_MULTISITE') && WP_ALLOW_MULTISITE == false)
@@ -481,12 +507,10 @@ function ct_sfw_update(){
 		$sfw = new CleantalkSFW();
 		$result = $sfw->sfw_update($ct_options['apikey']);
 		unset($sfw);
-		
-		return $result === true ? true : $result;
-		
+		return $result;
 	}
 	
-	return 'SFW_DISABLED';
+	return array('error' => true, 'error_string' => 'SFW_DISABLED');
 	
 }
 
@@ -504,21 +528,80 @@ function ct_sfw_send_logs()
 		$sfw = new CleantalkSFW();
 		$result = $sfw->send_logs($ct_options['apikey']);
 		unset($sfw);
-		
-		return $result === true ? true : $result;
+		return $result;
 		
 	}
 	
-	return 'SFW_DISABLED';
+	return array('error' => true, 'error_string' => 'SFW_DISABLED');	
+}
+
+function apbct_update(){
+	
+	//Upgrade params
+	$plugin      = 'cleantalk-spam-protect/cleantalk.php';
+	$plugin_slug = 'cleantalk-spam-protect';
+	$title 	     = __('Update Plugin');
+	$nonce 	     = 'upgrade-plugin_' . $plugin;
+	$url 	     = 'update.php?action=upgrade-plugin&plugin=' . urlencode( $plugin );
+	
+	$prev_version = APBCT_VERSION;
+	
+	require_once( ABSPATH . 'wp-admin/includes/plugin.php' );
+	include_once( ABSPATH . 'wp-admin/includes/class-wp-upgrader.php' );
+	include_once( ABSPATH . 'wp-admin/includes/file.php' );
+	include_once( ABSPATH . 'wp-admin/includes/misc.php' );
+	
+	include_once( CLEANTALK_PLUGIN_DIR . 'lib/CleantalkUpgrader.php' );
+	include_once( CLEANTALK_PLUGIN_DIR . 'lib/CleantalkUpgraderSkin.php' );
+	
+	$upgrader = new CleantalkUpgrader( new CleantalkUpgraderSkin( compact('title', 'nonce', 'url', 'plugin') ) );
+    $upgrader->upgrade($plugin);
+	
+	if($upgrader->apbct_result === 'OK'){
+		
+		$result = activate_plugins( $plugin );
+		
+		if(is_wp_error($result))
+			die('FAIL '. json_encode(array('error' => 'COULD_NOT_ACTIVATE', 'wp_error' => $result->get_error_message())));
+		if($result === false)
+			die('FAIL '. json_encode(array('error' => 'COULD_NOT_ACTIVATE')));
+		
+		$urlHeaders = get_headers(get_option('siteurl'));
+		
+		if(strpos($urlHeaders[0], '200') === false){
+						
+			// Rollback
+			$rollback = new CleantalkUpgrader( new CleantalkUpgraderSkin( compact('title', 'nonce', 'url', 'plugin_slug', 'prev_version') ) );
+			$rollback->rollback($plugin);
+			
+			$response = array(
+				'error'           => 'BAD_HTTP_CODE',
+				'http_code'       => $urlHeaders[0],
+				'output'          => substr(file_get_contents(get_option('siteurl')), 0, 4000),
+				'rollback_result' => $rollback->apbct_result,
+			);
+			
+			die('FAIL '.json_encode($response));
+		}
+		
+		$plugin_data = get_plugin_data(__FILE__);
+		$apbct_agent = 'wordpress-'.str_replace('.', '', $plugin_data['Version']);
+		ct_send_feedback('0:' . $apbct_agent);
+		
+		die('OK '.json_encode(array('agent' => APBCT_AGENT)));
+		
+	}else{
+		die('FAIL '. json_encode(array('error' => $upgrader->apbct_result)));
+	}	
 }
 
 function cleantalk_get_brief_data(){
+	
 	$ct_options = ct_get_options();
     $ct_data = ct_get_data();
 	
-	$result = CleantalkHelper::getAntispamReportBreif($ct_options['apikey']);
+	$ct_data['brief_data'] = CleantalkHelper::api_method__get_antispam_report_breif($ct_options['apikey']);
 	
-	$ct_data['brief_data'] = $result;
 	update_option('cleantalk_data', $ct_data);
 	
 	return;

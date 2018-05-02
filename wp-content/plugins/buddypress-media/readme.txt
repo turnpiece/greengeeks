@@ -1,12 +1,12 @@
 === rtMedia for WordPress, BuddyPress and bbPress ===
-Contributors: rtcamp, mangeshp, sanket.parmar, pranalipatel, jignesh.nakrani, manishsongirkar36, kiranpotphode, yahil, 1naveengiri, bhargavbhandari90, raftaar1191, rittesh.patel, sagarjadhav, pushpak.pop, faishal, desaiuditd, rahul286, JoshuaAbenazer, gagan0123, saurabhshukla, nitun.lanjewar, umesh.nevase, suhasgirgaonkar, neerukoul, hrishiv90, kanakiyajay, jarretc, tobiaskluge, rafaelfunchal, UmeshSingla, mehulkaklotar, tannermirabel, kishores, chandrapatel, rahul3883, nomnom99, sayanchakraborty, thrijith
+Contributors: rtcamp, mangeshp, sanket.parmar, pranalipatel, jignesh.nakrani, manishsongirkar36, kiranpotphode, yahil, 1naveengiri, bhargavbhandari90, raftaar1191, rittesh.patel, sagarjadhav, pushpak.pop, faishal, desaiuditd, rahul286, JoshuaAbenazer, gagan0123, saurabhshukla, nitun.lanjewar, umesh.nevase, suhasgirgaonkar, neerukoul, hrishiv90, kanakiyajay, jarretc, tobiaskluge, rafaelfunchal, UmeshSingla, mehulkaklotar, tannermirabel, kishores, chandrapatel, rahul3883, nomnom99, sayanchakraborty, milindmore22, thrijith, abhijitrakas, sid177, montu3366, jashwini
 Donate link: http://rtcamp.com/donate/
 Tags: BuddyPress, media, multimedia, album, audio, songs, music, video, photo, image, upload, share, MediaElement.js, ffmpeg, kaltura, media-node, rtMedia, WordPress, bbPress, masonry
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Requires at least: WordPress 4.1
-Tested up to: 4.9.2
-Stable tag: 4.4.5
+Tested up to: 4.9.5
+Stable tag: 4.4.7
 
 Add albums, photo, audio/video upload, privacy, sharing, front-end uploads & more. All this works on mobile/tablets devices.
 
@@ -136,6 +136,49 @@ http://www.youtube.com/watch?v=dJrykKQGDcs
 
 
 == Changelog ==
+
+= 4.4.7 [April 18, 2018] =
+
+* ENHANCEMENTS
+
+ * Set auto focus for key field on the Licenses Page
+ * Improved media count display for large numbers
+
+* FIXED
+
+ * Gallery swipe gesture with all the WordPress themes older than Twenty Fifteen
+ * Media player height issue on single media page for video
+ * Media gallery conflict with rtMedia Upload By URL
+ * Conflict of empty comment check with other validation message location
+ * PHP notice and warnings
+
+= 4.4.6 [March 22, 2018] =
+
+* NEW
+
+ * Added intuitive left-right swipe gesture guide while opening gallery for the first time on mobile
+
+* ENHANCEMENTS
+
+ * Added filter to customize existing progress bar [Doc](https://rtmedia.io/docs/developers/hooks/rtmedia-js-hooks/#rtmcustomprogressbarcontent)
+ * Improved edit media process with single save button
+
+* FIXED
+
+  * PHP notice and warnings
+  * Visibility issue with Edit & Delete action links after first media upload
+  * Added check for BuddyPress activity component while adding comment on media
+  * Added check for empty comments on media
+  * Added informative message while uploading media without enabling media type setting
+  * BuddyPress activity media upload conflict with [rtMedia Upload Terms](https://rtmedia.io/products/rtmedia-upload-terms/)
+  * Issue with rtMedia comment count under BuddyPress activity
+  * Improved license verification process of rtMedia add-ons
+  * Lightbox height issue with rtMedia media comments
+  * UI issue with Back button on the edit media page for theme twentyseventeen
+  * Option button’s visibility issue with twentyseventeen theme
+  * Console warning for FireFox browser
+  * UI issue for comment media upload button
+  * Minor UI issues for mobile users
 
 = 4.4.5 [January 19, 2018] =
 
@@ -1436,8 +1479,8 @@ http://www.youtube.com/watch?v=dJrykKQGDcs
 
 == Upgrade Notice ==
 
-= 4.4.5 =
-rtMedia 4.4.5, with the upgraded mediaelement library.
+= 4.4.7 =
+rtMedia 4.4.7, with improved media count display and gallery swipe gesture compatibility with WordPress themes older than Twenty Fifteen.
 
 == Sponsors ==
 

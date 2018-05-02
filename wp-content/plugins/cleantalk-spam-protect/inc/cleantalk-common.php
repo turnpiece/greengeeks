@@ -126,23 +126,21 @@ function apbct_base_call($params = array(), $reg_flag = false){
 	
     $config = ct_get_server();
 	
-	require_once('cleantalk.class.php');
-	
 	$ct_request = new CleantalkRequest();
 	
 	// IPs
-	$ct_request->sender_ip       = isset($params['sender_ip'])        ? $params['sender_ip']                : CleantalkHelper::get_ip_real();
-	$ct_request->x_forwarded_for = CleantalkHelper::get_ip_x_forwarded_for();
-	$ct_request->x_real_ip       = CleantalkHelper::get_ip_x_real_ip();
+	$ct_request->sender_ip       = defined('CT_TEST_IP') ? CT_TEST_IP : (isset($params['sender_ip']) ? $params['sender_ip'] : CleantalkHelper::ip_get(array('real'), false));
+	$ct_request->x_forwarded_for = CleantalkHelper::ip_get(array('x_forwarded_for'), false);
+	$ct_request->x_real_ip       = CleantalkHelper::ip_get(array('x_real_ip'), false);
 	
 	// Misc
 	$ct_request->auth_key        = $ct_options['apikey'];
-	$ct_request->message         = !empty($params['message'])         ? json_encode(ct_filter_array($params['message'])) : null;
+	$ct_request->message         = !empty($params['message'])         ? serialize(ct_filter_array($params['message']))   : null;
 	$ct_request->example         = !empty($params['example'])         ? $params['example']                               : null;
 	$ct_request->sender_email    = !empty($params['sender_email'])    ? $params['sender_email']                          : null;
 	$ct_request->sender_nickname = !empty($params['sender_nickname']) ? $params['sender_nickname']                       : null;
 	$ct_request->post_info       =  isset($params['post_info'])       ? json_encode($params['post_info'])                : null;
-	$ct_request->js_on           =  isset($params['checkjs'])         ? $params['checkjs']                               : js_test('ct_checkjs', $_COOKIE, true);
+	$ct_request->js_on           =  isset($params['checkjs'])         ? $params['checkjs']                               : apbct_js_test('ct_checkjs', $_COOKIE, true);
 	$ct_request->agent           = APBCT_AGENT;
 	$ct_request->sender_info     = json_encode($sender_info);
 	$ct_request->submit_time     = apbct_get_submit_time();
@@ -150,6 +148,7 @@ function apbct_base_call($params = array(), $reg_flag = false){
 	$ct = new Cleantalk();
 
 	$ct->ssl_on         = $ct_options['ssl_on'];
+	$ct->ssl_path       = APBCT_CASERT_PATH;
 	$ct->server_url     = $ct_options['server'];
 	$ct->server_ttl     = $config['ct_server_ttl'];
 	$ct->work_url       = $config['ct_work_url'];
@@ -218,7 +217,7 @@ function apbct_get_sender_info() {
 		: null;
 	
 	return array(
-		'remote_addr'            => CleantalkHelper::get_ip_remote_addr(),
+		'remote_addr'            => CleantalkHelper::ip_get(array('remote_addr'), false),
         'REFFERRER'              => isset($_SERVER['HTTP_REFERER'])                                ? htmlspecialchars($_SERVER['HTTP_REFERER'])                        : null,
         'USER_AGENT'             => isset($_SERVER['HTTP_USER_AGENT'])                             ? htmlspecialchars($_SERVER['HTTP_USER_AGENT'])                     : null,
 		'page_url'               => isset($_SERVER['SERVER_NAME'], $_SERVER['REQUEST_URI'])        ? htmlspecialchars($_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI']) : null,
@@ -235,15 +234,15 @@ function apbct_get_sender_info() {
 		'site_landing_ts'        => !empty($_COOKIE['apbct_site_landing_ts']) && $cookie_is_ok     ? $_COOKIE['apbct_site_landing_ts']                                 : null,
 		'page_hits'              => !empty($_COOKIE['apbct_page_hits'])                            ? $_COOKIE['apbct_page_hits']                                       : null,
 		// JS cookies                                                                                                                                                  
-        'js_info'                => !empty($_COOKIE['ct_user_info'])                               ? json_decode(stripslashes($_COOKIE['ct_user_info']))               : null,
+        'js_info'                => !empty($_COOKIE['ct_user_info'])                               ? json_decode(stripslashes($_COOKIE['ct_user_info']), true)         : null,
 		'mouse_cursor_positions' => !empty($_COOKIE['ct_pointer_data'])                            ? json_decode(stripslashes($_COOKIE['ct_pointer_data']), true)      : null,
 		'js_timezone'            => !empty($_COOKIE['ct_timezone'])                                ? $_COOKIE['ct_timezone']                                           : null,
 		'key_press_timestamp'    => !empty($_COOKIE['ct_fkp_timestamp'])                           ? $_COOKIE['ct_fkp_timestamp']                                      : null,
 		'page_set_timestamp'     => !empty($_COOKIE['ct_ps_timestamp'])                            ? $_COOKIE['ct_ps_timestamp']                                       : null,
 		'form_visible_inputs'    => !empty($_COOKIE['apbct_visible_fields_count'])                 ? $_COOKIE['apbct_visible_fields_count']                            : null,
-		'apbct_visible_fields'   => !empty($_COOKIE['apbct_visible_fields'])                       ? json_decode(stripslashes($_COOKIE['apbct_visible_fields']), true) : null,
+		'apbct_visible_fields'   => !empty($_COOKIE['apbct_visible_fields'])                       ? $_COOKIE['apbct_visible_fields']                                  : null,
 		// Debug stuff
-		'amp_detected'            => $amp_detected,
+		'amp_detected'           => $amp_detected,
 	);
 }
 
@@ -446,7 +445,8 @@ function ct_def_options() {
         'user_token'=>'', //user token for auto login into spam statistics
         'collect_details' => 0, // Collect details about browser of the visitor. 
         'send_connection_reports' => 0, //Send connection reports to Cleantalk servers
-		'show_link' => 0
+		'show_link' => 0,
+		'async_js' => 0,
     );
 }
 
@@ -476,10 +476,8 @@ function ct_get_data($force=false) {
  */
 function ct_def_data() {
 	
-	global $cleantalk_plugin_version;
-	
     return array(
-		'start_version' => $cleantalk_plugin_version,
+		'start_version' => APBCT_VERSION,
         'user_token' => '', // User token 
         'js_keys' => array(), // Keys to do JavaScript antispam test 
         'js_keys_store_days' => 14, // JavaScript keys store days - 8 days now
@@ -568,8 +566,7 @@ function ct_send_feedback($feedback_request = null) {
     }
 
     if ($feedback_request !== null) {
-
-        require_once('cleantalk.class.php');
+		
         $config = ct_get_server();
 
         $ct = new Cleantalk();
@@ -629,27 +626,32 @@ function ct_delete_spam_comments() {
 */ 
 function ct_get_fields_any($arr, $message=array(), $email = null, $nickname = array('nick' => '', 'first' => '', 'last' => ''), $subject = null, $contact = true, $prev_name = ''){
 	
-	$skip_params = array( //Skip request if fields exists
+	//Skip request if fields exists
+	$skip_params = array(
 	    'ipn_track_id', 	// PayPal IPN #
 	    'txn_type', 		// PayPal transaction type
 	    'payment_status', 	// PayPal payment status
 	    'ccbill_ipn', 		// CCBill IPN 
 		'ct_checkjs', 		// skip ct_checkjs field
 		'api_mode',         // DigiStore-API
+		'loadLastCommentId' // Plugin: WP Discuz. ticket_id=5571
     );
-    $obfuscate_params = array( //Fields to replace with ****
+	
+	// Fields to replace with ****
+    $obfuscate_params = array(
         'password',
         'pass',
         'pwd',
 		'pswd'
     );
 	
-	$skip_fields_with_strings = array( //Array for strings in keys to skip and known service fields
+	// Skip feilds with these strings and known service fields
+	$skip_fields_with_strings = array( 
 		// Common
 		'ct_checkjs', //Do not send ct_checkjs
 		'nonce', //nonce for strings such as 'rsvp_nonce_name'
 		'security',
-		'action',
+		// 'action',
 		'http_referer',
 		'timestamp',
 		'captcha',
@@ -675,6 +677,7 @@ function ct_get_fields_any($arr, $message=array(), $email = null, $nickname = ar
 		'formData_id',
 		'formData_settings',
 		'formData_fields_\d+_id',
+		'formData_fields_\d+_files.*',		
 		// E_signature
 		'recipient_signature',
 		'output_\d+_\w{0,2}',
@@ -686,9 +689,15 @@ function ct_get_fields_any($arr, $message=array(), $email = null, $nickname = ar
 		'_facebook',
 		'_social',
 		'user_login-',
+		// Contact Form 7
+		'_wpcf7',
+		'ebd_settings',
+		'ebd_downloads_',
+		'ecole_origine',
 	);
 	
-    $skip_message_post = array( // Reset $message if we have a sign-up data
+	// Reset $message if we have a sign-up data
+    $skip_message_post = array(
         'edd_action', // Easy Digital Downloads
     );
 	
@@ -742,9 +751,9 @@ function ct_get_fields_any($arr, $message=array(), $email = null, $nickname = ar
 				// Names
 				}elseif (preg_match("/name/i", $key)){
 					
-					preg_match("/(first.?name)?(name.?first)?(forename)?/", $key, $match_forename);
-					preg_match("/(last.?name)?(family.?name)?(second.?name)?(surname)?/", $key, $match_surname);
-					preg_match("/(nick.?name)?(user.?name)?(nick)?/", $key, $match_nickname);
+					preg_match("/((name.?)?(your|first|for)(.?name)?)$/", $key, $match_forename);
+					preg_match("/((name.?)?(last|family|second|sur)(.?name)?)$/", $key, $match_surname);
+					preg_match("/^(name.?)?(nick|user)(.?name)?$/", $key, $match_nickname);
 					
 					if(count($match_forename) > 1)
 						$nickname['first'] = $value;

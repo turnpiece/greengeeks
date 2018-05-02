@@ -209,12 +209,12 @@ label[for="wpt_license_key"] {
 }
 
 .tweet {
-    background: #070 url(../images/Ok.png) right 50% no-repeat;
+    background: #070 url(../images/Ok.png) 99% 50% no-repeat;
     color: #fff;
 }
 
 .notweet {
-    background: #9d1309 url(../images/Error.png) right 50% no-repeat;
+    background: #9d1309 url(../images/Error.png) 99% 50% no-repeat;
     color: #fff;
 }
 

@@ -4,9 +4,10 @@ Donate link: http://www.joedolson.com/donate/
 Tags: twitter, microblogging, su.pr, bitly, yourls, redirect, shortener, post, links, social, sharing, media, tweet
 Requires at least: 4.4
 Tested up to: 4.9
+Requires PHP: 5.3
 License: GPLv2 or later
 Text Domain: wp-to-twitter
-Stable tag: 3.3.2
+Stable tag: 3.3.5
 
 Posts a Twitter update when you update your WordPress blog or add a link, with your chosen URL shortening service.
 
@@ -63,6 +64,29 @@ Translating my plug-ins is always appreciated. Work on WP to Twitter translation
 Check out my <a href="https://github.com/joedolson/plugin-extensions/tree/master/wp-to-twitter">GitHub repository of plug-in extensions</a>.
 
 == Changelog ==
+
+= 3.3.5 =
+
+* Bug fix: Assignment replaced with comparison in connection creation.
+
+= 3.3.4 =
+
+* Bug fix: fallback normalizer method called incorrectly
+
+= 3.3.3 =
+
+* Removed: upgrade paths from version 2.4.x
+* Removed: support for YOURLS version 1.3
+* Removed: support for Twitter Friendly Links (plug-in not updated in 8 years)
+* Removed: Ability to enable the Goo.gl URL shortener (see: https://developers.google.com/url-shortener/)
+* Removed: fallback functions required for PHP 4 support.
+* Add 'show images' as option in feeds.
+* Support for alt attributes displayed in Feeds
+* Improved URL generation to link to searched Tweets.
+* Improve parsing of URLs in Tweets.
+* Don't save URLs if no shortener used or shortener returns no value.
+* Option to ignore stored URLs when sending Tweets.
+* Code now conforms with WordPress PHP standards with the exception of four deprecated functions.
 
 = 3.3.2 =
 
