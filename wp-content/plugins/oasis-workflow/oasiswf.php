@@ -3,7 +3,7 @@
   Plugin Name: Oasis Workflow
   Plugin URI: http://www.oasisworkflow.com
   Description: Automate your WordPress Editorial Workflow with Oasis Workflow.
-  Version: 2.9
+  Version: 3.3
   Author: Nugget Solutions Inc.
   Author URI: http://www.nuggetsolutions.com
   Text Domain: oasisworkflow
@@ -26,8 +26,8 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 */
 
-define( 'OASISWF_VERSION', '2.9' );
-define( 'OASISWF_DB_VERSION', '2.9' );
+define( 'OASISWF_VERSION', '3.3' );
+define( 'OASISWF_DB_VERSION', '3.3' );
 define( 'OASISWF_PATH', plugin_dir_path( __FILE__ ) ); //use for include files to other files
 define( 'OASISWF_ROOT', dirname( __FILE__ ) );
 define( 'OASISWF_FILE_PATH', OASISWF_ROOT . '/' . basename( __FILE__ ) );
@@ -291,6 +291,7 @@ class OW_Plugin_Init {
 			$this->upgrade_database_22();
          $this->upgrade_database_23();
          $this->upgrade_database_29();
+         $this->upgrade_database_33();
 		} else if ($pluginOptions['version'] == "1.4") {
 			$this->upgrade_database_15();
 			$this->upgrade_database_16();
@@ -300,6 +301,7 @@ class OW_Plugin_Init {
 			$this->upgrade_database_22();
          $this->upgrade_database_23();
          $this->upgrade_database_29();
+         $this->upgrade_database_33();
 		} else if ($pluginOptions['version'] == "1.5") {
 			$this->upgrade_database_16();
 			$this->upgrade_database_17();
@@ -308,6 +310,7 @@ class OW_Plugin_Init {
 			$this->upgrade_database_22();
          $this->upgrade_database_23();
          $this->upgrade_database_29();
+         $this->upgrade_database_33();
 		} else if ( $pluginOptions['version'] == "1.6" ) {
 			$this->upgrade_database_17();
 			$this->upgrade_database_19();
@@ -315,49 +318,70 @@ class OW_Plugin_Init {
 			$this->upgrade_database_22();
          $this->upgrade_database_23();
          $this->upgrade_database_29();
+         $this->upgrade_database_33();
 		} else if ( $pluginOptions['version'] == "1.7" ) {
 			$this->upgrade_database_19();
          $this->upgrade_database_20();
 			$this->upgrade_database_22();
          $this->upgrade_database_23();
          $this->upgrade_database_29();
+         $this->upgrade_database_33();
 		} else if ( $pluginOptions['version'] == "1.8" ) {
 			$this->upgrade_database_19();
          $this->upgrade_database_20();
 			$this->upgrade_database_22();
          $this->upgrade_database_23();
          $this->upgrade_database_29();
+         $this->upgrade_database_33();
 		} else if( $pluginOptions['version'] == "1.9" ) {
          $this->upgrade_database_20();
 			$this->upgrade_database_22();
          $this->upgrade_database_23();
          $this->upgrade_database_29();
+         $this->upgrade_database_33();
       } else if( $pluginOptions['version'] == '2.0' ) {
          $this->upgrade_database_22();
          $this->upgrade_database_23();
          $this->upgrade_database_29();
+         $this->upgrade_database_33();
       } else if( $pluginOptions['version'] == '2.1' ) {
 			$this->upgrade_database_22();
          $this->upgrade_database_23();
          $this->upgrade_database_29();
+         $this->upgrade_database_33();
 		} else if( $pluginOptions['version'] == '2.2' ) {
 			$this->upgrade_database_23();
          $this->upgrade_database_29();
+         $this->upgrade_database_33();
 		} else if( $pluginOptions['version'] == '2.3' ) {
 			$this->upgrade_database_29();
+         $this->upgrade_database_33();
 		} else if( $pluginOptions['version'] == '2.4' ) {
 			$this->upgrade_database_29();
+         $this->upgrade_database_33();
 		} else if( $pluginOptions['version'] == '2.5' ) {
 			$this->upgrade_database_29();
+         $this->upgrade_database_33();
 		} else if( $pluginOptions['version'] == '2.6' ) {
 			$this->upgrade_database_29();
+         $this->upgrade_database_33();
 		} else if( $pluginOptions['version'] == '2.7' ) {
 			$this->upgrade_database_29();
+         $this->upgrade_database_33();
 		} else if( $pluginOptions['version'] == '2.8' ) {
 			$this->upgrade_database_29();
+         $this->upgrade_database_33();
+		} else if( $pluginOptions['version'] == '2.9' ) {
+			$this->upgrade_database_33();
+		} else if( $pluginOptions['version'] == '3.0' ) {
+			$this->upgrade_database_33();
+		} else if( $pluginOptions['version'] == '3.1' ) {
+			$this->upgrade_database_33();
+		} else if( $pluginOptions['version'] == '3.2' ) {
+			$this->upgrade_database_33();
 		} 
-
-		// update the version value
+      
+      // update the version value
 		$oasiswf_info=array(
 			'version'=>OASISWF_VERSION,
 			'db_version'=>OASISWF_DB_VERSION
@@ -1095,6 +1119,46 @@ class OW_Plugin_Init {
 		$table_name = OW_Utility::instance()->get_action_table_name();
 		$wpdb->query( "ALTER TABLE {$table_name} ADD history_meta longtext" );
     }
+    
+    /**
+	 * Upgrade helper for v5.7 upgrade function
+	 * @since 5.7
+	 */
+	private function upgrade_database_33() {
+		global $wpdb;
+
+		// look through each of the blogs and upgrade the DB
+		if ( function_exists('is_multisite') && is_multisite() )
+		{
+			//Get all blog ids; foreach them and call the uninstall procedure on each of them
+			$blog_ids = $wpdb->get_col( "SELECT blog_id FROM {$wpdb->base_prefix}blogs" );
+
+			//Get all blog ids; foreach them and call the install procedure on each of them if the plugin table is found
+			foreach ( $blog_ids as $blog_id )
+			{
+				switch_to_blog( $blog_id );
+				if ( $wpdb->query( "SHOW TABLES FROM ".$wpdb->dbname." LIKE '".$wpdb->prefix."fc_%'" ) )
+				{
+					$this->upgrade_helper_33();
+				}
+				restore_current_blog();
+			}
+		}
+
+		$this->upgrade_helper_33();
+	} 
+   
+   private function upgrade_helper_33() { 
+      global $wpdb;
+      $action_history_table_name = OW_Utility::instance()->get_action_history_table_name();
+      $wpdb->query( "ALTER TABLE {$action_history_table_name} MODIFY ID bigint(20) NOT NULL AUTO_INCREMENT, MODIFY post_id bigint(20), MODIFY from_id bigint(20)" );
+      
+      $action_table_name = OW_Utility::instance()->get_action_table_name();
+      $wpdb->query( "ALTER TABLE {$action_table_name} MODIFY ID bigint(20) NOT NULL AUTO_INCREMENT, MODIFY action_history_id bigint(20)" );
+       
+      $email_table_name = OW_Utility::instance()->get_emails_table_name();
+      $wpdb->query( "ALTER TABLE {$email_table_name} MODIFY history_id bigint(20)" );
+   }
 
    public function load_css_and_js_files() {
 		add_action( 'admin_print_styles', array( $this, 'add_css_files' ) );
@@ -1511,7 +1575,14 @@ class OW_Plugin_Init {
 
 			wp_insert_term( $custom_status, 'post_status', $args );
       }
-
+      
+      // Activate workflow process by default
+      $workflow_process = "active";
+      
+      if( ! get_option( 'oasiswf_activate_workflow' ) ) {
+			update_option( "oasiswf_activate_workflow", $workflow_process );
+		}
+            
 		$show_wfsettings_on_post_types = array( 'post', 'page' );
 
 		// Review Setting - initial setting - everyone should approve
@@ -1783,7 +1854,7 @@ class OW_Plugin_Init {
 			from_user int(11),
 			to_user int(11),
 			action int(2) DEFAULT 1,
-			history_id int(11),
+			history_id bigint(20),
 			send_date date DEFAULT NULL,
 			create_datetime datetime DEFAULT NULL,
 			PRIMARY KEY (ID)
@@ -1795,13 +1866,13 @@ class OW_Plugin_Init {
 		$table_name = OW_Utility::instance()->get_action_history_table_name();
 		if ( $wpdb->get_var( "SHOW TABLES LIKE '{$table_name}'" ) != $table_name ) {
 			$sql = "CREATE TABLE IF NOT EXISTS {$table_name} (
-			ID int(11) NOT NULL AUTO_INCREMENT,
+			ID bigint(20) NOT NULL AUTO_INCREMENT,
 			action_status varchar(20) NOT NULL,
 			comment longtext NOT NULL,
 			step_id int(11) NOT NULL,
 			assign_actor_id int(11) NOT NULL,
-			post_id int(11) NOT NULL,
-			from_id int(11) NOT NULL,
+			post_id bigint(20) NOT NULL,
+			from_id bigint(20) NOT NULL,
 			due_date date DEFAULT NULL,
          history_meta longtext DEFAULT NULL,
 			reminder_date date DEFAULT NULL,
@@ -1816,14 +1887,14 @@ class OW_Plugin_Init {
 		$table_name = OW_Utility::instance()->get_action_table_name();
 		if ( $wpdb->get_var( "SHOW TABLES LIKE '{$table_name}'" ) != $table_name ) {
 			$sql = "CREATE TABLE IF NOT EXISTS {$table_name} (
-			ID int(11) NOT NULL AUTO_INCREMENT,
+			ID bigint(20) NOT NULL AUTO_INCREMENT,
 			review_status varchar(20) NOT NULL,
 			actor_id int(11) NOT NULL,
 			next_assign_actors text NOT NULL,
 			step_id int(11) NOT NULL,
 			comments mediumtext,
 			due_date date DEFAULT NULL,
-			action_history_id int(11) NOT NULL,
+			action_history_id bigint(20) NOT NULL,
          history_meta longtext DEFAULT NULL,
 			update_datetime datetime NOT NULL,
 			PRIMARY KEY (ID)

@@ -99,7 +99,7 @@ function wpt_updated_settings() {
 		update_option( 'wpt_use_cats', $use_cats );
 		update_option( 'wpt_tag_source', ( ( isset( $_POST['wpt_tag_source'] ) && 'slug' == $_POST['wpt_tag_source'] ) ? 'slug' : '' ) );
 		update_option( 'jd_max_characters', $_POST['jd_max_characters'] );
-		update_option( 'jd_replace_character', $_POST['jd_replace_character'] );
+		update_option( 'jd_replace_character', ( isset( $_POST['jd_replace_character'] ) ? $_POST['jd_replace_character'] : '' ) );
 		update_option( 'jd_date_format', $_POST['jd_date_format'] );
 		update_option( 'jd_dynamic_analytics', $_POST['jd-dynamic-analytics'] );
 
@@ -232,7 +232,7 @@ function wpt_update_settings() {
 			}
 		} else {
 			if ( ! function_exists( 'wpt_pro_exists' ) ) {
-			?>
+				?>
 				<div class="ui-sortable meta-box-sortables">
 					<div class="postbox">
 						<h3 class='wpt-upgrade'><span><strong><?php _e( 'Upgrade Now!', 'wp-to-twitter' ); ?></strong></span></h3>
@@ -286,12 +286,12 @@ function wpt_update_settings() {
 						</div>
 					</div>
 				</div>
-			<?php
+				<?php
 			}
 		}
 	}
 	if ( 'basic' == $current ) {
-	?>
+		?>
 	<div class="ui-sortable meta-box-sortables">
 		<div class="postbox">
 			<h3><span><?php _e( 'Status Update Templates', 'wp-to-twitter' ); ?></span></h3>
@@ -394,7 +394,7 @@ function wpt_update_settings() {
 								}
 								?>
 								</div>
-							<?php
+								<?php
 							}
 						}
 						?>
@@ -440,9 +440,9 @@ function wpt_update_settings() {
 						<li><?php _e( '<code>#tags#</code>: your tags modified into hashtags.', 'wp-to-twitter' ); ?></li>
 						<?php
 						if ( function_exists( 'wpt_pro_exists' ) && true == wpt_pro_exists() ) {
-						?>
+							?>
 						<li><?php _e( '<code>#reference#</code>: Used only in co-tweeting. @reference to main account when posted to author account, @reference to author account in post to main account.', 'wp-to-twitter' ); ?></li>
-						<?php
+							<?php
 						}
 						?>
 					</ul>
@@ -459,14 +459,14 @@ function wpt_update_settings() {
 				</div>
 			</div>
 		</div>
-	<?php
+		<?php
 	}
 	if ( 'shortener' == $current ) {
 		echo apply_filters( 'wpt_shortener_controls', '' );
 	}
 
 	if ( 'advanced' == $current ) {
-	?>
+		?>
 	<form method="post" action="">
 	<div class="ui-sortable meta-box-sortables">
 		<div class="postbox">
@@ -491,11 +491,16 @@ function wpt_update_settings() {
 								<input type="checkbox" name="wpt_use_cats" id="wpt_use_cats" value="1" <?php checked( get_option( 'wpt_use_cats' ), '1' ); ?> />
 								<label for="wpt_use_cats"><?php _e( 'Use categories instead of tags', 'wp-to-twitter' ); ?></label><br/>
 							</p>
+							<?php
+							if ( ! ( '[ ]' == get_option( 'jd_replace_character' ) || '' == get_option( 'jd_replace_character' ) ) ) {
+								?>
 							<p>
 								<label for="jd_replace_character"><?php _e( 'Spaces in tags replaced with:', 'wp-to-twitter' ); ?></label>
 								<input type="text" name="jd_replace_character" id="jd_replace_character" value="<?php echo esc_attr( get_option( 'jd_replace_character' ) ); ?>" size="3"/>
 							</p>
-
+								<?php
+							}
+							?>
 							<p>
 								<label for="jd_max_tags"><?php _e( 'Maximum number of tags to include:', 'wp-to-twitter' ); ?></label>
 								<input aria-describedby="jd_max_characters_label" type="text" name="jd_max_tags" id="jd_max_tags" value="<?php echo esc_attr( get_option( 'jd_max_tags' ) ); ?>" size="3"/>
@@ -572,10 +577,10 @@ function wpt_update_settings() {
 								<label for="wpt_rate_limiting"><?php _e( 'Enable Rate Limiting', 'wp-to-twitter' ); ?></label><br/>
 								<?php
 								if ( get_option( 'wpt_rate_limiting' ) == 1 ) {
-								?>
+									?>
 								<input type="number" name="wpt_default_rate_limit" min="1" id="wpt_default_rate_limit" value="<?php echo wpt_default_rate_limit(); ?>" />
 								<label for="wpt_default_rate_limit"><?php _e( 'Default Rate Limit per category per hour', 'wp-to-twitter' ); ?></label><br/>
-								<?php
+									<?php
 								}
 								?>
 							</p>
@@ -745,17 +750,17 @@ function wpt_update_settings() {
 			</div>
 		</div>
 	</div>
-	<?php
+		<?php
 	}
 	if ( 'support' == $current ) {
-	?>
+		?>
 	<div class="postbox" id="get-support">
 		<h3><span><?php _e( 'Get Plug-in Support', 'wp-to-twitter' ); ?></span></h3>
 
 		<div class="inside">
 		<?php
 		if ( ! function_exists( 'wpt_pro_exists' ) ) {
-		?>
+			?>
 			<div class='wpt-support-me'>
 				<p>
 				<?php
@@ -764,13 +769,13 @@ function wpt_update_settings() {
 				?>
 				</p>
 			</div>
-		<?php
+			<?php
 		}
 		wpt_get_support_form();
 		?>
 		</div>
 	</div>
-	<?php
+		<?php
 	}
 	?>
 	</div>
@@ -793,21 +798,21 @@ function wpt_sidebar() {
 			<div class="postbox">
 				<?php
 				if ( 'free' == $context ) {
-				?>
+					?>
 					<h3><span><strong><?php _e( 'Support WP to Twitter', 'wp-to-twitter' ); ?></strong></span></h3>
-				<?php
+					<?php
 				} else {
-				?>
+					?>
 					<h3><span><strong><?php _e( 'WP to Twitter Support', 'wp-to-twitter' ); ?></strong></span></h3>
-				<?php
+					<?php
 				}
 				?>
 				<div class="inside resources">
 					<?php
 					if ( 1 != get_option( 'jd_donations' ) && ! function_exists( 'wpt_pro_exists' ) ) {
-					?>
+						?>
 					<p class='cta'><?php _e( '<a href="http://www.wptweetspro.com/wp-tweets-pro">Get WP Tweets Pro</a>', 'wp-to-twitter' ); ?></p>
-					<?php
+						<?php
 					}
 					?>
 					<p>
@@ -875,7 +880,7 @@ function wpt_sidebar() {
 
 		<?php
 		if ( 1 == get_option( 'wpt_rate_limiting' ) ) {
-		?>
+			?>
 		<div class="ui-sortable meta-box-sortables">
 			<div class="postbox">
 				<h3><?php _e( 'Monitor Rate Limiting', 'wp-to-twitter' ); ?></h3>
@@ -885,11 +890,11 @@ function wpt_sidebar() {
 				</div>
 			</div>
 		</div>
-		<?php
+			<?php
 		}
 		?>
 	</div>
-<?php
+	<?php
 }
 
 /**
@@ -901,10 +906,13 @@ function wpt_do_server_check( $test = false ) {
 	$wpt_server_string = get_option( 'wpt_server_string' );
 	if ( ! $wpt_server_string || isset( $_GET['refresh_wpt_server_string'] ) || true == $test ) {
 		$server_time = date( DATE_COOKIE );
-		$response    = wp_remote_get( 'https://twitter.com/', array(
-			'timeout'     => 30,
-			'redirection' => 1,
-		) );
+		$response    = wp_remote_get(
+			'https://twitter.com/',
+			array(
+				'timeout'     => 30,
+				'redirection' => 1,
+			)
+		);
 
 		if ( is_wp_error( $response ) ) {
 			$warning = '';

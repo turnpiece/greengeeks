@@ -64,6 +64,9 @@ jQuery( document ).ready( function () {
    /* On Change of Workflow Step during Submit to Workflow */
    jQuery(document).on("change", "#step-select", function () {
       action_setting("step", "pre");
+      
+      jQuery("#submitSave").prop('disabled', true);
+      jQuery("#step-loading-span").addClass("loading");
 
       var get_submit_step_details_data = {
          action: 'get_submit_step_details',
@@ -126,6 +129,9 @@ jQuery( document ).ready( function () {
          }
 
          action_setting("step", "after");
+         
+         jQuery("#step-loading-span").removeClass("loading");
+         jQuery("#submitSave").prop('disabled', false);
 
       });
    });

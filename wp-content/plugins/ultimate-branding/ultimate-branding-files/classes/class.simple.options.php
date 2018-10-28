@@ -3,13 +3,13 @@
 Class Name: Simple Options
 Class URI: http://iworks.pl/
 Description: Simple option class to manage options.
-Version: 1.0.4
+Version: 1.2.0
 Author: Marcin Pietrzak
 Author URI: http://iworks.pl/
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Copyright 2017 Marcin Pietrzak (marcin@iworks.pl)
+Copyright (c) 2017-2018 Incsub
 
 this program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License, version 2, as
@@ -26,6 +26,30 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 
 == CHANGELOG ==
+
+= 1.2.0 =
+- Added "checkboxes" field type.
+- Added "label_rich" to allow HTML rich label.
+
+= 1.1.0 =
+- Added "css_editor" field type.
+
+= 1.0.9 =
+- Added default "large-text" class to "textarea" and "email",
+
+= 1.0.8 =
+- Added "gallery" field type.
+
+= 1.0.7 =
+- Handle multiple value for select.
+
+= 1.0.6 =
+- Added sortable option.
+- Added ability to hide default information.
+- Fixed missing select value.
+
+= 1.0.5 =
+- Fixed problem with missing date.
 
 = 1.0.4 =
 - Added slave sections.
@@ -72,9 +96,13 @@ if ( ! class_exists( 'simple_options' ) ) {
 			foreach ( $options as $section_key => $option ) {
 				if ( ! isset( $option['fields'] ) ) {
 					if ( isset( $option['description'] ) ) {
-						$content .= sprintf( '<div class="postbox" id="%s">', esc_attr( $section_key ) );
-						$content .= sprintf( '<h3 class="hndle">%s</h3>', $option['title'] );
-						$content .= sprintf( '<div class="inside description">%s</div>', $option['description'] );
+						$classes = array( 'postbox' );
+						if ( isset( $boxes[ $section_key ] ) ) {
+							$classes[] = $boxes[ $section_key ];
+						}
+						$content .= sprintf( '<div class="%s" id="%s">', esc_attr( implode( ' ', $classes ) ), esc_attr( $section_key ) );
+						$content .= $this->box_title( $option['title'] );
+						$content .= sprintf( '<div class="inside description">%s</div>', wpautop( $option['description'] ) );
 						$content .= '</div>';
 					}
 					continue;
@@ -103,6 +131,7 @@ if ( ! class_exists( 'simple_options' ) ) {
 						$master_fields[ $master_field ] = $master_value;
 						$extra[] = sprintf( 'data-master-%s="%s"', $master_field, esc_attr( $master_value ) );
 					}
+
 					$value = $this->get_single_value( $options, $input, $master_fields['section'], $master_fields['field'] );
 					$classes[] = 'section-is-slave';
 					if ( $master_fields['value'] != $value ) {
@@ -115,23 +144,15 @@ if ( ! class_exists( 'simple_options' ) ) {
 				/**
 				 * postbox
 				 */
+				$classes = array_unique( $classes );
 				$content .= sprintf(
-					'<div class="postbox %s" id="%s" %s>',
+					'<div class="%s" id="%s" %s>',
 					esc_attr( implode( ' ', $classes ) ),
 					esc_attr( $section_key ),
 					implode( ' ', $extra )
 				);
-				/**
-				 * fold
-				 */
-				$content .= '<button type="button" class="handlediv button-link" aria-expanded="true">';
-				$content .= '<span class="screen-reader-text">' . sprintf( __( 'Toggle panel: %s', 'ub' ), $option['title'] ) . '</span>';
-				$content .= '<span class="toggle-indicator" aria-hidden="true"></span>';
-				$content .= '</button>';
-				/**
-				 * Section title
-				 */
-				$content .= sprintf( ' <h2 class="hndle">%s</h2>', $option['title'] );
+
+				$content .= $this->box_title( $option['title'] );
 				/**
 				 * open inside
 				 */
@@ -145,7 +166,17 @@ if ( ! class_exists( 'simple_options' ) ) {
 				/**
 				 * table
 				 */
-				$content .= '<table class="form-table"><tbody>';
+				$table_classes = array(
+					'form-table',
+				);
+				$sortable = isset( $option['sortable'] ) && $option['sortable'];
+				if ( $sortable ) {
+					$table_classes[] = 'sortable';
+				}
+				$content .= sprintf(
+					'<table class="%s"><tbody>',
+					esc_attr( implode( ' ', $table_classes ) )
+				);
 				foreach ( $option['fields'] as $id => $data ) {
 					/**
 					 * field ID
@@ -168,7 +199,7 @@ if ( ! class_exists( 'simple_options' ) ) {
 					/**
 					 * default class for text field
 					 */
-					if ( 'text' == $data['type'] && empty( $data['classes'] ) ) {
+					if ( preg_match( '/^(text(area)?|email)$/', $data['type'] ) && empty( $data['classes'] ) ) {
 						$data['classes'][] = 'large-text';
 					}
 					/**
@@ -190,6 +221,12 @@ if ( ! class_exists( 'simple_options' ) ) {
 							isset( $data['master'] )? esc_attr( $data['master'] ):''
 						);
 						/**
+						 * sortable
+						 */
+						if ( $sortable ) {
+							$content .= '<td><span class="dashicons dashicons-move"></span></td>';
+						}
+						/**
 						 * TH
 						 */
 						$show = true;
@@ -203,7 +240,8 @@ if ( ! class_exists( 'simple_options' ) ) {
 							$content .= sprintf(
 								'<th scope="row"><label for="%s">%s</label></th>',
 								esc_attr( $html_id ),
-								isset( $data['label'] )? esc_html( $data['label'] ):'&nbsp;'
+								isset( $data['label'] )?
+								( isset( $data['label_rich'] ) && $data['label_rich'] ? $data['label'] : esc_html( $data['label'] ) ):'&nbsp;'
 							);
 						}
 						if ( isset( $data['hide-th'] ) && true === $data['hide-th'] ) {
@@ -240,40 +278,19 @@ if ( ! class_exists( 'simple_options' ) ) {
 
 						case 'description':
 							$content .= $data['value'];
-						break;
+							break;
 
+						case 'gallery':
 						case 'media':
 							if ( ! isset( $this->loaded['media'] ) ) {
 								$this->loaded['media'] = true;
 								wp_enqueue_media();
+								add_action( 'admin_footer', array( $this, 'add_media_template' ) );
 							}
-							$image_src = '';
-							if ( preg_match( '/^\d+$/', $value ) ) {
-								$image_src = wp_get_attachment_image_url( $value );
-							} else if ( is_string( $value ) ) {
-								$image_src = $value;
+							if ( ! is_array( $value ) ) {
+								$value = array( array( 'value' => $value ) );
 							}
-							$content .= '<div class="image-preview-wrapper">';
-							$content .= sprintf(
-								'<img class="image-preview" src="%s" />',
-								esc_url( $image_src )
-							);
-							$content .= '</div>';
-							$content .= sprintf(
-								'<a href="#" class="image-reset %s">%s</a>',
-								esc_attr( $image_src? '': 'disabled' ),
-								esc_html__( 'reset', 'ub' )
-							);
-							$content .= sprintf(
-								'<input type="button" class="button button-select-image" value="%s" />',
-								esc_attr__( 'Browse', 'ub' )
-							);
-							$content .= sprintf(
-								'<input type="hidden" name="simple_options[%s][%s]" value="%s" class="attachment-id" />',
-								esc_attr( $section_key ),
-								esc_attr( $id ),
-								esc_attr( $value )
-							);
+							$content .= $this->image( $section_key, $id, $value, $data['type'] );
 						break;
 
 						case 'color':
@@ -303,6 +320,48 @@ if ( ! class_exists( 'simple_options' ) ) {
 							$content .= '</ul>';
 						break;
 
+						case 'checkboxes':
+							if ( empty( $value ) || ! is_array( $value ) ) {
+								$value = array();
+							}
+							if ( isset( $data['options'] ) && is_array( $data['options'] ) ) {
+								$content .= '<ul>';
+								foreach ( $data['options'] as $checkbox_value => $checkbox_label ) {
+									$content .= sprintf(
+										'<li><label><input type="checkbox" id="%s_%s" name="simple_options[%s][%s][%s]" value="1" class="%s" %s /> %s</label></li>',
+										esc_attr( $html_id ),
+										esc_attr( $checkbox_value ),
+										esc_attr( $section_key ),
+										esc_attr( $id ),
+										esc_attr( $checkbox_value ),
+										isset( $data['classes'] ) ? esc_attr( implode( ' ', $data['classes'] ) ) : '',
+										checked( 1, array_key_exists( $checkbox_value, $value ), false ),
+										esc_html( $checkbox_label )
+									);
+								}
+								$content .= '</ul>';
+							}
+							break;
+
+						case 'checkboxes':
+							$content .= '<ul>';
+							foreach ( $data['options'] as $checkbox_value => $checkbox_label ) {
+								$checked = is_array( $value ) && array_key_exists( $checkbox_value, $value );
+								$content .= sprintf(
+									'<li><label><input type="checkbox" id="%s_%s" name="simple_options[%s][%s][%s]" value="1" class="%s" %s /> %s</label></li>',
+									esc_attr( $html_id ),
+									esc_attr( $checkbox_value ),
+									esc_attr( $section_key ),
+									esc_attr( $id ),
+									esc_attr( $checkbox_value ),
+									isset( $data['classes'] ) ? esc_attr( implode( ' ', $data['classes'] ) ) : '',
+									checked( 1, $checked, false ),
+									esc_html( $checkbox_label )
+								);
+							}
+							$content .= '</ul>';
+							break;
+
 						case 'checkbox':
 							$slave = '';
 							if ( isset( $data['slave-class'] ) ) {
@@ -316,15 +375,7 @@ if ( ! class_exists( 'simple_options' ) ) {
 							if ( in_array( 'switch-button', $data['classes'] ) ) {
 								if ( ! isset( $this->loaded['switch-button'] ) ) {
 									$this->loaded['switch-button'] = true;
-									wp_enqueue_script( 'custom-ligin-screen-jquery-switch-button', ub_files_url( 'js/vendor/jquery.switch_button.js' ), array( 'jquery' ), '1.12.1' );
-									wp_enqueue_style( 'custom-ligin-screen-jquery-switch-button', ub_files_url( 'css/vendor/jquery.switch_button.css' ), array(), '1.12.1' );
-									$i18n = array(
-									'labels' => array(
-										'label_on' => __( 'on', 'ub' ),
-										'label_off' => __( 'off', 'ub' ),
-									),
-									);
-									wp_localize_script( 'custom-ligin-screen-jquery-switch-button', 'switch_button', $i18n );
+									ub_enqueue_switch_button();
 								}
 								if ( 'on' == $value ) {
 									$value = 1;
@@ -390,19 +441,32 @@ if ( ! class_exists( 'simple_options' ) ) {
 						 */
 						case 'select':
 						case 'select2':
-							if ( isset( $options['multiple'] ) && $options['multiple'] ) {
+							if ( isset( $data['multiple'] ) && $data['multiple'] ) {
 								$extra[] = 'multiple="multiple"';
 							}
 							if ( 'select2' == $data['type'] ) {
-								$data['classes'][] = 'ub-select2-ajax';
+								if ( ! isset( $this->loaded['select2'] ) ) {
+									$this->loaded['select2'] = true;
+									$version = '4.0.5';
+									$file = ub_url( 'external/select2/select2.min.js' );
+									wp_enqueue_script( 'select2', $file, array( 'jquery' ), $version, true );
+									$file = ub_url( 'external/select2/select2.min.css' );
+									wp_enqueue_style( 'select2', $file, array(), $version );
+								}
 							}
 							$select_options = '';
 							if ( isset( $data['options'] ) && is_array( $data['options'] ) ) {
 								foreach ( $data['options'] as $option_value => $option_label ) {
+									$selected = false;
+									if ( is_array( $value ) ) {
+										$selected = in_array( $option_value, $value );
+									} elseif ( $value === $option_value ) {
+										$selected = true;
+									}
 									$select_options .= sprintf(
 										'<option value="%s" %s>%s</option>',
 										esc_attr( $option_value ),
-										'',
+										selected( $selected, true, false ),
 										esc_html( $option_label )
 									);
 								}
@@ -417,8 +481,68 @@ if ( ! class_exists( 'simple_options' ) ) {
 							);
 						break;
 
+							/**
+							 * CSS Editor
+							 *
+							 * @since 1.1.0
+							 */
+						case 'css_editor':
+							if ( ! is_string( $value ) ) {
+								$value = '';
+							}
+							$data['classes'][] = 'hidden';
+							$content .= sprintf(
+								'<textarea id="%s" name="%s" class="%s">%s</textarea>',
+								esc_attr( $html_id ),
+								esc_attr( $field_name ),
+								isset( $data['classes'] ) ? esc_attr( implode( ' ', $data['classes'] ) ) : '',
+								esc_attr( stripslashes( $value ) )
+							);
+							$content .= sprintf(
+								'<div class="ub_css_editor" id="%s_editor" data-input="#%s">%s</div>',
+								esc_attr( $html_id ),
+								esc_attr( $html_id ),
+								esc_html( stripslashes( $value ) )
+							);
+						break;
+
 						default:
 							switch ( $data['type'] ) {
+								case 'date':
+									$data['type'] = 'text';
+									$data['classes'][] = 'datepicker';
+									if ( ! isset( $this->loaded['ui-datepicker'] ) ) {
+										$this->loaded['ui-datepicker'] = true;
+										wp_enqueue_script( 'jquery-ui-datepicker' );
+										wp_localize_jquery_ui_datepicker();
+										$this->enqueue_jquery_style();
+									}
+									if ( ! isset( $data['data'] ) ) {
+										$data['data'] = array();
+									}
+									$alt = 'datepicker-'.md5( serialize( $data ) );
+									$extra[] = sprintf( 'data-alt="%s"', esc_attr( $alt ) );
+									if ( ! isset( $data['after'] ) ) {
+										$data['after'] = '';
+									}
+									$alt_value = '';
+									if ( is_array( $value ) ) {
+										if ( isset( $value['alt'] ) ) {
+											$alt_value = $value['alt'];
+											$value = date_i18n( get_option( 'date_format' ), strtotime( $value['alt'] ) );
+										} else {
+											$value = '';
+										}
+									}
+									$data['after'] .= sprintf(
+										'<input type="hidden" name="%s[alt]" id="%s" value="%s" />',
+										esc_attr( $field_name ),
+										esc_attr( $alt ),
+										esc_attr( $alt_value )
+									);
+									$field_name .= '[human]';
+								break;
+
 								case 'number':
 									$data['classes'][] = 'small-text';
 									if ( isset( $data['min'] ) ) {
@@ -428,6 +552,7 @@ if ( ! class_exists( 'simple_options' ) ) {
 										$extra[] = sprintf( 'max="%d"', $data['max'] );
 									}
 								break;
+
 								case 'button':
 								case 'submit':
 									$data['classes'][] = 'button';
@@ -475,28 +600,34 @@ if ( ! class_exists( 'simple_options' ) ) {
 						if ( ! isset( $this->loaded['ui-slider'] ) ) {
 							$this->loaded['ui-slider'] = true;
 							wp_enqueue_script( 'jquery-ui-slider' );
-							wp_enqueue_style( 'custom-ligin-screen-jquery-ui-slider', ub_files_url( 'css/vendor/jquery-ui-slider.css' ), array(), '1.12.1' );
+							$this->enqueue_jquery_style();
 						}
 					}
 					if ( isset( $data['description'] ) && ! empty( $data['description'] ) ) {
 						$content .= sprintf( '<p class="description">%s</p>', $data['description'] );
 					}
 					if ( isset( $data['default'] ) ) {
-						$default = $data['default'];
-						if ( isset( $data['options'] ) && isset( $data['options'][ $default ] ) ) {
-							$default = $data['options'][ $data['default'] ];
+						$show = true && ! is_array( $data['default'] );
+						if ( isset( $data['default_hide'] ) && $data['default_hide'] ) {
+							$show = false;
 						}
-						$message = sprintf(
-							__( 'Default is: <code><strong>%s</strong></code>', 'ub' ),
-							$default
-						);
-						if ( 'color' == $data['type'] ) {
+						if ( $show ) {
+							$default = $data['default'];
+							if ( isset( $data['options'] ) && isset( $data['options'][ $default ] ) ) {
+								$default = $data['options'][ $data['default'] ];
+							}
 							$message = sprintf(
-								__( 'Default color is: <code><strong>%s</strong></code>', 'ub' ),
-								$data['default']
+								__( 'Default is: <code><strong>%s</strong></code>', 'ub' ),
+								$default
 							);
+							if ( 'color' == $data['type'] ) {
+								$message = sprintf(
+									__( 'Default color is: <code><strong>%s</strong></code>', 'ub' ),
+									$data['default']
+								);
+							}
+							$content .= sprintf( '<p class="description description-default">%s</p>', $message );
 						}
-						$content .= sprintf( '<p class="description description-default">%s</p>', $message );
 					}
 					if ( 'hidden' !== $data['type'] ) {
 						$content .= '</td>';
@@ -647,6 +778,101 @@ if ( ! class_exists( 'simple_options' ) ) {
 				$value = '';
 			}
 			return $value;
+		}
+
+		/**
+		 * Enqueue custom jQuery UI css
+		 */
+		private function enqueue_jquery_style() {
+			$key = 'ub-jquery-ui';
+			if ( isset( $this->loaded[ $key ] ) ) {
+				return;
+			}
+			wp_enqueue_style( $key, ub_url( 'assets/css/vendor/jquery-ui.min.css' ), array(), '1.12.1' );
+			$this->loaded[ $key ] = true;
+		}
+
+		private function image( $section_key, $id, $images, $type ) {
+			$output = array(
+				'type' => $type,
+				'images' => array(),
+			);
+			$add = empty( $images );;
+			$content = '';
+			foreach ( $images as $data ) {
+				$image = isset( $data['value'] )? $data['value']:null;
+				$image_id = $image_src = $disabled = '';
+				if ( empty( $image ) ) {
+					$image_id = 'time-'.time();
+					$disabled = 'disabled';
+					$add = false;
+				} else if ( preg_match( '/^\d+$/', $image ) ) {
+					$image_id = 'attachment-id-'.$image;
+					$image_src = wp_get_attachment_image_url( $image );
+					$add = true;
+				} else if ( is_string( $image ) ) {
+					$image_src = $image;
+					$image_id = 'file-'.md5( $image );
+					$add = true;
+				}
+				$output['images'][] = array(
+					'id' => $id,
+					'image_id' => $image_id,
+					'section_key' => $section_key,
+					'value' => $image,
+					'image_src' => $image_src,
+					'disabled' => $disabled,
+				);
+			}
+			if ( $add && 'gallery' === $type ) {
+				$output['images'][] = array(
+					'id' => $id,
+					'section_key' => $section_key,
+					'disabled' => 'disabled',
+				);
+			}
+			$content .= '<script type="text/javascript">';
+			$content .= sprintf( '_ub_option_media_%s_%s', sanitize_title( $section_key ), sanitize_title( $id ) );
+			$content .= '=';
+			$content .= json_encode( $output );
+			$content .= ';</script>';
+			$content .= sprintf( '<div class="images" id="ub_option_media_%s_%s"></div>', esc_attr( $section_key ), esc_attr( $id ) );
+
+			return $content;
+		}
+
+		public function add_media_template() {
+?>
+<script type="text/html" id="tmpl-simple-options-media">
+    <div class="image-wrapper" data-id="{{{data.id}}}" data-section_key="{{{data.section_key}}}">
+        <div class="image-preview-wrapper"><img class="image-preview" src="{{{data.image_src}}}" /></div>
+        <a href="#" class="image-reset {{{data.disabled}}}"><?php esc_html_e( 'Remove', 'ub' ); ?></a>
+        <input type="button" class="button button-select-image" value="<?php esc_attr_e( 'Browse', 'ub' ); ?>" />
+        <input type="hidden" name="simple_options[{{{data.section_key}}}][{{{data.id}}}][]" value="{{{data.value}}}" class="attachment-id" />
+    </div>
+</script>
+<?php
+		}
+
+		/**
+		 * box title
+		 *
+		 * @since 2.1.0
+		 */
+		public function box_title( $title, $after = '' ) {
+			$content = '';
+			/**
+			 * fold
+			 */
+			$content .= '<button type="button" class="handlediv button-link" aria-expanded="true">';
+			$content .= '<span class="screen-reader-text">' . sprintf( __( 'Toggle panel: %s', 'ub' ), esc_html( $title ) ) . '</span>';
+			$content .= '<span class="toggle-indicator" aria-hidden="true"></span>';
+			$content .= '</button>';
+			/**
+			 * Section title
+			 */
+			$content .= sprintf( ' <h2 class="hndle">%s%s</h2>', $title, $after );
+			return $content;
 		}
 	}
 }

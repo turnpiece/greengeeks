@@ -1,15 +1,15 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: oasis-workflow\n"
-"POT-Creation-Date: 2018-01-07 04:58-0800\n"
-"PO-Revision-Date: 2018-01-07 04:58-0800\n"
+"POT-Creation-Date: 2018-10-14 07:26-0700\n"
+"PO-Revision-Date: 2018-10-14 07:27-0700\n"
 "Last-Translator: Oasis Workflow <support@oasisworkflow.com>\n"
-"Language-Team: \n"
+"Language-Team: support@oasisworkflow.com\n"
 "Language: es_ES\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.0.5\n"
+"X-Generator: Poedit 2.2\n"
 "X-Poedit-KeywordsList: __;_e;_c;__ngettext;esc_html__\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-SourceCharset: UTF-8\n"
@@ -195,15 +195,15 @@ msgstr "Firmar fecha"
 #: includes/class-ow-report-service.php:60 includes/class-ow-utility.php:905
 #: includes/class-ow-workflow-terminology-settings.php:172
 #: includes/pages/subpages/submit-step.php:38
-#: includes/pages/subpages/submit-workflow.php:33 oasiswf.php:434
+#: includes/pages/subpages/submit-workflow.php:33 oasiswf.php:458
 msgid "Due Date"
 msgstr "Fecha de vencimiento"
 
-#: includes/class-ow-email.php:331 includes/class-ow-process-flow.php:802
+#: includes/class-ow-email.php:331 includes/class-ow-process-flow.php:803
 msgid "Additionally,"
 msgstr "Además,"
 
-#: includes/class-ow-email.php:331 includes/class-ow-process-flow.php:802
+#: includes/class-ow-email.php:331 includes/class-ow-process-flow.php:803
 msgid "added the following comments"
 msgstr "añadió los siguientes comentarios"
 
@@ -315,13 +315,13 @@ msgid "No comments found."
 msgstr "No se han encontrado comentarios."
 
 #: includes/class-ow-history-service.php:193
-#: includes/class-ow-process-flow.php:1612
+#: includes/class-ow-process-flow.php:1634
 #: includes/pages/workflow-history.php:175
 msgid "No Action Taken"
 msgstr "Sin acción tomada"
 
 #: includes/class-ow-history-service.php:196
-#: includes/class-ow-process-flow.php:1627
+#: includes/class-ow-process-flow.php:1649
 #: includes/pages/workflow-history.php:178
 msgid "Workflow completed"
 msgstr "Flujo de trabajo completado"
@@ -363,34 +363,34 @@ msgstr "Categoría"
 msgid "Select a user to reassign the task."
 msgstr "Seleccione un usuario para reasignar la tarea."
 
-#: includes/class-ow-process-flow.php:76 includes/class-ow-process-flow.php:147
-#: includes/class-ow-process-flow.php:227
-#: includes/class-ow-process-flow.php:285
-#: includes/class-ow-process-flow.php:346
-#: includes/class-ow-process-flow.php:661
-#: includes/class-ow-process-flow.php:751
-#: includes/class-ow-process-flow.php:2227
-#: includes/class-ow-process-flow.php:2275
+#: includes/class-ow-process-flow.php:77 includes/class-ow-process-flow.php:148
+#: includes/class-ow-process-flow.php:228
+#: includes/class-ow-process-flow.php:286
+#: includes/class-ow-process-flow.php:347
+#: includes/class-ow-process-flow.php:662
+#: includes/class-ow-process-flow.php:752
+#: includes/class-ow-process-flow.php:2255
+#: includes/class-ow-process-flow.php:2303
 msgid "You are not allowed to create/edit post."
 msgstr "No se permite crear/editar post."
 
-#: includes/class-ow-process-flow.php:111
-#: includes/class-ow-process-flow.php:321
-#: includes/class-ow-process-flow.php:2409
-#: includes/class-ow-process-flow.php:2448
+#: includes/class-ow-process-flow.php:112
+#: includes/class-ow-process-flow.php:322
+#: includes/class-ow-process-flow.php:2437
+#: includes/class-ow-process-flow.php:2476
 msgid "No users found to assign the task."
 msgstr "No encontrados para asignar la tarea a los usuarios."
 
-#: includes/class-ow-process-flow.php:180
-#: includes/class-ow-process-flow.php:416
+#: includes/class-ow-process-flow.php:181
+#: includes/class-ow-process-flow.php:417
 msgid "Due date must be greater than the current date."
 msgstr "Vencimiento fecha debe ser mayor que la fecha actual."
 
-#: includes/class-ow-process-flow.php:548
+#: includes/class-ow-process-flow.php:549
 msgid "You are not allowed to reassign tasks."
 msgstr "No se debe reasignar tareas."
 
-#: includes/class-ow-process-flow.php:799
+#: includes/class-ow-process-flow.php:800
 #, php-format
 msgid ""
 "<div>Hello %1$s,</div><p>The post <a href=\"%2$s\" title=\"%3$s\">%3$s</a> "
@@ -399,121 +399,121 @@ msgstr ""
 "<div>Hola %1$s,</div><p>Se ha cancelado el post <a href=\"%2$s\" title=\"%3$s"
 "\">%3$s</a> del flujo de trabajo.</p>"
 
-#: includes/class-ow-process-flow.php:806
+#: includes/class-ow-process-flow.php:807
 msgid "<p>Thanks.</p>"
 msgstr "<p>Gracias.</p>"
 
-#: includes/class-ow-process-flow.php:836
-#: includes/class-ow-process-flow.php:859
+#: includes/class-ow-process-flow.php:857
+#: includes/class-ow-process-flow.php:881
 msgid "You are not allowed to abort the workflow."
 msgstr "No se permite la interrupción del flujo de trabajo."
 
-#: includes/class-ow-process-flow.php:1608
+#: includes/class-ow-process-flow.php:1630
 msgid "Submitted"
 msgstr "Enviado"
 
-#: includes/class-ow-process-flow.php:1610
+#: includes/class-ow-process-flow.php:1632
 msgid "Aborted"
 msgstr "abortado"
 
-#: includes/class-ow-process-flow.php:1614
+#: includes/class-ow-process-flow.php:1636
 msgid "Unclaimed"
 msgstr "no reclamado"
 
-#: includes/class-ow-process-flow.php:1616
+#: includes/class-ow-process-flow.php:1638
 msgid "Claimed"
 msgstr "reivindicar"
 
-#: includes/class-ow-process-flow.php:1618
-#: includes/class-ow-process-flow.php:1662
+#: includes/class-ow-process-flow.php:1640
+#: includes/class-ow-process-flow.php:1684
 msgid "Reassigned"
 msgstr "Reasignado"
 
-#: includes/class-ow-process-flow.php:1629
+#: includes/class-ow-process-flow.php:1651
 msgid "Cancelled"
 msgstr "Cancelado"
 
-#: includes/class-ow-process-flow.php:1643
-#: includes/class-ow-process-flow.php:1679
+#: includes/class-ow-process-flow.php:1665
+#: includes/class-ow-process-flow.php:1701
 #: includes/pages/subpages/submit-step.php:51
 msgid "Approved"
 msgstr "aprobado"
 
-#: includes/class-ow-process-flow.php:1645
-#: includes/class-ow-process-flow.php:1681
+#: includes/class-ow-process-flow.php:1667
+#: includes/class-ow-process-flow.php:1703
 msgid "Rejected"
 msgstr "Rechazado"
 
-#: includes/class-ow-process-flow.php:1648
+#: includes/class-ow-process-flow.php:1670
 msgid "Completed"
 msgstr "Completado"
 
-#: includes/class-ow-process-flow.php:1650
-#: includes/class-ow-process-flow.php:1686
+#: includes/class-ow-process-flow.php:1672
+#: includes/class-ow-process-flow.php:1708
 #: includes/pages/subpages/submit-step.php:52
 msgid "Unable to Complete"
 msgstr "No se puede completar"
 
-#: includes/class-ow-process-flow.php:1684
+#: includes/class-ow-process-flow.php:1706
 #: includes/pages/subpages/submit-step.php:51
 msgid "Complete"
 msgstr "completar"
 
-#: includes/class-ow-process-flow.php:2407
+#: includes/class-ow-process-flow.php:2435
 msgid "All steps are not defined.\\n Please check the workflow."
 msgstr "Todos los pasos no están definidas.\\n Compruebe el flujo de trabajo."
 
-#: includes/class-ow-process-flow.php:2408
+#: includes/class-ow-process-flow.php:2436
 msgid "The selected workflow is not valid.\\n Please check this workflow."
 msgstr ""
 "El flujo de trabajo seleccionado no es válido.\\nConsulte este flujo de "
 "trabajo."
 
-#: includes/class-ow-process-flow.php:2410
-#: includes/class-ow-process-flow.php:2453
+#: includes/class-ow-process-flow.php:2438
+#: includes/class-ow-process-flow.php:2481
 msgid "You can select multiple users only for review step. Selected step is"
 msgstr ""
 "Puede seleccionar varios usuarios sólo para paso de revisión. Paso "
 "seleccionado es"
 
-#: includes/class-ow-process-flow.php:2411
-#: includes/class-ow-process-flow.php:2454
+#: includes/class-ow-process-flow.php:2439
+#: includes/class-ow-process-flow.php:2482
 msgid "step."
 msgstr "Paso."
 
-#: includes/class-ow-process-flow.php:2412
+#: includes/class-ow-process-flow.php:2440
 msgid "Please select a workflow."
 msgstr "Seleccione un flujo de trabajo."
 
-#: includes/class-ow-process-flow.php:2413
-#: includes/class-ow-process-flow.php:2450
+#: includes/class-ow-process-flow.php:2441
+#: includes/class-ow-process-flow.php:2478
 msgid "Please select a step."
 msgstr "Seleccione un paso."
 
-#: includes/class-ow-process-flow.php:2414
+#: includes/class-ow-process-flow.php:2442
 msgid "This step is not defined."
 msgstr "Este paso no está definido."
 
-#: includes/class-ow-process-flow.php:2415
-#: includes/class-ow-process-flow.php:2451
+#: includes/class-ow-process-flow.php:2443
+#: includes/class-ow-process-flow.php:2479
 msgid "Please enter a due date."
 msgstr "Por favor, introduzca una fecha de vencimiento."
 
-#: includes/class-ow-process-flow.php:2416
-#: includes/class-ow-process-flow.php:2452
+#: includes/class-ow-process-flow.php:2444
+#: includes/class-ow-process-flow.php:2480
 msgid "No assigned actor(s)."
 msgstr "No se asigna actor(s)."
 
-#: includes/class-ow-process-flow.php:2444
+#: includes/class-ow-process-flow.php:2472
 #: includes/pages/workflow-inbox.php:122
 msgid "Claim"
 msgstr "Reclamar"
 
-#: includes/class-ow-process-flow.php:2445
+#: includes/class-ow-process-flow.php:2473
 msgid "Go to Workflow Inbox"
 msgstr "Ir a Bandeja de entrada del flujo"
 
-#: includes/class-ow-process-flow.php:2446
+#: includes/class-ow-process-flow.php:2474
 msgid ""
 "There are no further steps defined in the workflow.</br> Do you want to "
 "cancel the post/page from the workflow?"
@@ -521,18 +521,18 @@ msgstr ""
 "Este es el primer paso en el flujo de trabajo. ¿Realmente desea cancelar la "
 "página de entrada / del flujo de trabajo?"
 
-#: includes/class-ow-process-flow.php:2447
+#: includes/class-ow-process-flow.php:2475
 msgid ""
 "This is the last step in the workflow. Are you sure to complete the workflow?"
 msgstr ""
 "Este es el último paso en el flujo de trabajo. ¿Está seguro para completar "
 "el flujo de trabajo?"
 
-#: includes/class-ow-process-flow.php:2449
+#: includes/class-ow-process-flow.php:2477
 msgid "Please select an action."
 msgstr "Por favor seleccione una acción."
 
-#: includes/class-ow-process-flow.php:2492
+#: includes/class-ow-process-flow.php:2572
 msgid "Are you sure to terminate the workflow?"
 msgstr "¿Está seguro de terminar el flujo de trabajo?"
 
@@ -608,36 +608,37 @@ msgid "Users"
 msgstr "Usuarios"
 
 #: includes/class-ow-utility.php:902
-#: includes/class-ow-workflow-terminology-settings.php:142 oasiswf.php:431
+#: includes/class-ow-workflow-terminology-settings.php:142 oasiswf.php:455
 msgid "Submit to Workflow"
 msgstr "Enviar a Flujo"
 
 #: includes/class-ow-utility.php:903
 #: includes/class-ow-workflow-terminology-settings.php:152
-#: includes/pages/subpages/submit-step.php:36 oasiswf.php:432
+#: includes/pages/subpages/submit-step.php:36 oasiswf.php:456
 msgid "Sign Off"
 msgstr "terminar (transmisión) "
 
 #: includes/class-ow-utility.php:904
 #: includes/class-ow-workflow-terminology-settings.php:162
 #: includes/pages/subpages/submit-step.php:37
-#: includes/pages/subpages/submit-workflow.php:32 oasiswf.php:433
+#: includes/pages/subpages/submit-workflow.php:32 oasiswf.php:457
 msgid "Assign Actor(s)"
 msgstr "Asignar agente (s):"
 
 #: includes/class-ow-utility.php:906
 #: includes/class-ow-workflow-terminology-settings.php:182
-#: includes/pages/subpages/submit-workflow.php:34 oasiswf.php:435
+#: includes/pages/subpages/submit-workflow.php:34 oasiswf.php:459
 msgid "Publish Date"
 msgstr "Publicado"
 
 #: includes/class-ow-utility.php:907
-#: includes/class-ow-workflow-terminology-settings.php:192 oasiswf.php:436
+#: includes/class-ow-workflow-terminology-settings.php:192
+#: includes/pages/subpages/abort-workflow-comment.php:4 oasiswf.php:460
 msgid "Abort Workflow"
 msgstr "Interrumpir el flujo de trabajo"
 
 #: includes/class-ow-utility.php:908
-#: includes/class-ow-workflow-terminology-settings.php:202 oasiswf.php:437
+#: includes/class-ow-workflow-terminology-settings.php:202 oasiswf.php:461
 msgid "Workflow History"
 msgstr "Historia Workflow"
 
@@ -915,15 +916,38 @@ msgstr ""
 "poco de contexto sobre lo que es el estado personalizado que se utilizará "
 "para."
 
-#: includes/pages/subpages/action-comments.php:67
+#: includes/pages/subpages/abort-workflow-comment.php:13
+#: includes/pages/subpages/reassign.php:82
+msgid "Comments:"
+msgstr "Comentarios:"
+
+#: includes/pages/subpages/abort-workflow-comment.php:21
+#: includes/pages/subpages/submit-workflow.php:39
+#: includes/pages/subpages/submit-workflow.php:190
+msgid "Submit"
+msgstr "entregar"
+
+#: includes/pages/subpages/abort-workflow-comment.php:23
+#: includes/pages/subpages/connection-info-content.php:79
+#: includes/pages/subpages/delete-history.php:24
+#: includes/pages/subpages/reassign.php:92
+#: includes/pages/subpages/step-info-content.php:247
+#: includes/pages/subpages/submit-step.php:168
+#: includes/pages/subpages/submit-workflow.php:192
+#: includes/pages/subpages/workflow-copy-popup.php:24
+#: includes/pages/subpages/workflow-create-popup.php:24
+msgid "Cancel"
+msgstr "cancelar"
+
+#: includes/pages/subpages/action-comments.php:75
 msgid "Editorial Comments On: "
 msgstr "Comentario editorial en:"
 
-#: includes/pages/subpages/action-comments.php:92
+#: includes/pages/subpages/action-comments.php:100
 msgid "Signed off on"
 msgstr "Firmado en"
 
-#: includes/pages/subpages/action-comments.php:110
+#: includes/pages/subpages/action-comments.php:118
 msgid "Close"
 msgstr "cerrar"
 
@@ -950,17 +974,6 @@ msgstr "Estado de la publicación"
 #: includes/pages/subpages/connection-info-content.php:57
 msgid "Path :"
 msgstr "Archivos:"
-
-#: includes/pages/subpages/connection-info-content.php:79
-#: includes/pages/subpages/delete-history.php:24
-#: includes/pages/subpages/reassign.php:92
-#: includes/pages/subpages/step-info-content.php:247
-#: includes/pages/subpages/submit-step.php:168
-#: includes/pages/subpages/submit-workflow.php:192
-#: includes/pages/subpages/workflow-copy-popup.php:24
-#: includes/pages/subpages/workflow-create-popup.php:24
-msgid "Cancel"
-msgstr "cancelar"
 
 #: includes/pages/subpages/delete-history.php:2
 #: includes/pages/workflow-history.php:88
@@ -1025,10 +1038,6 @@ msgstr "No usuarios encontrados para reasignar"
 #: includes/pages/subpages/submit-workflow.php:133
 msgid "Assigned"
 msgstr "Asignado"
-
-#: includes/pages/subpages/reassign.php:82
-msgid "Comments:"
-msgstr "Comentarios:"
 
 #: includes/pages/subpages/step-info-content.php:23
 msgid "Step Information"
@@ -1161,11 +1170,6 @@ msgstr "limpiar"
 #: includes/pages/subpages/submit-workflow.php:182
 msgid "Comments : "
 msgstr "Comentarios :"
-
-#: includes/pages/subpages/submit-workflow.php:39
-#: includes/pages/subpages/submit-workflow.php:190
-msgid "Submit"
-msgstr "entregar"
 
 #: includes/pages/subpages/submit-workflow.php:43
 msgid "Workflow : "
@@ -1569,15 +1573,28 @@ msgstr "Cambiar el color de fondo"
 msgid "Save this content"
 msgstr "Guardar este contenido"
 
-#: js/pages/acf-pro-validator.js:60
+#: js/pages/acf-pro-validator-new.js:112
+msgid "Validation failed"
+msgstr "Validation failed"
+
+#: js/pages/acf-pro-validator-new.js:114
+msgid "1 field requires attention"
+msgstr "1 campo requiere atención"
+
+#: js/pages/acf-pro-validator-new.js:116
+#, javascript-format
+msgid "%d fields require attention"
+msgstr "%d campos  requieren atención"
+
+#: js/pages/acf-pro-validator.js:63
 msgid "validation_failed"
 msgstr "validation_failed"
 
-#: js/pages/acf-pro-validator.js:106
+#: js/pages/acf-pro-validator.js:109
 msgid "validation_failed_1"
 msgstr "validation_failed_1"
 
-#: js/pages/acf-pro-validator.js:109
+#: js/pages/acf-pro-validator.js:112
 msgid "validation_failed_2"
 msgstr "validation_failed_2"
 
@@ -1589,45 +1606,45 @@ msgstr "Flujos de trabajo"
 msgid "Reports"
 msgstr "Informes"
 
-#: oasiswf.php:262 oasiswf.php:263 oasiswf.php:2122
+#: oasiswf.php:262 oasiswf.php:263 oasiswf.php:2193
 msgid "Stay Informed"
 msgstr "Mantente informado"
 
-#: oasiswf.php:656 oasiswf.php:1445
+#: oasiswf.php:680 oasiswf.php:1509
 msgid "first name"
 msgstr "primer nombre"
 
-#: oasiswf.php:657 oasiswf.php:1446
+#: oasiswf.php:681 oasiswf.php:1510
 msgid "last name"
 msgstr "apellido"
 
-#: oasiswf.php:658 oasiswf.php:1447
+#: oasiswf.php:682 oasiswf.php:1511
 msgid "post title"
 msgstr "Publicación del título"
 
-#: oasiswf.php:659 oasiswf.php:1448
+#: oasiswf.php:683 oasiswf.php:1512
 msgid "category"
 msgstr "categoría"
 
-#: oasiswf.php:660 oasiswf.php:1449
+#: oasiswf.php:684 oasiswf.php:1513
 msgid "last modified date"
 msgstr "última fecha de modificación"
 
-#: oasiswf.php:661
+#: oasiswf.php:685
 msgid "post author"
 msgstr "Autor del artículo"
 
-#: oasiswf.php:1119
+#: oasiswf.php:1183
 msgid "Welcome to Oasis Workflow"
 msgstr "Bienvenido a Oasis Workflow"
 
-#: oasiswf.php:1121
+#: oasiswf.php:1185
 msgid "To get started with Oasis Workflow follow the steps listed below."
 msgstr ""
 "Para obtener comenzó con seguimiento de flujo de trabajo de Oasis los pasos "
 "enumerados a continuación."
 
-#: oasiswf.php:1122
+#: oasiswf.php:1186
 msgid ""
 "To get started with Oasis Workflow go to the individual site and follow the "
 "steps listed below."
@@ -1635,18 +1652,18 @@ msgstr ""
 "Para empezar con Oasis de flujo de trabajo ir a la página individual y siga "
 "los pasos descritos a continuación."
 
-#: oasiswf.php:1123
+#: oasiswf.php:1187
 #, php-format
 msgid "1. Go to Workflows %s Edit Workflows."
 msgstr "1. vaya a flujos de trabajo %s editar flujos de trabajo."
 
-#: oasiswf.php:1124
+#: oasiswf.php:1188
 msgid "2. Modify the \"Sample Workflow\" to suit your needs."
 msgstr ""
 "2. modificar la \"muestra de flujo de trabajo\" para satisfacer sus "
 "necesidades."
 
-#: oasiswf.php:1125
+#: oasiswf.php:1189
 #, php-format
 msgid ""
 "3. Activate the workflow process from Workflows %s Settings, Workflow tab."
@@ -1654,97 +1671,97 @@ msgstr ""
 "3. activar el proceso de flujos de trabajo %s configuración, ficha de flujo "
 "de trabajo."
 
-#: oasiswf.php:1434
+#: oasiswf.php:1498
 msgid "Success"
 msgstr "éxito"
 
-#: oasiswf.php:1435
+#: oasiswf.php:1499
 msgid "Failure"
 msgstr "fallo"
 
-#: oasiswf.php:1439
+#: oasiswf.php:1503
 msgid "In Progress"
 msgstr "En curso"
 
-#: oasiswf.php:1440
+#: oasiswf.php:1504
 msgid "In Review"
 msgstr "En la revisión"
 
-#: oasiswf.php:1441
+#: oasiswf.php:1505
 msgid "Ready to Publish"
 msgstr "Listo para publicar"
 
-#: oasiswf.php:1983
+#: oasiswf.php:2054
 msgid "Are you sure to abort the workflow?"
 msgstr "¿Está seguro de que abortar el flujo de trabajo?"
 
-#: oasiswf.php:2010
+#: oasiswf.php:2081
 msgid "Do you really want to clear all the steps?"
 msgstr "¿Realmente desea borrar todos los pasos?"
 
-#: oasiswf.php:2011
+#: oasiswf.php:2082
 msgid "This step is already defined. Do you really want to remove this step?"
 msgstr "Este paso ya está definido. ¿Realmente desea eliminar este paso?"
 
-#: oasiswf.php:2012
+#: oasiswf.php:2083
 msgid "Please select Post Status."
 msgstr "Por favor seleccione estado de Post."
 
-#: oasiswf.php:2013
+#: oasiswf.php:2084
 msgid "The path between"
 msgstr "La ruta de acceso entre"
 
-#: oasiswf.php:2014
+#: oasiswf.php:2085
 msgid "step and"
 msgstr "intensificar y"
 
-#: oasiswf.php:2015
+#: oasiswf.php:2086
 msgid "step is incorrect."
 msgstr "paso es incorrecta."
 
-#: oasiswf.php:2016
+#: oasiswf.php:2087
 msgid ""
 "To edit/delete the step, right click on the step to access the step menu."
 msgstr ""
 "Para editar o borrar el paso, haga clic en el paso para acceder al menú de "
 "paso."
 
-#: oasiswf.php:2017
+#: oasiswf.php:2088
 msgid ""
 "To connect to another step drag a line from the \"dot\" to the next step."
 msgstr ""
 "Para conectar a otro paso arrastre una línea desde el \"punto\" con el "
 "siguiente paso."
 
-#: oasiswf.php:2018
+#: oasiswf.php:2089
 msgid "Post Status"
 msgstr "Estado de la publicación"
 
-#: oasiswf.php:2026
+#: oasiswf.php:2097
 msgid "You have unsaved changes."
 msgstr "Usted tiene cambios no guardados."
 
-#: oasiswf.php:2034
+#: oasiswf.php:2105
 msgid "Due date cannot be in the past."
 msgstr "Fecha de vencimiento no puede ser en el pasado."
 
-#: oasiswf.php:2041
+#: oasiswf.php:2112
 msgid "Step name is required."
 msgstr "Se requiere nombre de Paso."
 
-#: oasiswf.php:2042
+#: oasiswf.php:2113
 msgid "Step name already exists. Please use a different name."
 msgstr "Nombre del paso ya existe. Por favor, use un nombre distinto."
 
-#: oasiswf.php:2043
+#: oasiswf.php:2114
 msgid "Please select assignee(s)."
 msgstr "Por favor seleccione cesionario (s)."
 
-#: oasiswf.php:2044
+#: oasiswf.php:2115
 msgid "Please select a placeholder."
 msgstr "Por favor, seleccione un marcador de posición."
 
-#: oasiswf.php:2085
+#: oasiswf.php:2156
 msgid "Workflow Tasks At a Glance"
 msgstr "Tareas de flujo de trabajo de un vistazo"
 

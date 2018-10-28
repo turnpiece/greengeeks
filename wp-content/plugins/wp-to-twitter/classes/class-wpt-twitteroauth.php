@@ -321,6 +321,8 @@ if ( ! class_exists( 'Wpt_TwitterOAuth' ) ) {
 				$size = array_pop( $image_sizes );
 			}
 			$upload    = wp_get_attachment_image_src( $attachment, apply_filters( 'wpt_upload_image_size', $size ) );
+			$parent    = get_post_ancestors( $attachment );
+			$parent    = ( is_array( $parent ) ) ? $parent[0] : false;
 			$image_url = $upload[0];
 			$remote    = wp_remote_get( $image_url );
 			if ( is_wp_error( $remote ) ) {
@@ -330,7 +332,7 @@ if ( ! class_exists( 'Wpt_TwitterOAuth' ) ) {
 				$transport = 'wp_http';
 				$binary    = wp_remote_retrieve_body( $remote );
 			}
-			wpt_mail( 'Media fetched binary', print_r( $remote, 1 ) . "\n\n" . print_r( $binary, 1 ) );
+			wpt_mail( 'Media fetched binary', print_r( $remote, 1 ) . "\n\n" . print_r( $binary, 1 ), $parent );
 			if ( ! $binary ) {
 				return;
 			}
@@ -343,11 +345,10 @@ if ( ! class_exists( 'Wpt_TwitterOAuth' ) ) {
 			$code     = $tmh_oauth->request( 'POST', $url, array( 'media' => "$binary" ), true, true );
 			$response = $tmh_oauth->response['response'];
 			$full     = $tmh_oauth->response;
-			wpt_mail( 'Media Posted', "
-				Media ID #$args[media] ($transport)" . "\n\n" .
-				'Twitter Response' . "\n" . print_r( $full, 1 ) . "\n\n" .
-				'Attachment Details' . "\n" . print_r( $upload, 1 ) . "\n\n" .
-				'Img Request Response' . "\n" . print_r( $remote, 1 )
+			wpt_mail(
+				'Media Posted',
+				"Media ID #$args[media] ($transport)" . "\n\n" . 'Twitter Response' . "\n" . print_r( $full, 1 ) . "\n\n" . 'Attachment Details' . "\n" . print_r( $upload, 1 ) . "\n\n" . 'Img Request Response' . "\n" . print_r( $remote, 1 ),
+				$parent
 			);
 
 			if ( is_wp_error( $response ) ) {
@@ -398,10 +399,13 @@ if ( ! class_exists( 'Wpt_TwitterOAuth' ) ) {
 					// TODO: add content-type when JSON.
 					$url      = $req->get_normalized_http_url();
 					$args     = wp_parse_args( $req->to_postdata() );
-					$response = wp_remote_post( $url, array(
-						'body'    => $args,
-						'timeout' => 30,
-					) );
+					$response = wp_remote_post(
+						$url,
+						array(
+							'body'    => $args,
+							'timeout' => 30,
+						)
+					);
 					break;
 			}
 

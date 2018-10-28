@@ -4,27 +4,9 @@ if ( ! function_exists( 'is_plugin_active_for_network' ) ) {
 	require_once( ABSPATH . '/wp-admin/includes/plugin.php' );
 }
 
-function set_ub_url( $base ) {
-	global $UB_url;
-	$UB_url = plugin_dir_url( $base );
-	if ( defined( 'WPMU_PLUGIN_URL' ) && defined( 'WPMU_PLUGIN_DIR' ) && file_exists( WPMU_PLUGIN_DIR . '/' . basename( $base ) ) ) {
-		$UB_url = trailingslashit( WPMU_PLUGIN_URL );
-	}
-}
-
-function set_ub_dir( $base ) {
-	global $UB_dir;
-	$UB_dir = plugin_dir_path( $base );
-	if ( defined( 'WPMU_PLUGIN_DIR' ) && file_exists( WPMU_PLUGIN_DIR . '/' . basename( $base ) ) ) {
-		$UB_dir = trailingslashit( WPMU_PLUGIN_DIR );
-	}
-}
-
 function ub_get_url_valid_shema( $url ) {
 	$valid_url = $url;
-
 	$v_valid_url = parse_url( $url );
-
 	if ( isset( $v_valid_url['scheme'] ) && $v_valid_url['scheme'] === 'https' ) {
 		if ( ! is_ssl() ) {
 			$valid_url = str_replace( 'https', 'http', $valid_url );
@@ -34,23 +16,17 @@ function ub_get_url_valid_shema( $url ) {
 			$valid_url = str_replace( 'http', 'https', $valid_url );
 		}
 	}
-
 	return $valid_url;
 }
 
 function ub_url( $extended ) {
-
 	global $UB_url;
-
 	return ub_get_url_valid_shema( $UB_url ) . $extended;
 }
 
 function ub_dir( $extended ) {
-
 	global $UB_dir;
-
 	return $UB_dir . $extended;
-
 }
 
 function ub_files_url( $extended ) {
@@ -62,14 +38,14 @@ function ub_files_dir( $extended ) {
 }
 
 // modules loading code
-
 function ub_is_active_module( $module ) {
 	$modules = get_ub_activated_modules();
 	return ( in_array( $module, array_keys( $modules ) ) );
 }
 
 function ub_get_option( $option, $default = false ) {
-	if ( is_multisite() && function_exists( 'is_plugin_active_for_network' ) && is_plugin_active_for_network( 'ultimate-branding/ultimate-branding.php' ) ) {
+	global $UB_network;
+	if ( $UB_network ) {
 		return get_site_option( $option, $default );
 	} else {
 		return get_option( $option, $default );
@@ -77,15 +53,26 @@ function ub_get_option( $option, $default = false ) {
 }
 
 function ub_update_option( $option, $value = null ) {
-	if ( is_multisite() && function_exists( 'is_plugin_active_for_network' ) && is_plugin_active_for_network( 'ultimate-branding/ultimate-branding.php' ) ) {
+	global $UB_network;
+	if ( $UB_network ) {
 		return update_site_option( $option, $value );
 	} else {
 		return update_option( $option, $value );
 	}
 }
 
+function ub_add_option( $option, $value = null, $autoload = 'yes' ) {
+	global $UB_network;
+	if ( $UB_network ) {
+		return add_site_option( $option, $value );
+	} else {
+		return add_option( $option, $value, '', $autoload );
+	}
+}
+
 function ub_delete_option( $option ) {
-	if ( is_multisite() && function_exists( 'is_plugin_active_for_network' ) && is_plugin_active_for_network( 'ultimate-branding/ultimate-branding.php' ) ) {
+	global $UB_network;
+	if ( $UB_network ) {
 		return delete_site_option( $option );
 	} else {
 		return delete_option( $option );
@@ -232,7 +219,7 @@ function ub_get_option_name_by_module( $module ) {
  *
  * @since 1.8.7
  */
-function ub_deprecated_module( $deprecated, $substitution, $tab ) {
+function ub_deprecated_module( $deprecated, $substitution, $tab, $removed_in = 0 ) {
 	$url = is_network_admin()? network_admin_url( 'admin.php' ):admin_url( 'admin.php' );
 	$url = add_query_arg(
 		array(
@@ -247,7 +234,17 @@ function ub_deprecated_module( $deprecated, $substitution, $tab ) {
 		sprintf( '<b>%s</b>', esc_html( $deprecated ) ),
 		sprintf( '<b><a href="%s">%s</a></b>', esc_url( $url ), esc_html( $substitution ) )
 	);
-	echo '</p></div>';
+	echo '</p>';
+	if ( $removed_in ) {
+		printf(
+			'<p>%s</p>',
+			sprintf(
+				__( 'Module will be removed in <b>Ultimate Branding %s version</b>.', 'ub' ),
+				$removed_in
+			)
+		);
+	}
+	echo '</div>';
 }
 
 /**
@@ -299,4 +296,122 @@ function ub_register_activation_hook() {
 	$data = get_plugin_data( $file );
 	ub_update_option( 'ub_version', $data['Version'] );
 }
+/**
+ * Set required Ultimate Branding defaults.
+ *
+ * @since 1.9.5
+ */
+function set_ultimate_branding( $base ) {
+	global $UB_dir, $UB_url, $UB_network, $uba;
+	/**
+	 * Set UB_dir
+	 */
+	$UB_dir = plugin_dir_path( $base );
+	if ( defined( 'WPMU_PLUGIN_DIR' ) && file_exists( WPMU_PLUGIN_DIR . '/' . basename( $base ) ) ) {
+		$UB_dir = trailingslashit( WPMU_PLUGIN_DIR );
+	}
+	/**
+	 * set $UB_url
+	 */
+	global $UB_url;
+	$UB_url = plugin_dir_url( $base );
+	if ( defined( 'WPMU_PLUGIN_URL' ) && defined( 'WPMU_PLUGIN_DIR' ) && file_exists( WPMU_PLUGIN_DIR . '/' . basename( $base ) ) ) {
+		$UB_url = trailingslashit( WPMU_PLUGIN_URL );
+	}
+	/**
+	 * set $UB_network
+	 */
+	$UB_network = is_multisite() && is_plugin_active_for_network( plugin_basename( $base ) );
+	/**
+	 * include dir
+	 */
+	$include_dir = $UB_dir.'/ultimate-branding-files/classes';
+	/**
+	 * load files
+	 */
+	require_once( $include_dir . '/ubadmin.php' );
+	if ( is_admin() ) {
+		// Add in the contextual help
+		require_once( $include_dir . '/class.help.php' );
+		include_once( $include_dir . '/class.simple.options.php' );
+		// Include the admin class
+		$uba = new UltimateBrandingAdmin();
+	} else {
+		// Include the public class
+		require_once( $include_dir . '/ubpublic.php' );
+		$ubp = new UltimateBrandingPublic();
+	}
 
+	/**
+	 * handle ajax
+	 */
+	if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
+		include_once( $include_dir . '/class.simple.options.php' );
+		new simple_options;
+	}
+
+}
+
+function ub_enqueue_switch_button() {
+	wp_enqueue_script( 'custom-ligin-screen-jquery-switch-button', ub_url( 'assets/js/vendor/jquery.switch_button.js' ), array( 'jquery', 'jquery-effects-core' ), '1.12.1' );
+	wp_enqueue_style( 'custom-ligin-screen-jquery-switch-button', ub_url( 'assets/css/vendor/jquery.switch_button.css' ), array(), '1.12.1' );
+	$i18n = array(
+		'labels' => array(
+			'label_on' => __( 'on', 'ub' ),
+			'label_off' => __( 'off', 'ub' ),
+			'label_enable' => __( 'Activate', 'ub' ),
+			'label_disable' => __( 'Deactivate', 'ub' ),
+		),
+	);
+	wp_localize_script( 'custom-ligin-screen-jquery-switch-button', 'switch_button', $i18n );
+}
+
+/**
+ * Get main blog ID
+ *
+ * Get main blog ID and be compatible with Multinetwork installation.
+ *
+ * https://premium.wpmudev.org/forums/topic/bug-report-multinetwork-compatibility#post-1147189
+ *
+ * @since 1.9.8
+ *
+ * @return integer $mainblogid Main Blog ID
+ */
+function ub_get_main_site_ID() {
+	$mainblogid = 1;
+	if ( function_exists( 'get_main_site_for_network' ) ) {
+		$mainblogid = get_main_site_for_network();
+	}
+	return $mainblogid;
+}
+
+/**
+ * register_deactivation_hook
+ *
+ * @since 2.1.0
+ */
+function ub_register_deactivation_hook() {
+    return;
+	$value = ub_get_option( 'ultimate_branding_delete_settings', 'delete' );
+	if ( 'preserve' === $value ) {
+		return;
+	}
+	/**
+	 * add global options
+	 */
+	$options = array(
+		'ultimatebranding_activated_modules',
+		'ultimate_branding_delete_settings',
+		'ultimate_branding_messages',
+	);
+	$modules = ub_get_modules_list( 'keys' );
+	foreach ( $modules as $module ) {
+		include_once( ub_files_dir( 'modules/' . $module ) );
+	}
+	$options = apply_filters( 'ultimate_branding_options_names', $options );
+	foreach ( $options as $option_name ) {
+		delete_option( $option_name );
+		delete_site_option( $option_name );
+	}
+	do_action( 'ultimatebranding_deactivate_plugin', $options );
+}

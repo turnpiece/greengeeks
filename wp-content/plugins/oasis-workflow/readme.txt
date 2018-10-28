@@ -2,8 +2,8 @@
 Contributors: nuggetsol
 Tags: workflow, work flow, review, assignment, publish, inbox, workflow history, audit, versioning, edit flow, newsroom, custom post status, journalism, auto submit, approval workflow, editorial workflow, notifications, oasis workflow, editorial, revisions, document revision, version control, collaboration, document management, revision scheduling, duplication, clone, revise, revise article
 Requires at least: 4.4
-Tested up to: 4.9.1
-Stable tag: 2.9
+Tested up to: 4.9.8
+Stable tag: 3.3
 
 Automate your WordPress Editorial Workflow with Oasis Workflow. Simple, intuitive drag and drop workflow builder to streamline your editorial process.
 
@@ -116,6 +116,20 @@ For [Frequently Asked Questions](https://www.oasisworkflow.com/faq) plus documen
 
 
 == Changelog ==
+
+= Version 3.3 =
+ * Fixed datatype issue.
+ * Fixed compatibility issue with ACF plugin.
+
+= Version 3.2 =
+* Made it compatible with ACF 5.6.10 and above.
+
+= Version 3.1 =
+* Fixed validation for ACF required fields before submitting to workflow.
+
+= Version 3.0 =
+* Disable the submit button on submit to workflow and sign-off popup until ajax call is completed.
+* Enhanced workflow abort to allow users to add comments.
 
 = Version 2.9 =
 * Fixed warnings when installed with PHP 7.x.

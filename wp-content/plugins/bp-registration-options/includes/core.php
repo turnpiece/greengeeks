@@ -557,6 +557,16 @@ function bp_registration_options_send_admin_email( $args = array() ) {
 	 * @param array $value Array of email addresses to send notification to.
 	 */
 	$admin_email = apply_filters( 'bprwg_admin_email_addresses', array( get_bloginfo( 'admin_email' ) ) );
+	/** This filter is documented in includes/core.php */
+	$admin_notifications = apply_filters( 'bprwg_bp_notification_users', get_users( 'role=administrator' ) );
+
+	// Check for filtered users to notify, append to $admin_email, and remove duplicates.
+	if ( ! empty( $admin_notifications ) ) {
+		foreach ( $admin_notifications as $admin ) {
+			$admin_email[] = $admin->user_email;
+		}
+		$admin_email = array_unique( $admin_email );
+	}
 
 	/**
 	 * Filters the email text for admin when new member signs up.
@@ -567,7 +577,7 @@ function bp_registration_options_send_admin_email( $args = array() ) {
 	 * @param string $value User login name.
 	 * @param string $value User email address.
 	 */
-	$mod_email = apply_filters( 'bprwg_new_member_request_admin_email_message', wpautop( $args['message'] ), $args['user_login'], $args['user_email'] );
+	$mod_email = apply_filters( 'bprwg_new_member_request_admin_email_message', $args['message'], $args['user_login'], $args['user_email'] );
 
 	add_filter( 'wp_mail_content_type', 'bp_registration_options_set_content_type' );
 
@@ -600,9 +610,7 @@ function bp_registration_options_send_pending_user_email( $args = array() ) {
 	 */
 	$args = apply_filters( 'bprwg_pending_user_email_args', $args );
 
-	add_filter( 'wp_mail_content_type', 'bp_registration_options_set_content_type' );
-
-	wp_mail( $args['user_email'], __( 'Pending Membership', 'bp-registration-options' ), wpautop( $args['message'] ) );
+	wp_mail( $args['user_email'], __( 'Pending Membership', 'bp-registration-options' ), $args['message'] );
 
 	remove_filter( 'wp_mail_content_type', 'bp_registration_options_set_content_type' );
 }

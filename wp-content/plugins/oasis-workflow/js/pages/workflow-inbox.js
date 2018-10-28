@@ -436,6 +436,7 @@ jQuery( document ).ready( function () {
       data = {
          action: 'get_step_comment_page',
          actionid: jQuery( this ).attr( "actionid" ),
+         actionstatus: jQuery( this ).attr( "actionstatus" ),
          comment: jQuery( this ).attr( 'data-comment' ),
          page_action: page_chk,
          post_id: jQuery( this ).attr( 'post_id' ),
@@ -468,27 +469,55 @@ jQuery( document ).ready( function () {
 
    jQuery( document ).on( "click", ".abort_workflow", function ( e ) {
       e.preventDefault();
-      if ( !confirm( owf_workflow_inbox_vars.abortWorkflowConfirm ) )
-         return;
       var inbox_obj = this;
-      data = {
-         action: 'workflow_abort',
-         history_id: jQuery( this ).attr( "wfid" ),
-         security: jQuery( '#owf_inbox_ajax_nonce' ).val()
-      };
-      jQuery( this ).hide();
-      jQuery( this ).parent().children( ".loading" ).show();
-      jQuery.post( ajaxurl, data, function ( response ) {
-         if ( response == -1 ) { // nonce cannot be validated
-            jQuery( inbox_obj ).parent().children( ".loading" ).hide(); // Remove Loader
-            jQuery( inbox_obj ).show(); // Show Label
-            return false;
+      
+      var history_id = jQuery( this ).attr( "wfid" );
+      
+       modal_data = {
+         action: 'workflow_abort_comments',
+         history_id: history_id,
+         security: jQuery('#owf_inbox_ajax_nonce').val(),
+      }
+      
+      jQuery.post(ajaxurl, modal_data, function ( response ) {
+         if ( response == -1 ) {
+            return false; // Invalid nonce
          }
+         
          if ( response.success ) {
-            jQuery( inbox_obj ).parent().children( ".loading" ).hide();
-            location.reload();
+            var content = html_decode(response.data);
+            jQuery( content ).owfmodal();
+            jQuery("#simplemodal-container").css({ "top":"130px" });
+            
+            jQuery("#abortSave").click(function () {
+               var comments = jQuery('#abortComments').val();
+               data = {
+                  action: 'workflow_abort' ,
+                  history_id: history_id,
+                  comment: comments,
+                  security: jQuery('#owf_inbox_ajax_nonce').val()
+               };
+               jQuery( this ).hide();
+               jQuery( this ).parent().children( ".loading" ).show();
+               jQuery.post( ajaxurl, data, function ( response ) {
+                  if ( response == -1 ) { // nonce cannot be validated
+                     jQuery( inbox_obj ).parent().children( ".loading" ).hide(); // Remove Loader
+                     jQuery( inbox_obj ).show(); // Show Label
+                     return false;
+                  }
+                  if ( response.success ) {
+                     jQuery( inbox_obj ).parent().children( ".loading" ).hide();
+                     location.reload();
+                  }
+               } );
+            });
          }
-      } );
+      });
    } );
+   
+   jQuery( document ).on( "click", "#abortCancel", function () {
+      jQuery.modal.close();
+   } );
+   
 } );
 

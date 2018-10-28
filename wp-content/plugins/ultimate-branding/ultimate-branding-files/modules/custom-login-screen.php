@@ -1,30 +1,4 @@
 <?php
-/*
-Plugin Name: Login Screen
-Plugin URI:
-Description:
-Author: Marcin (Incsub)
-Version: 1.0.1
-Author URI:
-Network: true
-
-Copyright 2017 Incsub (email: admin@incsub.com)
-
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 2 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
- */
-
 if ( ! class_exists( 'ub_custom_login_screen' ) ) {
 
 	class ub_custom_login_screen extends ub_helper {
@@ -58,6 +32,29 @@ if ( ! class_exists( 'ub_custom_login_screen' ) ) {
 			add_filter( 'logout_redirect', array( $this, 'logout_redirect' ), 99, 3 );
 			add_filter( 'login_redirect', array( $this, 'login_redirect' ), 99, 3 );
 			add_action( 'ub_helper_admin_options_page_before_options', array( $this, 'before_admin_options_page' ) );
+			/**
+			 * Signup Password
+			 *
+			 * Add password field on register form
+			 *
+			 * @since 1.9.5
+			 */
+			add_action( 'init', array( $this, 'signup_password_init' ) );
+		}
+
+		/**
+		 * Load signup password submodule.
+		 *
+		 * @since 1.9.5
+		 */
+		public function signup_password_init() {
+			$value = $this->get_value( 'form', 'signup_password', 'off' );
+			if ( 'on' != $value ) {
+				return;
+			}
+			$file = ub_files_dir( 'modules/custom-login-screen/signup-password.php' );
+			include_once $file;
+			new ub_signup_password();
 		}
 
 		/**
@@ -82,7 +79,6 @@ if ( ! class_exists( 'ub_custom_login_screen' ) ) {
 				return;
 			}
 			printf( '<style type="text/css" id="%s">', esc_attr( __CLASS__ ) );
-
 			/**
 			 * Logo & Background
 			 */
@@ -107,32 +103,40 @@ if ( ! class_exists( 'ub_custom_login_screen' ) ) {
 				/**
 				 * logo
 				 */
+				$src = false;
+				$width = $height = 'auto';
 				if ( isset( $v['logo_upload_meta'] ) ) {
 					$src = $v['logo_upload_meta'][0];
-					if ( ! empty( $src ) ) {
-						$image = $v['logo_upload_meta'];
-						$width = $image[1];
-						$height = $image[2];
-
+					$image = $v['logo_upload_meta'];
+					$width = $image[1];
+					$height = $image[2];
+					if ( isset( $v['logo_width'] ) ) {
+						$scale = $v['logo_width'] / $width;
+						$width = $v['logo_width'];
+						$height = intval( $height * $scale );
+					} elseif ( $width > 320 ) {
+						$scale = 320 / $width ;
+						$height = intval( $height * $scale );
+						$width = intval( $width * $scale );
+					}
+				}
+				if ( ! $src ) {
+					if ( isset( $v['logo_upload'] ) && ! empty( $v['logo_upload'] ) ) {
+						$src = $v['logo_upload'];
 						if ( isset( $v['logo_width'] ) ) {
-
-							$scale = $v['logo_width'] / $width;
-							$width = $v['logo_width'];
-							$height = intval( $height * $scale );
-						} elseif ( $width > 320 ) {
-							$scale = 320 / $width ;
-							$height = intval( $height * $scale );
-							$width = intval( $width * $scale );
+							$height = $width = $v['logo_width'];
 						}
+					}
+				}
+				if ( ! empty( $src ) ) {
 ?>
 #login h1 a {
-    background-image: url(<?php echo $src; ?>);
+    background-image: url(<?php echo $this->make_relative_url( $src ); ?>);
     background-size: 100%;
     height: <?php echo $height; ?>px;
     width: <?php echo $width; ?>px;
 }
 <?php
-					}
 				}
 				/**
 				 * logo_bottom_margin
@@ -151,16 +155,32 @@ if ( ! class_exists( 'ub_custom_login_screen' ) ) {
 				/**
 				 * bg_color
 				 */
-				$this->css_background_color( $v, 'bg_color', 'body' );
+				$this->css_background_color_from_data( $v, 'bg_color', 'body' );
 				/**
 				 * fullscreen_bg
 				 */
-				if ( isset( $v['fullscreen_bg_meta'] ) ) {
-					$src = $v['fullscreen_bg_meta'][0];
-					if ( ! empty( $src ) ) {
+				if ( isset( $v['fullscreen_bg'] ) ) {
+					$fullscreen_bg = false;
+					$v = $v['fullscreen_bg'];
+					if ( is_array( $v ) ) {
+						if ( 0 < count( $v ) && isset( $v[0]['meta'] ) ) {
+							$mode = $this->get_value( 'background', 'mode' );
+							$id = 0;
+							do {
+								$id = rand( 0, count( $v ) - 1 );
+							} while ( ! isset( $v[ $id ]['meta'] ) );
+							$meta = $v[ $id ]['meta'];
+							if ( isset( $meta[0] ) ) {
+									$fullscreen_bg = $meta[0];
+							}
+						}
+					} else if ( is_string( $v ) && ! empty( $v ) ) {
+						$fullscreen_bg = $v;
+					}
+					if ( $fullscreen_bg ) {
 ?>
 html {
-    background: url(<?php echo $src; ?>) no-repeat center center fixed;
+    background: url(<?php echo $this->make_relative_url( $fullscreen_bg ); ?>) no-repeat center center fixed;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
@@ -173,7 +193,6 @@ body {
 					}
 				}
 			}
-
 			/**
 			 * Form
 			 */
@@ -194,8 +213,7 @@ body {
 				/**
 				 * label_color
 				 */
-				$this->css_color( $v, 'label_color', '.login form label' );
-
+				$this->css_color_from_data( $v, 'label_color', '.login form label' );
 				/**
 				 * form_bg
 				 */
@@ -204,7 +222,7 @@ body {
 					if ( ! empty( $src ) ) {
 ?>
  .login form {
-    background: url(<?php echo $src; ?>) no-repeat center center;
+    background: url(<?php echo $this->make_relative_url( $src ); ?>) no-repeat center center;
     -webkit-background-size: 100%;
     -moz-background-size: 100%;
     -o-background-size: 100%;
@@ -213,14 +231,14 @@ body {
 <?php
 					}
 				}
-
 				/**
 				 * input_border_color_focus
 				 */
 				if ( isset( $v['input_border_color_focus'] ) ) {
 					$color = $v['input_border_color_focus'];
 					$shadow = $this->convert_hex_to_rbg( $color );
-					$shadow = implode( ',', $shadow ).',0.8';
+					if ( is_array( $shadow ) ) {
+						$shadow = implode( ',', $shadow ).',0.8';
 ?>
 .login form input[type=text]:focus,
 .login form input[type=password]:focus,
@@ -233,15 +251,13 @@ body {
     box-shadow:0 0 2px rgba(<?php echo esc_attr( $shadow ); ?>);
 }
 <?php
+					}
 				}
-
 				/**
 				 * form_bg_color
 				 * form_bg_transparency
 				 */
-
 				$this->css_background_transparency( $v, 'form_bg_color', 'form_bg_transparency', '.login form' );
-
 				/**
 				 * form_style
 				 */
@@ -257,14 +273,29 @@ body {
 				/**
 				 * form_button_color
 				 */
-				$this->css_background_color( $v, 'form_button_color', '.login form .button' );
-				$this->css_background_color( $v, 'form_button_color_active', '.login form .button:active' );
-				$this->css_background_color( $v, 'form_button_color_focus', '.login form .button:focus' );
-				$this->css_background_color( $v, 'form_button_color_hover', '.login form .button:hover' );
+				$this->css_background_color_from_data( $v, 'form_button_color', '.login form .button' );
+				$this->css_color_from_data( $v, 'form_text_button_color', '.login form .button' );
+				/**
+				 * form button: active, focus, hover
+				 */
+				$button_keys = array( 'focus', 'hover', 'active' );
+				foreach ( $button_keys as $button_key ) {
+					/**
+					 * background-color
+					 */
+					$bkey = sprintf( 'form_button_color_%s', $button_key );
+					$bvalue = sprintf( '.login form .button:%s', $button_key );
+					$this->css_background_color_from_data( $v, $bkey, $bvalue );
+					/**
+					 * color
+					 */
+					$bkey = sprintf( 'form_button_text_color_%s', $button_key );
+					$this->css_color_from_data( $v, $bkey, $bvalue );
+				}
 				/**
 				 * form_button_text_color
 				 */
-				$this->css_color( $v, 'form_button_text_color', '.login form .button' );
+				$this->css_color_from_data( $v, 'form_button_text_color', '.login form .button' );
 				/**
 				 * show_remember_me
 				 */
@@ -314,7 +345,6 @@ body {
 <?php
 				}
 			}
-
 			/**
 			 * Form Error Messages
 			 */
@@ -323,8 +353,7 @@ body {
 				/**
 				 * login_error_background_color
 				 */
-				$this->css_background_color( $v, 'login_error_background_color', '.login #login #login_error' );
-
+				$this->css_background_color_from_data( $v, 'login_error_background_color', '.login #login #login_error' );
 				/**
 				 * login_error_border_color
 				 */
@@ -338,12 +367,11 @@ body {
 				/**
 				 * login_error_text_color
 				 */
-				$this->css_color( $v, 'login_error_text_color', '.login #login #login_error' );
-				$this->css_color( $v, 'login_error_link_color', '.login #login #login_error a' );
-				$this->css_color( $v, 'login_error_link_color_hover', '.login #login #login_error a:hover' );
+				$this->css_color_from_data( $v, 'login_error_text_color', '.login #login #login_error' );
+				$this->css_color_from_data( $v, 'login_error_link_color', '.login #login #login_error a' );
+				$this->css_color_from_data( $v, 'login_error_link_color_hover', '.login #login #login_error a:hover' );
 				$this->css_opacity( $v, 'login_error_transarency', '.login #login #login_error' );
 			}
-
 			/**
 			 * below_form
 			 */
@@ -360,21 +388,20 @@ body {
 				/**
 				 * register_and_lost_color_link
 				 */
-				$this->css_color( $v, 'register_and_lost_color_link', '.login #nav a' );
+				$this->css_color_from_data( $v, 'register_and_lost_color_link', '.login #nav a' );
 				/**
 				 * register_and_lost_color_hover
 				 */
-				$this->css_color( $v, 'register_and_lost_color_hover', '.login #nav a:hover' );
+				$this->css_color_from_data( $v, 'register_and_lost_color_hover', '.login #nav a:hover' );
 				/**
 				 * back_to_color_link
 				 */
-				$this->css_color( $v, 'back_to_color_link', '.login #backtoblog a' );
+				$this->css_color_from_data( $v, 'back_to_color_link', '.login #backtoblog a' );
 				/**
 				 * back_to_color_hover
 				 */
-				$this->css_color( $v, 'back_to_color_hover', '.login #backtoblog a:hover' );
+				$this->css_color_from_data( $v, 'back_to_color_hover', '.login #backtoblog a:hover' );
 			}
-
 			/**
 			 * form_canvas
 			 */
@@ -416,20 +443,16 @@ body {
 				}
 				$this->css_background_transparency( $v, 'background_color', 'background_transparency', '#login' );
 			}
-
 			echo '</style>';
 		}
 
 		protected function set_options() {
-
 			$login_header_url   = __( 'https://wordpress.org/', 'ub' );
 			$login_header_title = __( 'Powered by WordPress', 'ub' );
-
 			if ( is_multisite() ) {
 				$login_header_url   = network_home_url();
 				$login_header_title = get_network()->site_name;
 			}
-
 			/**
 			 * invalid username
 			 */
@@ -437,12 +460,10 @@ body {
 			$invalid_username .= ' <a href="WP_LOSTPASSWORD_URL">';
 			$invalid_username  .= __( 'Lost your password?', 'ub' );
 			$invalid_username  .= '</a>';
-
 			$invalid_password = __( '<strong>ERROR</strong>: The password you entered for the username %s is incorrect.', 'ub' );
 			$invalid_password .= ' <a href="WP_LOSTPASSWORD_URL">';
 			$invalid_password .= __( 'Lost your password?', 'ub' );
 			$invalid_password .= '</a>';
-
 			$this->options = array(
 				'logo_and_background' => array(
 					'title' => __( 'Logo & Background', 'ub' ),
@@ -527,9 +548,9 @@ body {
 							'default' => '#f1f1f1',
 						),
 						'fullscreen_bg' => array(
-							'type' => 'media',
+							'type' => 'gallery',
 							'label' => __( 'Background Image', 'ub' ),
-							'description' => __( 'You can upload a background image here. The image will stretch to fit the page, and will automatically resize as the window size changes. You\'ll have the best results by using images with a minimum width of 1024px.', 'ub' ),
+							'description' => __( 'You can upload background images here. The image will stretch to fit the page, and will automatically resize as the window size changes. You\'ll have the best results by using images with a minimum width of 1024px. If you add more than one image it will be show random of each request.', 'ub' ),
 						),
 					),
 				),
@@ -547,15 +568,16 @@ body {
 							'after' => __( 'px', 'ub' ),
 						),
 						'show_remember_me' => array(
-							'type' => 'radio',
+							'type' => 'checkbox',
 							'label' => __( 'Show "Remember Me" checkbox', 'ub' ),
 							'description' => __( 'Would you like to show the "Remember Me" checkbox?', 'ub' ),
 							'options' => array(
-								'on' => __( 'Show "Remember Me" checkbox.', 'ub' ),
-								'off' => __( 'Hide "Remember Me" checkbox.', 'ub' ),
+								'on' => __( 'Show', 'ub' ),
+								'off' => __( 'Hide', 'ub' ),
 							),
 							'default' => 'on',
 							'slave-class' => 'remember-me-related',
+							'classes' => array( 'switch-button' ),
 						),
 						'check_remember_me' => array(
 							'label' => __( 'Check "Remember Me" checkbox', 'ub' ),
@@ -568,6 +590,17 @@ body {
 							'default' => 'off',
 							'classes' => array( 'switch-button' ),
 							'master' => 'remember-me-related',
+						),
+						'signup_password' => array(
+							'label' => __( 'Signup Password', 'ub' ),
+							'type' => 'checkbox',
+							'description' => __( 'Add password field on register screen.', 'ub' ),
+							'options' => array(
+								'on' => __( 'Show', 'ub' ),
+								'off' => __( 'Hide', 'ub' ),
+							),
+							'default' => 'off',
+							'classes' => array( 'switch-button' ),
 						),
 						'label_color' => array(
 							'type' => 'color',
@@ -609,31 +642,61 @@ body {
 							'description' => __( 'Choose the style of the form.', 'ub' ),
 							'default' => 'flat',
 						),
+						/**
+						 * form: button
+						 */
 						'form_button_color' => array(
 							'type' => 'color',
-							'label' => __( 'Button color', 'ub' ),
-							'default' => '#2ea2cc',
+							'label' => __( 'Button background color', 'ub' ),
+							'default' => '#0085ba',
 						),
+						'form_button_text_color' => array(
+							'type' => 'color',
+							'label' => __( 'Button text color', 'ub' ),
+							'default' => '#ffffff',
+						),
+						/**
+						 * form button: active
+						 */
 						'form_button_color_active' => array(
 							'type' => 'color',
-							'label' => __( 'Button color on active', 'ub' ),
+							'label' => __( 'Button background color (active)', 'ub' ),
 							'default' => '#0073aa',
 						),
+						'form_button_text_color_active' => array(
+							'type' => 'color',
+							'label' => __( 'Button text color (active)', 'ub' ),
+							'default' => '#ffffff',
+						),
+						/**
+						 * form button: focus
+						 */
 						'form_button_color_focus' => array(
 							'type' => 'color',
-							'label' => __( 'Button color on focus', 'ub' ),
-							'default' => '#5b9dd92',
+							'label' => __( 'Button background color (focus)', 'ub' ),
+							'default' => '#008ec2',
 						),
 						'form_button_text_color_focus' => array(
 							'type' => 'color',
-							'label' => __( 'Button Text color focus', 'ub' ),
+							'label' => __( 'Button text color (focus)', 'ub' ),
 							'default' => '#ffffff',
+						),
+						/**
+						 * form button: hover
+						 */
+						'form_button_color_hover' => array(
+							'type' => 'color',
+							'label' => __( 'Button background color (hover)', 'ub' ),
+							'default' => '#008ec2',
 						),
 						'form_button_text_color_hover' => array(
 							'type' => 'color',
-							'label' => __( 'Button Text color hover', 'ub' ),
+							'label' => __( 'Button text color (hover)', 'ub' ),
 							'default' => '#ffffff',
 						),
+						/**
+						 * Shadow
+						 */
 						'form_button_text_shadow' => array(
 							'type' => 'checkbox',
 							'label' => __( 'Button text shadow', 'ub' ),
@@ -684,7 +747,7 @@ body {
 						'label_username' => array(
 							'type' => 'text',
 							'label' => __( 'Label username text', 'ub' ),
-							'default' => __( 'Username or E-mail Address', 'ub' ),
+							'default' => __( 'Username or Email Address', 'ub' ),
 						),
 						'label_password' => array(
 							'type' => 'text',
@@ -778,6 +841,19 @@ body {
 							),
 							'default' => 'on',
 							'classes' => array( 'switch-button' ),
+							'slave-class' => 'below-form-show-register-and-lost',
+						),
+						'register_and_lost_color_link' => array(
+							'type' => 'color',
+							'label' => __( '"Register | Lost your password?" links color', 'ub' ),
+							'default' => '#555d66',
+							'master' => 'below-form-show-register-and-lost',
+						),
+						'register_and_lost_color_hover' => array(
+							'type' => 'color',
+							'label' => __( '"Register | Lost your password?" link hover color', 'ub' ),
+							'default' => '#2ea2cc',
+							'master' => 'below-form-show-register-and-lost',
 						),
 						'show_back_to' => array(
 							'type' => 'checkbox',
@@ -789,26 +865,19 @@ body {
 							),
 							'default' => 'on',
 							'classes' => array( 'switch-button' ),
-						),
-						'register_and_lost_color_link' => array(
-							'type' => 'color',
-							'label' => __( '"Register | Lost your password?" links color', 'ub' ),
-							'default' => '#999999',
-						),
-						'register_and_lost_color_hover' => array(
-							'type' => 'color',
-							'label' => __( '"Register | Lost your password?" link hover color', 'ub' ),
-							'default' => '#2ea2cc',
+							'slave-class' => 'below-form-show-back-to',
 						),
 						'back_to_color_link' => array(
 							'type' => 'color',
 							'label' => __( '"Back to" link color', 'ub' ),
 							'default' => '#999999',
+							'master' => 'below-form-show-back-to',
 						),
 						'back_to_color_hover' => array(
 							'type' => 'color',
 							'label' => __( '"Back to" link hover color', 'ub' ),
 							'default' => '#2ea2cc',
+							'master' => 'below-form-show-back-to',
 						),
 					),
 				),
@@ -963,7 +1032,6 @@ body {
 					return stripslashes( $this->patterns[ $translated_text ] );
 				}
 			}
-
 			return $translated_text;
 		}
 
@@ -983,63 +1051,6 @@ body {
 			}
 			$string = preg_replace( '/USERNAME/', $username, $string );
 			return $string;
-		}
-
-		private function convert_hex_to_rbg( $hex ) {
-			if ( preg_match( '/^#.{6}$/', $hex ) ) {
-				return sscanf( $hex, '#%02x%02x%02x' );
-			}
-			return $hex;
-		}
-
-		private function css_color( $data, $key, $selector ) {
-			if ( isset( $data[ $key ] ) && ! empty( $data[ $key ] ) ) {
-				printf( '%s{color:%s}', $selector, $data[ $key ] );
-				if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-					echo PHP_EOL;
-				}
-			}
-		}
-
-		private function css_background_color( $data, $key, $selector ) {
-			if ( isset( $data[ $key ] ) && ! empty( $data[ $key ] ) ) {
-				printf( '%s{background-color:%s}', $selector, $data[ $key ] );
-				if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-					echo PHP_EOL;
-				}
-			}
-		}
-
-		/**
-		 * Background color with transparency.
-		 *
-		 * @since x.x.x
-		 */
-		private function css_background_transparency( $v, $color, $transparency, $selector ) {
-			$change = false;
-			$bg_color = 'none';
-			$bg_transparency = 0;
-			if ( isset( $v[ $color ] ) ) {
-				$bg_color = $v[ $color ];
-				$change = true;
-			}
-			if ( isset( $v[ $transparency ] ) ) {
-				$bg_transparency = $v[ $transparency ];
-				$change = true;
-			}
-			if ( $change ) {
-				if ( 'none' != $bg_color ) {
-					echo $selector;
-					echo ' {';
-					if ( 0 < $bg_transparency ) {
-						$bg_color = $this->convert_hex_to_rbg( $bg_color );
-						printf( 'background-color: rgba( %s, %0.2f);', implode( ', ', $bg_color ), $bg_transparency / 100 );
-					} else {
-						printf( 'background-color: %s;', $bg_color );
-					}
-					echo '}';
-				}
-			}
 		}
 
 		private function css_opacity( $data, $key, $selector ) {
@@ -1069,7 +1080,6 @@ body {
 			$mimes['svg'] = 'image/svg+xml';
 			return $mimes;
 		}
-
 
 		/**
 		 * Add button to predefined configuration
@@ -1126,7 +1136,6 @@ body {
 				return;
 			}
 ?>
-
 <div class="theme-browser">
 	<div class="themes wp-clearfix">
 
@@ -1161,7 +1170,6 @@ foreach ( $themes as $theme ) {
 			$url
 		);
 		$url = wp_nonce_url( $url, 'import-'.$theme['id'] );
-
 		?>
         <a class="button activate" href="<?php echo esc_url( $url ); ?>" aria-label="<?php echo esc_attr( $aria_label ); ?>"><?php _e( 'Import settings', 'ub' ); ?></a>
 	</div>
@@ -1261,7 +1269,6 @@ foreach ( $themes as $theme ) {
 			$message .= '<p>';
 			$message .= __( 'You can change options on "Custom Configuration" panel.', 'ub' );
 			$message .= '</p>';
-
 			$this->notice( $message, 'success' );
 		}
 
@@ -1309,7 +1316,6 @@ foreach ( $themes as $theme ) {
 			return $redirect_to;
 		}
 	}
-
 }
 
 new ub_custom_login_screen();

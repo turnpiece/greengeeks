@@ -1,30 +1,4 @@
 <?php
-/*
-Plugin Name: Network Wide Text Change
-Plugin URI: http://premium.wpmudev.org/project/site-wide-text-change
-Description: Would you like to be able to change any wording, anywhere in the entire admin area on your whole site? Without a single hack? Well, if that's the case then this plugin is for you!
-Author: Barry (Incsub), Ulrich Sossou (incsub)
-Network: true
- */
-/*
-Copyright 2007-2017 Incsub (http://incsub.com)
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License (Version 2 - GPLv2) as published by
-the Free Software Foundation.
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
- */
-// Un comment for full belt and braces replacements, warning:
-// 1. TEST TEST TEST
-// define( 'SWTC-BELTANDBRACES', 'yes' );
-/**
- * Plugin main class
- **/
 class ub_Site_Wide_Text_Change {
 	/**
 	 * Current version of the plugin
@@ -58,12 +32,29 @@ class ub_Site_Wide_Text_Change {
 		 */
         add_filter( 'ultimate_branding_export_data', array( $this, 'export' ) );
         add_action( 'ultimatebranding_settings_textchange_after_title', array( $this, 'add_new_button' ) );
+		/**
+		 * add options names
+		 *
+		 * @since 2.1.0
+		 */
+		add_filter( 'ultimate_branding_options_names', array( $this, 'add_options_names' ) );
+	}
+
+	/**
+	 * Add option names
+	 *
+	 * @since 2.1.0
+	 */
+	public function add_options_names( $options ) {
+		$options[] = 'translation_table';
+		$options[] = 'translation_ops';
+		return $options;
     }
 
 	/**
 	 * Show admin warning
 	 **/
-	function warning() {
+	public function warning() {
 		echo '<div id="update-nag">' . __('Warning, this page is not loaded with the full replacements processed.','ub') . '</div>';
 	}
 	/**
@@ -71,7 +62,7 @@ class ub_Site_Wide_Text_Change {
 	 *
 	 * Enqueue scripts, remove output buffer and save settings
 	 **/
-	function add_admin_header_sitewide() {
+	public function add_admin_header_sitewide() {
 		global $plugin_page;
 		if( 'branding' !== $plugin_page  )
 			return;
@@ -90,7 +81,7 @@ class ub_Site_Wide_Text_Change {
 	/**
 	 * Individual replace table output
 	 **/
-	function show_table($key, $table) {
+	public function show_table($key, $table) {
 		echo '<div class="postbox " id="swtc-' . $key . '">';
 		echo '<div title="Click to toggle" class="handlediv"><br/></div><h3 class="hndle"><input type="checkbox" name="deletecheck[]" class="deletecheck" value="' . $key . '" /><span>' . $table['title'] . '</span></h3>';
 		echo '<div class="inside">';
@@ -149,7 +140,7 @@ class ub_Site_Wide_Text_Change {
 	/**
 	 * Individual replace table output for javascript use
 	 **/
-	function show_table_template( $dt = '') {
+	public function show_table_template( $dt = '') {
 		if(!empty($dt)) {
 			echo '<div class="postbox blanktable" id="swtc-' . $dt . '" style="display: block;">';
 		} else {
@@ -210,12 +201,8 @@ class ub_Site_Wide_Text_Change {
 	/**
 	 * Save admin settings
 	 **/
-	function update_admin_page( $status = false ) {
-		if(!empty($_POST['delete'])) {
-			$deletekeys = (array) $_POST['deletecheck'];
-		} else {
-			$deletekeys = array();
-		}
+    public function update_admin_page( $status = false ) {
+        $deletekeys = isset( $_POST['deletecheck'] )? (array) $_POST['deletecheck']:array();
 		if(!empty($_POST['swtble'])) {
 			$save = array();
 			$op = array();
@@ -267,7 +254,7 @@ class ub_Site_Wide_Text_Change {
 	/**
 	 * Admin page output
 	 **/
-	function handle_admin_page() {
+	public function handle_admin_page() {
 		$translations = $this->get_translation_table(true);
 		echo '<div class="tablenav">';
 		echo '<div class="alignleft">';
@@ -297,7 +284,7 @@ class ub_Site_Wide_Text_Change {
 	/**
 	 * Cache translation tables
 	 **/
-	function get_translation_table($reload = false) {
+	public function get_translation_table($reload = false) {
 		if($this->translationtable && !$reload) {
 			return $this->translationtable;
 		} else {
@@ -308,7 +295,7 @@ class ub_Site_Wide_Text_Change {
 	/**
 	 * Cache translations
 	 **/
-	function get_translation_ops($reload = false) {
+	public function get_translation_ops($reload = false) {
 		if($this->translationops && !$reload) {
 			return $this->translationops;
 		} else {
@@ -337,7 +324,7 @@ class ub_Site_Wide_Text_Change {
 	 * @param $domain
 	 * @return mixed
 	 */
-	function replace_text( $transtext, $normtext, $domain ) {
+	public function replace_text( $transtext, $normtext, $domain ) {
 		$tt = $this->get_translation_ops();
 		$admin_front = true;
 		if( !is_array( $tt ) ) {
@@ -397,19 +384,19 @@ class ub_Site_Wide_Text_Change {
 	 * @param $domain
 	 * @return mixed
 	 */
-	function replace_gettext_with_context(  $translations, $text, $context, $domain ){
+	public function replace_gettext_with_context(  $translations, $text, $context, $domain ){
 		return $this->replace_text( $translations, $text, $domain );
 	}
 	/**
 	 * Start output buffer
 	 **/
-	function start_cache() {
+	public function start_cache() {
 		ob_start();
 	}
 	/**
 	 * End output buffer
 	 **/
-	function end_cache() {
+	public function end_cache() {
 		$tt = $this->get_translation_ops();
 		if( !is_array( $tt ) ) {
 			ob_end_flush();
@@ -456,10 +443,7 @@ class ub_Site_Wide_Text_Change {
 	 * @since 1.8.6
 	 */
 	public function export( $data ) {
-		$options = array(
-			'translation_table',
-			'translation_ops',
-		);
+		$options = $this->add_options_names( array() );
 		foreach ( $options as $key ) {
 			$data['modules'][ $key ] = ub_get_option( $key );
 		}

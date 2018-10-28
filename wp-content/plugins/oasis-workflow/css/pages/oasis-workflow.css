@@ -436,7 +436,7 @@ a.owf_about_link:hover {
 #new-workflow-submit-div{
     display:none;
 }
-#new-step-submit-div{
+#new-step-submit-div, #abort-workflow-settings {
     display:none;
 }
 .info-setting{
@@ -587,7 +587,7 @@ a.owf_about_link:hover {
     margin:5px 25px 0 0;
 }
 
-#reassgn-setting{
+#reassgn-setting {
     background-color:white;
     color:black;
     border:0.25em solid #ddd;
@@ -602,25 +602,30 @@ a.owf_about_link:hover {
     font-family: Georgia,"Times New Roman","Bitstream Charter",Times,serif;
     width:600px;
 }
-.reassign-set{
+.reassign-set, 
+.abort-set {
     margin:30px 0 20px 0;
     width:100%;
 
 }
-.reassign-set span{margin-top:5px;}
+.reassign-set span,
+.abort-set span {
+   margin-top:5px;
+}
 
-.reassign-set span{
+.reassign-set span,
+.abort-set span {
     float:right;
     margin-right:5px;
     width:15px;
 }
 
-#reassignCancel{
+#reassignCancel, #abortCancel {
     margin:5px 10px 0 0;
     float:right;
     color:blue;
 }
-#reassignSave{
+#reassignSave, #abortSave{
     float:right;
     width:70px;
 }
@@ -1405,4 +1410,10 @@ inbox-comments {
 
 #mc_embed_signup p {
    font-size: 14px;
+}
+#abort-workflow-settings {
+   height: 251px;
+}
+.abort-set span.loading{
+    display:none;
 }

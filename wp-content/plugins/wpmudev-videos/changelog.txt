@@ -5,6 +5,18 @@ Change Log:
 ----------------------------------------------------------------------
 ----------------------------------------------------------------------
 
+1.5.8 - 08/05/2018
+----------------------------------------------------------------------
+- Fix: Bug from bad git merge breaking group shortcodes
+
+1.5.7 - 08/03/2018
+----------------------------------------------------------------------
+- Fix: PHP 5.4 and under compatibility (unfortunately)
+
+1.5.6 - 04/03/2018
+----------------------------------------------------------------------
+- Fix: UX showing as domain registered when it really wasn't completely. Visit settings page to fix any no-access errors.
+
 1.5.5 - 12/2/2017
 ----------------------------------------------------------------------
 - Fix: WP 4.9 compatibility update - workaround for Referrer-Policy:same-origin header
@@ -141,4 +153,4 @@ Change Log:
 - Initial Release
 
 
-87274-1516473943-au
+87274-1540755483-au

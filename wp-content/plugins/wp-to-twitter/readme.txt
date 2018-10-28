@@ -7,7 +7,7 @@ Tested up to: 4.9
 Requires PHP: 5.3
 License: GPLv2 or later
 Text Domain: wp-to-twitter
-Stable tag: 3.3.5
+Stable tag: 3.3.9
 
 Posts a Twitter update when you update your WordPress blog or add a link, with your chosen URL shortening service.
 
@@ -22,8 +22,6 @@ Yep. That's the basic functionality. But it's not the only thing you can do:
 * Shorten URLs in your Tweets with popular URL shorteners, or let Twitter to do it with [t.co](http://t.co). 
 
 [Upgrade to WP Tweets Pro](http://www.joedolson.com/wp-tweets-pro/) and schedule Tweets, set up automatic reposts, upload images and more!
-
-[youtube https://www.youtube.com/watch?v=3YIia5dQBSk]
 
 WP to Twitter uses a customizable Tweet template for Tweets sent when updating or editing posts and pages or custom post types. You can customize your Tweet for each post, using custom template tags to generate the Tweet. 
 
@@ -64,6 +62,28 @@ Translating my plug-ins is always appreciated. Work on WP to Twitter translation
 Check out my <a href="https://github.com/joedolson/plugin-extensions/tree/master/wp-to-twitter">GitHub repository of plug-in extensions</a>.
 
 == Changelog ==
+
+= 3.3.9 =
+
+* Added filter to cancel Tweets for custom reasons after all other filters executed.
+* Removed video on app creation, due to Twitter's radical revision of creation process.
+* Update setup instructions inside app.
+
+= 3.3.8 =
+
+* Change function name for checking edit vs. new for clarity.
+* Update debugging function to pass post ID of current Tweet.
+* Bug fix: PHP Notice in settings.
+* Bug fix: If rate limiting cron not set, automatically recreate.
+
+= 3.3.7 =
+
+* Change: Remove replacement character setting unless in use for non-space character
+* Change: Capitalize each word in tags sent to Twitter (accessibility)
+
+= 3.3.6 =
+
+* Bug fix: Check for existing short URL should not run when parsing text of Tweets for URLs.
 
 = 3.3.5 =
 
@@ -389,6 +409,10 @@ Check out my <a href="https://github.com/joedolson/plugin-extensions/tree/master
 = Where are your Frequently Asked Questions? Why aren't they here? =
 
 Right here: [WP to Twitter FAQ](http://www.joedolson.com/wp-to-twitter/support-2/). I don't maintain them here because I would prefer to only maintain one copy. This is better for everybody, since the responses are much more likely to be up to date!
+
+= Twitter's Application creation process is very difficult. Why do I have to do this? =
+
+WP to Twitter has always followed the principle that you are the owner of your own application. Many other applications require you to pass your data through a 3rd party that you authenticate to post to Twitter. Twitter has gradually made the process to create a new application more and more difficult. There is nothing I can do about that. 
 
 = How can I help you make WP to Twitter a better plug-in? =
 

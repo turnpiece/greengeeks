@@ -12,9 +12,6 @@ if ( ! class_exists( 'UltimateBrandingAdmin' ) ) {
 		// Holder for the help class
 		var $help;
 
-		protected  $js_files = array();
-		protected  $css_files = array();
-
 		/**
 		 * Default messages.
 		 *
@@ -31,20 +28,28 @@ if ( ! class_exists( 'UltimateBrandingAdmin' ) ) {
 		 */
 		private $tab = 'dashboard';
 
+		/**
+		 * base URL
+		 *
+		 * @since 2.1.0
+		 */
+		private $base_url = null;
+
 		public function __construct() {
 			ub_set_ub_version();
 			global $ub_version;
 			$this->build = $ub_version;
 			$this->set_configuration();
-
 			/**
 			 * debug only when WP_DEBUG && WPMUDEV_BETATEST
 			 */
 			$debug = defined( 'WP_DEBUG' ) && WP_DEBUG && defined( 'WPMUDEV_BETATEST' ) && WPMUDEV_BETATEST;
 			$this->debug = apply_filters( 'ultimatebranding_debug', $debug );
-
 			foreach ( $this->configuration as $key => $data ) {
 				if ( ! is_multisite() && isset( $data['network-only'] ) && $data['network-only'] ) {
+					continue;
+				}
+				if ( isset( $data['disabled'] ) && $data['disabled'] ) {
 					continue;
 				}
 				$this->modules[ $key ] = $data['module'];
@@ -57,10 +62,15 @@ if ( ! class_exists( 'UltimateBrandingAdmin' ) ) {
 			 * @param array $modules available modules array.
 			 */
 			$this->modules = apply_filters( 'ultimatebranding_available_modules', $this->modules );
-
-			add_action( 'plugins_loaded', array( $this, 'load_modules' ) );
+			add_action( 'plugins_loaded', array( $this, 'load_modules' ), 0 );
 			add_action( 'plugins_loaded', array( $this, 'setup_translation' ) );
 			add_action( 'init', array( $this, 'initialise_ub' ) );
+			add_action( 'admin_notices', array( $this, 'show_messages' ) );
+			add_action( 'network_admin_notices', array( $this, 'show_messages' ) );
+			add_action( 'network_admin_menu', array( $this, 'network_admin_page' ) );
+			add_action( 'wp_ajax_ultimate_branding_toggle_module', array( $this, 'toggle_module' ) );
+			add_action( 'init', array( $this, 'modules_process_bulk_action' ), 1 );
+			add_filter( 'admin_title', array( $this, 'admin_title' ), 10, 2 );
 			/**
 			 * default messages
 			 */
@@ -68,14 +78,12 @@ if ( ! class_exists( 'UltimateBrandingAdmin' ) ) {
 			$this->messages['success'] = __( 'Success! Your changes were sucessfully saved!', 'ub' );
 			$this->messages['fail'] = __( 'There was an error, please try again.', 'ub' );
 			$this->messages['reset-section-success'] = __( 'Section was reset to defaults.', 'ub' );
-
 			/**
 			 * Always add this toolbar item, also on front-end.
 			 *
 			 * @since 1.9.1
 			 */
 			add_action( 'admin_bar_menu', array( $this, 'setup_toolbar' ), 999 );
-
 			/**
 			 * set and sanitize tab
 			 *
@@ -84,9 +92,27 @@ if ( ! class_exists( 'UltimateBrandingAdmin' ) ) {
 			$this->set_and_sanitize_tab();
 		}
 
-		function transfer_old_settings() {
+		/**
+		 * Add "Ultimate Branding" to admin title.
+		 *
+		 * @since 1.9.8
+		 */
+		public function admin_title( $admin_title, $title ) {
+			$screen = get_current_screen();
+			if ( is_a( $screen, 'WP_Screen' ) && preg_match( '/_page_branding$/', $screen->id ) ) {
+				return sprintf( '%s%s%s',
+					_x( 'Ultimate Branding', 'admin title', 'ub' ),
+					_x( ' &lsaquo; ', 'admin title separator', 'ub' ),
+					$admin_title
+				);
+			}
+			return $admin_title;
+		}
+
+		public function transfer_old_settings() {
 			$modules = ub_get_option( 'ultimatebranding_activated_modules', array() );
-			if ( is_multisite() && function_exists( 'is_plugin_active_for_network' ) && is_plugin_active_for_network( 'ultimate-branding/ultimate-branding.php' ) ) {
+			global $UB_network;
+			if ( $UB_network ) {
 				// Check for the original settings and if there are none, but there are some in the old location then move them across
 				if ( empty( $modules ) ) {
 					// none in our settings
@@ -99,65 +125,110 @@ if ( ! class_exists( 'UltimateBrandingAdmin' ) ) {
 							switch ( $key ) {
 								case 'favicons.php': ub_update_option( 'ub_favicon_dir', get_option( 'ub_favicon_dir' ) );
 									ub_update_option( 'ub_favicon_url', get_option( 'ub_favicon_url' ) );
-							break;
-
-								case 'login-image.php': ub_update_option( 'ub_login_image_dir', get_option( 'ub_login_image_dir' ) );
-									ub_update_option( 'ub_login_image_url', get_option( 'ub_login_image_url' ) );
-							break;
-
+								break;
 								case 'image-upload-size.php':
 									$roles = wp_roles()->get_names();
 									foreach ( $roles as $role ) {
 										ub_update_option( 'ub_img_upload_filesize_' . $role, get_option( 'ub_img_upload_filesize_' . $role ) );
 									}
 								break;
-
 								case 'custom-admin-bar.php':
 									ub_update_option( 'wdcab', get_option( 'wdcab' ) );
 								break;
-
 								case 'admin-help-content.php': ub_update_option( 'admin_help_content', get_option( 'admin_help_content' ) );
 								break;
-
 								case 'global-footer-content.php': ub_update_option( 'global_footer_content', get_option( 'global_footer_content' ) );
 								break;
-
 								case 'global-header-content.php': ub_update_option( 'global_header_content', get_option( 'global_header_content' ) );
 								break;
-
 								case 'admin-menu.php': ub_update_option( 'admin_menu', get_option( 'admin_menu' ) );
 								break;
-
 								case 'admin-footer-text.php': ub_update_option( 'admin_footer_text', get_option( 'admin_footer_text' ) );
 								break;
-
 								case 'remove-wp-dashboard-widgets.php': ub_update_option( 'rwp_active_dashboard_widgets', get_option( 'rwp_active_dashboard_widgets' ) );
 								break;
-
 								case 'site-generator-replacement.php': ub_update_option( 'site_generator_replacement', get_option( 'site_generator_replacement' ) );
 									ub_update_option( 'site_generator_replacement_link', get_option( 'site_generator_replacement_link' ) );
 								break;
-
 								case 'site-wide-text-change.php': ub_update_option( 'translation_ops', get_option( 'translation_ops' ) );
 									ub_update_option( 'translation_table', get_option( 'translation_table' ) );
 								break;
-
 								case 'custom-login-css.php': ub_update_option( 'global_login_css', get_option( 'global_login_css' ) );
 								break;
-
 								case 'custom-admin-css.php': ub_update_option( 'global_admin_css', get_option( 'global_admin_css' ) );
-								break;
-
-								case 'admin-message.php': ub_update_option( 'admin_message', get_site_option( 'admin_message' ) );
 								break;
 							}
 						}
 					}
 				}
 			}
+			/**
+			 * Transfer modules to settings
+			 *
+			 * @since 1.9.5
+			 */
+			if ( ! empty( $modules ) ) {
+				/**
+				 * Transfer "Signup Password" module.
+				 */
+				if ( isset( $modules['signup-password.php'] ) && 'yes' == $modules['signup-password.php'] ) {
+					unset( $modules['signup-password.php'] );
+					$modules['custom-login-screen.php'] = 'yes';
+					$option = ub_get_option( 'global_login_screen', array() );
+					if ( ! isset( $option['form'] ) ) {
+						$option['form'] = array();
+					}
+					$option['form']['signup_password'] = 'on';
+					ub_update_option( 'global_login_screen', $option );
+					ub_update_option( 'ultimatebranding_activated_modules', $modules );
+					$message = array(
+						'class' => 'success',
+						'message' => __( 'Module "Signup Password" was turned off and is no longer used. Now you can change it in "Login Screen" module in section "Form".', 'ub' ),
+					);
+					$this->add_message( $message );
+				}
+			}
 		}
 
-		function initialise_ub() {
+		/**
+		 * Add message to show
+		 */
+		private function add_message( $message ) {
+			$messages = ub_get_option( 'ultimatebranding_messages', array() );
+			if ( ! in_array( $message, $messages ) ) {
+				$messages[] = $message;
+				ub_update_option( 'ultimatebranding_messages', $messages );
+			}
+		}
+
+		/**
+		 * Print admin notice from option.
+		 *
+		 * @since 1.9.5
+		 */
+		public function show_messages() {
+			$screen = get_current_screen();
+			if ( ! preg_match( '/^toplevel_page_branding/', $screen->id ) ) {
+				return;
+			}
+			$messages = ub_get_option( 'ultimatebranding_messages', array() );
+			if ( empty( $messages ) ) {
+				return;
+			}
+			foreach ( $messages as $message ) {
+				if ( ! isset( $message['message'] ) || empty( $message['message'] ) ) {
+					continue;
+				}
+				printf(
+					'<div class="notice notice-%s"><p>%s</p></div>',
+					esc_attr( isset( $message['class'] )? $message['class']:'success' ),
+					$message['message']
+				);
+			}
+			ub_delete_option( 'ultimatebranding_messages' );
+		}
+
+		public function initialise_ub() {
 			global $blog_id;
 			// For this version only really - to bring settings across from the old storage locations
 			$this->transfer_old_settings();
@@ -166,8 +237,8 @@ if ( ! class_exists( 'UltimateBrandingAdmin' ) ) {
 					add_action( 'admin_menu', array( $this, 'network_admin_page' ) );
 				}
 			} else {
-				if ( is_plugin_active_for_network( 'ultimate-branding/ultimate-branding.php' ) ) {
-					add_action( 'network_admin_menu', array( $this, 'network_admin_page' ) );
+				global $UB_network;
+				if ( $UB_network ) {
 					$show_in_subsites = $this->check_show_in_subsites();
 					if ( $show_in_subsites ) {
 						add_action( 'admin_menu', array( $this, 'admin_page' ) );
@@ -189,13 +260,14 @@ if ( ! class_exists( 'UltimateBrandingAdmin' ) ) {
 			set_query_var( 'ultimate_branding_tab', $this->tab );
 		}
 
-		function setup_translation() {
+		public function setup_translation() {
 			// Load up the localization file if we're using WordPress in a different language
 			// Place it in this plugin's "languages" folder and name it "mp-[value in wp-config].mo"
-			load_plugin_textdomain( 'ub', false, '/ultimate-branding/ultimate-branding-files/languages/' );
+			$dir = sprintf( '/%s/languages', basename( ub_dir( '' ) ) );
+			load_plugin_textdomain( 'ub', false, $dir );
 		}
 
-		function add_admin_header_core() {
+		public function add_admin_header_core() {
 
 			// Add in help pages
 			$screen = get_current_screen();
@@ -203,45 +275,100 @@ if ( ! class_exists( 'UltimateBrandingAdmin' ) ) {
 			$this->help = new UB_Help( $screen );
 			$this->help->attach();
 			// Add in the core CSS file
-			wp_enqueue_style( 'defaultadmincss', ub_files_url( 'css/defaultadmin.css' ), array(), $this->build );
+			$file = sprintf( 'assets/css/ultimate-branding-admin%s.css', defined( 'WP_DEBUG' ) && WP_DEBUG ? '':'.min' );
+			wp_enqueue_style( 'ultimate-branding-admin', ub_url( $file ), array(), $this->build );
 			wp_enqueue_script( array(
 				'jquery-ui-sortable',
 			) );
-			wp_enqueue_script( 'ub_ace', ub_files_url( 'js/vendor/ace.js' ), array(), $this->build, true );
-			wp_enqueue_script( 'ub_ace', ub_files_url( 'js/vendor/mode-css.js' ), array(), $this->build, true );
-			wp_enqueue_script( 'ub_admin', ub_files_url( 'js/admin.js' ), array(), $this->build, true );
+			wp_enqueue_script( 'ub_ace', ub_url( 'assets/js/vendor/ace.js' ), array(), $this->build, true );
+			wp_enqueue_script( 'ub_ace', ub_url( 'assets/js/vendor/mode-css.js' ), array(), $this->build, true );
+			$file = sprintf( 'assets/js/ultimate-branding-admin%s.js', defined( 'WP_DEBUG' ) && WP_DEBUG ? '':'.min' );
+			wp_enqueue_script( 'ub_admin', ub_url( $file ), array(), $this->build, true );
 			wp_enqueue_script( 'jquery-effects-highlight' );
 			wp_enqueue_style( 'wp-color-picker' );
 			wp_enqueue_script( 'wp-color-picker' );
 			wp_localize_script('ub_admin', 'ub_admin', array(
 				'current_menu_sub_item' => (isset( $_GET['tab'] ) ? $_GET['tab'] : ''),
+				'tab_more' => _x( 'More &darr;', 'tab more text', 'ub' ),
 			));
 		}
 
-		function add_admin_header_branding() {
+		public function add_admin_header_branding() {
 			$this->add_admin_header_core();
-
 			do_action( 'ultimatebranding_admin_header_global' );
-
 			do_action( 'ultimatebranding_admin_header_' . $this->tab );
-
 			$this->update_branding_page();
 		}
 
 		/**
+		 * Should moduel be off?
+		 *
+		 * @since 1.9.8
+		 */
+		private function should_be_module_off( $module ) {
+			global $wp_version;
+			/**
+			 * is module allowed only for multisite?
+			 */
+			if (
+				! is_multisite()
+				&& isset( $this->configuration[ $module ] )
+				&& isset( $this->configuration[ $module ]['network-only'] )
+				&& $this->configuration[ $module ]['network-only']
+			) {
+				return true;
+			}
+			/**
+			 * check WP version
+			 */
+			if (
+				isset( $this->configuration[ $module ] )
+				&& isset( $this->configuration[ $module ]['wp'] )
+			) {
+				$compare = version_compare( $wp_version, $this->configuration[ $module ]['wp'] );
+				if ( 0 > $compare ) {
+					return true;
+				}
+			}
+			/**
+			 * avoid to compare with development version
+			 * for deprecated check
+			 */
+			if ( preg_match( '/^PLUGIN_VER/', $this->build ) ) {
+				return false;
+			}
+			if (
+				isset( $this->configuration[ $module ] )
+				&& isset( $this->configuration[ $module ]['deprecated'] )
+				&& $this->configuration[ $module ]['deprecated']
+				&& isset( $this->configuration[ $module ]['deprecated_version'] )
+			) {
+				$compare = version_compare( $this->configuration[ $module ]['deprecated_version'], $this->build );
+				if ( 1 > $compare ) {
+					return true;
+				}
+			}
+			return false;
+		}
+
+
+		/**
 		 * 	Check plugins those will be used if they are active or not
 		 */
-		function load_modules() {
+		public function load_modules() {
 
 			// Load our remaining modules here
 			foreach ( $this->modules as $module => $plugin ) {
 				if ( ub_is_active_module( $module ) ) {
+					if ( $this->should_be_module_off( $module ) ) {
+						continue;
+					}
 					ub_load_single_module( $module );
 				}
 			}
 		}
 
-		function check_active_plugins() {
+		public function check_active_plugins() {
 			// We may be calling this function before admin files loaded, therefore let's be sure required file is loaded
 			include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
 
@@ -256,74 +383,229 @@ if ( ! class_exists( 'UltimateBrandingAdmin' ) ) {
 		}
 
 		/**
-		 * 	Warn admin if this is not multisite
-		 */
-		function not_multisite_msg() {
-			echo '<div class="error"><p>' .
-				__( '<b>[Ultimate Branding]</b> Plugin only works in Multisite.', 'ub' ) .
-				'</p></div>';
-		}
-
-		/**
 		 * 	Warn admin to deactivate the duplicate plugins
 		 */
-		function deactivate_plugin_msg() {
+		public function deactivate_plugin_msg() {
 			echo '<div class="error"><p>' .
 				sprintf( __( '<b>[Ultimate Branding]</b> Please deactivate the following plugin(s) to make Ultimate Branding work: %s', 'ub' ), implode( ', ', $this->plugin_msg ) ) .
 				'</p></div>';
 		}
 
 		/**
-		 * Add pages
+		 * Bulk activate/deactivate modules
+		 *
+		 * Bulk activate/deactivate modules. It should be here, not in
+		 * UB_Module_List_Table class, because we need to do that before
+		 * create menu or tabs.
+		 *
+		 * @since
 		 */
-		function admin_page() {
+		public function modules_process_bulk_action() {
+			/**
+			 * check modules exists
+			 */
+			if ( ! isset( $_POST['module'] ) || ! is_array( $_POST['module'] ) ) {
+				return;
+			}
+			/**
+			 * check page
+			 */
+			if ( ! isset( $_POST['page'] ) || 'branding' != $_POST['page'] ) {
+				return;
+			}
+			// security check!
+			if ( isset( $_POST['_wpnonce'] ) && ! empty( $_POST['_wpnonce'] ) ) {
+				$nonce  = filter_input( INPUT_POST, '_wpnonce', FILTER_SANITIZE_STRING );
+				$action = 'bulk-modules';
+				if ( ! wp_verify_nonce( $nonce, $action ) ) {
+					wp_die( __( 'Nope! Security check failed!', 'ub' ) );
+				}
+			} else {
+				return;
+			}
+			$action = '';
+			if ( isset( $_POST['action'] ) && '-1' != $_POST['action'] ) {
+				$action = $_POST['action'];
+			} else if ( isset( $_POST['action2'] ) && '-1' != $_POST['action2'] ) {
+				$action = $_POST['action2'];
+			}
+			if ( ! preg_match( '/^(de)?activate$/', $action ) ) {
+				return;
+			}
+			$modules = array();
+			foreach ( $_POST['module'] as $module ) {
+				switch ( $action ) {
+					case 'activate':
+						$result = $this->activate_module( $module );
+						if ( $result && isset( $this->configuration[ $module ] ) ) {
+							$modules[] = $this->configuration[ $module ]['name'];
+						}
+					break;
+					case 'deactivate':
+						$result = $this->deactivate_module( $module );
+						if ( $result && isset( $this->configuration[ $module ] ) ) {
+							$modules[] = $this->configuration[ $module ]['name'];
+						}
+					break;
+				}
+			}
+			$messages = ub_get_option( 'ultimatebranding_messages', array() );
+			$message = array();
+			if ( 'activate' === $action ) {
+				$message = array(
+					'class' => 'success',
+					'message' => sprintf(
+						_n(
+							'Module %s was successfully activated.',
+							'Modules %s was successfully activated.',
+							count( $modules ),
+							'ub'
+						),
+						implode( ', ', array_map( array( $this, 'bold' ), $modules ) )
+					),
+				);
+			} else if ( 'deactivate' === $action ) {
+				$message = array(
+					'class' => 'success',
+					'message' => sprintf(
+						_n(
+							'Module %s was deactivated without errors.',
+							'Modules %s was deactivated without errors.',
+							count( $modules ),
+							'ub'
+						),
+						implode( ', ', array_map( array( $this, 'bold' ), $modules ) )
+					),
+				);
+			}
+			if ( ! empty( $message ) && ! in_array( $message, $messages ) ) {
+				$messages[] = $message;
+				ub_update_option( 'ultimatebranding_messages', $messages );
+			}
+		}
+
+		/**
+		 * add bold
+		 *
+		 * @since 2.1.0
+		 */
+		private function bold( $a ) {
+			return sprintf( '"<b>%s</b>"', $a );
+		}
+
+		/**
+		 * Add main menu
+		 *
+		 * @since 2.0.0
+		 *
+		 * @param string $capability Capability.
+		 */
+		private function menu( $capability ) {
+			$image = 'PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNTAiIGhlaWdodD0iMTUwIj48ZyB0cmFuc2Zvcm09Im1hdHJpeCguMzAzMDMgMCAwIC0uMzAzMDMgLTc2LjUxNSAyNTAuNzYpIj48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgzNjUsNzY1KSI+PHBhdGggZD0ibTAgMHYtMjM1YzAtNTUuMDU3IDMzLjEyOS0xMDIuNTIgODAuNS0xMjMuNTF2MzU4LjUxaC04MC41em0xMzUtNDAwYy05MC45ODEgMC0xNjUgNzQuMDE5LTE2NSAxNjV2MjY1aDE0MC41di0zOTcuNzdjNy45NDgtMS40NjMgMTYuMTM2LTIuMjI4IDI0LjUtMi4yMjggNzQuNDM5IDAgMTM1IDYwLjU2MSAxMzUgMTM1djI2NWgzMHYtMjY1YzAtOTAuOTgxLTc0LjAxOS0xNjUtMTY1LTE2NSIgZmlsbD0iIzViNWM3MiIvPjwvZz48L2c+PC9zdmc+Cg==';
 			// Add in our menu page
-			add_menu_page(
+			$hook = add_menu_page(
 				__( 'Branding', 'ub' ),
 				__( 'Branding', 'ub' ),
-				'manage_options', 'branding',
-				array( $this, 'handle_main_page_subsite' ),
-				'dashicons-art'
+				$capability,
+				'branding',
+				array( $this, 'handle_main_page' ),
+				'data:image/svg+xml;base64,'.$image
 			);
+			add_action( 'load-'.$hook, array( $this, 'screen_settings' ) );
+		}
+
+		/**
+		 * Add Screen Options
+		 *
+		 * @since 2.2.0
+		 */
+		public function screen_settings() {
+			if ( 'dashboard' === $this->tab ) {
+				if (
+					isset( $_POST['ub_delete'] )
+					&& isset( $_POST['screenoptionnonce'] )
+					&& wp_verify_nonce( $_POST['screenoptionnonce'], 'screen-options-nonce' )
+				) {
+					$value = $_POST['ub_delete'];
+					if ( empty( $value ) || ! preg_match( '/^(delete|preserve)$/', $value ) ) {
+						$value = 'delete';
+					}
+					ub_update_option( 'ultimate_branding_delete_settings', $value );
+				}
+				// add_action( 'screen_settings', array( $this, 'screen_settings_output' ), 10, 2 );
+				add_filter( 'screen_options_show_submit', '__return_true' );
+			}
+		}
+
+		/**
+		 * Show content oc "Screen Options" tab.
+		 *
+		 * @since 2.2.0
+		 */
+		public function screen_settings_output( $settings, $screen ) {
+			$value = ub_get_option( 'ultimate_branding_delete_settings', 'delete' );
+			if ( empty( $value ) || ! preg_match( '/^(delete|preserve)$/', $value ) ) {
+				$value = 'delete';
+			}
+			$settings .= '<fieldset class="ub-prefs">';
+			$settings .= sprintf( '<legend>%s</legend>', esc_html__( 'Plugin settings on deactivate', 'ub' ) );
+			$settings .= sprintf( '<p class="description">%s</p>', esc_html__( 'What should we do with plugin configuration, when plugin is deactivated?', 'ub' ) );
+			$settings .= sprintf(
+				'<label><input name="ub_delete" class="switch-button" type="radio" value="delete" %s /> %s</label>',
+				checked( $value, 'delete', false ),
+				esc_html__( 'Delete', 'ub' )
+			);
+			$settings .= sprintf(
+				'<label><input name="ub_delete" class="switch-button" type="radio" value="preserve" %s /> %s</label>',
+				checked( $value, 'preserve', false ),
+				esc_html__( 'Preserve', 'ub' )
+			);
+			$settings .= '</fieldset>';
+			return $settings;
 		}
 
 		/**
 		 * Add pages
 		 */
-		function network_admin_page() {
+		public function admin_page() {
+			$this->menu( 'manage_options' );
+		}
 
-			if ( function_exists( 'is_plugin_active_for_network' ) && is_plugin_active_for_network( 'ultimate-branding/ultimate-branding.php' ) ) {
+		/**
+		 * Add pages
+		 */
+		public function network_admin_page() {
+			$capability = 'manage_options';
+			global $UB_network;
+			if ( $UB_network ) {
 				$capability = 'manage_network_options';
-			} else {
-				$capability = 'manage_options';
 			}
-
 			// Add in our menu page
-			add_menu_page(
-				__( 'Branding', 'ub' ),
-				__( 'Branding', 'ub' ),
-				$capability, 'branding',
-				array( $this, 'handle_main_page' ),
-				'dashicons-art'
+			$this->menu( $capability );
+			add_submenu_page(
+				'branding',
+				__( 'Dashboard', 'ub' ),
+				__( 'Dashboard', 'ub' ),
+				$capability,
+				'branding',
+				array( $this, 'handle_main_page' )
 			);
-			if ( ! is_network_admin() ) {
-				add_submenu_page(
-					'branding',
-					__( 'Dashboard', 'ub' ),
-					__( 'Dashboard', 'ub' ),
-					$capability, 'branding',
-					array( $this, 'handle_main_page' )
-				);
-			}
-
 			// Get the activated modules
 			$modules = get_ub_activated_modules();
-
 			$base_url = $this->get_base_url();
 			// Add in the extensions
 			foreach ( $modules as $key => $title ) {
 				if ( isset( $this->configuration[ $key ] ) ) {
 					$module = $this->configuration[ $key ];
+					if ( ! is_network_admin() && isset( $module['hide-on-single-install'] ) && true === $module['hide-on-single-install'] ) {
+						continue;
+					}
+					/**
+					 * Turn off disabled modules
+					 */
+					if ( isset( $module['disabled'] ) && true === $module['disabled'] ) {
+						continue;
+					}
 					if ( isset( $module['tab'] ) ) {
 						$function = preg_replace( '/-/', '_', sprintf( 'handle_%s_panel', $module['tab'] ) );
 						$menu_slug = sprintf( 'branding&amp;tab='.$module['tab'] );
@@ -346,7 +628,6 @@ if ( ! class_exists( 'UltimateBrandingAdmin' ) ) {
 				}
 			}
 			do_action( 'ultimate_branding_add_menu_pages' );
-
 			/**
 			 * sort
 			 */
@@ -358,30 +639,27 @@ if ( ! class_exists( 'UltimateBrandingAdmin' ) ) {
 			}
 		}
 
-		function activate_module( $module ) {
-
+		public function activate_module( $module ) {
 			$modules = get_ub_activated_modules();
 			if ( ! isset( $modules[ $module ] ) ) {
 				$modules[ $module ] = 'yes';
 				update_ub_activated_modules( $modules );
-			} else {
-				return false;
+				return true;
 			}
+			return false;
 		}
 
-		function deactivate_module( $module ) {
-
+		public function deactivate_module( $module ) {
 			$modules = get_ub_activated_modules();
-
 			if ( isset( $modules[ $module ] ) ) {
 				unset( $modules[ $module ] );
 				update_ub_activated_modules( $modules );
-			} else {
-				return false;
+				return true;
 			}
+			return false;
 		}
 
-		function update_branding_page() {
+		public function update_branding_page() {
 			global $action, $page;
 			wp_reset_vars( array( 'action', 'page' ) );
 			if ( isset( $_REQUEST['action'] ) && ! empty( $_REQUEST['action'] ) ) {
@@ -406,14 +684,12 @@ if ( ! class_exists( 'UltimateBrandingAdmin' ) ) {
 					} elseif ( isset( $_GET['action'] ) && $_GET['action'] == 'enableallmodules' ) {
 						check_admin_referer( 'enable-all-modules' );
 						foreach ( $this->modules as $module => $value ) {
-
 							$this->activate_module( $module );
 						}
 						wp_safe_redirect( UB_Help::remove_query_arg_raw( array( 'module', '_wpnonce', 'action' ), wp_get_referer() ) );
 					} elseif ( isset( $_GET['action'] ) && $_GET['action'] == 'disableallmodules' ) {
 						check_admin_referer( 'disable-all-modules' );
 						foreach ( $this->modules as $module => $value ) {
-
 							$this->deactivate_module( $module );
 						}
 						wp_safe_redirect( UB_Help::remove_query_arg_raw( array( 'module', '_wpnonce', 'action' ), wp_get_referer() ) );
@@ -435,22 +711,13 @@ if ( ! class_exists( 'UltimateBrandingAdmin' ) ) {
 			}
 		}
 
-		/**
-		 * Handle main page on subsite
-		 */
-		function handle_main_page_subsite() {
-			echo  '<div class="wrap nosubsub">';
-			echo '<h1>';
-			_e( 'Ultimate Branding', 'ub' );
-			echo '</h1>';
-			echo '</div>';
-		}
-
-		function handle_main_page() {
+		public function handle_main_page() {
 			global $action, $page;
 			wp_reset_vars( array( 'action', 'page' ) );
 			echo '<div class="wrap nosubsub ultimate-branding">';
-			echo '<h3 class="nav-tab-wrapper">';
+			printf( '<h1>%s</h1>', esc_html__( 'Ultimate Branding', 'ub' ) );
+			echo '<nav class="tabs">';
+			echo '<ul class="ub-primary">';
 			$base_url = $this->get_base_url();
 			/**
 			 * dashboard link
@@ -463,7 +730,7 @@ if ( ! class_exists( 'UltimateBrandingAdmin' ) ) {
 				$classes[] = 'nav-tab-active';
 			}
 			printf(
-				'<a href="%s" class="%s">%s</a>',
+				'<li><a href="%s" class="%s">%s</a></li>',
 				esc_url( $base_url ),
 				esc_attr( implode( ' ', $classes ) ),
 				esc_html__( 'Dashboard', 'ub' )
@@ -472,7 +739,9 @@ if ( ! class_exists( 'UltimateBrandingAdmin' ) ) {
 			 * tabs
 			 */
 			$added = array();
-			foreach ( $this->configuration as $key => $data ) {
+			$tabs = $this->configuration;
+			uasort( $tabs, array( $this, 'sort_modules_by_menu_title' ) );
+			foreach ( $tabs as $key => $data ) {
 				if ( ! isset( $data['tab'] ) ) {
 					continue;
 				}
@@ -484,6 +753,12 @@ if ( ! class_exists( 'UltimateBrandingAdmin' ) ) {
 				 */
 				$is_active = ub_is_active_module( $key );
 				if ( ! $is_active ) {
+					continue;
+				}
+				/**
+				 * Turn off disabled modules
+				 */
+				if ( isset( $data['disabled'] ) && true === $data['disabled'] ) {
 					continue;
 				}
 				/**
@@ -511,13 +786,13 @@ if ( ! class_exists( 'UltimateBrandingAdmin' ) ) {
 				 * echo
 				 */
 				printf(
-					'<a href="%s" class="%s">%s</a>',
+					'<li><a href="%s" class="%s">%s</a></li>',
 					esc_url( $url ),
 					esc_attr( implode( ' ', $classes ) ),
 					esc_html( isset( $data['menu_title'] )? $data['menu_title']:$data['page_title'] )
 				);
 			}
-			echo '</h3>';
+			echo '</ul></nav>';
 			/**
 			 * tab content
 			 */
@@ -530,21 +805,36 @@ if ( ! class_exists( 'UltimateBrandingAdmin' ) ) {
 					if ( isset( $module['tab'] ) ) {
 						$is_active = ub_is_active_module( $module['key'] );
 						if ( $is_active && ! $module_is_active ) {
+							/**
+							 * Turn off disabled modules
+							 */
+							if ( isset( $module['disabled'] ) && true === $module['disabled'] ) {
+								continue;
+							}
 							$this->panel( $module['tab'] );
 							$module_is_active = true;
 						}
 					}
 				}
 				if ( ! $module_is_active ) {
+					$show_unknown_message = true;
 					if ( 0 < count( $modules ) ) {
 						foreach ( $modules as $module ) {
 							if ( isset( $module['tab'] ) ) {
+								/**
+								 * Turn off disabled modules
+								 */
+								if ( isset( $module['disabled'] ) && true === $module['disabled'] ) {
+									continue;
+								}
 								echo $this->module_is_not_active_message( $module );
+								$show_unknown_message = false;
 							}
 						}
-					} else {
-						printf( '<h1>%s</h1>', esc_html__( 'Unknown module', 'ub' ) );
-						echo '<div class="updated error">';
+					}
+					if ( $show_unknown_message ) {
+						echo '<div class="ub-module-info ub-module-error">';
+						printf( '<h2>%s</h2>', esc_html__( 'Unknown module', 'ub' ) );
 						printf( '<p>%s</p>', esc_html__( 'Cheatin&#8217; uh?', 'ub' ) );
 						echo '</div>';
 					}
@@ -553,29 +843,32 @@ if ( ! class_exists( 'UltimateBrandingAdmin' ) ) {
 			echo '</div> <!-- wrap -->';
 		}
 
-		function show_dashboard_page() {
+		public function show_dashboard_page() {
 			global $action, $page;
-			printf( '<h1>%s</h1>', esc_html__( 'Branding', 'ub' ) );
 			if ( isset( $_GET['msg'] ) && isset( $this->messages[ $_GET['msg'] ] ) ) {
 				echo '<div id="message" class="updated fade"><p>' . $messages[ $_GET['msg'] ] . '</p></div>';
 				$_SERVER['REQUEST_URI'] = UB_Help::remove_query_arg( array( 'msg' ), $_SERVER['REQUEST_URI'] );
 			}
 ?>
-
-    <div id="dashboard-widgets-wrap">
-
-        <div class="metabox-holder" id="dashboard-widgets">
-            <div style="width: 49%;" class="postbox-container">
-                <div class="meta-box-sortables ui-sortable" id="normal-sortables">
-
+        <form id="ultimate-branding-modules" method="post">
+            <input type="hidden" name="page" value="branding" />
+<?php
+			require_once ub_files_dir( 'classes/class-ub-module-list-table.php' );
+			$ub_module_list = new UB_Module_List_Table();
+			$ub_module_list->set_modules( $this->modules );
+			$ub_module_list->prepare_items();
+			$ub_module_list->search_box( __( 'Search', 'ub' ), __CLASS__ );
+			$ub_module_list->views();
+			$ub_module_list->display();
+?>
+        </form>
 <?php
 			// See what plugins are active
 			$this->check_active_plugins();
-
 if ( ! empty( $this->plugin_msg ) ) {
 ?>
 <div class="postbox " id="">
-<h3 class="hndle"><span><?php _e( 'Notifications', 'ub' ); ?></span></h3>
+<h2 class="hndle"><span><?php _e( 'Notifications', 'ub' ); ?></span></h2>
 <div class="inside">
 <?php
 	_e( 'Please deactivate the following plugin(s) to make Ultimate Branding to work:', 'ub' );
@@ -587,144 +880,7 @@ if ( ! empty( $this->plugin_msg ) ) {
 </div>
 <?php
 }
-?>
-
-                    <div class="postbox " id="">
-                        <h3 class="hndle"><span><?php _e( 'Branding', 'ub' ); ?></span></h3>
-                        <div class="inside">
-<?php
-			include_once( ub_files_dir( 'help/dashboard.help.php' ) );
-?>
-                            <br class="clear">
-                        </div>
-                    </div>
-
-<?php
-			do_action( 'ultimatebranding_dashboard_page_left' );
-?>
-                </div>
-            </div>
-
-            <div style="width: 49%;" class="postbox-container">
-                <div class="meta-box-sortables ui-sortable" id="side-sortables">
-
-<?php
-			do_action( 'ultimatebranding_dashboard_page_right_top' );
-?>
-
-                    <div class="postbox " id="dashboard_quick_press">
-                        <h3 class="hndle"><span><?php _e( 'Module Status', 'ub' ); ?></span></h3>
-                        <div class="inside">
-                            <?php $this->show_module_status(); ?>
-                            <br class="clear">
-                        </div>
-                    </div>
-
-<?php
-			do_action( 'ultimatebranding_dashboard_page_right' );
-?>
-
-                </div>
-            </div>
-
-            <div style="display: none; width: 49%;" class="postbox-container">
-                <div class="meta-box-sortables ui-sortable" id="column3-sortables" style="">
-                </div>
-            </div>
-
-            <div style="display: none; width: 49%;" class="postbox-container">
-                <div class="meta-box-sortables ui-sortable" id="column4-sortables" style="">
-                </div>
-            </div>
-        </div>
-
-        <div class="clear"></div>
-    </div>
-
-<?php
 		}
-
-		function show_module_status() {
-
-			global $action, $page;
-?>
-    <table class='widefat'>
-        <thead>
-        <th><?php _e( 'Available Modules', 'ub' ); ?></th>
-        <th><a href='<?php echo wp_nonce_url( '?page=' . $page . '&amp;action=enableallmodules', 'enable-all-modules' ); ?>'><?php _e( 'Enable', 'ub' ); ?></a> / <a href='<?php echo wp_nonce_url( '?page=' . $page . '&amp;action=disableallmodules', 'disable-all-modules' ); ?>'><?php _e( 'Disable All', 'ub' ); ?></a></th>
-    </thead>
-    <tfoot>
-    <th><?php _e( 'Available Modules', 'ub' ); ?></th>
-    <th><a href='<?php echo wp_nonce_url( '?page=' . $page . '&amp;action=enableallmodules', 'enable-all-modules' ); ?>'><?php _e( 'Enable', 'ub' ); ?></a> / <a href='<?php echo wp_nonce_url( '?page=' . $page . '&amp;action=disableallmodules', 'disable-all-modules' ); ?>'><?php _e( 'Disable All', 'ub' ); ?></a></th>
-    </tfoot>
-    <tbody>
-<?php
-if ( ! empty( $this->modules ) ) {
-
-	$default_headers = array(
-		'Name' => 'Plugin Name',
-		'Author' => 'Author',
-		'Description' => 'Description',
-		'AuthorURI' => 'Author URI',
-	);
-
-	$mods = array();
-	foreach ( $this->modules as $module => $plugin ) {
-		/**
-					 * Check file exists
-					 *
-					 * @since 1.8.6
-					 */
-		$file = ub_files_dir( 'modules/' . $module );
-		if ( ! is_file( $file ) || ! is_readable( $file ) ) {
-			continue;
-		}
-		$module_data = get_file_data( $file, $default_headers, 'plugin' );
-		$module_data['module'] = $module;
-		$module_data['plugin'] = $plugin;
-		$mods[ $module_data['Name'] ] = $module_data;
-	}
-	ksort( $mods );
-
-	foreach ( $mods as $module_name => $module_data ) {
-		$module = $module_data['module'];
-		$plugin = $module_data['plugin'];
-		// deactivate any conflisting plugins
-		if ( in_array( $module, array_keys( $this->plugin_msg ) ) ) {
-			$this->deactivate_module( $module );
-		}
-		$is_active = ub_is_active_module( $module );
-
-		$url = $this->get_nonce_url( $module );
-		printf( '<tr class="%s">', esc_attr( $is_active? 'activemodule':'inactivemodule' ) );
-		echo '<td>';
-		echo $module_data['Name'];
-		echo '</td>';
-		echo '<td>';
-		printf(
-			'<a href="%s" class="%s">%s</a>',
-			esc_url( $url ),
-			esc_attr( $is_active? 'disblelink':'enablelink' ),
-			$is_active? esc_html__( 'Disable', 'ub' ):esc_attr__( 'Enable', 'ub' )
-		);
-		echo '</td>';
-		echo '</tr>';
-
-	}
-} else {
-?>
-<tr>
-<td colspan='2'><?php _e( 'No modules avaiable.', 'ub' ); ?></td>
-</tr>
-<?php
-}
-?>
-    </tbody>
-    </table>
-
-<?php
-		}
-
 
 		/**
 		 * Renders $file and returns | prints content.
@@ -747,56 +903,13 @@ if ( ! empty( $this->modules ) ) {
 			if ( $return ) {
 				ob_start();
 			}
-
 			include( $UB_dir . 'ultimate-branding-files/modules/' . $module_name . '-files/views/' . $UB_Rendered_To_Be_File_Name . '.php' );
-
 			if ( $return ) {
 				return ob_get_clean();
 			}
-
 			if ( ! empty( $params ) ) {
 				foreach ( $params as $param ) {
 					unset( $param );
-				}
-			}
-		}
-
-		protected function register_js( $module_name, $file ) {
-			$this->js_files[ $module_name ][] = $file;
-			add_action( 'load-toplevel_page_branding', array( $this, 'register_modules_js' ) );
-		}
-
-		protected function get_enqueue_handle( $module_name, $file_name ) {
-			return $module_name . '-' . str_replace( '.', '-', $file_name );
-		}
-
-		public function register_modules_js() {
-			if ( empty( $this->build ) ) {
-				global $ub_version;
-				$this->build = $ub_version;
-			}
-			foreach ( $this->js_files as $module_name => $files ) {
-				foreach ( $files as $file_name ) {
-					$file_path = ub_files_url( 'modules/' . $module_name . '-files/js/'. $file_name . '.js' );
-					wp_enqueue_script( $this->get_enqueue_handle( $module_name, $file_name ), $file_path, array(), $this->build, true );
-				}
-			}
-		}
-
-		protected function register_css( $module_name, $file ) {
-			$this->css_files[ $module_name ][] = $file;
-			add_action( 'load-toplevel_page_branding', array( $this, 'register_modules_css' ) );
-		}
-
-		public function register_modules_css() {
-			if ( empty( $this->build ) ) {
-				global $ub_version;
-				$this->build = $ub_version;
-			}
-			foreach ( $this->css_files as $module_name => $files ) {
-				foreach ( $files as $file_name ) {
-					$file_path = ub_files_url( 'modules/' . $module_name . '-files/css/'. $file_name . '.css' );
-					wp_enqueue_style( $this->get_enqueue_handle( $module_name, $file_name ), $file_path, array(), $this->build );
 				}
 			}
 		}
@@ -805,17 +918,14 @@ if ( ! empty( $this->modules ) ) {
 			$title = __( 'Admin Message', 'ub' );
 			$this->panel( $title, 'admin_message', true );
 			return;
-
 			global $action, $page;
 			$messages = array();
 			$messages[1] = __( 'Settings saved.', 'ub' );
 			$messages[2] = __( 'Settings cleared.', 'ub' );
 			$messages[3] = __( 'Settings could not be saved.', 'ub' );
-
 			$messages = apply_filters( 'ultimatebranding_settings_admin_message_messages', $messages );
 ?>
     <h2><?php _e( 'Admin Message', 'ub' ); ?></h2>
-
 <?php
 if ( isset( $_GET['msg'] ) && (int) $_GET['msg'] !== 3 ) {
 ?>
@@ -828,14 +938,12 @@ if ( isset( $_GET['msg'] ) && (int) $_GET['msg'] !== 3 ) {
 ?>
     <div id="poststuff" class="metabox-holder m-settings">
         <form action='' method="post">
-
             <input type='hidden' name='page' value='<?php echo $page; ?>' />
             <input type='hidden' name='action' value='process' />
 <?php
 			wp_nonce_field( 'ultimatebranding_settings_admin_message' );
 			do_action( 'ultimatebranding_settings_admin_message' );
 ?>
-
 <?php
 if ( has_filter( 'ultimatebranding_settings_admin_message_process' ) ) {
 ?>
@@ -846,19 +954,17 @@ if ( has_filter( 'ultimatebranding_settings_admin_message_process' ) ) {
 <?php
 }
 ?>
-
         </form>
     </div>
 <?php
 		}
-
 
 		/**
 		 * Custom MS e-mails
 		 *
 		 * @since 1.8.6
 		 */
-		function handle_custom_ms_register_emails_panel() {
+		public function handle_custom_ms_register_emails_panel() {
 			$title = __( 'Custom MS Registered e-mails', 'ub' );
 			$this->panel( $title, 'custom_ms_register_emails' );
 		}
@@ -868,18 +974,17 @@ if ( has_filter( 'ultimatebranding_settings_admin_message_process' ) ) {
 		 *
 		 * @since 1.8.6
 		 */
-		function handle_export_import_panel() {
+		public function handle_export_import_panel() {
 			$title = __( 'Export & Import Ultimate Branding configuration', 'ub' );
 			$this->panel( $title, 'export_import', false );
 		}
-
 
 		/**
 		 * Link Manager screen
 		 *
 		 * @since 1.8.6
 		 */
-		function handle_link_manager_panel() {
+		public function handle_link_manager_panel() {
 			$title = __( 'Link Manager', 'ub' );
 			$this->panel( $title, 'link_manager' );
 		}
@@ -904,11 +1009,9 @@ if ( has_filter( 'ultimatebranding_settings_admin_message_process' ) ) {
 						/**
 						 * admin page title
 						 */
-						echo '<h1>';
-						echo $module['page_title'];
+						printf( '<h2>%s</h2>', esc_html( $module['page_title'] ) );
 						do_action( 'ultimatebranding_settings_after_title' );
 						do_action( $panel.'_after_title' );
-						echo '</h1>';
 						/**
 						 * message
 						 */
@@ -924,7 +1027,6 @@ if ( has_filter( 'ultimatebranding_settings_admin_message_process' ) ) {
 						printf( '<input type="hidden" name="page" value="%s" />', esc_attr( $page ) );
 						echo '<input type="hidden" name="action" value="process" />';
 						wp_nonce_field( 'boxes', 'postboxes_nonce', false );
-
 						/**
 						 * nonce
 						 */
@@ -978,6 +1080,9 @@ if ( has_filter( 'ultimatebranding_settings_admin_message_process' ) ) {
 		 * @since 1.8.6
 		 */
 		private function sort_admin_menu( $a, $b ) {
+			if ( 'branding' == $b[2] ) {
+				return 1;
+			}
 			if ( 'branding' == $a[2] ) {
 				return -1;
 			}
@@ -1030,11 +1135,51 @@ if ( has_filter( 'ultimatebranding_settings_admin_message_process' ) ) {
 		 * @since 1.8.7
 		 */
 		private function set_configuration() {
-			$this->configuration = ub_get_modules_list();
+			$modules = ub_get_modules_list();
+			$this->configuration = apply_filters( 'ultimatebranding_available_modules', $modules );
 			/**
 			 * add key to data
 			 */
 			foreach ( $this->configuration as $key => $data ) {
+				/**
+				 * check is module deprecated
+				 */
+				if ( $this->should_be_module_off( $key ) ) {
+					unset( $this->configuration[ $key ] );
+					continue;
+				}
+				/**
+				 * turn off module for dependiences
+				 */
+				if (
+					isset( $this->configuration[ $key ] )
+					&& isset( $this->configuration[ $key ]['replaced_by'] )
+				) {
+					$is_active = ub_is_active_module( $key );
+					if ( $is_active ) {
+						$replace_by = $this->configuration[ $key ]['replaced_by'];
+						$is_active = ub_is_active_module( $replace_by );
+						if ( $is_active ) {
+							$deactivate = $this->deactivate_module( $key );
+							if ( $deactivate ) {
+								$message = array(
+									'class' => 'info',
+									'message' => sprintf(
+										__( 'Module "<b>%s</b>" was turned off because module "<b>%s</b>" is active.', 'ub' ),
+										$data['title'],
+										$this->configuration[ $replace_by ]['title']
+									),
+								);
+								$this->add_message( $message );
+							}
+							unset( $this->configuration[ $key ] );
+							continue;
+						}
+					}
+				}
+				/**
+				 * fix menu_title
+				 */
 				$this->configuration[ $key ]['key'] = $key;
 				if ( isset( $data['page_title'] ) && ! isset( $data['menu_title'] ) ) {
 					$this->configuration[ $key ]['menu_title'] = $data['page_title'];
@@ -1126,19 +1271,21 @@ if ( has_filter( 'ultimatebranding_settings_admin_message_process' ) ) {
 		 * @since 1.8.8
 		 */
 		private function get_base_url() {
-			global $page;
-			if ( empty( $page ) ) {
-				if ( isset( $_REQUEST['page'] ) ) {
-					$page = esc_html( $_REQUEST['page'] );
+			if ( empty( $this->base_url ) ) {
+				global $page;
+				if ( empty( $page ) ) {
+					if ( isset( $_REQUEST['page'] ) ) {
+						$page = esc_html( $_REQUEST['page'] );
+					}
 				}
+				$this->base_url = add_query_arg(
+					array(
+						'page' => $page,
+					),
+					is_network_admin()? network_admin_url( 'admin.php' ):admin_url( 'admin.php' )
+				);
 			}
-			$base_url = add_query_arg(
-				array(
-					'page' => $page,
-				),
-				is_network_admin()? network_admin_url( 'admin.php' ):admin_url( 'admin.php' )
-			);
-			return $base_url;
+			return $this->base_url;
 		}
 
 		/**
@@ -1157,7 +1304,6 @@ if ( has_filter( 'ultimatebranding_settings_admin_message_process' ) ) {
 					'href' => add_query_arg( 'page', 'branding', network_admin_url( 'admin.php' ) ),
 					'parent' => 'network-admin',
 				);
-
 				$wp_admin_bar->add_node( $args );
 			}
 		}
@@ -1168,9 +1314,11 @@ if ( has_filter( 'ultimatebranding_settings_admin_message_process' ) ) {
 		public function handle_adminbar_panel() {}
 		public function handle_admin_menu_panel() {}
 		public function handle_admin_panel_tips_panel() {}
+		public function handle_author_box_panel() {}
 		public function handle_comments_control_panel() {}
 		public function handle_css_panel() {}
 		public function handle_dashboard_feeds_panel() {}
+		public function handle_dashboard_text_widgets_panel() {}
 		public function handle_footer_panel() {}
 		public function handle_from_email_panel() {}
 		public function handle_header_panel() {}
@@ -1178,14 +1326,17 @@ if ( has_filter( 'ultimatebranding_settings_admin_message_process' ) ) {
 		public function handle_htmlemail_panel() {}
 		public function handle_images_panel() {}
 		public function handle_login_screen_panel() {}
+		public function handle_maintenance_panel() {}
+		public function handle_multisite_panel() {}
 		public function handle_permalinks_panel() {}
-		public function handle_signuppassword_panel() {}
 		public function handle_sitegenerator_panel() {}
 		public function handle_textchange_panel() {}
 		public function handle_ultimate_color_schemes_panel() {}
 		public function handle_widgets_panel() {}
-		public function handle_maintenance_panel() {}
-		public function handle_dashboard_text_widgets_panel() {}
+		public function handle_smtp_panel() {}
+		public function handle_db_error_page_panel() {}
+		public function handle_ms_site_check_panel() {}
+		public function handle_cookie_notice_panel() {}
 
 		/**
 		 * sanitize tab
@@ -1215,6 +1366,98 @@ if ( has_filter( 'ultimatebranding_settings_admin_message_process' ) ) {
 		 */
 		public function get_current_tab() {
 			return $this->tab;
+		}
+
+		/**
+		 * Activate/deactivate single module AJAX action.
+		 *
+		 * @since 1.9.6
+		 */
+		public function toggle_module() {
+			if (
+				isset( $_POST['nonce'] )
+				&& isset( $_POST['state'] )
+				&& isset( $_POST['module'] )
+				&& isset( $this->modules[ $_POST['module'] ] )
+				&& wp_verify_nonce( $_POST['nonce'], $_POST['module'] )
+			) {
+				$result = false;
+				$message = array(
+					'class' => 'error',
+					'message' => $this->messages['fail'],
+				);
+				/**
+				 * Get plugin data
+				 */
+				$module_data = array(
+					'name' => __( 'Unknown', 'ub' ),
+				);
+				if ( isset( $this->configuration[ $_POST['module'] ] ) ) {
+					$module_data = $this->configuration[ $_POST['module'] ];
+				}
+				/**
+				 * try to activate or deactivate
+				 */
+				if ( 'on' == $_POST['state'] ) {
+					$result = $this->activate_module( $_POST['module'] );
+					if ( $result ) {
+						$message = array(
+							'class' => 'success',
+							'message' => sprintf(
+								__( 'Module "%s" was activated successfully.', 'ub' ),
+								sprintf( '<strong>%s</strong>', $module_data['name'] )
+							),
+						);
+					}
+				} else {
+					$result = $this->deactivate_module( $_POST['module'] );
+					if ( $result ) {
+						$message = array(
+							'class' => 'success',
+							'message' => sprintf(
+								__( 'Module "%s" was deactivated without errors.', 'ub' ),
+								sprintf( '<strong>%s</strong>', $module_data['name'] )
+							),
+						);
+					}
+				}
+				$this->add_message( $message );
+				$data = array(
+					'state' => $result,
+					'module' => $_POST['module'],
+				);
+				wp_send_json_success( $data );
+			}
+			wp_send_json_error();
+		}
+
+		/**
+		 * Sort module by menu_title or page_title.
+		 *
+		 * @since 2.0.0
+		 */
+		public function sort_modules_by_menu_title( $a, $b ) {
+			$an = $bn = '';
+			if ( isset( $a['menu_title'] ) ) {
+				$an = $a['menu_title'];
+			} else if ( isset( $a['page_title'] ) ) {
+				$an = $a['page_title'];
+			}
+			if ( isset( $b['menu_title'] ) ) {
+				$bn = $b['menu_title'];
+			} else if ( isset( $b['page_title'] ) ) {
+				$bn = $b['page_title'];
+			}
+			return strcmp( $an, $bn );
+		}
+
+		/**
+		 * Get tab url
+		 */
+		public function get_tab_url( $tab ) {
+			$base_url = $this->get_base_url();
+			$url = add_query_arg( 'tab', $data['tab'], $base_url );
+			return $url;
 		}
 	}
 }

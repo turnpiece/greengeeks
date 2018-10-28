@@ -1,26 +1,4 @@
 <?php
-/*
-Plugin Name: Admin Panel Tips
-Description: Provide your users with helpful random tips (or promotions/news) in their admin panels.
-
-Copyright 2007-2017 Incsub (http://incsub.com)
-Author - S H Mohanjith
-Contributors - Ivan Shaovchev, Andrew Billits, Aaron Edwards, Marcin Pietrzak
-
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License (Version 2 - GPLv2) as published by
-the Free Software Foundation.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-*/
-
 if ( ! class_exists( 'ub_admin_panel_tips' ) ) {
 	class ub_admin_panel_tips extends ub_helper {
 
@@ -39,7 +17,7 @@ if ( ! class_exists( 'ub_admin_panel_tips' ) ) {
 			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 			add_action( 'ultimatebranding_settings_admin_panel_tips', array( $this, 'admin_options_page' ) );
 			add_filter( 'ultimate_branding_module_url', array( $this, 'change_tab_url' ), 10, 2 );
-			add_action( 'init', array( $this, 'custom_post_type' ), 0 );
+			add_action( 'init', array( $this, 'custom_post_type' ), 100 );
 			/**
 			 * Where to display?
 			 *
@@ -69,6 +47,12 @@ if ( ! class_exists( 'ub_admin_panel_tips' ) ) {
 			 * Do not load on multisite network admin
 			 */
 			if ( is_multisite() && is_network_admin() ) {
+				return;
+			}
+			/**
+			 * Check module is active - it happens on bulk change status
+			 */
+			if ( false === ub_is_active_module( 'admin-panel-tips/admin-panel-tips.php' ) ) {
 				return;
 			}
 			$labels = array(
@@ -198,9 +182,16 @@ if ( ! class_exists( 'ub_admin_panel_tips' ) ) {
 				'posts_per_page' => 1,
 				'post_type' => $this->post_type,
 				'post_status' => 'publish',
-				'post__not_in' => get_user_meta( get_current_user_id(), 'tips_dismissed', true ),
 				'meta_query' => $meta_query,
 			);
+			$post__not_in = get_user_meta( get_current_user_id(), 'tips_dismissed', true );
+			if ( ! empty( $post__not_in ) ) {
+				if ( ! is_array( $post__not_in ) ) {
+					$post__not_in = array( $post__not_in );
+				}
+				$args['post__not_in'] = $post__not_in;
+			}
+
 			$the_query = new WP_Query( $args );
 			if ( $the_query->posts ) {
 				$post = array_shift( $the_query->posts );
@@ -216,7 +207,6 @@ if ( ! class_exists( 'ub_admin_panel_tips' ) ) {
 						esc_attr( wp_create_nonce( $this->get_nonce_action( 'hide', $post->ID ) ) ),
 						esc_html__( 'Hide', 'ub' )
 					);
-
 					$title = $post->post_title;
 					if ( ! empty( $title ) ) {
 						printf( '<h4>%s</h4>', apply_filters( 'the_title', $title ) );
@@ -227,6 +217,7 @@ if ( ! class_exists( 'ub_admin_panel_tips' ) ) {
 					}
 					echo '</div>';
 				}
+				wp_reset_postdata();
 			}
 		}
 

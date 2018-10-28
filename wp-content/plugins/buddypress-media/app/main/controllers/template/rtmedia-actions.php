@@ -692,7 +692,7 @@ function rtm_album_media_count() {
 
 	if ( isset( $rtmedia_album_count_status ) && $rtmedia_album_count_status['status'] ) {
 		?>
-		<div class="rtmedia-album-media-count" title="<?php echo rtmedia_album_mediacounter() . RTMEDIA_MEDIA_LABEL; ?>">
+		<div class="rtmedia-album-media-count" title="<?php echo esc_attr( rtmedia_album_mediacounter() . ' ' . RTMEDIA_MEDIA_LABEL ); ?>">
 			<?php echo esc_html( $rtmedia_album_count_status['before_string'] ) . rtmedia_album_mediacounter() . esc_html( $rtmedia_album_count_status['after_string'] ) ?></div>
 		<?php
 	}
@@ -900,7 +900,7 @@ function add_search_filter( $attr = null ) {
 		$search_value = ( isset( $_GET['search'] ) ? sanitize_text_field( wp_unslash( $_GET['search'] ) ) : '' );
 
 		$html  = "<form method='post' id='media_search_form' class='media_search'>";
-		$html .= "<input type='text' id='media_search_input' value='" . esc_attr( $search_value ) . "' class='media_search_input' name='media_search' value='' placeholder='Search Media'>";
+		$html .= "<input type='text' id='media_search_input' value='" . esc_attr( $search_value ) . "' class='media_search_input' name='media_search' value='' placeholder='" . __( 'Search Media', 'buddypress-media' ) . "'>";
 		$html .= "<span id='media_fatch_loader'></span>";
 
 		$search_by = '';

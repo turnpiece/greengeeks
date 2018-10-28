@@ -1,51 +1,4 @@
 <?php
-/*
-Plugin Name: Admin Help Content
-Plugin URI: http://premium.wpmudev.org/project/admin-help-content
-Description: Change the 'help content' that slides down all AJAXy
-Author: Barry (Incsub), Andrew Billits, Ulrich Sossou (Incsub), Ve Bailovity (Incsub)
-Version: 2.0.1
-Author URI: http://premium.wpmudev.org/project/
-Textdomain: admin_help_content
-WDP ID: 170
- */
-
-/*
-Copyright 2007-2017 Incsub (http://incsub.com)
-
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License (Version 2 - GPLv2) as published by
-the Free Software Foundation.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
- */
-
-
-/**
- * Escaping for textarea values.
- *
- * @since 3.1
- *
- * Added for compatibility with WordPress 3.0.*
- *
- * @param string $text
- * @return string
- */
-if ( ! function_exists( 'esc_textarea' ) ) {
-	function esc_textarea( $text ) {
-		$safe_text = htmlspecialchars( $text, ENT_QUOTES );
-		return apply_filters( 'esc_textarea', $safe_text, $text );
-	}
-}
-
-
 /**
  * Main help panel handler.
  */
@@ -96,7 +49,7 @@ class ub_Ahc_AdminHelpContent extends ub_helper {
 		$tabs = $opts['tabs'];
 		foreach ( $tabs as $idx => $tab ) {
 			$tabs[ $idx ]['id'] = md5( @$tab['title'] . @$tab['content'] . time() );
-			$tabs[ $idx ]['content'] = '<p>' . apply_filters( 'the_content', $tab['content'] ) . '</p>';
+			$tabs[ $idx ]['content'] = wpautop( $tab['content'] );
 
 		}
 		$this->_help->add_page( '_global_', $tabs, $opts['sidebar'], ! @$opts['merge_panels'] );

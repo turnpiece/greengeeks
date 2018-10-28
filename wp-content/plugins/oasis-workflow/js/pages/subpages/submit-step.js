@@ -102,6 +102,7 @@ jQuery( document ).ready( function () {
       if ( "unable" == jQuery(this).val() ) {
          decision = "failure";
       }
+      jQuery("#submitSave").prop('disabled', true);
       actionSetting();
 
       var execute_sign_off_decision_data = {
@@ -132,6 +133,8 @@ jQuery( document ).ready( function () {
             // if there is only one possible next step, auto select it
             if (next_steps.length == 1) {
                jQuery("#step-select").change();
+            } else {
+               jQuery("#submitSave").prop('disabled', false);
             }
          } else { // looks like we are on the last step of the workflow
             if ( "failure" == decision ) {
@@ -145,6 +148,7 @@ jQuery( document ).ready( function () {
             }
             // re-position the popup
             setPosition();
+            jQuery("#submitSave").prop('disabled', false);
          }
       });
    });
@@ -157,6 +161,8 @@ jQuery( document ).ready( function () {
       // reset the error messages
       jQuery('#ow-step-messages').html("");
       jQuery('#ow-step-messages').addClass('owf-hidden');
+      
+      jQuery("#submitSave").prop('disabled', true);
 
       var get_sign_off_step_details_data = {
          action: 'get_sign_off_step_details',
@@ -224,6 +230,7 @@ jQuery( document ).ready( function () {
             }
             add_option_to_select("actors-list-select", users, 'name', 'ID');
          }
+         jQuery("#submitSave").prop('disabled', false);
       });
    });
    

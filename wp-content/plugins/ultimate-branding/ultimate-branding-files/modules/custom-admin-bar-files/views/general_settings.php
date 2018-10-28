@@ -2,14 +2,25 @@
 /**
  * Renders general setting box
  */
+
+$boxes = array();
+$settings = get_user_meta( get_current_user_id(), 'closedpostboxes_ultimate_branding', true );
+if ( isset( $settings['adminbar'] ) ) {
+	$boxes = $settings['adminbar'];
+}
+$id = 'general';
+if ( ! isset( $boxes[ $id ] ) ) {
+	$boxes[ $id ] = 'open';
+}
 ?>
 <div class="postbox-container">
-    <div class="meta-box-sortables not-sortable">
-        <div class="postbox">
-            <div class="handlediv" title="Click to toggle"><br></div>
-            <h3 class="hndle" style='cursor:auto;'>
-                <span><?php _e( 'General Settings','ub' ); ?></span>
-            </h3>
+    <div class="meta-box-sortables not-sortable simple-options">
+        <div class="postbox <?php echo esc_attr( $boxes[ $id ] ); ?>" id="<?php echo esc_attr( $id ); ?>">
+            <button type="button" class="handlediv button-link" aria-expanded="true">
+                <span class="screen-reader-text"><?php printf( __( 'Toggle panel: %s', 'ub' ), __( 'General Settings', 'ub' ) ); ?></span>
+                <span class="toggle-indicator" aria-hidden="true"></span>
+            </button>
+            <h3 class="hndle"><?php _e( 'General Settings','ub' ); ?></h3>
             <div class="inside">
                 <table class="form-table">
                     <tr>
@@ -28,10 +39,33 @@
                             <?php UB_Admin_Bar_Forms::create_show_box() ?>
                         </td>
                     </tr>
-                    <?php if ( $enable_hiding_default_bars ) :  ?>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+                    <?php if ( $enable_hiding_default_bars ) :
+
+
+						$id = 'hide';
+						if ( ! isset( $boxes[ $id ] ) ) {
+							$boxes[ $id ] = 'open';
+						}
+
+?>
+<div class="postbox-container">
+    <div class="meta-box-sortables not-sortable simple-options">
+        <div class="postbox <?php echo esc_attr( $boxes[ $id ] ); ?>" id="<?php echo esc_attr( $id ); ?>">
+            <button type="button" class="handlediv button-link" aria-expanded="true">
+                <span class="screen-reader-text"><?php printf( __( 'Toggle panel: %s', 'ub' ), __( 'Hide WordPress Menu Items', 'ub' ) ); ?></span>
+                <span class="toggle-indicator" aria-hidden="true"></span>
+            </button>
+            <h3 class="hndle"><?php _e( 'Hide WordPress Menu Items','ub' ); ?></h3>
+            <div class="inside">
+                <table class="form-table">
                     <tr>
                         <th scope="row">
-                            <?php  _e( 'Hide WordPress Menu Items', 'ub' ) ?>
+                            <?php  _e( 'Menu Items', 'ub' ) ?>
                         </th>
                         <td>
                             <?php UB_Admin_Bar_Forms::create_disable_box() ?>
@@ -45,7 +79,32 @@
                             <?php UB_Admin_Bar_Forms::create_roles_box( 'wp_menu_roles' ) ?>
                         </td>
                     </tr>
-                    <?php endif; ?>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+                    <?php endif;
+
+
+
+$id = 'advance';
+if ( ! isset( $boxes[ $id ] ) ) {
+	$boxes[ $id ] = 'open';
+}
+?>
+<div class="postbox-container">
+    <div class="meta-box-sortables not-sortable simple-options">
+        <div class="postbox <?php echo esc_attr( $boxes[ $id ] ); ?>" id="<?php echo esc_attr( $id ); ?>">
+            <button type="button" class="handlediv button-link" aria-expanded="true">
+                <span class="screen-reader-text"><?php printf( __( 'Toggle panel: %s', 'ub' ), __( 'Advance Settings', 'ub' ) ); ?></span>
+                <span class="toggle-indicator" aria-hidden="true"></span>
+            </button>
+            <h3 class="hndle" style='cursor:auto;'>
+                <span><?php _e( 'Advance Settings','ub' ); ?></span>
+            </h3>
+            <div class="inside">
+                <table class="form-table">
                     <tr>
                         <th scope="row">
                             <?php  _e( 'Reorder Admin Bar Menus', 'ub' ) ?>
@@ -82,8 +141,6 @@
                         </td>
                     </tr>
                 </table>
-
-
             </div>
         </div>
     </div>

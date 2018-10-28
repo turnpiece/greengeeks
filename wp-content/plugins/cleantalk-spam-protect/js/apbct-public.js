@@ -9,12 +9,12 @@ function ctSetCookieSec(c_name, value) {
 }
 
 function apbct_attach_event_handler(elem, event, callback){
-	if(typeof window.addEventListener == "function") elem.addEventListener(event, callback);
+	if(typeof window.addEventListener === "function") elem.addEventListener(event, callback);
 	else                                             elem.attachEvent(event, callback);
 }
 
 function apbct_remove_event_handler(elem, event, callback){
-	if(typeof window.removeEventListener == "function") elem.removeEventListener(event, callback);
+	if(typeof window.removeEventListener === "function") elem.removeEventListener(event, callback);
 	else                                                elem.detachEvent(event, callback);
 }
 
@@ -32,7 +32,7 @@ var ctFunctionFirstKey = function output(event){
 	var KeyTimestamp = Math.floor(new Date().getTime()/1000);
 	ctSetCookieSec("ct_fkp_timestamp", KeyTimestamp);
 	ctKeyStopStopListening();
-}
+};
 
 //Reading interval
 var ctMouseReadInterval = setInterval(function(){
@@ -46,7 +46,7 @@ var ctMouseWriteDataInterval = setInterval(function(){
 
 //Logging mouse position each 150 ms
 var ctFunctionMouseMove = function output(event){
-	if(ctMouseEventTimerFlag == true){
+	if(ctMouseEventTimerFlag === true){
 		
 		ctMouseData.push([
 			Math.round(event.pageY),
@@ -60,7 +60,7 @@ var ctFunctionMouseMove = function output(event){
 			ctMouseStopData();
 		}
 	}
-}
+};
 
 //Stop mouse observing function
 function ctMouseStopData(){
@@ -86,31 +86,68 @@ function apbct_ready(){
 	setTimeout(function(){
 		for(var i = 0; i < document.forms.length; i++){
 			var form = document.forms[i];
+
 			form.onsubmit_prev = form.onsubmit;
 			form.onsubmit = function(event){
-				this.visible_fields = '';
-				this.visible_fields_count = this.elements.length;
-				for(var j = 0; j < this.elements.length; j++){
-					var elem = this.elements[j];
-					if( getComputedStyle(elem).display    == "none" ||
-						getComputedStyle(elem).visibility == "hidden" ||
-						getComputedStyle(elem).width      == "0" ||
-						getComputedStyle(elem).heigth     == "0" ||
-						getComputedStyle(elem).opacity    == "0" ||
-						elem.getAttribute("type")         == "hidden" ||
-						elem.getAttribute("type")         == "submit"
+				
+				// Get only fields
+				var elements = [];
+				for(var key in document.forms[0].elements){
+					if(!isNaN(+key))
+						elements[key] = document.forms[0].elements[key];
+				}
+				
+				// Filter fields
+				elements = elements.filter(function(elem){
+					
+					var pass = true;
+					
+					// Filter fields
+					if( getComputedStyle(elem).display    === "none" ||   // hidden
+						getComputedStyle(elem).visibility === "hidden" || // hidden
+						getComputedStyle(elem).width      === "0" ||      // hidden
+						getComputedStyle(elem).heigth     === "0" ||      // hidden
+						getComputedStyle(elem).opacity    === "0" ||      // hidden
+						elem.getAttribute("type")         === "hidden" || // type == hidden
+						elem.getAttribute("type")         === "submit" || // type == submit
+						elem.value                        === ""          // empty value
 					){
-						this.visible_fields_count--;
-					}else{
-						this.visible_fields += (this.visible_fields == "" ? "" : " ") + elem.getAttribute("name");
+						return false;
 					}
+					
+					// Filter elements with same names for type == radio
+					if(elem.getAttribute("type") === "radio"){
+						elements.forEach(function(el, j, els){
+							if(elem.getAttribute('name') === el.getAttribute('name')){
+								pass = false;
+								return;
 				}
-				ctSetCookieSec("apbct_visible_fields", this.visible_fields);
-				ctSetCookieSec("apbct_visible_fields_count", this.visible_fields_count);
-				if(this.onsubmit_prev instanceof Function){
-					this.onsubmit_prev.call(this, event);
+						});
+					}
+					
+					return true;
+				});
+				
+				// Visible fields count
+				var visible_fields_count = elements.length;
+				
+				// Visible fields
+				var visible_fields = '';
+				elements.forEach(function(elem, i, elements){
+					visible_fields += " " + elem.getAttribute("name");
+				});
+				visible_fields = visible_fields.trim();
+				
+				ctSetCookieSec("apbct_visible_fields", visible_fields);
+				ctSetCookieSec("apbct_visible_fields_count", visible_fields_count);
+				
+				// Call previous submit action
+				if(event.target.onsubmit_prev instanceof Function){
+					setTimeout(function(){
+						event.target.onsubmit_prev.call(event.target, event);
+					}, 500);
 				}
-			}
+			};
 		}
 	}, 1000);
 }

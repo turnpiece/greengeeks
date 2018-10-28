@@ -141,7 +141,7 @@ $workflow_history = OW_Utility::instance()->get_custom_workflow_terminology( 'wo
                             echo "<td class='comments column-comments'>
 										<div class='post-com-count-wrapper'>
 											<strong>
-												<a href='#' actionid={$row->ID} class='post-com-count post-com-count-approved' real='history'>
+												<a href='#' actionid='{$row->ID}' actionstatus='{$row->action_status}' class='post-com-count post-com-count-approved' real='history'>
 													<span class='comment-count-approved'>{$ow_process_flow->get_sign_off_comment_count( $row )}</span>
 												</a>
 												<span class='loading' style='display:none'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
@@ -184,7 +184,7 @@ $workflow_history = OW_Utility::instance()->get_custom_workflow_terminology( 'wo
                                   echo "<td class='comments column-comments'>
 												<div class='post-com-count-wrapper'>
 													<strong>
-														<a href='#' actionid={$review_row->ID} class='post-com-count post-com-count-approved' real='review'>
+														<a href='#' actionid='{$review_row->ID}' actionstatus='{$review_row->review_status}' class='post-com-count post-com-count-approved' real='review'>
 															<span class='comment-count-approved'>{$ow_process_flow->get_review_sign_off_comment_count( $review_row )}</span>
 														</a>
 														<span class='loading' style='display:none'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>

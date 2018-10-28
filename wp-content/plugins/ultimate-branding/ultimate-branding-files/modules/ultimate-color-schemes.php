@@ -1,30 +1,4 @@
 <?php
-/*
-  Plugin Name: Color Schemes
-  Plugin URI: http://premium.wpmudev.org/project/ultimate-color-schemes/
-  Description: Customize admin color schemes.
-  Author URI: http://premium.wpmudev.org/
-  Version: 1.0.1
-
-  Copyright 2007-2017 Incsub (http://incsub.com)
-
-  This program is free software; you can redistribute it and/or modify
-  it under the terms of the GNU General Public License (Version 2 - GPLv2) as published by
-  the Free Software Foundation.
-
-  This program is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-  GNU General Public License for more details.
-
-  You should have received a copy of the GNU General Public License
-  along with this program; if not, write to the Free Software
-  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
- */
-
-
-//http://www.wpbeginner.com/wp-tutorials/how-to-set-default-admin-color-scheme-for-new-users-in-wordpress/
-
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
@@ -51,6 +25,25 @@ if ( ! class_exists( 'Ultimate_Color_Schemes' ) ) {
 			 * export
 			 */
 			add_filter( 'ultimate_branding_export_data', array( $this, 'export' ) );
+			/**
+			 * add options names
+			 *
+			 * @since 2.1.0
+			 */
+			add_filter( 'ultimate_branding_options_names', array( $this, 'add_options_names' ) );
+		}
+
+		/**
+		 * Add option names
+		 *
+		 * @since 2.1.0
+		 */
+		public function add_options_names( $options ) {
+			$options[] = 'ucs_color_scheme_name';
+			$options[] = 'ucs_default_color_scheme';
+			$options[] = 'ucs_force_color_scheme';
+			$options[] = 'ucs_visible_color_schemes';
+			return $options;
 		}
 
 		function set_default_admin_color( $user_id ) {
@@ -423,8 +416,11 @@ if ( ! class_exists( 'Ultimate_Color_Schemes' ) ) {
 			$boxes = $simple_options->get_boxes();
 			$colors = $this->colors();
 			$page = $_GET['page'];
+			$url = remove_query_arg( 'edit' );
+			$url = add_query_arg( 'tab', 'ultimate-color-schemes', $url );
 ?>
-                <p class='description'><?php printf( __( 'Here you can customize "%s" color scheme which use can set within your <a href="%s">user profile page</a>', 'ub' ), esc_html( $color_scheme_name ), get_edit_user_link( get_current_user_id() ) ); ?></p>
+    <p><a href="<?php echo esc_url( $url ); ?>"><?php esc_attr_e( 'Back to Color Schemes main screen!', 'ub' ); ?></a></p>
+                <p class='description'><?php printf( __( 'Here you can customize "%s" color scheme which use can set within your <a href="%s">user profile page</a>.', 'ub' ), esc_html( $color_scheme_name ), get_edit_user_link( get_current_user_id() ) ); ?></p>
 <?php
 				$id = 'color-scheme-name';
 ?>
@@ -484,12 +480,7 @@ foreach ( $color_array as $property => $value ) {
 		 * @since 1.8.6
 		 */
 		public function export( $data ) {
-			$options = array(
-				'ucs_default_color_scheme',
-				'ucs_force_color_scheme',
-				'ucs_visible_color_schemes',
-				'ucs_color_scheme_name',
-			);
+			$options = $this->add_options_names( array() );
 			$colors = $this->colors();
 			foreach ( $colors as $color ) {
 				$keys = array_keys( $color );
@@ -505,4 +496,4 @@ foreach ( $color_array as $property => $value ) {
 	}
 }
 
-$ultimate_color_schemes = new Ultimate_Color_Schemes();
+new Ultimate_Color_Schemes();

@@ -1,10 +1,11 @@
 <?php
-
 /**
  * Handles all Admin access functionality.
  */
 class UB_Admin_Bar_Tab extends UltimateBrandingAdmin {
 
+	protected  $js_files = array();
+	protected  $css_files = array();
 
 	/**
 	 * Constructs the admin url tab
@@ -12,14 +13,69 @@ class UB_Admin_Bar_Tab extends UltimateBrandingAdmin {
 	 * @since 1.5
 	 * @access public
 	 */
-	function __construct() {
+	public function __construct() {
 		$this->register_js( UB_Admin_Bar::NAME, 'jquery.classywiggle.min' );
 		$this->register_js( UB_Admin_Bar::NAME, 'main' );
 		$this->register_css( UB_Admin_Bar::NAME, 'main' );
 		add_action( 'admin_enqueue_scripts', array( $this, 'register_local_scripts' ) );
-		add_action( 'admin_init', array( $this, 'register_settings' ) );
 		add_action( 'ultimatebranding_settings_adminbar', array( &$this, 'create_admin_page' ) );
 		add_action( 'ultimatebranding_admin_header_adminbar', array( &$this, 'js_print_scripts' ) );
+		/**
+		 * add options names
+		 *
+		 * @since 2.1.0
+		 */
+		add_filter( 'ultimate_branding_options_names', array( $this, 'add_options_names' ) );
+	}
+
+	/**
+	 * Add option names
+	 *
+	 * @since 2.1.0
+	 */
+	public function add_options_names( $options ) {
+		$options[] = 'wdcab';
+		return $options;
+	}
+
+	private function get_enqueue_handle( $module_name, $file_name ) {
+		return $module_name . '-' . str_replace( '.', '-', $file_name );
+	}
+
+	private function register_css( $module_name, $file ) {
+		$this->css_files[ $module_name ][] = $file;
+		add_action( 'ultimatebranding_admin_header_adminbar', array( $this, 'register_modules_css' ) );
+	}
+
+	public function register_modules_css() {
+		if ( empty( $this->build ) ) {
+			global $ub_version;
+			$this->build = $ub_version;
+		}
+		foreach ( $this->css_files as $module_name => $files ) {
+			foreach ( $files as $file_name ) {
+				$file_path = ub_files_url( 'modules/' . $module_name . '-files/css/'. $file_name . '.css' );
+				wp_enqueue_style( $this->get_enqueue_handle( $module_name, $file_name ), $file_path, array(), $this->build );
+			}
+		}
+	}
+
+	public function register_modules_js() {
+		if ( empty( $this->build ) ) {
+			global $ub_version;
+			$this->build = $ub_version;
+		}
+		foreach ( $this->js_files as $module_name => $files ) {
+			foreach ( $files as $file_name ) {
+				$file_path = ub_files_url( 'modules/' . $module_name . '-files/js/'. $file_name . '.js' );
+				wp_enqueue_script( $this->get_enqueue_handle( $module_name, $file_name ), $file_path, array(), $this->build, true );
+			}
+		}
+	}
+
+	private function register_js( $module_name, $file ) {
+		$this->js_files[ $module_name ][] = $file;
+		add_action( 'ultimatebranding_admin_header_adminbar', array( $this, 'register_modules_js' ) );
 	}
 
 	/**
@@ -28,7 +84,7 @@ class UB_Admin_Bar_Tab extends UltimateBrandingAdmin {
 	 * @access public
 	 * @return void
 	 */
-	function register_local_scripts() {
+	public function register_local_scripts() {
 		wp_localize_script( $this->get_enqueue_handle( UB_Admin_Bar::NAME, 'main' ), 'ub_admin_bar', array(
 			'new_bar'            => __( 'New Bar', 'ub' ),
 			'new_bar_sub_menu'   => __( 'New Bar Submenu', 'ub' ),
@@ -37,10 +93,10 @@ class UB_Admin_Bar_Tab extends UltimateBrandingAdmin {
 	}
 
 	/**
-	 * Adds admin menu entry for Custom Admin bar module
+	 * Adds admin menu entry for Admin bar module
 	 * @return void
 	 */
-	function create_admin_menu_entry() {
+	public function create_admin_menu_entry() {
 		if ( @$_POST && isset( $_POST['option_page'] ) ) {
 			$changed = false;
 			if ( 'wdcab_options' == @$_POST['option_page'] ) {
@@ -57,7 +113,6 @@ class UB_Admin_Bar_Tab extends UltimateBrandingAdmin {
 				ub_update_option( 'wdcab', $_POST['wdcab'] );
 				$changed = true;
 			}
-
 			if ( $changed ) {
 				$goback = UB_Help::add_query_arg_raw( 'settings-updated', 'true', wp_get_referer() );
 				wp_redirect( $goback );
@@ -66,19 +121,10 @@ class UB_Admin_Bar_Tab extends UltimateBrandingAdmin {
 		}
 		$page  = is_multisite() ? 'settings.php' : 'options-general.php';
 		$perms = is_multisite() ? 'manage_network_options' : 'manage_options';
-		add_submenu_page( $page, __( 'Custom Admin Bar', 'ub' ), __( 'Custom Admin Bar', 'ub' ), $perms, 'wdcab', array(
+		add_submenu_page( $page, __( 'Admin Bar', 'ub' ), __( 'Admin Bar', 'ub' ), $perms, 'wdcab', array(
 			$this,
 			'create_admin_page',
 		) );
-	}
-
-	/**
-	 * Registers settings box for the module
-	 * @return void
-	 */
-	function register_settings() {
-		register_setting( 'wdcab', 'wdcab' );
-		add_settings_section( 'wdcab_settings', null, create_function( '', '' ), 'ub_main_bar' );
 	}
 
 	/**
@@ -87,7 +133,7 @@ class UB_Admin_Bar_Tab extends UltimateBrandingAdmin {
 	 * @access public
 	 * @return void
 	 */
-	function create_admin_page() {
+	public function create_admin_page() {
 		global $wp_version;
 		$version = preg_replace( '/-.*$/', '', $wp_version );
 		$this->render( UB_Admin_Bar::NAME, 'general_settings', array(
@@ -107,7 +153,7 @@ class UB_Admin_Bar_Tab extends UltimateBrandingAdmin {
 	 * Enqueues required core scripts
 	 * @return void
 	 */
-	function js_print_scripts() {
+	public function js_print_scripts() {
 		wp_enqueue_script( array(
 			'jquery-effects-shake'
 		) );

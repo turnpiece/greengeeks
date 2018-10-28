@@ -1,31 +1,4 @@
 <?php
-/*
-  Plugin Name: Image Upload Size
-  Plugin URI: http://premium.wpmudev.org/project/ultimate-branding
-  Description: Allows you to limit the filesize of uploaded images
-  Author: Vaughan (Incsub)
-  Version: 1.0
-  Network: true
-  WDP ID: 169
- */
-
-/*
-  Copyright 2007-2017 Incsub (http://incsub.com)
-
-  This program is free software; you can redistribute it and/or modify
-  it under the terms of the GNU General Public License (Version 2 - GPLv2) as published by
-  the Free Software Foundation.
-
-  This program is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
-
-  You should have received a copy of the GNU General Public License
-  along with this program; if not, write to the Free Software
-  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
- */
-
 if ( ! class_exists( 'ub_Image_Upload_Size' ) ) {
 	class ub_Image_Upload_Size extends ub_helper {
 
@@ -46,6 +19,24 @@ if ( ! class_exists( 'ub_Image_Upload_Size' ) ) {
 			 * export
 			 */
 			add_filter( 'ultimate_branding_export_data', array( $this, 'export' ) );
+			/**
+			 * add options names
+			 *
+			 * @since 2.1.0
+			 */
+			add_filter( 'ultimate_branding_options_names', array( $this, 'add_options_names' ) );
+		}
+
+		/**
+		 * Add option names
+		 *
+		 * @since 2.1.0
+		 */
+		public function add_options_names( $options ) {
+			foreach ( $this->roles as $slug => $title ) {
+				$options[] = $this->get_name( $slug );
+			}
+			return $options;
 		}
 
 		protected function set_options() {
@@ -53,9 +44,10 @@ if ( ! class_exists( 'ub_Image_Upload_Size' ) ) {
 			$this->roles = wp_roles()->get_names();
 			$this->options = array(
 				'limit' => array(
-					'title' => __( 'Set Image filesize Limit', 'ub' ) . ' - ' . __( 'Default WP upload limit: ' ) . round($this->get_wp_limit() / 1000) . __('Mb', 'ub'),
+					'title' => __( 'Set Image filesize Limit', 'ub' ) . ' - ' . __( 'Default WP upload limit: ' ) . round( $this->get_wp_limit() / 1000 ) . __( 'Mb', 'ub' ),
 					'description' => __( 'Entering 0 will set the Default WordPress upload limit.', 'ub' ),
 					'fields' => array(),
+					'hide-reset' => true,
 				),
 			);
 			$max = $this->get_wp_limit();
@@ -91,16 +83,16 @@ if ( ! class_exists( 'ub_Image_Upload_Size' ) ) {
 				if ( ! isset( $section_data['fields'] ) ) {
 					continue;
 				}
-				foreach ( $section_data['fields'] as $key => $data ) {
+				foreach ( $section_data['fields'] as $slug => $data ) {
 					$v = 0;
-					if ( isset( $value[ $section_key ][ $key ] ) ) {
-						$v = filter_var( $value[ $section_key ][ $key ], FILTER_SANITIZE_NUMBER_INT );
-						$option_name = $this->get_name( $this->roles[ $key ] );
+					if ( isset( $value[ $section_key ][ $slug ] ) ) {
+						$v = filter_var( $value[ $section_key ][ $slug ], FILTER_SANITIZE_NUMBER_INT );
+						$option_name = $this->get_name( $slug );
 					}
-					if ( empty( $v ) || $max == $v ) {
+					if ( empty( $v ) ) {
 						ub_delete_option( $option_name );
 					} else {
-						ub_update_option( $option_name, $v );
+						ub_update_option( $option_name, max( 0, min( $v, $max ) ) );
 					}
 				}
 			}

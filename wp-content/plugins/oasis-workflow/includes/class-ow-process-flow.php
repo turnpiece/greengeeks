@@ -41,6 +41,7 @@ class OW_Process_Flow {
       add_action( 'wp_ajax_workflow_complete', array( $this, 'workflow_complete' ) );
       add_action( 'wp_ajax_workflow_cancel', array( $this, 'workflow_cancel' ) );
 
+      add_action( 'wp_ajax_workflow_abort_comments', array( $this, 'workflow_abort_comments' ) );
       add_action( 'wp_ajax_workflow_abort', array( $this, 'workflow_abort' ) );
       add_action( 'wp_ajax_multi_workflow_abort', array( $this, 'multi_workflow_abort' ) );
       add_action( 'wp_ajax_get_post_publish_date_edit_format', array( $this, 'get_post_publish_date_edit_format' ) );
@@ -815,11 +816,31 @@ class OW_Process_Flow {
          wp_send_json_success();
       }
    }
-
+   
+   /**
+    * AJAX function - Display popup to enter the comments when doing abort from workflow
+    * @since 3.0
+    */
+   public function workflow_abort_comments() {
+      
+      // nonce check
+      $nonce = 'owf_inbox_ajax_nonce';
+      
+      if ( isset( $_POST[ 'command' ] ) && sanitize_text_field( $_POST[ 'command' ] ) == 'exit_from_workflow' ) {
+         $nonce = 'owf_exit_post_from_workflow_ajax_nonce';
+      }
+      check_ajax_referer( $nonce, 'security' );
+      
+      ob_start();
+      include_once OASISWF_PATH . 'includes/pages/subpages/abort-workflow-comment.php';
+      $result = ob_get_contents();
+      ob_get_clean();
+      wp_send_json_success( htmlentities( $result ) );
+   }
+   
    /*
     * abort workflow
     */
-
    public function workflow_abort() {
       global $wpdb;
 
@@ -838,8 +859,9 @@ class OW_Process_Flow {
 
       /* sanitize incoming data */
       $history_id = intval( $_POST[ "history_id" ] );
+      $comments = sanitize_text_field( $_POST[ "comment" ] );
 
-      $new_history_id = $this->abort_the_workflow( $history_id );
+      $new_history_id = $this->abort_the_workflow( $history_id, $comments );
       if ( $new_history_id != null ) {
          wp_send_json_success();
       } else {
@@ -1715,15 +1737,21 @@ class OW_Process_Flow {
    public function get_sign_off_comment_count( $action_history_row ) {
       if ( $action_history_row->action_status == "claimed" ||
               $action_history_row->action_status == "claim_cancel" ||
-              $action_history_row->action_status == "complete" ) {
+              $action_history_row->action_status == "complete" || $action_history_row->action_status == "abort_no_action" ) {
          return "0";
-      }
+      }      
       $ow_history_service = new OW_History_Service();
-      $next_history_object = $ow_history_service->get_action_history_by_from_id( $action_history_row->ID );
-      if ( is_object( $next_history_object ) ) {
-         return $this->get_comment_count( $next_history_object->ID );
-      } else
-         return 0; // no comments found
+      if ( $action_history_row->action_status == "aborted" ) {
+         // Get comment count for the post aborted
+         return $this->get_comment_count( $action_history_row->ID );
+      } else {      
+         $next_history_object = $ow_history_service->get_action_history_by_from_id( $action_history_row->ID );
+         if ( is_object( $next_history_object ) ) {
+            return $this->get_comment_count( $next_history_object->ID );
+         } else {
+            return 0; // no comments found
+         }
+      }
    }
 
    /**
@@ -2468,10 +2496,62 @@ class OW_Process_Flow {
     * @since 2.0
     */
    public function enqueue_acf_validator_script() {
-      if ( class_exists( 'acf_pro' ) ) { // applicable to pro version of ACF
-         wp_enqueue_script( 'owf_acf_validator', OASISWF_URL . 'js/pages/acf-pro-validator.js', array( 'jquery' ), OASISWF_VERSION, true );
-      } else if ( class_exists( 'acf' ) ) { //applicable to free version of ACF
-         wp_enqueue_script( 'owf_acf_validator', OASISWF_URL . 'js/pages/acf-validator.js', array( 'jquery' ), OASISWF_VERSION, true );
+      $acf_version = "";
+      
+      if ( ! function_exists( 'get_plugins' ) ) {
+         require_once ABSPATH . 'wp-admin/includes/plugin.php';
+      }
+      
+      $plugins = get_plugins();
+      $active_plugins = get_option( 'active_plugins', array() );
+
+      $acf_pro_path = "advanced-custom-fields-pro/acf.php";
+      $acf_path = "advanced-custom-fields/acf.php";
+      $isACFEnabled = "no";
+     
+      // Check ACF pro or free plugin and fetch the version
+      foreach ( $plugins as $plugin_path => $plugin ) {
+         if ( $plugin_path == $acf_pro_path && ( in_array( $acf_pro_path, $active_plugins ) || is_plugin_active_for_network( $acf_pro_path ) == 1 ) ) {
+            $acf_version = $plugin['Version'];
+            $isACFEnabled = "yes";
+            break;
+         }  
+         
+         if ( $plugin_path == $acf_path && ( in_array( $acf_path, $active_plugins ) || is_plugin_active_for_network( $acf_path ) == 1 ) ) {             
+            $acf_version = $plugin['Version'];
+            $isACFEnabled = "yes";
+            break;
+         }
+      }
+      
+      // Localize script for check if acf is enabled.
+      wp_localize_script( 'owf-workflow-util', 'owf_workflow_util_vars', array(
+         'isACFEnabled' => $isACFEnabled
+		) );
+
+      // Based on version enqueue required JS files
+      if ( ! empty( $acf_version ) && $acf_version >= "5.7.0" ) { // applicable to pro and free version > 5.7.x of ACF
+         wp_enqueue_script( 'owf_acf_validator',
+            OASISWF_URL . 'js/pages/acf-pro-validator-new.js',
+            array( 'jquery' ), OASISWF_VERSION, true );
+      }
+
+      if ( ! empty( $acf_version ) && $acf_version >= "5.0.0" && $acf_version <= "5.6.9"  ) { // applicable to pro and free version > 5.x of ACF
+         wp_enqueue_script( 'owf_acf_validator',
+            OASISWF_URL . 'js/pages/acf-pro-validator.js',
+            array( 'jquery' ), OASISWF_VERSION, true );
+      }
+      
+      if ( ! empty( $acf_version ) && $acf_version == "5.6.10"  ) { // applicable to pro and free version = 5.6.10 of ACF
+         wp_enqueue_script( 'owf_acf_validator',
+            OASISWF_URL . 'js/pages/acf-pro-validator.js',
+            array( 'jquery' ), OASISWF_VERSION, true );
+      }
+
+      if ( ! empty( $acf_version ) && $acf_version < "5.0.0"  ) { // applicable for free version less than 5.x
+         wp_enqueue_script( 'owf_acf_validator',
+            OASISWF_URL . 'js/pages/acf-validator.js',
+            array( 'jquery' ), OASISWF_VERSION, true );
       }
    }
 
@@ -3197,7 +3277,7 @@ class OW_Process_Flow {
     * @param type $history_id
     * @since 2.1
     */
-   public function abort_the_workflow( $history_id, $print_id = true ) {
+   public function abort_the_workflow( $history_id, $comments="", $print_id = true ) {
       global $wpdb;
       $history_id = (int) $history_id;
 
@@ -3207,8 +3287,9 @@ class OW_Process_Flow {
       $action_history_table = OW_Utility::instance()->get_action_history_table_name();
 
       $comment[] = array(
-          "send_id" => get_current_user_id(),
-          "comment" => "Post/Page was aborted from the workflow."
+         "send_id" => get_current_user_id(),
+         "comment" => $comments,
+         "comment_timestamp" => current_time( "mysql" )
       );
       $data = array(
           "action_status" => "aborted",

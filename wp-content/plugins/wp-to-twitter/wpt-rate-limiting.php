@@ -169,7 +169,7 @@ function wpt_edit_term_rate_limit( $term, $taxonomy ) {
 	$t_id       = $term->term_id;
 	$limits     = get_option( 'wpt_rate_limit' );
 	$option_set = isset( $limits[ $t_id ] ) ? $limits[ $t_id ] : wpt_default_rate_limit( $t_id );
-?>
+	?>
 	<tr class="form-field">
 		<th valign="top" scope="row">
 			<label for="wpt_rate_limit"><?php _e( 'Max Tweets per hour on this term', 'wp-tweets-pro' ); ?></label>
@@ -178,7 +178,7 @@ function wpt_edit_term_rate_limit( $term, $taxonomy ) {
 			<input type='number' size='4' value='<?php echo esc_attr( $option_set ); ?>' name='wpt_rate_limit' id='wpt_rate_limit' />
 		</td>
 	</tr>
-<?php
+	<?php
 }
 
 /**
@@ -188,11 +188,11 @@ function wpt_edit_term_rate_limit( $term, $taxonomy ) {
  */
 function wpt_add_term_rate_limit( $term ) {
 	$default = wpt_default_rate_limit();
-?>
+	?>
 	<div class="form-field">
 		<label for="wpt_rate_limit"><?php _e( 'Max Tweets per hour on this term', 'wp-tweets-pro' ); ?></label> <input type='number' value='<?php echo esc_attr( $default ); ?>' id='wpt_rate_limit' name='wpt_rate_limit' />
 	</div>
-<?php
+	<?php
 }
 
 /**
@@ -202,6 +202,10 @@ function wpt_add_term_rate_limit( $term ) {
  */
 function wpt_view_rate_limits() {
 	$limits = get_option( 'wpt_rate_limits' );
+	if ( ! wp_next_scheduled( 'wptratelimits' ) ) {
+		wp_schedule_event( current_time( 'timestamp' ) + 3600, 'hourly', 'wptratelimits' );
+	}
+	$next_scheduled = human_time_diff( wp_next_scheduled( 'wptratelimits' ), time() );
 	if ( is_array( $limits ) ) {
 		$output = '<ul>';
 		foreach ( $limits as $auth => $term ) {
@@ -227,6 +231,8 @@ function wpt_view_rate_limits() {
 	} else {
 		$output = __( 'No Tweets have been sent this hour.', 'wp-to-twitter' );
 	}
+	// Translators: Time until next scheduled rate limiting reset.
+	$next = wpautop( sprintf( __( ' Next reset in %s.', 'wp-to-twitter' ), $next_scheduled ) );
 
-	return $output;
+	return $output . $next;
 }
